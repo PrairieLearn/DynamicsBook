@@ -391,6 +391,68 @@
       </div>
     </div>
     <div class="contentBlock">
+      <div id="ava-sd" class="section level3 contentCol">
+        <h2>Brake system design</h2>
+        <p>
+          The above model shows equal brake force applied on the front
+          and rear wheels. This both inefficient and dangerous, as the
+          rear wheels will lock while the front wheels are still
+          turning. See #avs for steering and sliding. We want to apply
+          more force on the front brakes, so that we can deliver the
+          most total force while still having no sliding. This can be
+          achieved by <a
+          href="http://en.wikipedia.org/wiki/Electronic_brakeforce_distribution">electronic
+          brakeforce distribution (EBD)</a> systems, however
+          traditional systems are also possible.
+        </p>
+        <p>
+          The basic outline of a brake system is that the brake pedal
+          pushes on a <em>master cylinder</em>, which compresses
+          hydraulic <em>brake fluid</em> in the <em>brake
+          lines</em>. This then pushes on <em>slave cylinders</em> in
+          each wheel, which push the <em>brake pads</em> onto the
+          <em>brake rotors</em> (for disc brakes; drum brakes are
+          somewhat different). The combination of slave cylinders and
+          brake pads and their housing is called a <em>brake
+          caliper</em>.
+        </p>
+        <p>
+          Diagram.
+        </p>
+        <p>
+          To apply more force to the front brakes, one simple system
+          used in practice is to have the front-wheel slave cylinders
+          have a larger diameter than those on the rear
+          wheels. Because the pressure in the brake lines is the same
+          everywhere, the force exerted by the pistons is proportional
+          to their cross-sectional area, resulting in more force with
+          the larger-diameter front-wheel cylinders.
+        </p>
+        <p>
+          Modern cars use more advanced systems. The master cylinder
+          typically contains two pistons in a parallel arrangement, so
+          that it can apply pressure to the front or rear brake lines
+          even if the other brake line develops a leak. A <em>metering
+          valve</em> applies pressure to the rear brakes before the
+          front, improving vehicle steering stability and allowing
+          mixed drum/disc systems to be used. A <em>pressure
+          differential valve</em> detects brake hydraulic leaks by
+          sensing different front/rear line pressures. A
+          <em>proportioning valve</em> assists with applying a
+          different pressure distribution to the rear brakes.
+        </p>
+        <p>
+          See: <a
+          href="http://en.wikipedia.org/wiki/Master_cylinder">Wikipedia:
+          Master cylinder</a>, <a
+          href="http://auto.howstuffworks.com/auto-parts/brakes/brake-types/brake.htm">How
+          Stuff Works: How Brakes Work</a>. Also <a
+          href="http://auto.howstuffworks.com/auto-parts/brakes/brake-types/master-brake1.htm">how
+          a master cylinder works</a>.
+        </p>
+      </div>
+    </div>
+    <div class="contentBlock">
       <div id="ava-sc" class="section level3 contentCol">
         <h2>Car model</h2>
         <p>
