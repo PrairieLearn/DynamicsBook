@@ -1,0 +1,1126 @@
+<?xml version="1.0"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+  <head>
+    <title>Vectors and bases</title>
+    <link href="style.css" type="text/css" rel="stylesheet" />
+    <link href="icomoon.css" type="text/css" rel="stylesheet" />
+
+    <script src="mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <script src="jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script src="pageControl.js" type="text/javascript"></script>
+    <script src="sylvester.js" type="text/javascript"></script>
+    <script src="sha1.js" type="text/javascript"></script>
+    <script src="PrairieDraw.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <div class="contentBlock">
+      <div id="rvv" class="section level2 contentCol">
+        <h1>
+          Vectors and bases
+        </h1>
+        <p>
+          A <em>vector</em> is an arrow with a length and a
+          direction. Just like positions, vectors exist before we
+          measure or describe them. Unlike positions, vectors can
+          mean many different things, such as position vectors,
+          velocities, etc. Vectors are not anchored to particular
+          positions in space, so we can slide a vector around and
+          locate it at any position.
+        </p>
+        <p>
+          <strong>Aside:</strong> Some textbooks differentiate
+          between <em>free vectors</em>, which are free to slide
+          around, and <em>bound vectors</em>, which are anchored in
+          space.
+        </p>
+        <p>
+          <strong>Notation:</strong> We will write
+          \(\boldsymbol{v}\) to indicate a vector. The length of
+          \(\boldsymbol{v}\) is written \(v\).
+        </p>
+        <div class="envContainer example" id="rvv-xf">
+          <p class="envHeader">
+            Example: Vectors can be drawn at any location.
+          </p>
+          <div class="envBody">
+            <canvas id="rvv-xf-c" width="300" height="200" class="floatRight">
+            </canvas>
+            <script type="application/javascript">
+              /* <![CDATA[ */
+              rvv_xf_c = new PrairieDrawAnim("rvv-xf-c", function(t) {
+	      this.setUnits(6, 4);
+              this.addOption("otherLength", false);
+              this.addOption("otherDir", false);
+              var O1 = $V([1.47 * Math.sin(1.6 * t - 0.7), 0.97 * Math.cos(0.9 * t + 1)]);
+              var O2 = $V([1.8 * Math.sin(t + 1), 0.94 * Math.cos(0.6 * t + 2)]);
+              var V1 = $V([1.5, 0.7]);
+              var V2 = $V([1.5, 0.7]);
+              var sameVecs = true;
+              if (this.getOption("otherDir")) {
+              sameVecs = false;
+              V1 = V1.rotate(-Math.PI/6, $V([0, 0]));
+              V2 = V2.rotate(Math.PI/6, $V([0, 0]));
+              }
+              if (this.getOption("otherLength")) {
+              sameVecs = false;
+              V1 = V1.x(1.4);
+              V2 = V2.x(0.8);
+              }
+              this.translate($V([-0.9, -0.3]));
+              this.arrow(O1, O1.add(V1), "position");
+              this.labelLine(O1, O1.add(V1), $V([0, 1]), "TEX:$\\boldsymbol{a}$");
+              this.arrow(O2, O2.add(V2), "angMom");
+              this.labelLine(O2, O2.add(V2), $V([0, -1]), "TEX:$\\boldsymbol{b}$");
+
+              var msg;
+              if (sameVecs) {
+              msg = "TEX:\\sf $\\boldsymbol{a}$ is the same as $\\boldsymbol{b}$";
+              } else {
+              msg = "TEX:\\sf $\\boldsymbol{a}$ is different to $\\boldsymbol{b}$";
+              }
+              var T = this.posNm2Dw($V([0.5, 0]));
+              this.text(T, $V([0, -1]), msg);
+              });
+               /* ]]> */
+            </script>
+            <p>
+              The two vectors \(\boldsymbol{a}\) and
+              \(\boldsymbol{b}\) shown here are in fact <em>the same
+              vector</em>, as they have the same magnitude and
+              direction.
+            </p>
+            <p>
+              If we <button onclick="rvv_xf_c.toggleAnim();">move
+              the vectors</button> around to different locations,
+              they are <em>not changing</em> as vectors, because
+              their length and direction remains fixed.  We are
+              simply drawing them at different locations. They are
+              still always <em>the same vector</em>.
+            </p>
+            <p>
+              Only if we <button
+              onclick="rvv_xf_c.toggleOption('otherLength');">change
+              the length</button> or <button
+              onclick="rvv_xf_c.toggleOption('otherDir');">change
+              the direction</button> of the vectors will they be
+              different to each other.
+            </p>
+          </div>
+        </div>
+        <p>
+          Vectors can be multiplied by a scalar number, which
+          multiplies their length. Vectors can also be added
+          together, using the <em>parallelogram law of
+          addition</em>.
+        </p>
+        <div class="envContainer example" id="rvv-xp">
+          <p class="envHeader">
+            Example: Parallelogram law of vector addition.
+          </p>
+          <div class="envBody">
+            <p>
+              Vectors are added by placing them “tip-to-tail” to
+              form the sum. This can be done in either order and we
+              will obtain the same result, as shown by the
+              parallelogram construction.
+            </p>
+            <canvas id="rvv-xp-c" width="400" height="400"></canvas>
+            <script type="application/javascript">
+              /* <![CDATA[ */
+              rvv_xp_c = new PrairieDraw("rvv-xp-c", function() {
+              this.addOption("parallelogram",false);
+	      
+              this.setUnits(4, 4);
+              this.setProp("arrowLineWidthPx",2);
+	      
+              this.translate($V([-1.5,-0.5,0]));
+	      
+              var O = $V([0,0]);
+              var P = $V([2,0]);
+              var Q = $V([3,1]);
+              
+              this.arrow(O, Q);
+              this.text($V([1.75,0.9]), $V([1,1]), "w = u + v");
+	      
+              if (this.getOption("parallelogram")) {
+	      var R = $V([1,1]);
+	      
+	      this.arrow(O, R);
+	      this.arrow(R, Q);
+	      this.text($V([0.2, 0.6]), $V([-1,0]), "v");
+	      this.text($V([1.75, 1]), $V([-1,-1]), "u");
+              }
+              else {
+	      this.arrow(O, P);
+	      this.arrow(P, Q);
+	      this.text($V([0.9,-0.35]), $V([-1,-1]), "u");
+	      this.text($V([2.5,0.35]), $V([-1,0]), "v");
+              }
+              });
+              /* ]]> */
+            </script>
+            <p><button onclick="rvv_xp_c.toggleOption('parallelogram');">See Parallelogram</button></p>
+          </div>
+        </div>
+        <p>
+          To describe vectors mathematically, we write them as a
+          combination of <em>basis vectors</em>. An <em>orthonormal
+          basis</em> is a set of two (in 2D) or three (in 3D) basis
+          vectors which are <em>orthogonal</em> (have \(90^\circ\)
+          angles between them) and normal (have length equal to
+          one). We will not be using non-orthogonal or non-normal
+          bases. Any other vector can be written as a <em>linear
+          combination</em> of the basis vectors:
+        </p>
+        <div class="envContainer equation" id="rvv-ec">
+          <p class="envHeader">Components of a vector</p>
+          <div class="envBody">
+            <p>
+              \[\boldsymbol{v} = v_1 \,\hat{\imath}
+              + v_2 \,\hat{\jmath} + v_3 \,\hat{k}\]
+            </p>
+          </div>
+        </div>
+        <p>
+          The numbers \(v_1, v_2, v_3\) are called the
+          <em>components</em> of \(\boldsymbol{v}\) in the
+          \(\,\hat{\imath}, \hat{\jmath}, \hat{k}\) basis. If we are
+          in 2D then we will only have two components for a vector.
+        </p>
+        <div class="envContainer example" id="rvv-xc">
+          <p class="envHeader">
+            Example: Vector components.
+          </p>
+          <div class="envBody">
+            <p>
+              Show a vector \(\boldsymbol{v}\) and two different
+              bases \(\,\hat{\imath}, \,\hat{\jmath}\) and
+              \(\,\hat{a}, \,\hat{b}\) and show the components.
+              From now on, always have \(\,\hat{\imath},
+              \,\hat{\jmath}\) being the regular axis-aligned basis
+              and \(\,\hat{a}, \,\hat{b}\) being rotated by
+              \(\pi/4\).
+            </p>
+            <canvas id="rvv-xc-c" width="400" height="400"></canvas>
+            <script type="application/javascript">
+              /* <![CDATA[ */
+              rvv_xc_c = new PrairieDrawAnim("rvv-xc-c", function(t) {
+              this.addOption("components", false);
+
+              var back = {start:  0,         end: Math.PI/4, initial: 1, fin: 2};
+              var forth = {start: Math.PI/4, end: Math.PI/2, initial: 2.15, fin: 0.75};
+              var states = [back, forth];
+              var transTimes = [1, 1];
+              var holdTimes = [2, 2];
+              var state = this.sequence(states, transTimes, holdTimes, t);
+	      
+              this.setUnits(4, 4);
+              this.setProp("arrowLineWidthPx",2);
+              
+              this.translate($V([-1,-1]));
+              
+              var O = $V([0,0]);
+              var P = $V([1,2]);
+              var X = this.vector2DAtAngle(state.start).x(state.initial);
+              var Y = this.vector2DAtAngle(state.end+Math.PI/4).x(state.fin);
+	      
+              this.arrow(O, P);
+              this.text($V([1.25, 2.25]), $V([1,1]), "w = u + v");
+              
+              if (this.getOption("components")) {
+              this.arrow(O, X);
+	      this.arrow(O, Y);
+              
+	      if (t % 6 == 0 || (t % 6 >= 4 && t % 6 < 6)){ //state.index == 0
+	      this.text($V([0.5,-0.2]), $V([1,-1]), "u");
+	      this.text($V([-0.1,1]), $V([0,1]), "v");
+	      }
+	      else if (t % 6 >= 1 && t % 6 < 3){ //state.index == 1
+	      this.text($V([0.85,0.6]), $V([1,-1]), "u");
+	      this.text($V([-0.3,0.3]), $V([0,1]), "v");
+	      }	
+              }
+              
+              //AXES
+              this.setProp("arrowLineWidthPx",1);
+              this.arrow($V([0,0]), $V([3,0]));
+              this.text($V([3,0.1]), $V([1,0]), "i");
+              this.arrow($V([0,0]), $V([0,3]));
+              this.text($V([0.1,3]), $V([0,1]), "j");
+              
+              this.arrow($V([0,0]), $V([3,3]));
+              this.text($V([2.8,3]), $V([1,1]), "a");
+              this.arrow($V([0,0]), $V([-1,1]));
+              this.text($V([-0.8,1]), $V([-1,1]), "b");
+              });
+              /* ]]> */
+            </script>
+            <p><button onclick="rvv_xc_c.toggleOption('components');">See Components</button>
+            <button onclick="rvv_xc_c.toggleAnim();">Change Basis</button></p>
+          </div>
+        </div>
+        <div class="envContainer example" id="rvv-xm">
+          <p class="envHeader">
+            Example: Moving basis vectors.
+          </p>
+          <div class="envBody">
+            <p>
+              Show the same basis twice, once as a regular pair
+              connected at the origin, one where the basis vectors
+              are disconnected. Ask if these are the same basis.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="infoCol"></div>
+    </div>
+    <div class="contentBlock">
+      <div id="rvv-sl" class="section level3 contentCol">
+        <h2>
+          Length of Vectors
+        </h2>
+        <p>
+          The length of a vector \(\boldsymbol{v}\) is written
+          either \(\|\boldsymbol{v}\|\) or just plain \(v\). The
+          length can be computed using <em>Pythagorus’
+          theorem</em>:
+        </p>
+        <div class="envContainer equation" id="rvv-ey">
+          <p class="envHeader">
+            Pythagorus' length formula
+          </p>
+          <div class="envBody">
+            <p>\[v = \|\boldsymbol{v}\|
+            = \sqrt{v_1^2 + v_2^2 + v_3^2}\]</p>
+          </div>
+        </div>
+        <p>
+          <strong>Important:</strong> The formula \(v = \sqrt{v_1^2 +
+          v_2^2 + v_3^2}\) only works if the components are from a
+          single orthonormal basis.
+        </p>
+        <div class="envContainer example" id="rvv-xl">
+          <p class="envHeader">
+            Example: Vector length in a mixed basis.
+          </p>
+          <div class="envBody">
+            <p>
+              If \(\boldsymbol{v} = 3\,\hat{\imath} + 4\,\hat{a}\),
+              what is \(v\)? Answer: not \(\sqrt{3^2 + 4^2}\).
+              Instead, it is ….
+            </p>
+          </div>
+        </div>
+        <div class="envContainer example" id="rvv-ct">
+          <p class="envHeader">
+            Example: Triangle inequality.
+          </p>
+          <div class="envBody">
+            <p>
+              If \(\boldsymbol{u} = \boldsymbol{v} +
+              \boldsymbol{w}\), how are the lengths \(u, v, w\)
+              related? Show picture. Answer: certainly it is not
+              true that \(u = v + w\). Instead it is true that \(u
+              \le v + w\). There is no way that \(u\) can be longer
+              than the combined lengths of \(v\) and \(w\), and it
+              will only be equal if \(v\) and \(w\) are in the same
+              direction.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="infoCol"></div>
+    </div>
+    <div class="contentBlock">
+      <div id="rvv-su" class="section level3 contentCol">
+        <h2>
+          Unit vectors
+        </h2>
+        <p>
+          Defines the direction of \(\boldsymbol{v}\).
+        </p>
+        <p>
+          \[\begin{aligned} \hat{v} =
+          \frac{\boldsymbol{v}}{v}\end{aligned}\]
+        </p>
+        <p>
+          Any vector can be written as:
+        </p>
+        <p>
+          \[\begin{aligned} \boldsymbol{v} = v
+          \hat{v}\end{aligned}\]
+        </p>
+        <p>
+          Here \(v\) is the length, \(\hat{v}\) is the direction
+          unit vector.
+        </p>
+      </div>
+      <div class="infoCol"></div>
+    </div>
+    <div class="contentBlock">
+      <div id="rvv-sd" class="section level3 contentCol">
+        <h2>
+          Dot Product
+        </h2>
+        <p>
+          The <em>dot product</em> (also called the <em>inner
+          product</em> or <em>scalar product</em>) is defined by
+        </p>
+        <div class="envContainer equation" id="rvv-es">
+          <p class="envHeader">
+            Dot product from components
+          </p>
+          <div class="envBody">
+            <p>
+              \[\boldsymbol{a} \cdot \boldsymbol{b}
+              = a_1 b_1 + a_2 b_2 + a_3 b_3\]
+            </p>
+          </div>
+        </div>
+        <p>
+          An alternative expression for the dot product can be
+          given in terms of the lengths of the vectors and the
+          angle between them:
+        </p>
+        <div class="envContainer equation" id="rvv-ed">
+          <p class="envHeader">
+            Dot product from length/angle
+          </p>
+          <div class="envBody">
+            <p>
+              \[\boldsymbol{a} \cdot \boldsymbol{b}
+              = a b \cos\theta\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
+              We will present a simple 2D proof here. A more complete proof in 3D uses the law of cosines.
+            </p>
+            <p>
+              Start with two vectors
+              \(\vec{a}\) and \(\vec{b}\) with an angle
+              \(\theta\) between them, as shown below.
+              </p><canvas id="rvv-ed-c" width="400" height="400"></canvas>
+              <script type="application/javascript">
+                /* <![CDATA[ */
+                rvv_ed_c = new PrairieDraw("rvv-ed-c", function() {
+                this.setUnits(5, 3);
+                this.translate($V([-2, -1]));
+                this.addOption("angles", false);
+                this.addOption("components", false);
+                
+                if (this.getOption("angles")) {
+                this.line($V([-2, 0]), $V([5, 0]));
+                this.line($V([0, -2]), $V([0, 3]));
+                }
+                
+                var O = $V([0, 0]);
+                var A = $V([4, 1]);
+                var B = $V([2, 2]);
+                
+                var Ab = $V([A.e(1), 0]);
+                var Bb = $V([B.e(1), 0]);
+                
+                var aType = "position";
+                var bType = "angMom";
+                
+                this.arrow(O, A, aType);
+                this.labelLine(O, A, $V([0.5, 1]), "TEX:$\\vec{a}$");
+                this.arrow(O, B, "angMom");
+                this.labelLine(O, B, $V([0, 1]), "TEX:$\\vec{b}$");
+                
+                var theta_a = this.angleOf(A);
+                var theta_b = this.angleOf(B);
+                
+                this.circleArrow(O, 2, theta_a, theta_b);
+                this.labelCircleLine(O, 2, theta_a, theta_b, $V([0, 1]), "TEX:$\\theta$");
+                if (this.getOption("angles")) {
+                this.circleArrow(O, 1.5, 0, theta_a, aType);
+                this.labelCircleLine(O, 1.5, 0, theta_a, $V([0, 1]), "TEX:$\\theta_a$");
+                this.circleArrow(O, 1, 0, theta_b, bType);
+                this.labelCircleLine(O, 1, 0, theta_b, $V([0.5, 1]), "TEX:$\\theta_b$");
+                }
+                
+                if (this.getOption("components")) {
+                this.line(O, Ab, aType);
+                this.labelLine(O, Ab, $V([0.5, -1]), "TEX:$a_1$");
+                
+                this.line(Ab, A, aType);
+                this.labelLine(Ab, A, $V([0, -1]), "TEX:$a_2$");
+                
+                this.line(O, $V([B.e(1), 0]), bType);
+                this.labelLine(O, Bb, $V([0, -1]), "TEX:$b_1$");
+                
+                this.line(Bb, B, bType);
+                this.labelLine(Bb, B, $V([0, -1]), "TEX:$b_2$");
+                }
+                });
+                /* ]]> */
+              </script>
+              <p>
+                Observe that the angle \(\theta\) between vectors
+                \(\vec{a}\) and \(\vec{b}\) is the difference
+                between the angles \(\theta_a\) and \(\theta_b\)
+                from horizontal. <button onclick=
+                "rvv_ed_c.toggleOption('angles');">Angles</button>
+              </p>
+              <p>
+                If we use the angle sum formula for cosine, we have
+              </p>
+              <p>
+                \[\begin{aligned} a b \cos\theta &amp;= a b
+                \cos(\theta_b - \theta_a) \\ &amp;= a b
+                (\cos\theta_b \cos\theta_a + \sin\theta_b
+                \sin\theta_a) \end{aligned}\]
+              </p>
+              <p>
+                We now want to express the sine and cosine of
+                \(\theta_a\) and \(\theta_b\) in terms of the
+                components of \(\vec{a}\) and \(\vec{b}\).
+                <button onclick=
+                        "rvv_ed_c.toggleOption('components');">Components</button>
+              </p>
+              <p>
+                We re-arrange the expression so that we can use the
+                fact that \(a_1 = a \cos\theta_a\) and \(a_2 = a
+                \sin\theta_a\), and similarly for \(\vec{b}\). This
+                gives:
+              </p>
+              <p>
+                \[\begin{aligned} a b \cos\theta &amp;= (a
+                \cos\theta_a) (b \cos\theta_b) + (a \sin\theta_a)
+                (b \sin\theta_b) \\ &amp;= a_1 b_1 + a_2 b_2 \\
+                &amp;= \vec{a} \cdot \vec{b} \end{aligned}\]
+              </p>
+            </div>
+          </div>
+        <p>
+          The fact that we can write the dot product <a
+          href="#rvv-es">in terms of components</a> as well as <a
+          href="#rvv-ed">in terms of lengths and angle</a> is very
+          helpful for calculating the length and angles of vectors
+          from the component representations. By re-arranging the <a
+          href="#rvv-ed">lengths/angle</a> equation, we can write
+          expressions for the length of any vector Length and angle
+          from dot product:
+        </p>
+        <p>
+          \[\begin{aligned} v &amp;= \sqrt{\boldsymbol{v} \cdot
+          \boldsymbol{v}} \\ \cos\theta &amp;= \frac{\boldsymbol{u}
+          \cdot \boldsymbol{v}}{u v}\end{aligned}\]
+        </p>
+        <div class="envContainer example" id="rvv-xd">
+          <p class="envHeader">
+          Example: Finding lengths and angles.
+          </p>
+          <div class="envBody">
+            Take two vectors. Find lengths, angles between them.
+          </div>
+        </div>
+        <div class="envContainer example" id="rvv-xg">
+          <p class="envHeader">
+            Example: Parallelogram area.
+          </p>
+          <div class="envBody">
+            <p>
+              \(\boldsymbol{u} \cdot \boldsymbol{v}\) is the area
+              of the parallelogram formed by \(\boldsymbol{u}\) and
+              \(\boldsymbol{v}\).
+            </p>
+          </div>
+        </div>
+        <div class="envContainer example" id="rvv-xo">
+          <p class="envHeader">
+            Example: Finding orthogonal vectors.
+          </p>
+          <div class="envBody">
+            <p>
+              If \(\boldsymbol{u} = u_1 \,\hat{\imath} + u_2
+              \,\hat{\jmath}\), then \(\boldsymbol{v} = - u_2
+              \,\hat{\imath} + u_1 \,\hat{\jmath}\) is orthogonal,
+              as is \(\boldsymbol{w} = u_2 \,\hat{\imath} - u_1
+              \,\hat{\jmath} = -\boldsymbol{v}\). This doesn’t work
+              to construct a basis in 3D!
+            </p>
+            <canvas id="rvv-xo-c" width="400" height="400"></canvas>
+            <script type="application/javascript">
+              /* <![CDATA[ */
+              rvv_xo_c = new PrairieDraw("rvv-xo-c", function() {
+              this.addOption("orthogonal",false);
+	
+              this.setUnits(4, 4);
+              this.setProp("arrowLineWidthPx",2);
+	      
+              this.save();
+              this.rotate(-Math.PI/4);
+	      
+              var O = $V([0,0]);
+              var P = $V([0,2]);
+	      
+              var pos = $V([2,0]);
+              var neg = $V([-2,0]);
+	      
+              this.arrow(O, P);
+              this.text($V([P.e(1)+0.2, P.e(2)+0.2]), $V([1,0]), "u");
+	      
+              if (this.getOption("orthogonal")) {
+	      this.arrow(O, pos);
+	      this.text($V([pos.e(1)+0.2, pos.e(2)+0.2]), $V([1,1]), "v")
+	      this.arrow(O, neg);
+	      this.text($V([neg.e(1)-0.2, neg.e(2)-0.2]), $V([-1,-1]), "w")
+              }
+	      
+              this.restore();
+	      
+              this.setProp("arrowLineWidthPx", 1);
+              this.arrow($V([-2,0]), $V([2,0]));
+              this.text($V([2,0.2]), $V([1,0]), "i");
+              this.arrow($V([0,-2]), $V([0,2]));
+              this.text($V([0.15,2]), $V([0,1]), "j");
+              });
+              /* ]]> */
+            </script>
+            <p><button onclick="rvv_xo_c.toggleOption('orthogonal');">See Orthogonal Vectors</button></p>
+          </div>
+        </div>
+      </div>
+      <div class="infoCol">
+        <div class="infoBox">
+          <p>
+            <span class="infoHead">Applications:</span> <a href=
+            "aos.xhtml">Shortest path distances on the globe</a>
+          </p>
+          <p>
+            <span class="infoHead">Practice homeworks:</span> <a href="hw1-2.xhtml">#hw1-2</a>
+            <a href="hw2-3.xhtml">#hw2-3</a>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="rvv-sc" class="section level3 contentCol">
+        <h2>
+          Cross Product
+        </h2>
+        <p>
+          The cross product can be defined in terms of components by:
+        </p>
+        <div class="envContainer equation" id="rvv-ex">
+          <p class="envHeader">
+            Cross product in components
+          </p>
+          <div class="envBody">
+            <p>\[
+            \boldsymbol{u} \times \boldsymbol{v}
+            = (u_2 v_3 - u_3 v_2) \,\hat{\imath}
+            + (u_3 v_1 - u_1 v_3) \,\hat{\jmath}
+            + (u_1 v_2 - u_2 v_1) \,\hat{k}
+            \]
+            </p>
+          </div>
+        </div>
+        <p>
+          Alternatively, it can be defined by specifying the length
+          and direction of the resulting vector. The direction of
+          \(\boldsymbol{u} \times \boldsymbol{v}\) is orthogonal to
+          both \(\boldsymbol{u}\) and \(\boldsymbol{v}\), with the
+          direction given by the <a href="">right-hand-rule</a>. The
+          magnitude of the cross product is given by:
+        </p>
+        <div class="envContainer equation" id="rvv-el">
+          <p class="envHeader">
+            Cross product length
+          </p>
+          <div class="envBody">
+            <p>
+              \[\| \boldsymbol{u} \times \boldsymbol{v} \| = u v \sin\theta\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+          <p>This can be derived <a href="rvi.xhtml#rvi.el">from Lagrange's identity</a>.</p>
+          </div>
+        </div>
+        <div class="envContainer example" id="rvv-xu">
+          <p class="envHeader">
+            Example: Constructing bases in 3D.
+          </p>
+          <div class="envBody">
+            <p>
+              Make an orthonormal basis from any two vectors. Take
+              \(\boldsymbol{u}\) and \(\boldsymbol{v}\). Choose
+              \(\hat{u}\) as the first basis element. Then an
+              orthogonal vector is \(\boldsymbol{a} =
+              \boldsymbol{v} \times \boldsymbol{u}\) and a third
+              orthogonal vector is \(\boldsymbol{b} =
+              \boldsymbol{v} \times \boldsymbol{a}\). Normalize
+              these vectors, so that \(\hat{u}, \hat{a}, \hat{b}\)
+              is an orthonormal basis. What are \(\boldsymbol{u}\)
+              and \(\boldsymbol{v}\) in this basis, in terms of the
+              angle \(\phi\) between \(\boldsymbol{u}\) and
+              \(\boldsymbol{v}\)? Answer:
+            </p>
+            <p>
+              \[\begin{aligned} \boldsymbol{u} &amp;= u \,\hat{u}
+              \\ \boldsymbol{v} &amp;= \cos\theta \,\hat{u} +
+              \sin\theta \,\hat{b}.\end{aligned}\]
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="infoCol"></div>
+    </div>
+    <div class="contentBlock">
+      <div id="rvv-so" class="section level3 contentCol">
+        <h2>
+          Orthogonal projection and orthogonal complement
+        </h2>
+        <p>
+          The orthogonal projection and orthogonal complement are:
+        </p>
+        <div class="envContainer equation" id="rvv-ep">
+          <p class="envHeader">
+            Orthogonal projection
+          </p>
+          <div class="envBody">
+            <p>
+              \[\operatorname{Proj}(\boldsymbol{u},
+              \boldsymbol{v}) = (\boldsymbol{u} \cdot \hat{v})
+              \hat{v} = \left(\frac{\boldsymbol{u} \cdot
+              \boldsymbol{v}}{v^2}\right) \boldsymbol{v} =
+              \left(\frac{\boldsymbol{u} \cdot
+              \boldsymbol{v}}{\boldsymbol{v} \cdot
+              \boldsymbol{v}}\right) \boldsymbol{v}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer equation" id="rvv-em">
+          <p class="envHeader">
+            Orthogonal complement
+          </p>
+          <div class="envBody">
+            <p>
+              \[\operatorname{Comp}(\boldsymbol{u}, \boldsymbol{v})
+              = \boldsymbol{u} -
+              \operatorname{Proj}(\boldsymbol{u}, \boldsymbol{v}) =
+              \boldsymbol{u} - (\boldsymbol{u} \cdot \hat{v}) \hat{v} =
+              \boldsymbol{u} - \left(\frac{\boldsymbol{u} \cdot
+              \boldsymbol{v}}{v^2}\right) \boldsymbol{v} =
+              \boldsymbol{u} - \left(\frac{\boldsymbol{u} \cdot
+              \boldsymbol{v}}{\boldsymbol{v} \cdot
+              \boldsymbol{v}}\right) \boldsymbol{v}\]
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="infoCol"></div>
+    </div>
+    <div class="contentBlock">
+      <div id="rvv-sb" class="section level3 contentCol">
+        <h2>
+          Changing bases
+        </h2>
+        <p>
+          To change the basis that a vector is written in, we need
+          to know how the basis vectors are related. We do this by
+          writing one set of basis vectors in terms of the other
+          basis vectors. If we want to change from
+          \(\hat\imath,\hat\jmath\) to \(\hat{a},\hat{b}\), then we
+          need to write \(\hat\imath,\hat\jmath\) in terms of
+          \(\hat{a},\hat{b}\).
+        </p>
+        <div class="envContainer example" id="rvv-xn">
+          <p class="envHeader">
+            Example: Basis change
+          </p>
+          <div class="envBody">
+            <p>
+              For example, if we have \(\boldsymbol{v} =
+              3\,\hat{\imath} + 2\,\hat{\jmath}\) and we want to
+              write this in the \(\,\hat{a}, \,\hat{b}\) basis,
+              then we need to know \(\,\hat{\imath},
+              \,\hat{\jmath}\) in terms of \(\,\hat{a},
+              \,\hat{b}\). For example,
+            </p>
+            <p>
+              \[\begin{aligned} \,\hat{\imath} &amp;=
+              \frac{1}{\sqrt{2}} \,\hat{a} - \frac{1}{\sqrt{2}}
+              \,\hat{b} \\ \,\hat{\jmath} &amp;= \frac{1}{\sqrt{2}}
+              \,\hat{a} + \frac{1}{\sqrt{2}}
+              \,\hat{b}\end{aligned}\]
+            </p>
+            <p>
+              Then we can substitute and re-arrange:
+            </p>
+            <p>
+              \[\begin{aligned} \boldsymbol{v} &amp;=
+              3\,\hat{\imath} + 2\,\hat{\jmath} \\ &amp;=
+              3\left(\frac{1}{\sqrt{2}} \,\hat{a} -
+              \frac{1}{\sqrt{2}} \,\hat{b}\right) +
+              2\left(\frac{1}{\sqrt{2}} \,\hat{a} +
+              \frac{1}{\sqrt{2}} \,\hat{b}\right) \\ &amp;=
+              \left(\frac{3}{\sqrt{2}} + \frac{2}{\sqrt{2}} \right)
+              \,\hat{a} + \left(-\frac{3}{\sqrt{2}} +
+              \frac{2}{\sqrt{2}} \right) \,\hat{b} \\ &amp;=
+              \frac{5}{\sqrt{2}} \,\hat{a} - \frac{1}{\sqrt{2}}
+              \,\hat{b}\end{aligned}\]
+            </p>
+            <p>
+              If we want to convert back the other way then we
+              would need to know \(\,\hat{a}, \,\hat{b}\) in terms
+              of \(\,\hat{\imath}, \,\hat{\jmath}\). We can find
+              this by solving for \(\,\hat{a}, \,\hat{b}\) above.
+            </p>
+          </div>
+        </div>
+        <p>
+          <strong>Important:</strong> Vector expressions are true
+          no matter which basis we write the vectors in, even if
+          they are written in different bases.
+        </p>
+        <div class="envContainer example" id="rvv-xa">
+          <p class="envHeader">
+            Example: Vector addition in different bases.
+          </p>
+          <div class="envBody">
+            <p>
+              \(\boldsymbol{w} = \boldsymbol{u} + 2
+              \boldsymbol{v}\), draw the image. This is true no
+              matter which bases are being used for
+              \(\boldsymbol{u}\) and \(\boldsymbol{v}\). For
+              example, even if we use different bases:
+              \(\boldsymbol{u} = 3\,\hat{\imath} +
+              2\,\hat{\jmath}\) and \(\boldsymbol{v} = 5\,\hat{a} -
+              \,\hat{b}\), then \(\boldsymbol{w} = 3\,\hat{\imath}
+              + 2\,\hat{\jmath} + 10\,\hat{a} - 2\,\hat{b}\) is
+              true. Of course, we would normally convert these to a
+              single basis, but we don’t have to.
+            </p>
+            <canvas id="rvv-xa-c" width="400" height="400"></canvas>
+            <script type="application/javascript">
+              /* <![CDATA[ */
+              rvv_xa_c = new PrairieDrawAnim("rvv-xa-c", function(t) {
+              this.addOption("components",false);
+
+              var back = {start:  0,         end: Math.PI/4, initial: 1, fin: 2};
+              var forth = {start: Math.PI/4, end: Math.PI/2, initial: 2.15, fin: 0.75};
+              var states = [back, forth];
+              var transTimes = [1, 1];
+              var holdTimes = [2, 2];
+              var state = this.sequence(states, transTimes, holdTimes, t);
+	      
+              this.setUnits(4, 4);
+              this.setProp("arrowLineWidthPx",2);
+              
+              this.translate($V([-1,-1]));
+              
+              var O = $V([0,0]);
+              var P = $V([1,2]);
+              var X = this.vector2DAtAngle(state.start).x(state.initial);
+              var Y = this.vector2DAtAngle(state.end+Math.PI/4).x(state.fin);
+	      
+              this.arrow(O, P);
+              this.text($V([1.25, 2.25]), $V([1,1]), "w = u + v");
+              
+              if (this.getOption("components")) {
+              this.arrow(O, X);
+	      this.arrow(O, Y);
+	      
+	      if (t % 6 == 0 || (t % 6 >= 4 && t % 6 < 6)){ //state.index == 0
+	      this.text($V([0.5,-0.2]), $V([1,-1]), "u");
+	      this.text($V([-0.1,1]), $V([0,1]), "v");
+	      }
+	      else if (t % 6 >= 1 && t % 6 < 3){ //state.index == 1
+	      this.text($V([0.85,0.6]), $V([1,-1]), "u");
+	      this.text($V([-0.3,0.3]), $V([0,1]), "v");
+	      }	
+              }
+	      
+              //AXES
+              this.setProp("arrowLineWidthPx",1);
+              this.arrow($V([0,0]), $V([3,0]));
+              this.text($V([3,0.1]), $V([1,0]), "i");
+              this.arrow($V([0,0]), $V([0,3]));
+              this.text($V([0.1,3]), $V([0,1]), "j");
+              
+              this.arrow($V([0,0]), $V([3,3]));
+              this.text($V([2.8,3]), $V([1,1]), "a");
+              this.arrow($V([0,0]), $V([-1,1]));
+              this.text($V([-0.8,1]), $V([-1,1]), "b");
+              });
+              /* ]]> */
+            </script>
+            <p>
+              <button onclick="rvv_xa_c.toggleOption('components');">See Components</button>
+              <button onclick="rvv_xa_c.toggleAnim();">Change Basis</button>
+            </p>
+          </div>
+        </div>
+        <div class="envContainer example" id="rvv-xx">
+          <p class="envHeader">
+            Example: Cross product in different bases.
+          </p>
+          <div class="envBody">
+            <p>
+              \(\boldsymbol{w} = \boldsymbol{u} \times
+              \boldsymbol{v}\), same as above: \(\boldsymbol{u} =
+              3\,\hat{\imath} + 2\,\hat{\jmath}\) and
+              \(\boldsymbol{v} = 5\,\hat{a} - \,\hat{b}\). Then
+              \(\boldsymbol{w} = 15 \,\hat{\imath} \times \,\hat{a}
+              - 3 \,\hat{\imath} \times \,\hat{b} + 10
+              \,\hat{\jmath} \times \,\hat{a} - 2 \,\hat{\jmath}
+              \times \,\hat{b}\). Work out what these are
+              individually. Take \(\,\hat{a}, \,\hat{b}\) rotated
+              by \(\pi/4\) from \(\,\hat{\imath}, \,\hat{\jmath}\),
+              so we can do the cross products by hand or something?
+            </p>
+          </div>
+        </div>
+        <div class="envContainer example" id="rvv-xd">
+          <p class="envHeader">
+            Example: Dot product is independent of basis.
+          </p>
+          <div class="envBody">
+            <p>
+              Equation <a href="#rvv-ed">#rvv-ed</a> makes
+              it clear that the dot product does not depend on
+              which basis we use to write \(\boldsymbol{a}\) and
+              \(\boldsymbol{b}\), so long as we use the same
+              orthonormal basis for both of them. This is because
+              the dot product only depends on the lengths and angle
+              between the vectors, which are real physical
+              quantities that don’t change just because we use a
+              different basis.
+            </p>
+            <p>
+              However, we can also verify directly that the component
+              equation <a href="#rvv-es">#rvv-es</a> for the dot
+              product does not depend on which basis we use. To keep
+              the algebra short, we will only do this in 2D.
+            </p>
+            <p>
+              Consider two different orthonormal bases,
+              \(\hat\imath,\hat\jmath\) and
+              \(\hat{u},\hat{v}\), with the relationship
+            </p>
+            <p>
+              \[\begin{aligned} \hat{u} &amp;= u_i \, \hat\imath +
+              u_j \, \hat\jmath \\ \hat{v} &amp;= v_i \, \hat\imath
+              + v_j \, \hat\jmath\end{aligned}\]
+            </p>
+            <p>
+              Now we can write \(\boldsymbol{a}\) and
+              \(\boldsymbol{b}\) in terms of either basis (see
+              <a href="#rvv-xn">#rvv-xn</a>):
+            </p>
+            <p>
+              \[\begin{aligned} \hat{a} &amp;= a_i \, \hat\imath +
+              a_j \, \hat\jmath \\ &amp;= a_u \, \hat{u} + a_v \,
+              \hat{v} \\ &amp;= a_u (u_i \, \hat\imath + u_j \,
+              \hat\jmath) + a_v (v_i \, \hat\imath + v_j \,
+              \hat\jmath) \\ &amp;= (a_u u_i + a_v v_i) \,
+              \hat\imath + (a_u u_j + a_v v_j) \, \hat\jmath \\
+              \hat{b} &amp;= b_i \, \hat\imath + b_j \, \hat\jmath
+              \\ &amp;= b_u \, \hat{u} + b_v \, \hat{v} \\ &amp;=
+              b_u (u_i \, \hat\imath + u_j \, \hat\jmath) + b_v
+              (v_i \, \hat\imath + v_j \, \hat\jmath) \\ &amp;=
+              (b_u u_i + b_v v_i) \, \hat\imath + (b_u u_j + b_v
+              v_j) \, \hat\jmath.\end{aligned}\]
+            </p>
+            <p>
+              From this we can identify the basis change relations:
+            </p>
+            <p>
+              \[\begin{aligned} a_i &amp;= a_u u_i + a_v v_i \\ a_j
+              &amp;= a_u u_j + a_v v_j \\ b_i &amp;= b_u u_i + b_v
+              v_i \\ b_j &amp;= b_u u_j + b_v v_j.\end{aligned}\]
+            </p>
+            <p>
+              If we compute the dot product using <a
+              href="#rvv-es">#rvv-es</a> in the
+              \(\hat\imath,\hat\jmath\) basis then we have:
+            </p>
+            <p>
+              \[\begin{aligned} \boldsymbol{a} \cdot \boldsymbol{b}
+              &amp;= a_i b_i + a_j b_j \\ &amp;= (a_u u_i + a_v
+              v_i) (b_u u_i + b_v v_i) + (a_u u_j + a_v v_j) (b_u
+              u_j + b_v v_j) \\ &amp;= a_u b_u (u_i^2 + u_j^2) +
+              a_v b_v (v_i^2 + v_j^2) + (a_u b_v + a_v b_u) (u_i
+              v_i + u_j v_j) \\ &amp;= a_u b_u \| \hat{u} \|^2 +
+              a_v b_v \| \hat{v} \|^2 + (a_u b_v + a_v b_u)
+              (\hat{u} \cdot \hat{v}) \\ &amp;= a_u b_u + a_v
+              b_v\end{aligned}\]
+            </p>
+            <p>
+              To get the last line we used the fact that
+              \(\hat{u}\) and \(\hat{v}\) form an orthornormal
+              basis, so that they each have length 1 (that is,
+              \(\|\hat{u}\| = \|\hat{v}\| = 1\)) and they are
+              orthogonal (that is, \(\hat{u} \cdot \hat{v} = 0\)).
+            </p>
+            <p>
+              This then shows that
+            </p>
+            <p>
+              \[\begin{aligned} a_i b_i + a_j b_j &amp;= a_u b_u +
+              a_v b_v\end{aligned}\]
+            </p>
+            <p>
+              and so it doesn’t matter which basis we use to
+              compute \(\boldsymbol{a} \cdot \boldsymbol{b}\), so
+              long as we use an orthonormal basis.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="infoCol"></div>
+    </div>
+    <div class="contentBlock">
+      <div id="rvv-st" class="section level3 contentCol">
+        <h2>
+          Time-dependent vectors and bases
+        </h2>
+        <p>
+          We can have dynamic vectors which change over time, so
+          their components also change. Alternatively, we can have
+          a fixed vector but dynamic basis.
+        </p>
+        <div class="envContainer example" id="rvv-xv">
+          <p class="envHeader">
+            Example: Changing vector, fixed basis.
+          </p>
+          <div class="envBody">
+            <p>
+              Show a lengthening and rotating vector and how its
+              components change over time in a fixed basis.
+            </p>
+            <canvas id="rvv-xv-c" width="400" height="400"></canvas>
+            <script type="application/javascript">
+              /* <![CDATA[ */
+              rvv_xv_c = new PrairieDrawAnim("rvv-xv-c", function(t) {
+              this.addOption("components",false);
+              this.addOption("rotate", false);
+	      
+              this.setUnits(6, 6);
+              this.setProp("arrowLineWidthPx",2);
+	      
+              var O = $V([0, 0]);
+              var P = $V([2.5 * Math.cos(t+Math.PI/4), 2.5 * Math.sin(t+Math.PI/4)]);
+	      
+              if(this.getOption("components")){
+	      this.arrow(O, $V([P.e(1), 0]));
+	      this.text($V([P.e(1)/2, -0.5]), $V([-1,-1]), "u");
+	      this.arrow(O, $V([0, P.e(2)]));
+	      this.text($V([-0.5, P.e(2)/2]), $V([-1,1]), "v");
+              }
+	      
+              this.arrow(O, P);
+              this.text($V([P.e(1)+0.5, P.e(2)+0.5]), $V([1,1]), "w = u + v");
+	      
+              this.setProp("arrowLineWidthPx", 1);
+              this.arrow($V([-3,0]), $V([3,0]));
+              this.text($V([3,0.2]), $V([1,0]), "i");
+              this.arrow($V([0,-3]), $V([0,3]));
+              this.text($V([0.15,3]), $V([0,1]), "j");
+              });
+              /* ]]> */
+            </script>
+            <p>
+              <button onclick="rvv_xv_c.toggleOption('components');">See Components</button>
+              <button onclick="rvv_xv_c.toggleAnim();">Rotate Vector</button>
+            </p>
+          </div>
+        </div>
+        <div class="envContainer example" id="rvv-xb">
+          <p class="envHeader">
+            Example: Fixed vector, changing basis.
+          </p>
+          <div class="envBody">
+            <p>
+              Show a fixed vector, but a rotating basis, and how
+              the components change over time.
+            </p>
+            <canvas id="rvv-xb-c" width="400" height="400"></canvas>
+            <script type="application/javascript">
+              /* <![CDATA[ */
+              rvv_xb_c = new PrairieDrawAnim("rvv-xb-c", function(t) {
+              this.addOption("components",false);
+
+              this.setUnits(4, 4);
+              this.setProp("arrowLineWidthPx",2);
+
+              var ellipse = function(t, axis){
+              if(axis=="x")
+	      t = t-Math.PI/2;
+              else if(axis=="y")
+	      t = t+Math.PI/2;
+              
+              x = Math.sqrt(2)/2 + 1*Math.cos(t)*Math.cos(Math.PI/4) - 1*Math.sin(t)*Math.sin(Math.PI/4);
+              y = Math.sqrt(2)/2 + 1*Math.cos(t)*Math.sin(Math.PI/4) + 1*Math.sin(t)*Math.cos(Math.PI/4);
+              return $V([x,y]);
+              }
+              
+              var x_axis = $V([Math.cos(t/2), Math.sin(t/2)]).x(4);
+              var y_axis = $V([Math.cos(t/2+Math.PI/2), Math.sin(t/2+Math.PI/2)]).x(4);
+              var O = $V([0, 0]);
+              var P = $V([Math.sqrt(2), Math.sqrt(2)]);
+              
+              if(this.getOption("components")){
+	      this.arrow(O, ellipse(t, "x"));
+	      this.text($V([ellipse(t, "x").e(1)/2, ellipse(t, "x").e(2)/2 - 0.2]), $V([1,0]), "u");
+	      this.arrow(O, ellipse(t, "y"));
+	      this.text($V([ellipse(t, "y").e(1)/2 - 0.2, ellipse(t, "y").e(2)/2]), $V([0,1]), "v");
+              }
+              
+              this.arrow(O, P);
+              this.text($V([P.e(1)+0.5, P.e(2)+0.5]), $V([1,1]), "w = u + v");
+              
+              //AXES
+              this.setProp("arrowLineWidthPx",1);
+              this.arrow(O, x_axis);
+              this.text($V([x_axis.e(1)/2.55, x_axis.e(2)/2.55]), $V([-1,-1]), "i");
+              this.arrow(O, y_axis);
+              this.text($V([y_axis.e(1)/2.55 - 0.2, y_axis.e(2)/2.55]), $V([0,-1]), "j");
+              });
+              /* ]]> */
+            </script>
+            <p>
+              <button onclick="rvv_xb_c.toggleOption('components');">See Components</button>
+              <button onclick="rvv_xb_c.toggleAnim();">Change Basis</button>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="infoCol"></div>
+    </div>
+    <div class="contentBlock">
+      <div id="rvv-ss" class="section level3 contentCol">
+        <h2>
+          Basis vectors from different coordinate systems
+        </h2>
+        <p>
+          polar coordinates:
+        </p>
+        <p>
+          \[\begin{aligned} \,\hat{r} &amp;= \cos\theta
+          \,\hat{\imath} + \sin\theta \,\hat{\jmath} \\
+          \,\hat{\theta} &amp;= - \sin\theta \,\hat{\imath} +
+          \cos\theta \,\hat{\jmath}\end{aligned}\]
+        </p>
+      </div>
+      <div class="infoCol">
+        <div class="infoBox">
+          <p>
+            <span class="infoHead">Related:</span> <a href=
+            "rvy.xhtml">#rvy: Cylindrical coordinates</a> <a
+            href="rvs.xhtml">#rvs: Spherical coordinates</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
