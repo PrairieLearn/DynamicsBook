@@ -126,7 +126,9 @@ $(document).ready(function() {
     $("div.tocColumn").find("a").each(function() {
         var href = $(this).attr("href");
         if (href === undefined) return;
-        var anchorName = /([^\/]+)\.x?html$/.exec(href)[1]
+        var anchorSearch = /([^\/]+)\.x?html$/.exec(href);
+        if (anchorSearch === null) return;
+        var anchorName = anchorSearch[1]
         if (anchorName === null) return;
         var anchor = '<a class="anchor" href="' + href + '">#' + anchorName + '</a>';
         $(this).after(anchor);
@@ -147,14 +149,11 @@ $(document).ready(function() {
     var showCheckbox = function(jButton, checked) {
         if (jButton.children("span").length == 0) {
             jButton.append('<span data-icon="B" aria-hidden="true" class="checkbox"></span>');
-            //jButton.append('<img src=""></img>');
         }
         if (checked) {
             jButton.children("span").attr("data-icon", "B");
-            //jButton.children("img").attr("src", "checkbox_checked_icon.png");
         } else {
             jButton.children("span").attr("data-icon", ",");
-            //jButton.children("img").attr("src", "checkbox_unchecked_icon.png");
         }
     }
     var bindAnimToggleButton = function(jButton, canvasId) {

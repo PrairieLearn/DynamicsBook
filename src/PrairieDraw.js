@@ -32,6 +32,8 @@ function PrairieDraw(canvas, drawFcn) {
 
         /** @private */ this._options = {};
 
+        /** @private */ this._history = {};
+
         if (drawFcn) {
             this.draw = drawFcn.bind(this);
         }
@@ -251,6 +253,23 @@ PrairieDraw.prototype.getProp = function(name) {
     return this._props[name];
 }
 
+/** @private Get a color property for a given type.
+
+    @param {string} type Optional type to find the color for.
+*/
+PrairieDraw.prototype._getColorProp = function(type) {
+    if (type) {
+        var col = type + "Color";
+        if (col in this._props) {
+            return this._props[col];
+        } else {
+            throw new Error("PrairieDraw: unknown type: " + type);
+        }
+    } else {
+        return this._props.shapeOutlineColor;
+    }
+}
+
 /*****************************************************************************/
 
 /** Add an external option for this drawing.
@@ -264,6 +283,8 @@ PrairieDraw.prototype.addOption = function(name, value) {
             value: value,
             callbacks: []
         };
+    } else if (!("value" in this._options[name])) {
+        this._options[name].value = value;
     }
 }
 
@@ -293,6 +314,9 @@ PrairieDraw.prototype.getOption = function(name) {
     if (!(name in this._options)) {
         throw new Error("PrairieDraw: unknown option: " + name);
     }
+    if (!("value" in this._options[name])) {
+        throw new Error("PrairieDraw: option has no value: " + name);
+    }
     return this._options[name].value;
 }
 
@@ -304,10 +328,14 @@ PrairieDraw.prototype.toggleOption = function(name) {
     if (!(name in this._options)) {
         throw new Error("PrairieDraw: unknown option: " + name);
     }
+    if (!("value" in this._options[name])) {
+        throw new Error("PrairieDraw: option has no value: " + name);
+    }
     var option = this._options[name];
     option.value = !option.value;
     this.redraw();
     for (var i = 0; i < option.callbacks.length; i++) {
+        console.log("option callback", name, i);
         option.callbacks[i](option.value);
     }
 }
@@ -325,6 +353,20 @@ PrairieDraw.prototype.registerOptionCallback = function(name, callback) {
     option.callbacks.push(callback);
     callback(option.value);
 }
+
+/** Clear the value for the given option.
+
+    @param {string} name The option to clear.
+*/
+PrairieDraw.prototype.clearOptionValue = function(name) {
+    if (!(name in this._options)) {
+        throw new Error("PrairieDraw: unknown option: " + name);
+    }
+    if (!("value" in this._options[name])) {
+        throw new Error("PrairieDraw: option has no value: " + name);
+    }
+    delete this._options[name].value;
+};
 
 /*****************************************************************************/
 
@@ -372,7 +414,9 @@ PrairieDraw.prototype.resetDrawing = function() {
 /** Reset everything to the intial state.
 */
 PrairieDraw.prototype.reset = function() {
-    this._options = {};
+    for (optionName in this._options) {
+        this.clearOptionValue(optionName)
+    }
     this.redraw();
 }
 
@@ -523,18 +567,9 @@ PrairieDraw.prototype.point = function(posDw) {
     @param {string} type The type of line being drawn.
 */
 PrairieDraw.prototype._setLineStyles = function(type) {
-    if (type) {
-        var col = type + "Color";
-        if (col in this._props) {
-            this._ctx.strokeStyle = this._props[col];
-            this._ctx.fillStyle = this._props[col];
-        } else {
-            throw new Error("PrairieDraw: unknown type: " + type);
-        }
-    } else {
-        this._ctx.strokeStyle = "rgb(0, 0, 0)";
-        this._ctx.fillStyle = "rgb(0, 0, 0)";
-    }
+    var col = this._getColorProp(type);
+    this._ctx.strokeStyle = col;
+    this._ctx.fillStyle = col;
 }
 
 /** Draw a single line given start and end positions.
@@ -752,6 +787,29 @@ PrairieDraw.prototype._circleArrowRadius = function(midRadPx, anglePx, startAngl
 
 /*****************************************************************************/
 
+/** Draw an arc.
+
+    @param {Vector} centerDw The center of the circle.
+    @param {Vector} radiusDw The radius of the circle.
+    @param {number} startAngle The start angle of the arc (radians).
+    @param {number} endAngle The end angle of the arc (radians).
+*/
+PrairieDraw.prototype.arc = function(centerDw, radiusDw, startAngle, endAngle) {
+    var centerPx = this.pos2Px(centerDw);
+    var offsetDw = $V([radiusDw, 0]);
+    var offsetPx = this.vec2Px(offsetDw);
+    var radiusPx = offsetPx.modulus();
+    this._ctx.save();
+    this._ctx.lineWidth = this._props.shapeStrokeWidthPx;
+    this._ctx.strokeStyle = this._props.shapeOutlineColor;
+    this._ctx.beginPath();
+    this._ctx.arc(centerPx.e(1), centerPx.e(2), radiusPx, startAngle, endAngle);
+    this._ctx.stroke();
+    this._ctx.restore();
+}
+
+/*****************************************************************************/
+
 /** Draw a polyLine (closed or open).
 
     @param {Array} pointsDw A list of drawing coordinates that form the polyLine.
@@ -932,10 +990,12 @@ PrairieDraw.prototype.rod = function(startDw, endDw, widthDw) {
     this._ctx.arcTo(lengthPx + rPx, -rPx, 0, -rPx, rPx);
     this._ctx.arcTo(-rPx, -rPx, -rPx, rPx, rPx);
     this._ctx.arcTo(-rPx, rPx, 0, rPx, rPx);
+    if (this._props.shapeInsideColor !== "none") {
+        this._ctx.fillStyle = this._props.shapeInsideColor;
+        this._ctx.fill();
+    }
     this._ctx.lineWidth = this._props.shapeStrokeWidthPx;
     this._ctx.strokeStyle = this._props.shapeOutlineColor;
-    this._ctx.fillStyle = this._props.shapeInsideColor;
-    this._ctx.fill();
     this._ctx.stroke();
     this._ctx.restore();
 }
@@ -1268,7 +1328,7 @@ PrairieDraw.prototype.labelCircleLine = function(posDw, radDw, startAngleDw, end
     var pPx = u1Px.x(rPx).add(posPx);
     var pDw = this.pos2Dw(pPx);
     this.text(pDw, a, text);
-}
+};
 
 /*****************************************************************************/
 
@@ -1293,7 +1353,89 @@ PrairieDraw.prototype.numDiff = function(f, t) {
         }
     }
     return d;
-}
+};
+
+/*****************************************************************************/
+
+/** Save the history of a data value.
+
+    @param {string} name The history variable name.
+    @param {number} dt The time resolution to save at.
+    @param {number} maxTime The maximum age of history to save.
+    @param {number} curTime The current time.
+    @param {object} curValue The current data value.
+    @return {Array} A history array of vectors of the form $V([time, value]).
+*/
+PrairieDraw.prototype.history = function(name, dt, maxTime, curTime, curValue) {
+    if (!(name in this._history)) {
+        this._history[name] = [$V([curTime, curValue])];
+    } else {
+        var h = this._history[name];
+        if (h.length < 2) {
+            h.push($V([curTime, curValue]));
+        } else {
+            var prevPrevTime = h[h.length - 2].e(1);
+            if (curTime - prevPrevTime < dt) {
+                // new time jump will still be short, replace the last record
+                h[h.length - 1] = $V([curTime, curValue]);
+            } else {
+                // new time jump would be too long, just add the new record
+                h.push($V([curTime, curValue]));
+            }
+        }
+
+        // discard old values as necessary
+        var i = 0;
+        while ((curTime - h[i].e(1) > maxTime) && (i < h.length - 1)) {
+            i++;
+        }
+        if (i > 0) {
+            this._history[name] = h.slice(i);
+        }
+    }
+    return this._history[name];
+};
+
+/** Plot a history sequence.
+
+    @param {Vector} originDw The lower-left position of the axes.
+    @param {Vector} sizeDw The size of the axes (vector from lower-left to upper-right).
+    @param {Vector} sizeData The size of the axes in data coordinates.
+    @param {string} yLabel The vertical axis label.
+    @param {Array} data An array of $V([time, value]) vectors to plot.
+    @param {string} type Optional type of line being drawn.
+*/
+PrairieDraw.prototype.plotHistory = function(originDw, sizeDw, sizeData, timeOffset, yLabel, data, type) {
+    var scale = $V([sizeDw.e(1) / sizeData.e(1), sizeDw.e(2) / sizeData.e(2)]);
+    var lastTime = data[data.length - 1].e(1);
+    var offset = $V([timeOffset - lastTime, 0]);
+    var plotData = this.scalePoints(this.translatePoints(data, offset), scale);
+
+    this.save();
+    this.translate(originDw);
+    this.save();
+    this.setProp("arrowLineWidthPx", 1);
+    this.setProp("arrowheadLengthRatio", 11);
+    this.arrow($V([0, 0]), $V([sizeDw.e(1), 0]));
+    this.arrow($V([0, 0]), $V([0, sizeDw.e(2)]));
+    this.text($V([sizeDw.e(1), 0]), $V([1, 1.5]), "TEX:$t$");
+    this.text($V([0, sizeDw.e(2)]), $V([1.5, 1]), yLabel);
+    this.restore();
+    var col = this._getColorProp(type);
+    this.setProp("shapeOutlineColor", col);
+    this.setProp("pointRadiusPx", "4");
+    this.save();
+    this._ctx.beginPath();
+    var bottomLeftPx = this.pos2Px($V([0, 0]));
+    var topRightPx = this.pos2Px(sizeDw);
+    var offsetPx = topRightPx.subtract(bottomLeftPx);
+    this._ctx.rect(bottomLeftPx.e(1), 0, offsetPx.e(1), this._height);
+    this._ctx.clip();
+    this.polyLine(plotData, false);
+    this.restore();
+    this.point(plotData[plotData.length - 1]);
+    this.restore();
+};
 
 /*****************************************************************************/
 
@@ -1419,7 +1561,9 @@ PrairieDrawAnim.prototype.resetTime = function() {
 /** Reset everything to the intial state.
 */
 PrairieDrawAnim.prototype.reset = function() {
-    this._options = {};
+    for (optionName in this._options) {
+        this.clearOptionValue(optionName)
+    }
     this._sequences = {};
     this.stopAnim();
     this.resetTime();

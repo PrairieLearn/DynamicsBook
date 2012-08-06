@@ -2,7 +2,7 @@
 
 import os, sys, re, hashlib, subprocess
 
-TEXT_RE = re.compile("\"TEX:(.*)\"");
+TEXT_RE = re.compile("\"TEX:(.+)\"");
 
 TEXT_DIR = "text"
 

@@ -8,7 +8,7 @@
     <link href="style.css" type="text/css" rel="stylesheet" />
     <link href="icomoon.css" type="text/css" rel="stylesheet" />
 
-    <script src="mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <script src="mathjax/MathJax.js?config=default" type="text/javascript"></script>
     <script src="jquery-1.7.2.min.js" type="text/javascript"></script>
     <script src="pageControl.js" type="text/javascript"></script>
     <script src="sylvester.js" type="text/javascript"></script>
@@ -34,31 +34,31 @@
         \phi &amp;= \operatorname{atan2}(z, r)\end{aligned}\]</p>
         <p>Basis vectors:</p>
         <p>\[\begin{aligned}
-        \,\hat{r} &amp;= \cos\theta \cos\phi \,\hat{\imath}
+        \,\hat{e}_r &amp;= \cos\theta \cos\phi \,\hat{\imath}
         + \sin\theta \cos\phi \,\hat{\jmath} + \sin\phi \,\hat{k} \\
-        \,\hat{\theta} &amp;= - \sin\theta \cos\phi \,\hat{\imath}
+        \,\hat{e}_{\theta} &amp;= - \sin\theta \cos\phi \,\hat{\imath}
         + \cos\theta \cos\phi \,\hat{\jmath} \\
-        \,\hat{\phi} &amp;= - \cos\theta \sin\phi \,\hat{\imath}
+        \,\hat{e}_{\phi} &amp;= - \cos\theta \sin\phi \,\hat{\imath}
         - \sin\theta \sin\phi \,\hat{\jmath} + \cos\phi \,\hat{k}\end{aligned}\]</p>
         <p>Angular velocity:</p>
         <p>\[\begin{aligned}
-        \boldsymbol{\omega} &amp;= \dot\theta \,\hat{k} = \dot\theta(\sin\phi \,\hat{r} + \cos\phi \,\hat{\phi})\end{aligned}\]</p>
+        \boldsymbol{\omega} &amp;= \dot\theta \,\hat{k} = \dot\theta(\sin\phi \,\hat{e}_r + \cos\phi \,\hat{e}_{\phi})\end{aligned}\]</p>
         <p>Basis vector derivatives:</p>
         <p>\[\begin{aligned}
-        \dot{\hat{r}} &amp;= \boldsymbol{\omega} \times \hat{r}
-        = \dot\theta \cos\phi \,\hat{\theta} + \dot\phi \,\hat{\phi} \\
-        \dot{\hat{\theta}} &amp;= \boldsymbol{\omega} \times \hat{\theta}
-        = - \dot\theta \cos\phi \,\hat{r} + \dot\theta \sin\phi \,\hat{\phi} \\
-        \dot{\hat{\phi}} &amp;= \boldsymbol{\omega} \times \hat{\phi}
-        = - \dot\phi \,\hat{r} - \dot\theta \sin\theta \,\hat{\theta}\end{aligned}\]</p>
+        \dot{\hat{e}}_r &amp;= \boldsymbol{\omega} \times \hat{e}_r
+        = \dot\theta \cos\phi \,\hat{e}_{\theta} + \dot\phi \,\hat{e}_{\phi} \\
+        \dot{\hat{e}}_{\theta} &amp;= \boldsymbol{\omega} \times \hat{e}_{\theta}
+        = - \dot\theta \cos\phi \,\hat{e}_r + \dot\theta \sin\phi \,\hat{e}_{\phi} \\
+        \dot{\hat{e}}_{\phi} &amp;= \boldsymbol{\omega} \times \hat{e}_{\phi}
+        = - \dot\phi \,\hat{e}_r - \dot\theta \sin\theta \,\hat{e}_{\theta}\end{aligned}\]</p>
         <p>Position, velocity, and acceleration:</p>
         <p>\[\begin{aligned}
-        \boldsymbol{r} &amp;= r \,\hat{r} \\
-        \boldsymbol{v} &amp;= \dot{r} \,\hat{r} + r \dot\theta \cos\phi \,\hat{\theta}
-        + r \dot\phi \,\hat{\phi} \\
-        \boldsymbol{a} &amp;= (\ddot{r} - r \dot{\theta}^2 \cos^2\phi - r \dot{\phi}^2) \,\hat{r} \\
-        &amp;\quad + (r \ddot\theta \cos\phi + 2 \dot{r} \dot\theta \cos\phi - 2 r \dot\theta \dot\phi \sin\phi) \,\hat{\theta} \\
-        &amp;\quad + (r \ddot\phi + 2 \dot{r} \dot\phi + r \dot{\theta}^2 \sin\phi \cos\phi) \,\hat{\phi}\end{aligned}\]</p>
+        \boldsymbol{r} &amp;= r \,\hat{e}_r \\
+        \boldsymbol{v} &amp;= \dot{r} \,\hat{e}_r + r \dot\theta \cos\phi \,\hat{e}_{\theta}
+        + r \dot\phi \,\hat{e}_{\phi} \\
+        \boldsymbol{a} &amp;= (\ddot{r} - r \dot{\theta}^2 \cos^2\phi - r \dot{\phi}^2) \,\hat{e}_r \\
+        &amp;\quad + (r \ddot\theta \cos\phi + 2 \dot{r} \dot\theta \cos\phi - 2 r \dot\theta \dot\phi \sin\phi) \,\hat{e}_{\theta} \\
+        &amp;\quad + (r \ddot\phi + 2 \dot{r} \dot\phi + r \dot{\theta}^2 \sin\phi \cos\phi) \,\hat{e}_{\phi}\end{aligned}\]</p>
       </div>
     </div>
   </body>

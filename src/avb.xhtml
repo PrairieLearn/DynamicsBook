@@ -8,7 +8,7 @@
     <link href="style.css" type="text/css" rel="stylesheet" />
     <link href="icomoon.css" type="text/css" rel="stylesheet" />
     <script src=
-            "mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+            "mathjax/MathJax.js?config=default"
             type="text/javascript">
             </script>
             <script src="jquery-1.7.2.min.js" type="text/javascript">
@@ -131,7 +131,9 @@
           velocity, acceleration, and force as the bus drives around
           the track. We assume constant speed, so there is only an
           acceleration <a href="rvc.xhtml#rvc-ep">when the velocity
-          changes direction</a> around the corners.
+          changes direction</a> around the corners. This model assumes
+          semi-circular track ends, but <a href="avt.xhtml">this is
+          not a good idea</a> in practice.
         </p>
         <p>
           <canvas id="avb-fg-c" width="600" height="600">

@@ -372,7 +372,7 @@ button.envShowHide {
 .envContainer.derivation .envBody {
     background: #f8f8f8;
     border: 1px solid #ccc;
-    padding: 0px;
+    padding: 5px;
     margin: 0px;
     text-align: left;
 }
@@ -390,7 +390,7 @@ button.envShowHide {
 
 /*****************************************************************************/
 
-img.figureImage {
+.figureImage {
     display: block;
     margin-left: auto;
     margin-right: auto;
