@@ -101,29 +101,29 @@
     </div>
     <div class="contentBlock">
       <div id="avt-sq" class="section level3 contentCol">
-        <h2>Smooth transitions from straight line motion</h2>
-        <div class="figureContainer" id="avt-fq">
-          <canvas id="avt-fq-c" width="600" height="600" class="figureImage">
+        <h2>Smooth transition curves</h2>
+        <div class="figureContainer" id="avt-fe">
+          <canvas id="avt-fe-c" width="600" height="600" class="figureImage">
           </canvas>
-          <button class="anim-toggle:avt-fq-c">animate</button>
+          <button class="anim-toggle:avt-fe-c">animate</button>
           <p class="figureCaption">
             Car driving around a track with perfect straight line
-            segments joined to fifth-order polynomial segments. Note the
-            smooth transition in acceleration when the car switches
-            from a straight line to the curve.
+            segments joined to Euler-curve segments on the right-hand
+            curve and a semi-circle on the left-hand curve. The red
+            curve is a perfect semi-circle for comparison. Note the
+            continuous transition in acceleration when the car
+            switches from a straight line to the left-hand curve.
           </p>
         </div>
-      </div>
-      <div class="infoCol">
-        <div id="avt-ih" class="infoBox factBox">
-          <p>
-            The general technique for finding a polynomial that goes
-            through certain points with certain derivative values is
-            known as <a
-            href="http://en.wikipedia.org/wiki/Hermite_interpolation">Hermite
-            interpolation</a>.
-          </p>
-        </div>
+        <p>
+          If we <button class="anim-toggle:avt-fe-c">animate</button>
+          the motion around the track with Euler spiral transitions,
+          then we can see from the acceleration magnitude plot that
+          the peak acceleration needed on the Euler spiral transitions
+          is somewhat higher than on the semi-circle transitions, but
+          we have avoided the sudden jerk associated with switching
+          from straight line to circular motion.
+        </p>
       </div>
     </div>
     <div class="contentBlock">
@@ -266,28 +266,6 @@
           spiral. This will start the curvature from zero on the
           straight line segments, increase it smoothly, then decrease
           it again back to zero. This gives the following track shape.
-        </p>
-        <div class="figureContainer" id="avt-fe">
-          <canvas id="avt-fe-c" width="600" height="600" class="figureImage">
-          </canvas>
-          <button class="anim-toggle:avt-fe-c">animate</button>
-          <p class="figureCaption">
-            Car driving around a track with perfect straight line
-            segments joined to Euler-curve segments on the right-hand
-            curve and a semi-circle on the left-hand curve. The red
-            curve is a perfect semi-circle for comparison. Note the
-            continuous transition in acceleration when the car
-            switches from a straight line to the left-hand curve.
-          </p>
-        </div>
-        <p>
-          If we <button class="anim-toggle:avt-fe-c">animate</button>
-          the motion around the track with Euler spiral transitions,
-          then we can see from the acceleration magnitude plot that
-          the peak acceleration needed on the Euler spiral transitions
-          is somewhat higher than on the semi-circle transitions, but
-          we have avoided the sudden jerk associated with switching
-          from straight line to circular motion.
         </p>
       </div>
       <div class="infoCol">
