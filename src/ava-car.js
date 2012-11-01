@@ -25,7 +25,7 @@ var Car = {
     wheelR: 0.31,
     rimR: 0.20,
     axleR: 0.07,
-    nSpokes: 7,
+    nSpokes: 6,
     wheelMass: 20,
     bodyMass: 1100,
     mass: 1180,
