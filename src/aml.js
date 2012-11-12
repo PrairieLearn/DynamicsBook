@@ -74,273 +74,56 @@ $(document).ready(function() {
                 return "-";
             }
         };
-        var trueLinkageType = (charVal(limits.T1) + charVal(limits.T2) + charVal(limits.T3));
+        var linkageKey = (charVal(limits.T1) + charVal(limits.T2) + charVal(limits.T3));
 
-        if (false) {
-        } else if (trueLinkageType === "+++") {
-            limits.type = 2;
-            limits.inputType = "crank";
-            limits.outputType = "rocker";
-            limits.canFlip = false;
-            limits.limited = false;
-            limits.Grashof = true;
-        } else if (trueLinkageType === "0++") {
-            limits.type = 6;
-            limits.inputType = "crank";
-            limits.outputType = "rocker";
-            limits.canFlip = true;
-            limits.limited = false;
-            limits.Grashof = true;
-            limits.flipPhase = 0;
-            limits.flipPeriod = 4 * Math.PI;
-        } else if (trueLinkageType === "-++") {
-            limits.type = 6;
-            limits.inputType = "π-rocker";
-            limits.outputType = "π-rocker";
-            limits.canFlip = true;
-            limits.limited = true;
-            limits.Grashof = false;
-            limits.flipPhase = 0;
-            limits.flipPeriod = 2 * Math.PI;
-            limits.alphaMin = cosLawAngle(a, g, f - b);
-            limits.alphaMax = 2 * Math.PI - limits.alphaMin;
-        } else if (trueLinkageType === "+0+") {
-            limits.type = 2;
-            limits.inputType = "crank";
-            limits.outputType = "rocker";
-            limits.canFlip = true;
-            limits.limited = false;
-            limits.Grashof = true;
-            limits.flipPhase = 0;
-            limits.flipPeriod = 2 * Math.PI;
-        } else if (trueLinkageType === "00+") {
-            limits.type = 2;
-            limits.inputType = "crank";
-            limits.outputType = "crank";
-            limits.canFlip = true;
-            limits.limited = false;
-            limits.Grashof = true;
-            limits.flipPhase = 0;
-            limits.flipPeriod = 2 * Math.PI;
-        } else if (trueLinkageType === "-0+") {
-            limits.type = 2;
-            limits.inputType = "crank";
-            limits.outputType = "rocker";
-            limits.canFlip = true;
-            limits.limited = false;
-            limits.Grashof = true;
-            limits.flipPhase = 0;
-            limits.flipPeriod = 2 * Math.PI;
-        } else if (trueLinkageType === "+-+") {
-            limits.type = 7;
-            limits.inputType = "π-rocker";
-            limits.outputType = "0-rocker";
-            limits.canFlip = true;
-            limits.limited = true;
-            limits.Grashof = false;
-            limits.flipPhase = 0;
-            limits.flipPeriod = 2 * Math.PI;
-            limits.alphaMin = cosLawAngle(a, g, b - f);
-            limits.alphaMax = 2 * Math.PI - limits.alphaMin;
-        } else if (trueLinkageType === "0-+") {
-            limits.type = 1;
-            limits.inputType = "crank";
-            limits.outputType = "crank";
-            limits.canFlip = false;
-            limits.limited = false;
-            limits.Grashof = true;
-        } else if (trueLinkageType === "--+") {
-            limits.type = 1;
-            limits.inputType = "crank";
-            limits.outputType = "crank";
-            limits.canFlip = false;
-            limits.limited = false;
-            limits.Grashof = true;
-        } else if (trueLinkageType === "++0") {
-            limits.type = 2;
-            limits.inputType = "crank";
-            limits.outputType = "rocker";
-            limits.canFlip = true;
-            limits.limited = false;
-            limits.Grashof = true;
-            limits.flipPhase = -Math.PI / 2;
-            limits.flipPeriod = 4 * Math.PI;
-        } else if (trueLinkageType === "0+0") {
-            limits.type = 6;
-            limits.inputType = "crank";
-            limits.outputType = "rocker";
-            limits.canFlip = true;
-            limits.limited = false;
-            limits.Grashof = true;
-            limits.flipPhase = Math.PI / 2;
-            limits.flipPeriod = 2 * Math.PI;
-        } else if (trueLinkageType === "-+0") {
-            limits.type = 6;
-            limits.inputType = "π-rocker";
-            limits.outputType = "π-rocker";
-            limits.canFlip = true;
-            limits.limited = true;
-            limits.Grashof = true;
-            limits.flipPhase = Math.PI / 2;
-            limits.flipPeriod = 4 * Math.PI;
-            limits.alphaMin = cosLawAngle(a, g, f - b);
-            limits.alphaMax = 2 * Math.PI - limits.alphaMin;
-        } else if (trueLinkageType === "+00") {
-            limits.type = 2;
-            limits.inputType = "crank";
-            limits.outputType = "crank";
-            limits.canFlip = true;
-            limits.limited = false;
-            limits.Grashof = true;
-            limits.flipPhase = Math.PI / 2;
-            limits.flipPeriod = 2 * Math.PI;
-        } else if (trueLinkageType === "000") {
-            limits.type = 2;
-            limits.inputType = "crank";
-            limits.outputType = "crank";
-            limits.canFlip = true;
-            limits.limited = false;
-            limits.Grashof = true;
-            limits.flipPhase = Math.PI / 2;
-            limits.flipPeriod = 2 * Math.PI;
-        } else if (trueLinkageType === "-00") {
-            limits.type = 2;
-            limits.inputType = "crank";
-            limits.outputType = "rocker";
-            limits.canFlip = true;
-            limits.limited = false;
-            limits.Grashof = true;
-            limits.flipPhase = Math.PI / 2;
-            limits.flipPeriod = 2 * Math.PI;
-        } else if (trueLinkageType === "+-0") {
-            limits.type = 7;
-            limits.inputType = "π-rocker";
-            limits.outputType = "crank";
-            limits.canFlip = true;
-            limits.limited = true;
-            limits.Grashof = true;
-            limits.flipPhase = Math.PI / 2;
-            limits.flipPeriod = 4 * Math.PI;
-            limits.alphaMin = cosLawAngle(a, g, b - f);
-            limits.alphaMax = 2 * Math.PI - limits.alphaMin;
-        } else if (trueLinkageType === "0-0") {
-            limits.type = 1;
-            limits.inputType = "crank";
-            limits.outputType = "double crank";
-            limits.canFlip = true;
-            limits.limited = false;
-            limits.Grashof = true;
-            limits.flipPhase = Math.PI / 2;
-            limits.flipPeriod = 2 * Math.PI;
-        } else if (trueLinkageType === "--0") {
-            limits.type = 1;
-            limits.inputType = "crank";
-            limits.outputType = "crank";
-            limits.canFlip = true;
-            limits.limited = false;
-            limits.Grashof = true;
-            limits.flipPhase = Math.PI / 2;
-            limits.flipPeriod = 4 * Math.PI;
-        } else if (trueLinkageType === "++-") {
-            limits.type = 8;
-            limits.inputType = "0-rocker";
-            limits.outputType = "π-rocker";
-            limits.canFlip = true;
-            limits.limited = true;
-            limits.Grashof = false;
-            limits.flipPhase = 0;
-            limits.flipPeriod = 2 * Math.PI;
-            limits.alphaMax = cosLawAngle(a, g, f + b);
-            limits.alphaMin = -limits.alphaMax;
-        } else if (trueLinkageType === "0+-") {
-            limits.type = 8;
-            limits.inputType = "0-rocker";
-            limits.outputType = "π-rocker";
-            limits.canFlip = true;
-            limits.limited = true;
-            limits.Grashof = true;
-            limits.flipPhase = Math.PI / 2;
-            limits.flipPeriod = 4 * Math.PI;
-            limits.alphaMax = cosLawAngle(a, g, f + b);
-            limits.alphaMin = -limits.alphaMax;
-        } else if (trueLinkageType === "-+-") {
-            limits.type = 4;
-            limits.inputType = "rocker";
-            limits.outputType = "rocker";
-            limits.canFlip = true;
-            limits.limited = true;
-            limits.Grashof = true;
-            limits.flipPhase = 0;
-            limits.flipPeriod = 2 * Math.PI;
-            limits.alphaMin = cosLawAngle(a, g, f - b);
-            limits.alphaMax = cosLawAngle(a, g, b + f);
-        } else if (trueLinkageType === "+0-") {
-            limits.type = 8;
-            limits.inputType = "0-rocker";
-            limits.outputType = "crank";
-            limits.canFlip = true;
-            limits.limited = true;
-            limits.Grashof = true;
-            limits.flipPhase = Math.PI / 2;
-            limits.flipPeriod = 4 * Math.PI;
-            limits.alphaMax = cosLawAngle(a, g, f + b);
-            limits.alphaMin = -limits.alphaMax;
-        } else if (trueLinkageType === "00-") {
-            limits.type = 8;
-            limits.inputType = "0-rocker";
-            limits.outputType = "crank";
-            limits.canFlip = true;
-            limits.limited = true;
-            limits.Grashof = true;
-            limits.flipPhase = Math.PI / 2;
-            limits.flipPeriod = 4 * Math.PI;
-            limits.alphaMax = cosLawAngle(a, g, f + b);
-            limits.alphaMin = -limits.alphaMax;
-        } else if (trueLinkageType === "-0-") {
-            limits.type = 4;
-            limits.inputType = "0-rocker";
-            limits.outputType = "0-rocker";
-            limits.canFlip = true;
-            limits.limited = true;
-            limits.Grashof = true;
-            limits.flipPhase = Math.PI / 2;
-            limits.flipPeriod = 4 * Math.PI;
-            limits.alphaMax = cosLawAngle(a, g, f + b);
-            limits.alphaMin = -limits.alphaMax;
-        } else if (trueLinkageType === "+--") {
-            limits.type = 3;
-            limits.inputType = "rocker";
-            limits.outputType = "crank";
-            limits.canFlip = true;
-            limits.limited = true;
-            limits.Grashof = true;
-            limits.flipPhase = 0;
-            limits.flipPeriod = 2 * Math.PI;
-            limits.alphaMin = cosLawAngle(a, g, b - f);
-            limits.alphaMax = cosLawAngle(a, g, b + f);
-        } else if (trueLinkageType === "0--") {
-            limits.type = 3;
-            limits.inputType = "0-rocker";
-            limits.outputType = "double crank";
-            limits.canFlip = true;
-            limits.limited = true;
-            limits.Grashof = true;
-            limits.flipPhase = Math.PI / 2;
-            limits.flipPeriod = 4 * Math.PI;
-            limits.alphaMax = cosLawAngle(a, g, f + b);
-            limits.alphaMin = -limits.alphaMax;
-        } else if (trueLinkageType === "---") {
-            limits.type = 5;
-            limits.inputType = "0-rocker";
-            limits.outputType = "0-rocker";
-            limits.canFlip = true;
-            limits.limited = true;
-            limits.Grashof = false;
-            limits.flipPhase = 0;
-            limits.flipPeriod = 2 * Math.PI;
-            limits.alphaMax = cosLawAngle(a, g, f + b);
-            limits.alphaMin = -limits.alphaMax;
+        var limitAngles = [
+            cosLawAngle(a, g, f + b),
+                -cosLawAngle(a, g, f + b),
+            cosLawAngle(a, g, f - b),
+            2 * Math.PI - cosLawAngle(a, g, f - b),
+            cosLawAngle(a, g, b - f),
+            2 * Math.PI - cosLawAngle(a, g, b - f)
+        ];
+
+        var keyMap = {
+            "+++": ["crank",    "rocker",       false, false, true,  0,    0, -1, -1], 
+            "0++": ["crank",    "π-rocker",     true,  false, true,  0,    4, -1, -1], 
+            "-++": ["π-rocker", "π-rocker",     true,  true,  false, 0,    2, 2,  3],  
+            "+0+": ["crank",    "0-rocker",     true,  false, true,  0,    4, -1, -1], 
+            "00+": ["crank",    "half crank",   true,  false, true,  0,    4, -1, -1], 
+            "-0+": ["crank",    "crank",        true,  false, true,  0,    4, -1, -1], 
+            "+-+": ["π-rocker", "0-rocker",     true,  true,  false, 0,    2, 4,  5],  
+            "0-+": ["crank",    "crank",        false, false, true,  0,    0, -1, -1], 
+            "--+": ["crank",    "crank",        false, false, true,  0,    0, -1, -1], 
+            "++0": ["crank",    "π-rocker",     true,  false, true,  -1/2, 4, -1, -1], 
+            "0+0": ["crank",    "π-rocker",     true,  false, true,  1/2,  2, -1, -1], 
+            "-+0": ["π-rocker", "π-rocker",     true,  true,  true,  1/2,  4, 2,  3],  
+            "+00": ["crank",    "crank",        true,  false, true,  1/2,  2, -1, -1], 
+            "000": ["crank",    "crank",        true,  false, true,  1/2,  2, -1, -1], 
+            "-00": ["crank",    "crank",        true,  false, true,  1/2,  2, -1, -1], 
+            "+-0": ["π-rocker", "double crank", true,  true,  true,  1/2,  4, 4,  5],  
+            "0-0": ["crank",    "double crank", true,  false, true,  1/2,  2, -1, -1], 
+            "--0": ["crank",    "crank",        true,  false, true,  1/2,  4, -1, -1], 
+            "++-": ["0-rocker", "π-rocker",     true,  true,  false, 0,    2, 1,  0],  
+            "0+-": ["0-rocker", "π-rocker",     true,  true,  true,  1/2,  4, 1,  0],  
+            "-+-": ["rocker",   "rocker",       true,  true,  true,  0,    2, 2,  0],  
+            "+0-": ["0-rocker", "crank",        true,  true,  true,  1/2,  4, 1,  0],  
+            "00-": ["0-rocker", "crank",        true,  true,  true,  1/2,  4, 1,  0],  
+            "-0-": ["0-rocker", "0-rocker",     true,  true,  true,  1/2,  4, 1,  0],  
+            "+--": ["rocker",   "crank",        true,  true,  true,  0,    2, 4,  0],  
+            "0--": ["0-rocker", "double crank", true,  true,  true,  1/2,  4, 1,  0],  
+            "---": ["0-rocker", "0-rocker",     true,  true,  false, 0,    2, 1,  0],  
         }
+        var data = keyMap[linkageKey];
+        limits.inputType = data[0];
+        limits.outputType = data[1];
+        limits.canFlip = (data[6] > 0);
+        limits.limited = (data[7] > 0);
+        limits.Grashof = data[4];
+        limits.flipPhase = data[5] * Math.PI;
+        limits.flipPeriod = data[6] * Math.PI;
+        limits.alphaMin = (data[7] >= 0 ? limitAngles[data[7]] : 0);
+        limits.alphaMax = (data[8] >= 0 ? limitAngles[data[8]] : 0);
 
         if (limits.Grashof) {
             limits.GrashofType = "Grashof";
@@ -493,8 +276,6 @@ $(document).ready(function() {
         var pB = $V([g/2, 0]).rotate(gAngle, $V([0, 0]));
         var pD = pA.add(this.vector2DAtAngle(angleSign * alpha + gAngle).x(a));
         var pC = pB.add(this.vector2DAtAngle(angleSign * (Math.PI - beta) + gAngle).x(b));
-
-        console.log("phase", phase, "alpha", alpha, "flipped", flipped);
 
         var pt = pC.subtract(pD);
         var po = pt.rotate(Math.PI/2, $V([0, 0]));
