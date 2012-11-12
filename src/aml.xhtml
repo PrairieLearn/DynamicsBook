@@ -51,7 +51,6 @@
           <li>handle = 0 case</li>
           <li>radio buttons for controlling lengths versus excesses</li>
           <li>indicate impossible setting</li>
-          <li>hide sliders and outputs for osc input if unselected</li>
           <li>don't mod angles for show if not doing full
           revolutions. full revs for alpha can only happen for crank/*
           with no osc input. full revs for beta can only happen if
@@ -166,19 +165,19 @@
           </tr>
           <tr>
             <td><button class="option-toggle:aml-fl-c:oscInput">oscillating input</button></td>
-            <td></td>
+            <td><button class="option-toggle:aml-fl-c:showInputRange oscInput">show input range</button></td>
             <td></td>
           </tr>
           <tr>
             <td>Input angle center:</td>
-            <td><input type="range" min="0" max="100" value="0" step="5" class="data-input:aml-fl-c:oscCenter" /></td>
-            <td>\(\alpha_{\rm cent} = \) <span class="data-option:aml-fl-c:oscCenter"></span>%
+            <td><input type="range" min="0" max="100" value="0" step="5" class="data-input:aml-fl-c:oscCenter oscInput" /></td>
+            <td><span class="oscInput">\(\alpha_{\rm cent} = \) <span class="data-option:aml-fl-c:oscCenter"></span>%</span>
             </td>
           </tr>
           <tr class="bottomBorder">
             <td>Input angle range:</td>
-            <td><input type="range" min="0" max="100" value="0" step="5" class="data-input:aml-fl-c:oscMagnitude" /></td>
-            <td>\(\Delta\alpha = \) <span class="data-option:aml-fl-c:oscMagnitude"></span>%
+            <td><input type="range" min="0" max="100" value="0" step="5" class="data-input:aml-fl-c:oscMagnitude oscInput" /></td>
+            <td><span class="oscInput">\(\Delta\alpha = \) <span class="data-option:aml-fl-c:oscMagnitude"></span>%</span>
             </td>
           </tr>
           <tr>

@@ -207,7 +207,7 @@ $(document).ready(function() {
                 c = 0.5;
                 r = 0.5;
             }
-            var phase = t / alphaRange - 1/6;
+            var phase = t / alphaRange - 0.1;
             var w = c + r * Math.sin(phase * Math.PI);
             alpha = this.linearInterp(limits.alphaMin, limits.alphaMax, w);
             alphaLimited = true;
@@ -234,7 +234,7 @@ $(document).ready(function() {
                 var c = oscCenter / 100;
                 var r = 0.5 * oscMagnitude / 100;
                 var alphaRange = r * 4 * Math.PI;
-                var phase = t / alphaRange - 1/6;
+                var phase = t / alphaRange - 0.1;
                 var w = c + r * Math.sin(phase * Math.PI);
                 alpha = w * 2 * Math.PI;
                 alphaLimited = true;
@@ -413,6 +413,14 @@ $(document).ready(function() {
             aml_fl_c.setOption("f", f);
             $("input.lengthInput").css("visibility", "visible");
             $("input.excessInput").css("visibility", "hidden");
+        }
+    });
+
+    aml_fl_c.registerOptionCallback("oscInput", function(value) {
+        if (value) {
+            $(".oscInput").css("visibility", "visible");
+        } else {
+            $(".oscInput").css("visibility", "hidden");
         }
     });
 
