@@ -86,44 +86,92 @@ $(document).ready(function() {
         ];
 
         var keyMap = {
-            "+++": ["crank",    "rocker",       false, false, true,  0,    0, -1, -1], 
-            "0++": ["crank",    "π-rocker",     true,  false, true,  0,    4, -1, -1], 
-            "-++": ["π-rocker", "π-rocker",     true,  true,  false, 0,    2, 2,  3],  
-            "+0+": ["crank",    "0-rocker",     true,  false, true,  0,    4, -1, -1], 
-            "00+": ["crank",    "half crank",   true,  false, true,  0,    4, -1, -1], 
-            "-0+": ["crank",    "crank",        true,  false, true,  0,    4, -1, -1], 
-            "+-+": ["π-rocker", "0-rocker",     true,  true,  false, 0,    2, 4,  5],  
-            "0-+": ["crank",    "crank",        false, false, true,  0,    0, -1, -1], 
-            "--+": ["crank",    "crank",        false, false, true,  0,    0, -1, -1], 
-            "++0": ["crank",    "π-rocker",     true,  false, true,  -1/2, 4, -1, -1], 
-            "0+0": ["crank",    "π-rocker",     true,  false, true,  1/2,  2, -1, -1], 
-            "-+0": ["π-rocker", "π-rocker",     true,  true,  true,  1/2,  4, 2,  3],  
-            "+00": ["crank",    "crank",        true,  false, true,  1/2,  2, -1, -1], 
-            "000": ["crank",    "crank",        true,  false, true,  1/2,  2, -1, -1], 
-            "-00": ["crank",    "crank",        true,  false, true,  1/2,  2, -1, -1], 
-            "+-0": ["π-rocker", "double crank", true,  true,  true,  1/2,  4, 4,  5],  
-            "0-0": ["crank",    "double crank", true,  false, true,  1/2,  2, -1, -1], 
-            "--0": ["crank",    "crank",        true,  false, true,  1/2,  4, -1, -1], 
-            "++-": ["0-rocker", "π-rocker",     true,  true,  false, 0,    2, 1,  0],  
-            "0+-": ["0-rocker", "π-rocker",     true,  true,  true,  1/2,  4, 1,  0],  
-            "-+-": ["rocker",   "rocker",       true,  true,  true,  0,    2, 2,  0],  
-            "+0-": ["0-rocker", "crank",        true,  true,  true,  1/2,  4, 1,  0],  
-            "00-": ["0-rocker", "crank",        true,  true,  true,  1/2,  4, 1,  0],  
-            "-0-": ["0-rocker", "0-rocker",     true,  true,  true,  1/2,  4, 1,  0],  
-            "+--": ["rocker",   "crank",        true,  true,  true,  0,    2, 4,  0],  
-            "0--": ["0-rocker", "double crank", true,  true,  true,  1/2,  4, 1,  0],  
-            "---": ["0-rocker", "0-rocker",     true,  true,  false, 0,    2, 1,  0],  
+            "+++": ["crank",    "rocker",   true,  0, 0, -1, -1], 
+            "0++": ["crank",    "π-rocker", true,  0, 4, -1, -1], 
+            "-++": ["π-rocker", "π-rocker", false, 0, 2, 2,  3],  
+            "+0+": ["crank",    "0-rocker", true,  0, 4, -1, -1], 
+            "00+": ["crank",    "crank",    true,  0, 4, -1, -1], 
+            "-0+": ["crank",    "crank",    true,  0, 4, -1, -1], 
+            "+-+": ["π-rocker", "0-rocker", false, 0, 2, 4,  5],  
+            "0-+": ["crank",    "crank",    true,  0, 4, -1, -1], 
+            "--+": ["crank",    "crank",    true,  0, 0, -1, -1], 
+            "++0": ["crank",    "π-rocker", true,  1, 4, -1, -1], 
+            "0+0": ["crank",    "π-rocker", true,  1, 2, -1, -1], 
+            "-+0": ["π-rocker", "π-rocker", true,  1, 4, 2,  3],  
+            "+00": ["crank",    "crank",    true,  1, 2, -1, -1], 
+            "000": ["crank",    "crank",    true,  1, 2, -1, -1], 
+            "-00": ["crank",    "crank",    true,  1, 2, -1, -1], 
+            "+-0": ["π-rocker", "crank",    true,  1, 4, 4,  5],  
+            "0-0": ["crank",    "crank",    true,  1, 2, -1, -1], 
+            "--0": ["crank",    "crank",    true,  1, 4, -1, -1], 
+            "++-": ["0-rocker", "π-rocker", false, 0, 2, 1,  0],  
+            "0+-": ["0-rocker", "π-rocker", true,  1, 4, 1,  0],  
+            "-+-": ["rocker",   "rocker",   true,  0, 2, 2,  0],  
+            "+0-": ["0-rocker", "crank",    true,  1, 4, 1,  0],  
+            "00-": ["0-rocker", "crank",    true,  1, 4, 1,  0],  
+            "-0-": ["0-rocker", "0-rocker", true,  1, 4, 1,  0],  
+            "+--": ["rocker",   "crank",    true,  0, 2, 4,  0],  
+            "0--": ["0-rocker", "crank",    true,  1, 4, 1,  0],  
+            "---": ["0-rocker", "0-rocker", false, 0, 2, 1,  0],  
+
+
+/*
+            "+++": ["crank",    "rocker",   true,  0, 0, -1, -1], 
+            "0++": ["crank",    "π-rocker", true,  0, 4, -1, -1], 
+            "+0+": ["crank",    "0-rocker", true,  0, 4, -1, -1], 
+            "00+": ["crank",    "crank",    true,  0, 4, -1, -1], 
+            "-0+": ["crank",    "crank",    true,  0, 4, -1, -1], 
+            "0-+": ["crank",    "crank",    true,  0, 4, -1, -1], 
+            "--+": ["crank",    "crank",    true,  0, 0, -1, -1], 
+            "++0": ["crank",    "π-rocker", true,  1, 4, -1, -1], 
+            "0+0": ["crank",    "π-rocker", true,  1, 2, -1, -1], 
+            "+00": ["crank",    "crank",    true,  1, 2, -1, -1], 
+            "000": ["crank",    "crank",    true,  1, 2, -1, -1], 
+            "-00": ["crank",    "crank",    true,  1, 2, -1, -1], 
+            "0-0": ["crank",    "crank",    true,  1, 2, -1, -1], 
+            "--0": ["crank",    "crank",    true,  1, 4, -1, -1], 
+
+            "-+-": ["rocker",   "rocker",   true,  0, 2, 2,  0],  
+            "+--": ["rocker",   "crank",    true,  0, 2, 4,  0],  
+            "++-": ["0-rocker", "π-rocker", false, 0, 2, 1,  0],  
+            "0+-": ["0-rocker", "π-rocker", true,  1, 4, 1,  0],  
+            "+0-": ["0-rocker", "crank",    true,  1, 4, 1,  0],  
+            "00-": ["0-rocker", "crank",    true,  1, 4, 1,  0],  
+            "-0-": ["0-rocker", "0-rocker", true,  1, 4, 1,  0],  
+            "0--": ["0-rocker", "crank",    true,  1, 4, 1,  0],  
+            "---": ["0-rocker", "0-rocker", false, 0, 2, 1,  0],  
+
+            "-++": ["π-rocker", "π-rocker", false, 0, 2, 2,  3],  
+            "+-+": ["π-rocker", "0-rocker", false, 0, 2, 4,  5],  
+            "-+0": ["π-rocker", "π-rocker", true,  1, 4, 2,  3],  
+            "+-0": ["π-rocker", "crank",    true,  1, 4, 4,  5],  
+
+a + g > b + f ==> rocker or zero-rocker
+T3 < 0
+
+a + (b - f) > g
+g + f - b - a < 0 ==> pi-rocker
+T1 < 0
+
+ADC or BCD colinear ==> change point
+
+*/
+
+
+
+
+
         }
         var data = keyMap[linkageKey];
         limits.inputType = data[0];
         limits.outputType = data[1];
-        limits.canFlip = (data[6] > 0);
-        limits.limited = (data[7] > 0);
-        limits.Grashof = data[4];
-        limits.flipPhase = data[5] * Math.PI;
-        limits.flipPeriod = data[6] * Math.PI;
-        limits.alphaMin = (data[7] >= 0 ? limitAngles[data[7]] : 0);
-        limits.alphaMax = (data[8] >= 0 ? limitAngles[data[8]] : 0);
+        limits.canFlip = (data[4] > 0);
+        limits.limited = (data[5] > 0);
+        limits.Grashof = data[2];
+        limits.flipPhase = data[3] * Math.PI / 2;
+        limits.flipPeriod = data[4] * Math.PI;
+        limits.alphaMin = (data[5] >= 0 ? limitAngles[data[5]] : 0);
+        limits.alphaMax = (data[6] >= 0 ? limitAngles[data[6]] : 0);
 
         if (limits.Grashof) {
             limits.GrashofType = "Grashof";
