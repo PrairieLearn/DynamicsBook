@@ -163,15 +163,6 @@ $(document).ready(function() {
         this.addOption("showPivots", true);
         this.addOption("showInputRange", false);
 
-        this.addOption("inputType", "none");
-        this.addOption("outputType", "none");
-
-        this.addOption("GrashofIndex", 0);
-        this.addOption("Grashof", false);
-        this.addOption("GrashofType", "none");
-        this.addOption("GrashofRelation", "none");
-        this.addOption("GrashofInfo", "none");
-
         this.addOption("zoom", 100);
         var zoom = this.getOption("zoom");
         
@@ -189,6 +180,14 @@ $(document).ready(function() {
         var gAngle = this.degToRad(this.getOption("gAngleDeg"));
 
         var limits = limitsFourBar(g, f, a, b);
+
+        this.addOption("inputType", limits.inputType);
+        this.addOption("outputType", limits.outputType);
+        this.addOption("GrashofIndex", limits.GrashofIndex);
+        this.addOption("Grashof", limits.Grashof);
+        this.addOption("GrashofType", limits.GrashofType);
+        this.addOption("GrashofRelation", limits.GrashofRelation);
+        this.addOption("GrashofInfo", limits.GrashofInfo);
 
         var oscInput = this.getOption("oscInput");
         var oscCenter = this.getOption("oscCenter");
@@ -396,10 +395,10 @@ $(document).ready(function() {
             var T1 = Math.min(Math.max(aml_fl_c.getOption("T1"), -40), 40);
             var T2 = Math.min(Math.max(aml_fl_c.getOption("T2"), -40), 40);
             var T3 = Math.min(Math.max(aml_fl_c.getOption("T3"), -40), 40);
-            $('input[class~="data-input:aml-fl-c:L"]').val(L);
-            $('input[class~="data-input:aml-fl-c:T1"]').val(T1);
-            $('input[class~="data-input:aml-fl-c:T2"]').val(T2);
-            $('input[class~="data-input:aml-fl-c:T3"]').val(T3);
+            aml_fl_c.setOption("L", L);
+            aml_fl_c.setOption("T1", T1);
+            aml_fl_c.setOption("T2", T2);
+            aml_fl_c.setOption("T3", T3);
             $("input.lengthInput").css("visibility", "hidden");
             $("input.excessInput").css("visibility", "visible");
         } else {
@@ -408,10 +407,10 @@ $(document).ready(function() {
             var b = Math.min(Math.max(aml_fl_c.getOption("b"), 5), 40);
             var g = Math.min(Math.max(aml_fl_c.getOption("g"), 5), 40);
             var f = Math.min(Math.max(aml_fl_c.getOption("f"), 5), 40);
-            $('input[class~="data-input:aml-fl-c:a"]').val(a);
-            $('input[class~="data-input:aml-fl-c:b"]').val(b);
-            $('input[class~="data-input:aml-fl-c:g"]').val(g);
-            $('input[class~="data-input:aml-fl-c:f"]').val(f);
+            aml_fl_c.setOption("a", a);
+            aml_fl_c.setOption("b", b);
+            aml_fl_c.setOption("g", g);
+            aml_fl_c.setOption("f", f);
             $("input.lengthInput").css("visibility", "visible");
             $("input.excessInput").css("visibility", "hidden");
         }

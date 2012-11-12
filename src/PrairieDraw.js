@@ -424,15 +424,16 @@ PrairieDraw.prototype.addOption = function(name, value, triggerRedraw) {
     @param {string} name The option name.
     @param {object} value The new value for the option.
     @param {bool} redraw (Optional) Whether to trigger a redraw().
+    @param {Object} trigger (Optional) The object that triggered the change.
 */
-PrairieDraw.prototype.setOption = function(name, value, redraw) {
+PrairieDraw.prototype.setOption = function(name, value, redraw, trigger) {
     if (!(name in this._options)) {
         throw new Error("PrairieDraw: unknown option: " + name);
     }
     var option = this._options[name];
     option.value = value;
     for (var p in option.callbacks) {
-        option.callbacks[p](option.value);
+        option.callbacks[p](option.value, trigger);
     }
     if ((redraw === undefined) || (redraw === true)) {
         this.redraw();

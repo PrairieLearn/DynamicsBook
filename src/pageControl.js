@@ -211,9 +211,18 @@ $(document).ready(function() {
     // Data input binding
     var bindDataInput = function(jInput, canvasId, optionName) {
         var pd = getPD(canvasId);
-        pd.setOption(optionName, parseFloat(jInput.val()));
+        // disabling the following line
+        // these should get set from the default values in the JS
+        // this isn't very well tested, so it might need some more work
+        //pd.setOption(optionName, parseFloat(jInput.val()));
         jInput.change(function() {
-            pd.setOption(optionName, parseFloat($(this).val()));
+            pd.setOption(optionName, parseFloat($(this).val()), undefined, jInput);
+        });
+        pd.registerOptionCallback(optionName, function(value, trigger) {
+            if (trigger !== jInput) {
+                // someone else caused this change, so reflect it
+                jInput.val(value);
+            }
         });
     }
     $("input[class]").each(function() {
