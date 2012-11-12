@@ -1482,7 +1482,8 @@ PrairieDraw.prototype.text = function(posDw, anchor, text, boxed) {
             var img = this._texts[hash];
             var xPx =  - (anchor.e(1) + 1) / 2 * img.width;
             var yPx = (anchor.e(2) - 1) / 2 * img.height;
-            var offsetPx = anchor.toUnitVector().x(Math.abs(anchor.max()) * this._props.textOffsetPx);
+            //var offsetPx = anchor.toUnitVector().x(Math.abs(anchor.max()) * this._props.textOffsetPx);
+            var offsetPx = anchor.x(this._props.textOffsetPx);
             var textBorderPx = 5;
             this._ctx.save();
             this._ctx.translate(posPx.e(1), posPx.e(2));

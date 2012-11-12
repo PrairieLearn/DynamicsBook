@@ -45,6 +45,14 @@ $(document).ready(function() {
     var limitsFourBar = function(g, f, a, b) {
         var limits = {};
         limits.L = g + f + a + b;
+        limits.ValidityIndex = limits.L - 2 * Math.max(g, f, a, b);
+        limits.valid = ((limits.ValidityIndex > 0) && (Math.min(g, f, a, b) > 0));
+        if (limits.ValidityIndex > 0) {
+            limits.ValidityRelation = "> 0";
+        } else {
+            limits.ValidityRelation = "≤ 0";
+        }
+
         limits.GrashofIndex = limits.L - 2 * (Math.max(g, f, a, b) + Math.min(g, f, a, b));
         limits.Grashof = (limits.GrashofIndex >= 0);
         if (limits.Grashof) {
@@ -183,11 +191,18 @@ $(document).ready(function() {
 
         this.addOption("inputType", limits.inputType);
         this.addOption("outputType", limits.outputType);
+        this.addOption("ValidityIndex", limits.ValidityIndex);
+        this.addOption("ValidityRelation", limits.ValidityRelation);
         this.addOption("GrashofIndex", limits.GrashofIndex);
         this.addOption("Grashof", limits.Grashof);
         this.addOption("GrashofType", limits.GrashofType);
         this.addOption("GrashofRelation", limits.GrashofRelation);
         this.addOption("GrashofInfo", limits.GrashofInfo);
+
+        if (!limits.valid) {
+            this.text($V([0, 0]), $V([0, 0]), "TEX:invalid geometry");
+            return;
+        }
 
         var oscInput = this.getOption("oscInput");
         var oscCenter = this.getOption("oscCenter");
@@ -431,6 +446,8 @@ $(document).ready(function() {
         var limits = limitsFourBar(g, f, a, b);
         pd.setOption("inputType", limits.inputType, false);
         pd.setOption("outputType", limits.outputType, false);
+        pd.setOption("ValidityIndex", limits.ValidityIndex, false);
+        pd.setOption("ValidityRelation", limits.ValidityRelation, false);
         pd.setOption("GrashofIndex", limits.GrashofIndex, false);
         pd.setOption("Grashof", limits.Grashof, false);
         pd.setOption("GrashofType", limits.GrashofType, false);
