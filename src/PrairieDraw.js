@@ -154,6 +154,16 @@ PrairieDraw.prototype.radToDeg = function(radians) {
     return radians * 180 / Math.PI;
 };
 
+/** Fixed modulus function (handles negatives correctly).
+
+    @param {number} value The number to convert.
+    @param {number} modulus The modulus.
+    @return {number} value mod modulus.
+*/
+PrairieDraw.prototype.fixedMod = function(value, modulus) {
+    return ((value % modulus) + modulus) % modulus;
+};
+
 /*****************************************************************************/
 
 /** Return an identity transformation matrix.

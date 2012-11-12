@@ -337,18 +337,12 @@ $(document).ready(function() {
             this.labelLine(pB, pA, $V([0, 1]), "TEX:$g$");
 
             var alphaR = Math.min(10, Math.min(g, a) * 0.7);
-            var alphaShow = angleSign * (alpha % (2 * Math.PI));
+            var alphaShow = angleSign * this.fixedMod(alpha, 2 * Math.PI);
             this.circleArrow(pA, alphaR, gAngle, alphaShow + gAngle, undefined, true);
             this.labelCircleLine(pA, alphaR, gAngle, alphaShow + gAngle, $V([0, 1]), "TEX:$\\alpha$");
 
             var betaR = Math.min(10, Math.min(g, b) * 0.7);
-            var betaShow = (3 * Math.PI - beta) % (2 * Math.PI);
-            if (limits.outputType === "0-rocker") {
-                if (betaShow > Math.PI) {
-                    betaShow -= 2 * Math.PI;
-                }
-            }
-            betaShow *= angleSign;
+            var betaShow = angleSign * this.fixedMod(Math.PI - beta, 2 * Math.PI);
             this.circleArrow(pB, betaR, gAngle, betaShow + gAngle, undefined, true);
             this.labelCircleLine(pB, betaR, gAngle, betaShow + gAngle, $V([0, 1]), "TEX:$\\beta$");
         }
