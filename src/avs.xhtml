@@ -20,6 +20,7 @@
             </script>
             <script src="PrairieDraw.js" type="text/javascript">
             </script>
+            <script src="avs.js" type="text/javascript"></script>
             <script src="pageControl.js" type="text/javascript">
             </script>
   </head>
@@ -27,32 +28,83 @@
     <div class="contentBlock">
       <div id="avs" class="section level2 contentCol">
         <h1>Steering and sliding</h1>
+        <p>
+          We are all familiar with the idea that turning the steering
+          wheel in a car rotates the front wheels, causing the car to
+          steer into a turn. But why do we steer with the front wheels
+          rather than the rear wheels (or all four wheels)? Do both
+          front wheels turn the same amount, or is something more
+          complicated going on?
+        </p>
+        <div class="figureContainer" id="avs-ff">
+          <img class="figureImage" alt="Michael Schumacher winning the 2000 Melbourne Grand Prix in a Ferrari F1-2000"
+               src="avs_1402567956_small.jpg" />
+          <p class="figureCaption">
+            <a
+            href="http://en.wikipedia.org/wiki/Michael_Schumacher">Michael
+            Schumacher</a> being cheered by his <a
+            href="http://en.wikipedia.org/wiki/Pit_stop">pit crew</a>
+            as he wins the <a
+            href="http://en.wikipedia.org/wiki/2000_Australian_Grand_Prix">2000
+            Australian Grand Prix</a> at the <a
+            href="http://en.wikipedia.org/wiki/Melbourne_Grand_Prix_Circuit">Melbourne
+            Grand Prix Circuit</a> in a <a
+            href="http://en.wikipedia.org/wiki/Ferrari_F1-2000">Ferrari
+            F1-2000</a>. The F1-2000 was powered by a V10 engine which
+            displaced 3L and developed 574 kW (770 hp). Image source:
+            <a
+            href="http://www.flickr.com/photos/schumigirl1956/1402567956/">flikr
+            image </a> by <a
+            href="http://www.flickr.com/photos/schumigirl1956/">Gail
+            Gray</a> <a
+            href="http://creativecommons.org/licenses/by/2.0/">(CC BY
+            2.0)</a> (<a href="avs_1402567956.jpg">full-sized
+            image</a>).
+          </p>
+        </div>
       </div>
       <div class="infoCol">
         <div class="infoBox requirementsBox">
-          <ul>
-            <li><a href="rvt.xhtml">Tangential/normal coordinates</a></li>
-            <li><a href="rkv.xhtml">Position, velocity, and acceleration</a></li>
-          </ul>
         </div>
-        <div class="infoBox factBox">
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="avs-sg" class="section level3 contentCol">
+        <h2>Steering geometry</h2>
+        <p>
+          <canvas id="avs-fr-c" width="600" height="600">
+          </canvas>
+        </p>
+        <p>
+          <button class="anim-toggle:avs-fr-c">animation</button>
+          <button class="option-toggle:avs-fr-c:radii">components</button>
+        </p>
+      </div>
+      <div class="infoCol">
+        <div id="avs-ir" class="infoBox factBox">
           Rear wheel steering. Why do forklifts do it? Why not cars?
         </div>
-        <div class="infoBox factBox">
-          9 Grand Prix wins with <a
+        <div id="avs-if" class="infoBox factBox">
+          <a
           href="http://en.wikipedia.org/wiki/Michael_Schumacher">Michael
-          Schumacher</a> in <a
-          href="http://en.wikipedia.org/wiki/2000_Formula_One_season">2000</a>,
-          leading to winning of both the <a
+          Schumacher's </a> victory driving a <a
+          href="http://en.wikipedia.org/wiki/Scuderia_Ferrari">Ferrari</a>
+          <a
+          href="http://en.wikipedia.org/wiki/Ferrari_F1-2000">F1-2000</a>
+          on the <a
+          href="http://en.wikipedia.org/wiki/Melbourne_Grand_Prix_Circuit">Melbourne
+          Circuit</a> in <a
+          href="http://en.wikipedia.org/wiki/2000_Australian_Grand_Prix">2000</a>
+          was the first of 9 Grand Prix wins <a
+          href="http://en.wikipedia.org/wiki/2000_Formula_One_season">that
+          year</a>, leading to winning of both the <a
           href="http://en.wikipedia.org/wiki/List_of_Formula_One_World_Drivers%27_Champions">Drivers'
           Championship</a> and the <a
           href="http://en.wikipedia.org/wiki/List_of_Formula_One_World_Constructors%27_Champions">Constructors'
-          Championship</a> in that year, and starting the long
-          dominant run of Schumacher and Ferrari in the subsequent
-          decade.  Engine is a 3L, V10 which developed 574 kW (770
-          hp).
+          Championship</a>, and starting the long dominant run of
+          Schumacher and Ferrari in the subsequent decade.
         </div>
-        <div class="infoBox factBox">
+        <div id="avs-it" class="infoBox factBox">
           <p>
             Three wheeled vehicles with two wheels in back and one in
             front (a <em>delta</em> or <em>tricycle</em>

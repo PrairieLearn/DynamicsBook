@@ -187,6 +187,10 @@ $(document).ready(function() {
             }
         });
     }
+    var bindResetButton = function(jButton, canvasId) {
+        var pd = getPD(canvasId);
+        jButton.click(function() {pd.reset();});
+    }
     $("button[class]").each(function() {
         var classList = $(this).attr("class").split(/\s+/);
         var d;
@@ -199,6 +203,8 @@ $(document).ready(function() {
             if (d !== null) bindSeqToggleButton($(this), d[1], d[2]);
             d = /^seq-step:([^:]+):([^:]+):([^:]+)$/.exec(classList[i]);
             if (d !== null) bindSeqStepButton($(this), d[1], d[2], d[3]);
+            d = /^reset:([^:]+)$/.exec(classList[i]);
+            if (d !== null) bindResetButton($(this), d[1]);
         }
     });
 
@@ -219,7 +225,7 @@ $(document).ready(function() {
         }
     });
 
-    // Data output binding
+    // Data option binding
     var bindDataOption = function(jSpan, canvasId, optionName) {
         var pd = getPD(canvasId);
         pd.registerOptionCallback(optionName, function(value) {

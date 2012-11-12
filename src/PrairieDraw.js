@@ -34,6 +34,8 @@ function PrairieDraw(canvas, drawFcn) {
 
         /** @private */ this._history = {};
 
+        /** @private */ this._images = {};
+
         if (drawFcn) {
             this.draw = drawFcn.bind(this);
         }
@@ -70,6 +72,7 @@ PrairieDraw.prototype.redraw = function() {
 PrairieDraw.prototype._initProps = function() {
 
     this._props.arrowLineWidthPx = 2;
+    this._props.arrowLinePattern = 'solid';
     this._props.arrowheadLengthRatio = 7; // arrowheadLength / arrowLineWidth
     this._props.arrowheadWidthRatio = 0.3; // arrowheadWidth / arrowheadLength
     this._props.arrowheadOffsetRatio = 0.3; // arrowheadOffset / arrowheadLength
@@ -80,6 +83,7 @@ PrairieDraw.prototype._initProps = function() {
     this._props.pointRadiusPx = 2;
 
     this._props.shapeStrokeWidthPx = 2;
+    this._props.shapeStrokePattern = 'solid';
     this._props.shapeOutlineColor = "rgb(0, 0, 0)";
     this._props.shapeInsideColor = "rgb(255, 255, 255)";
 
@@ -88,6 +92,7 @@ PrairieDraw.prototype._initProps = function() {
     this._props.centerOfMassRadiusPx = 5;
 
     this._props.measurementStrokeWidthPx = 1;
+    this._props.measurementStrokePattern = 'solid';
     this._props.measurementEndLengthPx = 10;
     this._props.measurementOffsetPx = 3;
     this._props.measurementColor = "rgb(0, 0, 0)";
@@ -131,12 +136,125 @@ PrairieDraw.prototype.heightPx = function() {
 
 /*****************************************************************************/
 
+/** Convert degrees to radians.
+
+    @param {number} degrees The angle in degrees.
+    @return {number} The angle in radians.
+*/
+PrairieDraw.prototype.degToRad = function(degrees) {
+    return degrees * Math.PI / 180;
+};
+
+/** Convert radians to degrees.
+
+    @param {number} radians The angle in radians.
+    @return {number} The angle in degrees.
+*/
+PrairieDraw.prototype.radToDeg = function(radians) {
+    return radians * 180 / Math.PI;
+};
+
+/*****************************************************************************/
+
+/** Return an identity transformation matrix.
+
+    @return {Matrix} An identity transformation.
+*/
+PrairieDraw.prototype.identityTransform = function() {
+    return Matrix.I(3);
+};
+
+/** Scale a transformation matrix.
+
+    @param {Matrix} transform The original transformation.
+    @param {Vector} factor Scale factors.
+    @return {Matrix} The new transformation.
+*/
+PrairieDraw.prototype.scaleTransform = function(transform, factor) {
+    return transform.x($M([[factor.e(1), 0, 0], [0, factor.e(2), 0], [0, 0, 1]]));
+}
+
+/** Translate a transformation matrix.
+
+    @param {Matrix} transform The original transformation.
+    @param {Vector} offset Translation offset (drawing coords).
+    @return {Matrix} The new transformation.
+*/
+PrairieDraw.prototype.translateTransform = function(transform, offset) {
+    return transform.x($M([[1, 0, offset.e(1)], [0, 1, offset.e(2)], [0, 0, 1]]));
+}
+
+/** Rotate a transformation matrix.
+
+    @param {Matrix} transform The original transformation.
+    @param {number} angle Angle to rotate by (radians).
+    @return {Matrix} The new transformation.
+*/
+PrairieDraw.prototype.rotateTransform = function(transform, angle) {
+    return transform.x(Matrix.RotationZ(angle));
+}
+
+/** Transform a transformation matrix (scale, translate, rotate) to
+    match old points to new. Drawing at the old locations will result
+    in points at the new locations.
+
+    @param {Matrix} transform The original transformation.
+    @param {Vector} old1 The old location of point 1.
+    @param {Vector} old2 The old location of point 2.
+    @param {Vector} new1 The new location of point 1.
+    @param {Vector} new2 The new location of point 2.
+    @return {Matrix} The new transformation.
+*/
+PrairieDraw.prototype.transformByPointsTransform = function(transform, old1, old2, new1, new2) {
+    var oldMid = old1.add(old2).x(0.5);
+    var newMid = new1.add(new2).x(0.5);
+    var oldDelta = old2.subtract(old1);
+    var newDelta = new2.subtract(new1);
+
+    var offset = newMid.subtract(oldMid);
+    var factor = newDelta.modulus() / oldDelta.modulus();
+    var angle = this.angleFrom(oldDelta, newDelta);
+
+    var newTransform = transform;
+    newTransform = this.translateTransform(newTransform, newMid);
+    newTransform = this.rotateTransform(newTransform, angle);
+    newTransform = this.scaleTransform(newTransform, $V([factor, factor]));
+    newTransform = this.translateTransform(newTransform, oldMid.x(-1));
+    return newTransform;
+}
+
+/*****************************************************************************/
+
+/** Transform a vector by a transformation matrix.
+
+    @param {Matrix} transform The transformation matrix.
+    @param {Vector} vec The vector.
+    @return {Vector} The transformed vector.
+*/
+PrairieDraw.prototype.transformVec = function(transform, vec) {
+    var v3 = transform.x($V([vec.e(1), vec.e(2), 0]))
+    return $V([v3.e(1), v3.e(2)]);
+}
+
+/** Transform a position by a transformation matrix.
+
+    @param {Matrix} transform The transformation matrix.
+    @param {Vector} pos The position.
+    @return {Vector} The transformed position.
+*/
+PrairieDraw.prototype.transformPos = function(transform, pos) {
+    var p3 = transform.x($V([pos.e(1), pos.e(2), 1]))
+    return $V([p3.e(1), p3.e(2)]);
+}
+
+/*****************************************************************************/
+
 /** Scale the coordinate system.
 
     @param {Vector} factor Scale factors.
 */
 PrairieDraw.prototype.scale = function(factor) {
-    this._trans = this._trans.x($M([[factor.e(1), 0, 0], [0, factor.e(2), 0], [0, 0, 1]]));
+    this._trans = this.scaleTransform(this._trans, factor);
 }
 
 /** Translate the coordinate system.
@@ -144,7 +262,7 @@ PrairieDraw.prototype.scale = function(factor) {
     @param {Vector} offset Translation offset (drawing coords).
 */
 PrairieDraw.prototype.translate = function(offset) {
-    this._trans = this._trans.x($M([[1, 0, offset.e(1)], [0, 1, offset.e(2)], [0, 0, 1]]));
+    this._trans = this.translateTransform(this._trans, offset);
 }
 
 /** Rotate the coordinate system.
@@ -152,8 +270,23 @@ PrairieDraw.prototype.translate = function(offset) {
     @param {number} angle Angle to rotate by (radians).
 */
 PrairieDraw.prototype.rotate = function(angle) {
-    this._trans = this._trans.x(Matrix.RotationZ(angle));
+    this._trans = this.rotateTransform(this._trans, angle);
 }
+
+/** Transform the coordinate system (scale, translate, rotate) to
+    match old points to new. Drawing at the old locations will result
+    in points at the new locations.
+
+    @param {Vector} old1 The old location of point 1.
+    @param {Vector} old2 The old location of point 2.
+    @param {Vector} new1 The new location of point 1.
+    @param {Vector} new2 The new location of point 2.
+*/
+PrairieDraw.prototype.transformByPoints = function(old1, old2, new1, new2) {
+    this._trans = this.transformByPointsTransform(this._trans, old1, old2, new1, new2);
+}
+
+/*****************************************************************************/
 
 /** Transform a vector from drawing to pixel coords.
 
@@ -161,8 +294,7 @@ PrairieDraw.prototype.rotate = function(angle) {
     @return {Vector} Vector in pixel coords.
 */
 PrairieDraw.prototype.vec2Px = function(vDw) {
-    var vPx3 = this._trans.x($V([vDw.e(1), vDw.e(2), 0]))
-    return $V([vPx3.e(1), vPx3.e(2)]);
+    return this.transformVec(this._trans, vDw);
 }
 
 /** Transform a position from drawing to pixel coords.
@@ -171,8 +303,7 @@ PrairieDraw.prototype.vec2Px = function(vDw) {
     @return {Vector} Position in pixel coords.
 */
 PrairieDraw.prototype.pos2Px = function(pDw) {
-    var pPx3 = this._trans.x($V([pDw.e(1), pDw.e(2), 1]))
-    return $V([pPx3.e(1), pPx3.e(2)]);
+    return this.transformPos(this._trans, pDw);
 }
 
 /** Transform a vector from pixel to drawing coords.
@@ -181,8 +312,7 @@ PrairieDraw.prototype.pos2Px = function(pDw) {
     @return {Vector} Vector in drawing coords.
 */
 PrairieDraw.prototype.vec2Dw = function(vPx) {
-    var vDw3 = this._trans.inverse().x($V([vPx.e(1), vPx.e(2), 0]))
-    return $V([vDw3.e(1), vDw3.e(2)]);
+    return this.transformVec(this._trans.inverse(), vPx);
 }
 
 /** Transform a position from pixel to drawing coords.
@@ -191,8 +321,7 @@ PrairieDraw.prototype.vec2Dw = function(vPx) {
     @return {Vector} Position in drawing coords.
 */
 PrairieDraw.prototype.pos2Dw = function(pPx) {
-    var pDw3 = this._trans.inverse().x($V([pPx.e(1), pPx.e(2), 1]))
-    return $V([pDw3.e(1), pDw3.e(2)]);
+    return this.transformPos(this._trans.inverse(), pPx);
 }
 
 /** @private Returns true if the current transformation is a reflection.
@@ -277,11 +406,13 @@ PrairieDraw.prototype._getColorProp = function(type) {
     @param {string} name The option name.
     @param {object} value The default initial value.
 */
-PrairieDraw.prototype.addOption = function(name, value) {
+PrairieDraw.prototype.addOption = function(name, value, triggerRedraw) {
     if (!(name in this._options)) {
         this._options[name] = {
             value: value,
-            callbacks: []
+            resetValue: value,
+            callbacks: {},
+            triggerRedraw: ((triggerRedraw === undefined) ? true : triggerRedraw)
         };
     } else if (!("value" in this._options[name])) {
         this._options[name].value = value;
@@ -292,16 +423,19 @@ PrairieDraw.prototype.addOption = function(name, value) {
 
     @param {string} name The option name.
     @param {object} value The new value for the option.
+    @param {bool} redraw (Optional) Whether to trigger a redraw().
 */
-PrairieDraw.prototype.setOption = function(name, value) {
+PrairieDraw.prototype.setOption = function(name, value, redraw) {
     if (!(name in this._options)) {
         throw new Error("PrairieDraw: unknown option: " + name);
     }
     var option = this._options[name];
     option.value = value;
-    this.redraw();
-    for (var i = 0; i < option.callbacks.length; i++) {
-        option.callbacks[i](option.value);
+    for (var p in option.callbacks) {
+        option.callbacks[p](option.value);
+    }
+    if ((redraw === undefined) || (redraw === true)) {
+        this.redraw();
     }
 }
 
@@ -333,25 +467,38 @@ PrairieDraw.prototype.toggleOption = function(name) {
     }
     var option = this._options[name];
     option.value = !option.value;
-    this.redraw();
-    for (var i = 0; i < option.callbacks.length; i++) {
-        console.log("option callback", name, i);
-        option.callbacks[i](option.value);
+    for (var p in option.callbacks) {
+        option.callbacks[p](option.value);
     }
+    this.redraw();
 }
 
 /** Register a callback on option changes.
 
     @param {string} name The option to register on.
     @param {Function} callback The callback(value) function.
+    @param {string} callbackID (Optional) The ID of the callback. If omitted, a new unique ID will be generated.
 */
-PrairieDraw.prototype.registerOptionCallback = function(name, callback) {
+PrairieDraw.prototype.registerOptionCallback = function(name, callback, callbackID) {
     if (!(name in this._options)) {
         throw new Error("PrairieDraw: unknown option: " + name);
     }
     var option = this._options[name];
-    option.callbacks.push(callback);
-    callback(option.value);
+    var useID;
+    if (callbackID === undefined) {
+        var nextIDNumber = 0, curIDNumber;
+        for (var p in option.callbacks) {
+            curIDNumber = parseInt(p);
+            if (isFinite(curIDNumber)) {
+                nextIDNumber = Math.max(nextIDNumber, curIDNumber + 1);
+            }
+        }
+        useID = nextIDNumber.toString();
+    } else {
+        useID = callbackID;
+    }
+    option.callbacks[useID] = callback.bind(this);
+    option.callbacks[useID](option.value);
 }
 
 /** Clear the value for the given option.
@@ -362,10 +509,27 @@ PrairieDraw.prototype.clearOptionValue = function(name) {
     if (!(name in this._options)) {
         throw new Error("PrairieDraw: unknown option: " + name);
     }
-    if (!("value" in this._options[name])) {
-        throw new Error("PrairieDraw: option has no value: " + name);
+    if ("value" in this._options[name]) {
+        delete this._options[name].value;
     }
-    delete this._options[name].value;
+};
+
+/** Reset the value for the given option.
+
+    @param {string} name The option to reset.
+*/
+PrairieDraw.prototype.resetOptionValue = function(name) {
+    if (!(name in this._options)) {
+        throw new Error("PrairieDraw: unknown option: " + name);
+    }
+    var option = this._options[name];
+    if (!("resetValue" in option)) {
+        throw new Error("PrairieDraw: option has no resetValue: " + name);
+    }
+    option.value = option.resetValue;
+    for (var p in option.callbacks) {
+        option.callbacks[p](option.value);
+    }
 };
 
 /*****************************************************************************/
@@ -415,7 +579,7 @@ PrairieDraw.prototype.resetDrawing = function() {
 */
 PrairieDraw.prototype.reset = function() {
     for (optionName in this._options) {
-        this.clearOptionValue(optionName)
+        this.resetOptionValue(optionName)
     }
     this.redraw();
 }
@@ -474,6 +638,15 @@ PrairieDraw.prototype.setUnits = function(xSize, ySize, canvasWidth, preserveCan
 
 /*****************************************************************************/
 
+/** Compute the sup-norm of a vector.
+
+    @param {Vector} The vector to find the norm of.
+    @return {number} The sup-norm.
+*/
+PrairieDraw.prototype.supNorm = function(vector) {
+    return Math.abs(vector.max());
+};
+
 /** Create a 2D unit vector pointing at a given angle.
 
     @param {number} angle The counterclockwise angle from the positive x axis (radians).
@@ -489,8 +662,22 @@ PrairieDraw.prototype.vector2DAtAngle = function(angle) {
     @return {number} The counterclockwise angle of vec from the x axis.
 */
 PrairieDraw.prototype.angleOf = function(vec) {
-    return Math.atan2(vec.e(2), vec.e(1));
+    var a = Math.atan2(vec.e(2), vec.e(1));
+    if (a < 0) {
+        a = a + 2 * Math.PI;
+    }
+    return a;
 }
+
+/** Find the counterclockwise angle from the vector vFrom to the vector vTo.
+
+    @param {Vector} vFrom The starting vector.
+    @param {Vector} vTo The ending vector.
+    @return {number} The counterclockwise angle from vFrom to vTo.
+*/
+PrairieDraw.prototype.angleFrom = function(vFrom, vTo) {
+    return this.angleOf(vTo) - this.angleOf(vFrom);
+};
 
 /** Return the sign of the argument.
 
@@ -572,6 +759,23 @@ PrairieDraw.prototype._setLineStyles = function(type) {
     this._ctx.fillStyle = col;
 }
 
+/** Return the dash array for the given line pattern.
+
+    @param {string} type The type of the dash pattern ('solid', 'dashed', 'dotted').
+    @return {Array} The numerical array of dash segment lengths.
+*/
+PrairieDraw.prototype._dashPattern = function(type) {
+    if (type === 'solid') {
+        return [];
+    } else if (type === 'dashed') {
+        return [6, 6];
+    } else if (type === 'dotted') {
+        return [2, 2];
+    } else {
+        throw new Error("PrairieDraw: unknown dash pattern: " + type);
+    }
+};
+
 /** Draw a single line given start and end positions.
 
     @param {Vector} startDw Initial point of the line (drawing coords).
@@ -584,6 +788,7 @@ PrairieDraw.prototype.line = function(startDw, endDw, type) {
     this._ctx.save();
     this._setLineStyles(type);
     this._ctx.lineWidth = this._props.shapeStrokeWidthPx;
+    this._ctx.setLineDash(this._dashPattern(this._props.shapeStrokePattern));
     this._ctx.beginPath();
     this._ctx.moveTo(startPx.e(1), startPx.e(2));
     this._ctx.lineTo(endPx.e(1), endPx.e(2));
@@ -646,6 +851,7 @@ PrairieDraw.prototype.arrow = function(startDw, endDw, type) {
     var lineEndPx = this.pos2Px(lineEndDw);
     this.save();
     this._ctx.lineWidth = this._props.arrowLineWidthPx;
+    this._ctx.setLineDash(this._dashPattern(this._props.arrowLinePattern));
     this._setLineStyles(type);
     this._ctx.beginPath();
     this._ctx.moveTo(startPx.e(1), startPx.e(2));
@@ -687,12 +893,13 @@ PrairieDraw.prototype.arrowTo = function(endDw, offsetDw, type) {
     @param {number} radDw The radius at the mid-angle.
     @param {number} centerAngleDw The center angle (counterclockwise from x axis, in radians).
     @param {number} extentAngleDw The extent of the arrow (counterclockwise, in radians).
-    @param {string} type Optional type of the arrow.
+    @param {string} type (Optional) The type of the arrow.
+    @param {bool} fixedRad (Optional) Whether to use a fixed radius (default: false).
 */
-PrairieDraw.prototype.circleArrowCentered = function(posDw, radDw, centerAngleDw, extentAngleDw, type) {
+PrairieDraw.prototype.circleArrowCentered = function(posDw, radDw, centerAngleDw, extentAngleDw, type, fixedRad) {
     var startAngleDw = centerAngleDw - extentAngleDw / 2;
     var endAngleDw = centerAngleDw + extentAngleDw / 2;
-    this.circleArrow(posDw, radDw, startAngleDw, endAngleDw, type)
+    this.circleArrow(posDw, radDw, startAngleDw, endAngleDw, type, fixedRad)
 }
 
 /** Draw a circle arrow.
@@ -701,11 +908,13 @@ PrairieDraw.prototype.circleArrowCentered = function(posDw, radDw, centerAngleDw
     @param {number} radDw The radius at the mid-angle.
     @param {number} startAngleDw The starting angle (counterclockwise from x axis, in radians).
     @param {number} endAngleDw The ending angle (counterclockwise from x axis, in radians).
-    @param {string} type Optional type of the arrow.
+    @param {string} type (Optional) The type of the arrow.
+    @param {bool} fixedRad (Optional) Whether to use a fixed radius (default: false).
 */
-PrairieDraw.prototype.circleArrow = function(posDw, radDw, startAngleDw, endAngleDw, type) {
+PrairieDraw.prototype.circleArrow = function(posDw, radDw, startAngleDw, endAngleDw, type, fixedRad) {
     this.save();
     this._ctx.lineWidth = this._props.arrowLineWidthPx;
+    this._ctx.setLineDash(this._dashPattern(this._props.arrowLinePattern));
     this._setLineStyles(type);
 
     // convert to Px coordinates
@@ -720,8 +929,8 @@ PrairieDraw.prototype.circleArrow = function(posDw, radDw, startAngleDw, endAngl
     var endAnglePx = startAnglePx + deltaAnglePx;
 
     // compute arrowhead properties
-    var startRadiusPx = this._circleArrowRadius(radiusPx, startAnglePx, startAnglePx, endAnglePx);
-    var endRadiusPx = this._circleArrowRadius(radiusPx, endAnglePx, startAnglePx, endAnglePx);
+    var startRadiusPx = this._circleArrowRadius(radiusPx, startAnglePx, startAnglePx, endAnglePx, fixedRad);
+    var endRadiusPx = this._circleArrowRadius(radiusPx, endAnglePx, startAnglePx, endAnglePx, fixedRad);
     var arrowLengthPx = radiusPx * Math.abs(endAnglePx - startAnglePx);
     var arrowheadMaxLengthPx = this._props.arrowheadLengthRatio * this._props.arrowLineWidthPx;
     var arrowheadLengthPx = Math.min(arrowheadMaxLengthPx, arrowLengthPx / 2);
@@ -742,14 +951,14 @@ PrairieDraw.prototype.circleArrow = function(posDw, radDw, startAngleDw, endAngl
     this._ctx.moveTo(offsetPx.e(1), offsetPx.e(2));
     for (i = 1; i <= numSegments; i++) {
         anglePx = this.linearInterp(startAnglePx, preEndAnglePx, i / numSegments);
-        rPx = this._circleArrowRadius(radiusPx, anglePx, startAnglePx, endAnglePx);
+        rPx = this._circleArrowRadius(radiusPx, anglePx, startAnglePx, endAnglePx, fixedRad);
         offsetPx = this.vector2DAtAngle(anglePx).x(rPx);
         this._ctx.lineTo(offsetPx.e(1), offsetPx.e(2));
     }
     this._ctx.stroke();
     this._ctx.restore();
 
-    var arrowBaseRadiusPx = this._circleArrowRadius(radiusPx, arrowBaseAnglePx, startAnglePx, endAnglePx);
+    var arrowBaseRadiusPx = this._circleArrowRadius(radiusPx, arrowBaseAnglePx, startAnglePx, endAnglePx, fixedRad);
     var arrowPosPx = posPx.add(this.vector2DAtAngle(endAnglePx).x(endRadiusPx));
     var arrowBasePosPx = posPx.add(this.vector2DAtAngle(arrowBaseAnglePx).x(arrowBaseRadiusPx));
     var arrowDirPx = arrowPosPx.subtract(arrowBasePosPx)
@@ -767,8 +976,12 @@ PrairieDraw.prototype.circleArrow = function(posDw, radDw, startAngleDw, endAngl
     @param {number} startAnglePx The starting angle (counterclockwise from x axis, in radians).
     @param {number} endAnglePx The ending angle (counterclockwise from x axis, in radians).
     @return {number} The radius at the given angle (pixel coords).
+    @param {bool} fixedRad (Optional) Whether to use a fixed radius (default: false).
 */
-PrairieDraw.prototype._circleArrowRadius = function(midRadPx, anglePx, startAnglePx, endAnglePx) {
+PrairieDraw.prototype._circleArrowRadius = function(midRadPx, anglePx, startAnglePx, endAnglePx, fixedRad) {
+    if (fixedRad !== undefined && fixedRad === true) {
+        return midRadPx;
+    }
     if (Math.abs(endAnglePx - startAnglePx) < 1e-4) {
         return midRadPx;
     }
@@ -801,6 +1014,7 @@ PrairieDraw.prototype.arc = function(centerDw, radiusDw, startAngle, endAngle) {
     var radiusPx = offsetPx.modulus();
     this._ctx.save();
     this._ctx.lineWidth = this._props.shapeStrokeWidthPx;
+    this._ctx.setLineDash(this._dashPattern(this._props.shapeStrokePattern));
     this._ctx.strokeStyle = this._props.shapeOutlineColor;
     this._ctx.beginPath();
     this._ctx.arc(centerPx.e(1), centerPx.e(2), radiusPx, startAngle, endAngle);
@@ -813,14 +1027,16 @@ PrairieDraw.prototype.arc = function(centerDw, radiusDw, startAngle, endAngle) {
 /** Draw a polyLine (closed or open).
 
     @param {Array} pointsDw A list of drawing coordinates that form the polyLine.
-    @param {bool} closed Whether the shape should be closed and filled.
+    @param {bool} closed (Optional) Whether the shape should be closed (default: false).
+    @param {bool} filled (Optional) Whether the shape should be filled (default: true).
 */
-PrairieDraw.prototype.polyLine = function(pointsDw, closed) {
-    if (pointsDw.length < 1) {
+PrairieDraw.prototype.polyLine = function(pointsDw, closed, filled) {
+    if (pointsDw.length < 2) {
         return;
     }
     this._ctx.save();
     this._ctx.lineWidth = this._props.shapeStrokeWidthPx;
+    this._ctx.setLineDash(this._dashPattern(this._props.shapeStrokePattern));
     this._ctx.strokeStyle = this._props.shapeOutlineColor;
     this._ctx.fillStyle = this._props.shapeInsideColor;
 
@@ -833,9 +1049,11 @@ PrairieDraw.prototype.polyLine = function(pointsDw, closed) {
         pPx = this.pos2Px(pDw);
         this._ctx.lineTo(pPx.e(1), pPx.e(2));
     }
-    if (closed) {
+    if (closed !== undefined && closed === true) {
         this._ctx.closePath();
-        this._ctx.fill();
+        if (filled === undefined || filled === true) {
+            this._ctx.fill();
+        }
     }
     this._ctx.stroke();
     this._ctx.restore();
@@ -934,6 +1152,7 @@ PrairieDraw.prototype.circle = function(centerDw, radiusDw) {
 
     this._ctx.save();
     this._ctx.lineWidth = this._props.shapeStrokeWidthPx;
+    this._ctx.setLineDash(this._dashPattern(this._props.shapeStrokePattern));
     this._ctx.strokeStyle = this._props.shapeOutlineColor;
     this._ctx.fillStyle = this._props.shapeInsideColor;
     this._ctx.beginPath();
@@ -956,6 +1175,7 @@ PrairieDraw.prototype.filledCircle = function(centerDw, radiusDw) {
 
     this._ctx.save();
     this._ctx.lineWidth = this._props.shapeStrokeWidthPx;
+    this._ctx.setLineDash(this._dashPattern(this._props.shapeStrokePattern));
     this._ctx.fillStyle = this._props.shapeOutlineColor;
     this._ctx.beginPath();
     this._ctx.arc(centerPx.e(1),centerPx.e(2), radiusPx, 0, 2 * Math.PI);
@@ -995,6 +1215,7 @@ PrairieDraw.prototype.rod = function(startDw, endDw, widthDw) {
         this._ctx.fill();
     }
     this._ctx.lineWidth = this._props.shapeStrokeWidthPx;
+    this._ctx.setLineDash(this._dashPattern(this._props.shapeStrokePattern));
     this._ctx.strokeStyle = this._props.shapeOutlineColor;
     this._ctx.stroke();
     this._ctx.restore();
@@ -1026,6 +1247,7 @@ PrairieDraw.prototype.pivot = function(baseDw, hingeDw, widthDw) {
     this._ctx.lineTo(0, -rPx);
     this._ctx.closePath();
     this._ctx.lineWidth = this._props.shapeStrokeWidthPx;
+    this._ctx.setLineDash(this._dashPattern(this._props.shapeStrokePattern));
     this._ctx.strokeStyle = this._props.shapeOutlineColor;
     this._ctx.fillStyle = this._props.shapeInsideColor;
     this._ctx.fill();
@@ -1049,6 +1271,7 @@ PrairieDraw.prototype.square = function(baseDw, centerDw) {
     this._ctx.beginPath();
     this._ctx.rect(0, -rPx, 2 * rPx, 2 * rPx);
     this._ctx.lineWidth = this._props.shapeStrokeWidthPx;
+    this._ctx.setLineDash(this._dashPattern(this._props.shapeStrokePattern));
     this._ctx.strokeStyle = this._props.shapeOutlineColor;
     this._ctx.fillStyle = this._props.shapeInsideColor;
     this._ctx.fill();
@@ -1084,13 +1307,14 @@ PrairieDraw.prototype.ground = function(posDw, normDw, lengthDw) {
     var normPx = this.vec2Px(normDw);
     var tangentPx = this.vec2Px(tangentDw);
     var lengthPx = tangentPx.modulus();
+    var groundDepthPx = Math.min(lengthPx, this._props.groundDepthPx);
 
     this._ctx.save();
     this._ctx.translate(posPx.e(1), posPx.e(2));
     this._ctx.rotate(this.angleOf(normPx) - Math.PI/2);
     this._ctx.beginPath();
-    this._ctx.rect(-lengthPx / 2, -this._props.groundDepthPx,
-                   lengthPx, this._props.groundDepthPx);
+    this._ctx.rect(-lengthPx / 2, -groundDepthPx,
+                   lengthPx, groundDepthPx);
     this._ctx.fillStyle = this._props.groundInsideColor;
     this._ctx.fill();
 
@@ -1098,6 +1322,7 @@ PrairieDraw.prototype.ground = function(posDw, normDw, lengthDw) {
     this._ctx.moveTo(- lengthPx / 2, 0);
     this._ctx.lineTo(lengthPx / 2, 0);
     this._ctx.lineWidth = this._props.shapeStrokeWidthPx;
+    this._ctx.setLineDash(this._dashPattern(this._props.shapeStrokePattern));
     this._ctx.strokeStyle = this._props.groundOutlineColor;
     this._ctx.stroke();
     this._ctx.restore();
@@ -1124,6 +1349,7 @@ PrairieDraw.prototype.groundHashed = function(posDw, normDw, lengthDw, offsetDw)
     this._ctx.translate(posPx.e(1), posPx.e(2));
     this._ctx.rotate(this.angleOf(normPx) + Math.PI/2);
     this._ctx.lineWidth = this._props.shapeStrokeWidthPx;
+    this._ctx.setLineDash(this._dashPattern(this._props.shapeStrokePattern));
     this._ctx.strokeStyle = this._props.groundOutlineColor;
 
     this._ctx.beginPath();
@@ -1196,6 +1422,7 @@ PrairieDraw.prototype.measurement = function(startDw, endDw, text) {
     var o = this._props.measurementOffsetPx;
     this._ctx.save();
     this._ctx.lineWidth = this._props.measurementStrokeWidthPx;
+    this._ctx.setLineDash(this._dashPattern(this._props.measurementStrokePattern));
     this._ctx.strokeStyle = this._props.measurementColor;
     this._ctx.translate(startPx.e(1), startPx.e(2));
     this._ctx.rotate(this.angleOf(offsetPx));
@@ -1232,8 +1459,9 @@ PrairieDraw.prototype.measurement = function(startDw, endDw, text) {
     @param {Vector} posDw The position to draw at.
     @param {Vector} anchor The anchor on the text that will be located at pos (in -1 to 1 local coordinates).
     @param {string} text The text to draw. If text begins with "TEX:" then it is interpreted as LaTeX.
+    @param {bool} boxed (Optional) Whether to draw a white box behind the text (default: false).
 */
-PrairieDraw.prototype.text = function(posDw, anchor, text) {
+PrairieDraw.prototype.text = function(posDw, anchor, text, boxed) {
     var posPx = this.pos2Px(posDw);
     if (text.slice(0,4) == "TEX:") {
         var tex_text = text.slice(4);
@@ -1244,8 +1472,18 @@ PrairieDraw.prototype.text = function(posDw, anchor, text) {
             var xPx =  - (anchor.e(1) + 1) / 2 * img.width;
             var yPx = (anchor.e(2) - 1) / 2 * img.height;
             var offsetPx = anchor.toUnitVector().x(Math.abs(anchor.max()) * this._props.textOffsetPx);
+            var textBorderPx = 5;
             this._ctx.save();
             this._ctx.translate(posPx.e(1), posPx.e(2));
+            if (boxed !== undefined && boxed === true) {
+                this._ctx.save();
+                this._ctx.fillStyle = "white";
+                this._ctx.fillRect(xPx - offsetPx.e(1) - textBorderPx,
+                                   yPx + offsetPx.e(2) - textBorderPx,
+                                   img.width + 2 * textBorderPx,
+                                   img.height + 2 * textBorderPx);
+                this._ctx.restore();
+            }
             this._ctx.drawImage(img, xPx - offsetPx.e(1), yPx + offsetPx.e(2));
             this._ctx.restore();
         } else {
@@ -1303,8 +1541,9 @@ PrairieDraw.prototype.labelLine = function(startDw, endDw, pos, text) {
     @param {number} endAngleDw The ending angle (counterclockwise from x axis, in radians).
     @param {Vector} pos The position relative to the line (-1 to 1 local coordinates, x along the line, y orthogonal).
     @param {string} text The text to draw.
+    @param {bool} fixedRad (Optional) Whether to use a fixed radius (default: false).
 */
-PrairieDraw.prototype.labelCircleLine = function(posDw, radDw, startAngleDw, endAngleDw, pos, text) {
+PrairieDraw.prototype.labelCircleLine = function(posDw, radDw, startAngleDw, endAngleDw, pos, text, fixedRad) {
     // convert to Px coordinates
     var startOffsetDw = this.vector2DAtAngle(startAngleDw).x(radDw);
     var posPx = this.pos2Px(posDw);
@@ -1324,10 +1563,72 @@ PrairieDraw.prototype.labelCircleLine = function(posDw, radDw, startAngleDw, end
     var aDw = oDw.x(-1).toUnitVector();
     var a = aDw.x(1.0 / Math.abs(aDw.max())).x(Math.abs(pos.max()));
 
-    var rPx = this._circleArrowRadius(radiusPx, textAnglePx, startAnglePx, endAnglePx);
+    var rPx = this._circleArrowRadius(radiusPx, textAnglePx, startAnglePx, endAnglePx, fixedRad);
     var pPx = u1Px.x(rPx).add(posPx);
     var pDw = this.pos2Dw(pPx);
     this.text(pDw, a, text);
+};
+
+/** Find the anchor for the intersection of two lines.
+
+    @param {Vector} labelPoint The point to be labeled.
+    @param {Array} points The end of the lines that meet at labelPoint.
+    @return {Vector} The anchor offset.
+*/
+PrairieDraw.prototype.findAnchorForIntersection = function(labelPoint, points) {
+    // find the angles on the unit circle for each of the lines
+    var i, v;
+    var angles = [];
+    for (i = 0; i < points.length; i++) {
+        v = points[i].subtract(labelPoint);
+        if (v.modulus() > 1e-6) {
+            angles.push(this.angleOf(v));
+        }
+    }
+    if (angles.length == 0) {
+        return $V([1, 0]);
+    }
+    // save the first angle to tie-break later
+    var tieBreakAngle = angles[0];
+
+    // find the biggest gap between angles (might be multiple)
+    angles.sort(function(a, b) {return (a - b);});
+    var maxAngleDiff = angles[0] - angles[angles.length - 1] + 2 * Math.PI;
+    var maxIs = [0];
+    var angleDiff;
+    for (i = 1; i < angles.length; i++) {
+        angleDiff = angles[i] - angles[i - 1];
+        if (angleDiff > maxAngleDiff - 1e-6) {
+            if (angleDiff > maxAngleDiff + 1e-6) {
+                // we are clearly greater
+                maxAngleDiff = angleDiff;
+                maxIs = [i];
+            } else {
+                // we are basically equal
+                maxIs.push(i);
+            }
+        }
+    }
+
+    // tie-break by choosing the first angle CCW from the tieBreakAngle
+    var minCCWDiff = 2 * Math.PI;
+    var angle, bestAngle;
+    for (i = 0; i < maxIs.length; i++) {
+        angle = angles[maxIs[i]] - maxAngleDiff / 2;
+        angleDiff = angle - tieBreakAngle;
+        if (angleDiff < 0) {
+            angleDiff += 2 * Math.PI;
+        }
+        if (angleDiff < minCCWDiff) {
+            minCCWDiff = angleDiff;
+            bestAngle = angle;
+        }
+    }
+
+    // find anchor from bestAngle
+    var dir = this.vector2DAtAngle(bestAngle);
+    dir = dir.x(1 / this.supNorm(dir));
+    return dir.x(-1);
 };
 
 /*****************************************************************************/
@@ -1357,6 +1658,16 @@ PrairieDraw.prototype.numDiff = function(f, t) {
 
 /*****************************************************************************/
 
+PrairieDraw.prototype.clearHistory = function(name) {
+    if (name in this._history) {
+        delete this._history[name];
+    }
+}
+
+PrairieDraw.prototype.clearAllHistory = function() {
+    this._history = {};
+}
+
 /** Save the history of a data value.
 
     @param {string} name The history variable name.
@@ -1364,29 +1675,29 @@ PrairieDraw.prototype.numDiff = function(f, t) {
     @param {number} maxTime The maximum age of history to save.
     @param {number} curTime The current time.
     @param {object} curValue The current data value.
-    @return {Array} A history array of vectors of the form $V([time, value]).
+    @return {Array} A history array of vectors of the form [time, value].
 */
 PrairieDraw.prototype.history = function(name, dt, maxTime, curTime, curValue) {
     if (!(name in this._history)) {
-        this._history[name] = [$V([curTime, curValue])];
+        this._history[name] = [[curTime, curValue]];
     } else {
         var h = this._history[name];
         if (h.length < 2) {
-            h.push($V([curTime, curValue]));
+            h.push([curTime, curValue]);
         } else {
-            var prevPrevTime = h[h.length - 2].e(1);
+            var prevPrevTime = h[h.length - 2][0];
             if (curTime - prevPrevTime < dt) {
                 // new time jump will still be short, replace the last record
-                h[h.length - 1] = $V([curTime, curValue]);
+                h[h.length - 1] = [curTime, curValue];
             } else {
                 // new time jump would be too long, just add the new record
-                h.push($V([curTime, curValue]));
+                h.push([curTime, curValue]);
             }
         }
 
         // discard old values as necessary
         var i = 0;
-        while ((curTime - h[i].e(1) > maxTime) && (i < h.length - 1)) {
+        while ((curTime - h[i][0] > maxTime) && (i < h.length - 1)) {
             i++;
         }
         if (i > 0) {
@@ -1396,20 +1707,36 @@ PrairieDraw.prototype.history = function(name, dt, maxTime, curTime, curValue) {
     return this._history[name];
 };
 
+PrairieDraw.prototype.pairsToVectors = function(pairArray) {
+    var vectorArray = [];
+    for (var i = 0; i < pairArray.length; i++) {
+        vectorArray.push($V(pairArray[i]));
+    }
+    return vectorArray;
+}
+
+PrairieDraw.prototype.historyToTrace = function(data) {
+    var trace = [];
+    for (var i = 0; i < data.length; i++) {
+        trace.push(data[i][1]);
+    }
+    return trace;
+}
+
 /** Plot a history sequence.
 
     @param {Vector} originDw The lower-left position of the axes.
     @param {Vector} sizeDw The size of the axes (vector from lower-left to upper-right).
     @param {Vector} sizeData The size of the axes in data coordinates.
     @param {string} yLabel The vertical axis label.
-    @param {Array} data An array of $V([time, value]) vectors to plot.
+    @param {Array} data An array of [time, value] vectors to plot.
     @param {string} type Optional type of line being drawn.
 */
 PrairieDraw.prototype.plotHistory = function(originDw, sizeDw, sizeData, timeOffset, yLabel, data, type) {
     var scale = $V([sizeDw.e(1) / sizeData.e(1), sizeDw.e(2) / sizeData.e(2)]);
     var lastTime = data[data.length - 1].e(1);
     var offset = $V([timeOffset - lastTime, 0]);
-    var plotData = this.scalePoints(this.translatePoints(data, offset), scale);
+    var plotData = this.scalePoints(this.translatePoints(this.pairsToVectors(data), offset), scale);
 
     this.save();
     this.translate(originDw);
@@ -1551,20 +1878,25 @@ PrairieDrawAnim.prototype.redraw = function() {
 }
 
 /** Reset the animation time to zero.
+
+    @param {bool} redraw (Optional) Whether to redraw (default: true).
 */
-PrairieDrawAnim.prototype.resetTime = function() {
+PrairieDrawAnim.prototype.resetTime = function(redraw) {
     this._drawTime = 0;
     this._startFrame = true;
-    this.redraw();
+    if (redraw === undefined || redraw === true) {
+        this.redraw();
+    }
 }
 
 /** Reset everything to the intial state.
 */
 PrairieDrawAnim.prototype.reset = function() {
     for (optionName in this._options) {
-        this.clearOptionValue(optionName)
+        this.resetOptionValue(optionName)
     }
     this._sequences = {};
+    this.clearAllHistory();
     this.stopAnim();
     this.resetTime();
 }
@@ -1851,5 +2183,54 @@ PrairieDrawAnim.prototype.activationSequence = function(name, transTime, t) {
     var state = this.newSequence(name, states, transTimes, holdTimes, interps, names, t);
     return state.trans;
 }
+
+/*****************************************************************************/
+
+PrairieDraw.prototype.drawImage = function(imgSrc, posDw, anchor, widthDw) {
+    if (imgSrc in this._images) {
+        // FIXME: should check that the image is really loaded, in case we are fired beforehand (also for text images).
+        var img = this._images[imgSrc];
+        var posPx = this.pos2Px(posDw);
+        var scale;
+        if (widthDw === undefined) {
+            scale = 1;
+        } else {
+            var offsetDw = $V([widthDw, 0]);
+            var offsetPx = this.vec2Px(offsetDw);
+            var widthPx = offsetPx.modulus();
+            scale = widthPx / img.width;
+        }
+        var xPx =  - (anchor.e(1) + 1) / 2 * img.width;
+        var yPx = (anchor.e(2) - 1) / 2 * img.height;
+        this._ctx.save();
+        this._ctx.translate(posPx.e(1), posPx.e(2));
+        this._ctx.scale(scale, scale);
+        this._ctx.translate(xPx, yPx);
+        this._ctx.drawImage(img, 0, 0);
+        this._ctx.restore();
+    } else {
+        var img = new Image();
+        img.onload = this.redraw.bind(this);
+        img.src = imgSrc;
+        this._images[imgSrc] = img;
+    }
+};
+
+/*****************************************************************************/
+
+PrairieDraw.prototype.reportMouseSample = function(event) {
+    var xPx = event.pageX - this._canvas.offsetLeft;
+    var yPx = event.pageY - this._canvas.offsetTop;
+    var posPx = $V([xPx, yPx]);
+    var posDw = this.pos2Dw(posPx);
+    var numDecPlaces = 2;
+    console.log("$V([" + posDw.e(1).toFixed(numDecPlaces)
+                + ", " + posDw.e(2).toFixed(numDecPlaces)
+                + "]),");
+}
+
+PrairieDraw.prototype.activateMouseSampling = function() {
+    this._canvas.addEventListener('click', this.reportMouseSample.bind(this));
+};
 
 /*****************************************************************************/
