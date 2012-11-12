@@ -318,11 +318,11 @@ $(document).ready(function() {
             var anchor;
             if (this.getOption("showPivots")) {
                 this.text(pA, $V([2, 0]), "TEX:$A$");
-                this.text(pB, $V([-2, 0]), "TEX:$B$");
+                this.text(pB, $V([-1.5, -1.5]), "TEX:$B$");
             } else {
                 anchor = this.findAnchorForIntersection(pA, [pD, pB]);
                 this.text(pA, anchor, "TEX:$A$");
-                anchor = this.findAnchorForIntersection(pB, [pA, pC]);
+                anchor = this.findAnchorForIntersection(pB, [pA, pC, pB.add(this.vector2DAtAngle(gAngle))]);
                 this.text(pB, anchor, "TEX:$B$");
             }
             anchor = this.findAnchorForIntersection(pC, [pB, pD, pP]);
@@ -343,6 +343,10 @@ $(document).ready(function() {
 
             var betaR = Math.min(10, Math.min(g, b) * 0.7);
             var betaShow = angleSign * this.fixedMod(Math.PI - beta, 2 * Math.PI);
+            this.save();
+            this.setProp("shapeStrokePattern", "dashed");
+            this.line(pB, pB.add(this.vector2DAtAngle(gAngle).x(betaR * 1.4)));
+            this.restore();
             this.circleArrow(pB, betaR, gAngle, betaShow + gAngle, undefined, true);
             this.labelCircleLine(pB, betaR, gAngle, betaShow + gAngle, $V([0, 1]), "TEX:$\\beta$");
         }
