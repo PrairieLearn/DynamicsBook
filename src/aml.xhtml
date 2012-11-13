@@ -35,7 +35,7 @@
           Uses of linkages:
         </p>
         <ul>
-          <li>Constrain motion (knee joint)</li>
+          <li>Constrain motion (knee joint, suspensions)</li>
           <li>Convert reciprocating motion to rotational motion (bicycle)</li>
           <li>Convert rotational motion to reciprocating motion (pumpjack)</li>
           <li>Magnify force (parrotfish jaw)</li>
@@ -43,21 +43,20 @@
       </div>
     </div>
     <div class="contentBlock">
-      <div id="aml" class="section level3 contentCol">
+      <div id="aml-sl" class="section level3 contentCol">
         <h2>
-          Linkage models
+          Full linkage model
         </h2>
         <ul>
           <li>handle = 0 case</li>
-          <li>radio buttons for controlling lengths versus excesses</li>
         </ul>
-        <table class="alignTop">
+        <table class="alignTop figureLeftControl">
           <tr>
             <td>
               <canvas id="aml-fl-c" width="600" height="300">
               </canvas>
             </td>
-            <td>
+            <td class="controls">
               <button class="anim-toggle:aml-fl-c">animation</button>
               <button class="reset:aml-fl-c">reset</button>
               <table class="alignTop">
@@ -90,14 +89,22 @@
             </td>
           </tr>
         </table>
-        <p>
-          <button class="option-toggle:aml-fl-c:reversed">reverse input angle</button>
-          <button class="option-toggle:aml-fl-c:flipped">flip output-floating triangle</button>
-        </p>
-        <p>
-          <button class="option-toggle:aml-fl-c:controlTs">control excess values</button>
-        </p>
         <table class="options">
+          <col class="label" />
+          <col class="input" />
+          <col class="value" />
+          <tr class="bottomBorder">
+            <td>Orientation:</td>
+            <td colspan="2">
+              <button class="option-toggle:aml-fl-c:reversed">reverse input angle</button>
+              <button class="option-toggle:aml-fl-c:flipped">flip output-floating triangle</button>
+            </td>
+          </tr>
+          <tr>
+            <td><input type="radio" name="aml-fl-c-controlMethod" value="lengths" class="data-input:aml-fl-c:controlMethod" />set link lengths</td>
+            <td></td>
+            <td></td>
+          </tr>
           <tr>
             <td>Ground link length:</td>
             <td><input type="range" min="5" max="40" value="0" step="1" class="data-input:aml-fl-c:g lengthInput" /></td>
@@ -117,6 +124,11 @@
             <td>Floating link length:</td>
             <td><input type="range" min="5" max="40" value="0" step="1" class="data-input:aml-fl-c:f lengthInput" /></td>
             <td>\(f = \) <span class="data-option:aml-fl-c:f"></span> cm</td>
+          </tr>
+          <tr>
+            <td><input type="radio" name="aml-fl-c-controlMethod" value="excesses" class="data-input:aml-fl-c:controlMethod" />set excess values</td>
+            <td></td>
+            <td></td>
           </tr>
           <tr>
             <td>Ground-free excess:</td>
@@ -211,7 +223,7 @@
     <div class="contentBlock">
       <div id="aml-sp" class="section level3 contentCol">
         <h2>
-          Example: Pumpjack
+          Example: Pumpjack (rotary to reciprocal)
         </h2>
         <p>
           In areas where underground oil is not under enough pressure
@@ -253,7 +265,7 @@
     <div class="contentBlock">
       <div id="aml-sb" class="section level3 contentCol">
         <h2>
-          Example: Bicycle pedaling
+          Example: Bicycle pedaling (reciprocal to rotary)
         </h2>
         <p>
           Bicycles are an efficient means of human-powered
@@ -356,7 +368,7 @@
     <div class="contentBlock">
       <div id="aml-sk" class="section level3 contentCol">
         <h2>
-          Example: Knee joint
+          Example: Knee joint (constrained motion)
         </h2>
         <p>
           The human knee joint is a type of biological <a
@@ -449,7 +461,7 @@
     <div class="contentBlock">
       <div id="aml-sw" class="section level3 contentCol">
         <h2>
-          Example: Suspensions with Watt's linkage
+          Example: Suspensions with Watt's linkage (constrained motion)
         </h2>
         <p>Apart from being one of the inventors of the <a
         href="http://en.wikipedia.org/wiki/Watt_steam_engine">steam
@@ -558,7 +570,7 @@
     <div class="contentBlock">
       <div id="aml-sj" class="section level3 contentCol">
         <h2>
-          Example: Parrotfish jaw
+          Example: Parrotfish jaw (force multiplication)
         </h2>
         <p>
           Parrotfish live in shallow tropical waters on coral reefs,
@@ -635,7 +647,7 @@
             href="http://en.wikipedia.org/wiki/Moray_eel">Moray
             eel</a>, shown below, which launches its pharyngeal jaws
             up into the mouth to actively capture prey and drag it
-            back into the throat. This is the basis for the <a
+            back into the throat. This is the basis for <a
             href="http://en.wikipedia.org/wiki/Alien_(Alien_franchise)">the
             Alien</a> from the <a
             href="http://en.wikipedia.org/wiki/Alien_(film_series)">film

@@ -427,8 +427,18 @@ tr.bottomBorder td {
 }
 
 table.options {
+    width: 100%;
     border-spacing: 0;
     border-collapse: collapse;
+    border: 1px solid #000;
+}
+
+table.options col.label {
+    width: 12em;
+}
+
+table.options col.input {
+    width: 200px;
 }
 
 table.options td {
@@ -437,6 +447,22 @@ table.options td {
 
 table.options input[type="range"] {
     width: 200px;
+}
+
+/*****************************************************************************/
+
+table.figureLeftControl {
+    /*border: 1px solid #000;*/
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+table.figureLeftControl td {
+    padding: 0px;
+}
+
+table.figureLeftControl td.controls {
+    padding: 0px 0px 0px 5px;
 }
 
 /*****************************************************************************/

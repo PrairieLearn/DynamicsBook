@@ -209,7 +209,7 @@ $(document).ready(function() {
     });
 
     // Data input binding
-    var bindDataInput = function(jInput, canvasId, optionName) {
+    var bindDataInputRange = function(jInput, canvasId, optionName) {
         var pd = getPD(canvasId);
         // disabling the following line
         // these should get set from the default values in the JS
@@ -224,13 +224,35 @@ $(document).ready(function() {
                 jInput.val(value);
             }
         });
-    }
+    };
+    var bindDataInputRadio = function(jInput, canvasId, optionName) {
+        var pd = getPD(canvasId);
+        jInput.change(function() {
+            pd.setOption(optionName, jInput.val(), undefined, jInput);
+        });
+        pd.registerOptionCallback(optionName, function(value, trigger) {
+            if (trigger === undefined || trigger.prop("name") !== jInput.prop("name")) {
+                // either no radio group or a different radio group caused this change, so reflect it
+                if (jInput.val() === value) {
+                    jInput.prop("checked", true);
+                } else {
+                    jInput.prop("checked", false);
+                }
+            }
+        });
+    };
     $("input[class]").each(function() {
         var classList = $(this).attr("class").split(/\s+/);
         var d;
         for (var i = 0; i < classList.length; i++) {
             d = /^data-input:([^:]+):([^:]+)$/.exec(classList[i]);
-            if (d !== null) bindDataInput($(this), d[1], d[2]);
+            if (d !== null) {
+                if ($(this).attr("type") == "range") {
+                    bindDataInputRange($(this), d[1], d[2]);
+                } else if ($(this).attr("type") == "radio") {
+                    bindDataInputRadio($(this), d[1], d[2]);
+                }
+            }
         }
     });
 

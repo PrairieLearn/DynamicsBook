@@ -87,35 +87,39 @@ $(document).ready(function() {
 
         var keyMap = {
             "+++": ["crank",    "rocker",   true,  0, 0, -1, -1], 
-            "0++": ["crank",    "π-rocker", true,  0, 4, -1, -1], 
+            "0++": ["crank",    "π-rocker", true,  0, 2, -1, -1], 
             "-++": ["π-rocker", "π-rocker", false, 0, 2, 2,  3],  
-            "+0+": ["crank",    "0-rocker", true,  0, 4, -1, -1], 
-            "00+": ["crank",    "crank",    true,  0, 4, -1, -1], 
-            "-0+": ["crank",    "crank",    true,  0, 4, -1, -1], 
+            "+0+": ["crank",    "0-rocker", true,  0, 2, -1, -1], 
+            "00+": ["crank",    "crank",    true,  0, 2, -1, -1], 
+            "-0+": ["crank",    "crank",    true,  0, 2, -1, -1], 
             "+-+": ["π-rocker", "0-rocker", false, 0, 2, 4,  5],  
-            "0-+": ["crank",    "crank",    true,  0, 4, -1, -1], 
+            "0-+": ["crank",    "crank",    true,  0, 2, -1, -1], 
             "--+": ["crank",    "crank",    true,  0, 0, -1, -1], 
-            "++0": ["crank",    "π-rocker", true,  1, 4, -1, -1], 
-            "0+0": ["crank",    "π-rocker", true,  1, 2, -1, -1], 
-            "-+0": ["π-rocker", "π-rocker", true,  1, 4, 2,  3],  
-            "+00": ["crank",    "crank",    true,  1, 2, -1, -1], 
-            "000": ["crank",    "crank",    true,  1, 2, -1, -1], 
-            "-00": ["crank",    "crank",    true,  1, 2, -1, -1], 
-            "+-0": ["π-rocker", "crank",    true,  1, 4, 4,  5],  
-            "0-0": ["crank",    "crank",    true,  1, 2, -1, -1], 
-            "--0": ["crank",    "crank",    true,  1, 4, -1, -1], 
+            "++0": ["crank",    "π-rocker", true,  1, 2, -1, -1], 
+            "0+0": ["crank",    "π-rocker", true,  1, 1, -1, -1], 
+            "-+0": ["π-rocker", "π-rocker", true,  1, 1, 2,  3],  
+            "+00": ["crank",    "crank",    true,  1, 1, -1, -1], 
+            "000": ["crank",    "crank",    true,  1, 1, -1, -1], 
+            "-00": ["crank",    "crank",    true,  1, 1, -1, -1], 
+            "+-0": ["π-rocker", "crank",    true,  1, 1, 4,  5],  
+            "0-0": ["crank",    "crank",    true,  1, 1, -1, -1], 
+            "--0": ["crank",    "crank",    true,  1, 2, -1, -1], 
             "++-": ["0-rocker", "π-rocker", false, 0, 2, 1,  0],  
-            "0+-": ["0-rocker", "π-rocker", true,  1, 4, 1,  0],  
+            "0+-": ["0-rocker", "π-rocker", true,  1, 1, 1,  0],  
             "-+-": ["rocker",   "rocker",   true,  0, 2, 2,  0],  
-            "+0-": ["0-rocker", "crank",    true,  1, 4, 1,  0],  
-            "00-": ["0-rocker", "crank",    true,  1, 4, 1,  0],  
-            "-0-": ["0-rocker", "0-rocker", true,  1, 4, 1,  0],  
+            "+0-": ["0-rocker", "crank",    true,  1, 1, 1,  0],  
+            "00-": ["0-rocker", "crank",    true,  1, 1, 1,  0],  
+            "-0-": ["0-rocker", "0-rocker", true,  1, 1, 1,  0],  
             "+--": ["rocker",   "crank",    true,  0, 2, 4,  0],  
-            "0--": ["0-rocker", "crank",    true,  1, 4, 1,  0],  
+            "0--": ["0-rocker", "crank",    true,  1, 1, 1,  0],  
             "---": ["0-rocker", "0-rocker", false, 0, 2, 1,  0],  
 
 
 /*
+
+flipphase/flipperiod = (0,2) or (1,1) in the limited case
+                     = (0,0) or (0,2) or (1,1) or (1,2) in the unlimited case
+
             "+++": ["crank",    "rocker",   true,  0, 0, -1, -1], 
             "0++": ["crank",    "π-rocker", true,  0, 4, -1, -1], 
             "+0+": ["crank",    "0-rocker", true,  0, 4, -1, -1], 
@@ -166,10 +170,10 @@ ADC or BCD colinear ==> change point
         limits.inputType = data[0];
         limits.outputType = data[1];
         limits.canFlip = (data[4] > 0);
-        limits.limited = (data[5] > 0);
+        limits.limited = (data[5] >= 0);
         limits.Grashof = data[2];
-        limits.flipPhase = data[3] * Math.PI / 2;
-        limits.flipPeriod = data[4] * Math.PI;
+        limits.flipPhase = data[3];
+        limits.flipPeriod = data[4];
         limits.alphaMin = (data[5] >= 0 ? limitAngles[data[5]] : 0);
         limits.alphaMax = (data[6] >= 0 ? limitAngles[data[6]] : 0);
 
@@ -190,7 +194,7 @@ ADC or BCD colinear ==> change point
     *************************************************************/
 
     var aml_fl_c = new PrairieDrawAnim("aml-fl-c", function(t) {
-        this.addOption("controlTs", false);
+        this.addOption("controlMethod", "lengths");
         this.addOption("reversed", false);
         this.addOption("flipped", false);
 
@@ -291,7 +295,7 @@ ADC or BCD colinear ==> change point
                         }
                     }
                 } else {
-                    flipped = (Math.cos(phase / 2 * limits.flipPeriod + limits.flipPhase) < 0);
+                    flipped = (Math.cos((phase / limits.flipPeriod + limits.flipPhase / 4) * 2 * Math.PI) < 0);
                 }
             }
         } else {
@@ -311,8 +315,8 @@ ADC or BCD colinear ==> change point
                 alpha = phase;
                 alphaLimited = false;
                 if (limits.canFlip) {
-                    alpha = this.fixedMod(alpha, limits.flipPeriod);
-                    flipped = (Math.sin(alpha / 2 + limits.flipPhase) < 0);
+                    alpha = this.fixedMod(alpha, limits.flipPeriod * 2 * Math.PI);
+                    flipped = (Math.sin(alpha / 2 + limits.flipPhase / 2 * Math.PI) < 0);
                 }
             }
         }
@@ -456,8 +460,20 @@ ADC or BCD colinear ==> change point
         }
     });
 
-    aml_fl_c.registerOptionCallback("controlTs", function(value) {
-        if (value) {
+    aml_fl_c.registerOptionCallback("controlMethod", function(value) {
+        if (value === "lengths") {
+            // controlling the lenths directly
+            var a = Math.min(Math.max(aml_fl_c.getOption("a"), 5), 40);
+            var b = Math.min(Math.max(aml_fl_c.getOption("b"), 5), 40);
+            var g = Math.min(Math.max(aml_fl_c.getOption("g"), 5), 40);
+            var f = Math.min(Math.max(aml_fl_c.getOption("f"), 5), 40);
+            aml_fl_c.setOption("a", a);
+            aml_fl_c.setOption("b", b);
+            aml_fl_c.setOption("g", g);
+            aml_fl_c.setOption("f", f);
+            $("input.lengthInput").css("visibility", "visible");
+            $("input.excessInput").css("visibility", "hidden");
+        } else if (value === "excesses") {
             // controlling the excess T_i inputs
             var L = Math.min(Math.max(aml_fl_c.getOption("L"), 10), 200);
             var T1 = Math.min(Math.max(aml_fl_c.getOption("T1"), -40), 40);
@@ -470,17 +486,7 @@ ADC or BCD colinear ==> change point
             $("input.lengthInput").css("visibility", "hidden");
             $("input.excessInput").css("visibility", "visible");
         } else {
-            // controlling the lenths directly
-            var a = Math.min(Math.max(aml_fl_c.getOption("a"), 5), 40);
-            var b = Math.min(Math.max(aml_fl_c.getOption("b"), 5), 40);
-            var g = Math.min(Math.max(aml_fl_c.getOption("g"), 5), 40);
-            var f = Math.min(Math.max(aml_fl_c.getOption("f"), 5), 40);
-            aml_fl_c.setOption("a", a);
-            aml_fl_c.setOption("b", b);
-            aml_fl_c.setOption("g", g);
-            aml_fl_c.setOption("f", f);
-            $("input.lengthInput").css("visibility", "visible");
-            $("input.excessInput").css("visibility", "hidden");
+            throw new Error("unknown controlMethod: " + value);
         }
     });
 
@@ -509,7 +515,7 @@ ADC or BCD colinear ==> change point
         pd.setOption("GrashofRelation", limits.GrashofRelation, false);
         pd.setOption("GrashofInfo", limits.GrashofInfo, false);
 
-        if (!pd.getOption("controlTs")) {
+        if (pd.getOption("controlMethod") === "lengths") {
             var L = a + b + g + f;
             var T1 = g + f - b - a;
             var T2 = b + g - f - a;
@@ -527,7 +533,7 @@ ADC or BCD colinear ==> change point
     aml_fl_c.registerOptionCallback("f", function(value) {amlConvertFromLengths(this);});
 
     var amlConvertFromExcesses = function(pd) {
-        if (pd.getOption("controlTs")) {
+        if (pd.getOption("controlMethod") === "excesses") {
             var L = pd.getOption("L");
             var T1 = pd.getOption("T1");
             var T2 = pd.getOption("T2");
