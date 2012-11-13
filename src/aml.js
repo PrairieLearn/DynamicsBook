@@ -96,13 +96,13 @@ $(document).ready(function() {
             "0-+": ["crank",    "crank",    true,  0, 2, -1, -1], 
             "--+": ["crank",    "crank",    true,  0, 0, -1, -1], 
             "++0": ["crank",    "π-rocker", true,  1, 2, -1, -1], 
-            "0+0": ["crank",    "π-rocker", true,  1, 1, -1, -1], 
+            "0+0": ["crank",    "π-rocker", true,  0, 1, -1, -1], 
             "-+0": ["π-rocker", "π-rocker", true,  1, 1, 2,  3],  
-            "+00": ["crank",    "crank",    true,  1, 1, -1, -1], 
-            "000": ["crank",    "crank",    true,  1, 1, -1, -1], 
-            "-00": ["crank",    "crank",    true,  1, 1, -1, -1], 
+            "+00": ["crank",    "crank",    true,  0, 1, -1, -1], 
+            "000": ["crank",    "crank",    true,  0, 1, -1, -1], 
+            "-00": ["crank",    "crank",    true,  0, 1, -1, -1], 
             "+-0": ["π-rocker", "crank",    true,  1, 1, 4,  5],  
-            "0-0": ["crank",    "crank",    true,  1, 1, -1, -1], 
+            "0-0": ["crank",    "crank",    true,  0, 1, -1, -1], 
             "--0": ["crank",    "crank",    true,  1, 2, -1, -1], 
             "++-": ["0-rocker", "π-rocker", false, 0, 2, 1,  0],  
             "0+-": ["0-rocker", "π-rocker", true,  1, 1, 1,  0],  
@@ -118,7 +118,14 @@ $(document).ready(function() {
 /*
 
 flipphase/flipperiod = (0,2) or (1,1) in the limited case
+can flip only at alpha = 0, alpha = pi, or alpha = alpha_min/max
+
                      = (0,0) or (0,2) or (1,1) or (1,2) in the unlimited case
+can flip only at alpha = 0 or pi
+(0,0) => no flip
+(0,2) => flip at zero (double period)
+(1,1) => flip at both 0 and pi
+(1,2) => flip at pi (double period)
 
             "+++": ["crank",    "rocker",   true,  0, 0, -1, -1], 
             "0++": ["crank",    "π-rocker", true,  0, 4, -1, -1], 
@@ -338,13 +345,16 @@ ADC or BCD colinear ==> change point
                 alphaMin = (c - r) * 2 * Math.PI;
                 alphaMax = (c + r) * 2 * Math.PI;
                 alphaCent = c * 2 * Math.PI;
+                if (limits.canFlip) {
+                    // FIXME
+                }
             } else {
-                phase = t + Math.PI/2;
-                alpha = phase;
+                alpha = t + Math.PI/2;
+                phase = alpha / (2 * Math.PI);
                 alphaLimited = false;
                 if (limits.canFlip) {
-                    alpha = this.fixedMod(alpha, limits.flipPeriod * 2 * Math.PI);
-                    flipped = (Math.sin(alpha / 2 + limits.flipPhase / 2 * Math.PI) < 0);
+                    phase = this.fixedMod(phase, 2);
+                    flipped = (Math.sin((phase / limits.flipPeriod + limits.flipPhase / 4) * 2 * Math.PI) < 0);
                 }
             }
         }
