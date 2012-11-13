@@ -300,11 +300,19 @@ ADC or BCD colinear ==> change point
                             if (oscCenter >= 75) {
                                 flipped = (Math.cos((phase / 4 + limits.flipPhase + 1/8) * 2 * Math.PI) < 0);
                             } else if (oscCenter > 50) {
-                                // FIXME
+                                if (Math.cos((phase / 4 + limits.flipPhase + 1/8) * 2 * Math.PI) < 0) {
+                                    flipped = (w > 0.5);
+                                } else {
+                                    flipped = (w < 0.5);
+                                }
                             } else if (oscCenter == 50) {
                                 flipped = (Math.cos((phase / limits.flipPeriod + limits.flipPhase / 4) * 2 * Math.PI) < 0);
                             } else if (oscCenter > 25) {
-                                // FIXME
+                                if (Math.cos((phase / 4 + limits.flipPhase - 1/8) * 2 * Math.PI) < 0) {
+                                    flipped = (w < 0.5);
+                                } else {
+                                    flipped = (w > 0.5);
+                                }
                             } else { // oscCenter <= 25
                                 flipped = (Math.cos((phase / 4 + limits.flipPhase - 1/8) * 2 * Math.PI) < 0);
                             }
@@ -448,24 +456,51 @@ ADC or BCD colinear ==> change point
         if (this.getOption("showInputRange")) {
             var alphaR = Math.min(10, Math.min(g, a)) * 1.5;
             if (alphaLimited) {
-                var alphaMinShow = angleSign * alphaMin;
-                var alphaMaxShow = angleSign * alphaMax;
-                var alphaCentShow = angleSign * alphaCent;
+                var alphaMinShow = gAngle + angleSign * alphaMin;
+                var alphaMaxShow = gAngle + angleSign * alphaMax;
+                var alphaCentShow = gAngle + angleSign * alphaCent;
+                if (limits.limited) {
+                    var limitAlphaMinShow = gAngle + angleSign * limits.alphaMin;
+                    var limitAlphaMaxShow = gAngle + angleSign * limits.alphaMax;
+                }
                 this.save();
                 this.setProp("arrowLinePattern", "dashed");
                 this.setProp("shapeStrokePattern", "dashed");
-                this.line(pA, pA.add(this.vector2DAtAngle(gAngle + alphaMinShow).x(alphaR * 1.2)));
-                this.line(pA, pA.add(this.vector2DAtAngle(gAngle + alphaMaxShow).x(alphaR * 1.2)));
-                this.line(pA, pA.add(this.vector2DAtAngle(gAngle + alphaCentShow).x(alphaR * 1.2)));
-                var anchor = this.vector2DAtAngle(gAngle + alphaCentShow).x(-1);
-                var anchor = anchor.x(1 / this.supNorm(anchor));
-                this.circleArrow(pA, alphaR, gAngle + alphaCentShow, gAngle + alphaMinShow, undefined, true);
-                this.circleArrow(pA, alphaR, gAngle + alphaCentShow, gAngle + alphaMaxShow, undefined, true);
+                var anchorMin = this.vector2DAtAngle(alphaMinShow);
+                var anchorMax = this.vector2DAtAngle(alphaMaxShow);
+                var anchorCent = this.vector2DAtAngle(alphaCentShow);
+                var anchorLimitMin, anchorLimitMax;
+                if (limits.limited) {
+                    anchorLimitMin = this.vector2DAtAngle(limitAlphaMinShow);
+                    anchorLimitMax = this.vector2DAtAngle(limitAlphaMaxShow);
+                }
+                var innerScale = 1.2;
+                var outerScale = 1.4;
+                this.line(pA, pA.add(anchorMin.x(alphaR * innerScale)));
+                this.line(pA, pA.add(anchorMax.x(alphaR * innerScale)));
+                this.line(pA, pA.add(anchorCent.x(alphaR * innerScale)));
+                if (limits.limited) {
+                    this.line(pA, pA.add(anchorLimitMin.x(alphaR * outerScale)));
+                    this.line(pA, pA.add(anchorLimitMax.x(alphaR * outerScale)));
+                }
+                anchorMin = anchorMin.x(-1 / this.supNorm(anchorMin));
+                anchorMax = anchorMax.x(-1 / this.supNorm(anchorMax));
+                anchorCent = anchorCent.x(-1 / this.supNorm(anchorCent));
+                if (limits.limited) {
+                    anchorLimitMin = anchorLimitMin.x(-1 / this.supNorm(anchorLimitMin));
+                    anchorLimitMax = anchorLimitMax.x(-1 / this.supNorm(anchorLimitMax));
+                }
+                this.circleArrow(pA, alphaR, alphaCentShow, alphaMinShow, undefined, true);
+                this.circleArrow(pA, alphaR, alphaCentShow, alphaMaxShow, undefined, true);
                 this.restore();
                 if (this.getOption("showLabels")) {
-                    this.text(pA.add(this.vector2DAtAngle(gAngle + alphaCentShow).x(alphaR * 1.2)), anchor, "TEX:$\\alpha_{\\rm cent}$");
-                    this.labelCircleLine(pA, alphaR, gAngle + alphaCentShow, gAngle + alphaMinShow, $V([0, 1]), "TEX:$\\Delta\\alpha$");
-                    this.labelCircleLine(pA, alphaR, gAngle + alphaCentShow, gAngle + alphaMaxShow, $V([0, 1]), "TEX:$\\Delta\\alpha$");
+                    this.text(pA.add(this.vector2DAtAngle(alphaCentShow).x(alphaR * innerScale)), anchorCent, "TEX:$\\alpha_{\\rm cent}$");
+                    this.labelCircleLine(pA, alphaR, alphaCentShow, alphaMinShow, $V([0, 1]), "TEX:$\\Delta\\alpha$");
+                    this.labelCircleLine(pA, alphaR, alphaCentShow, alphaMaxShow, $V([0, 1]), "TEX:$\\Delta\\alpha$");
+                    if (limits.limited) {
+                        this.text(pA.add(this.vector2DAtAngle(limitAlphaMinShow).x(alphaR * outerScale)), anchorLimitMin, "TEX:$\\alpha_{\\rm min}$");
+                        this.text(pA.add(this.vector2DAtAngle(limitAlphaMaxShow).x(alphaR * outerScale)), anchorLimitMax, "TEX:$\\alpha_{\\rm max}$");
+                    }
                 }
             } else {
                 this.save();

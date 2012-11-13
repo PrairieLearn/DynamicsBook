@@ -68,23 +68,27 @@
                 </tr>
                 <tr>
                   <td>Show:</td>
-                  <td><button class="option-toggle:aml-fl-c:showLabels">labels</button>
-                  <button class="option-toggle:aml-fl-c:showPivots">pivots</button>
-                  <button class="option-toggle:aml-fl-c:showInputRange">input range</button></td>
+                  <td>
+                    <button class="option-toggle:aml-fl-c:showLabels">labels</button>
+                    <button class="option-toggle:aml-fl-c:showPivots">pivots</button>
+                    <button class="option-toggle:aml-fl-c:showInputRange">input range</button>
+                  </td>
                 </tr>
                 <tr>
                 <td>Trace:</td>
-                <td><button class="option-toggle:aml-fl-c:traceC">C</button>
-                <button class="option-toggle:aml-fl-c:traceD">D</button>
-                <button class="option-toggle:aml-fl-c:traceP">P</button></td>
+                <td>
+                  <button class="option-toggle:aml-fl-c:traceC">C</button>
+                  <button class="option-toggle:aml-fl-c:traceD">D</button>
+                <button class="option-toggle:aml-fl-c:traceP">P</button>
+                </td>
                 </tr>
               </table>
               <table>
                 <tr><td>Input \(\alpha\):</td><td><span class="data-option:aml-fl-c:inputType"></span></td></tr>
                 <tr><td>Output \(\beta\):</td><td><span class="data-option:aml-fl-c:outputType"></span></td></tr>
-                <tr><td>Type:</td><td><span class="data-option:aml-fl-c:GrashofType"></span></td></tr>
-                <tr><td></td><td>(\(G\) <span class="data-option:aml-fl-c:GrashofRelation"></span>)</td></tr>
                 <tr><td>Shortest link:</td><td><span class="data-option:aml-fl-c:GrashofInfo"></span></td></tr>
+                <tr><td></td><td>(<span class="data-option:aml-fl-c:GrashofType"></span>)</td></tr>
+                <tr><td></td><td>(\(G\) <span class="data-option:aml-fl-c:GrashofRelation"></span>)</td></tr>
               </table>
             </td>
           </tr>
@@ -172,20 +176,25 @@
           </tr>
           <tr>
             <td><button class="option-toggle:aml-fl-c:oscInput">oscillating input</button></td>
-            <td><button class="option-toggle:aml-fl-c:showInputRange">show input range</button></td>
-            <td></td>
+            <td colspan="2">
+              <button class="option-toggle:aml-fl-c:showInputRange">show input range</button>
+            </td>
           </tr>
           <tr>
             <td>Input angle center:</td>
             <td><input type="range" min="0" max="100" value="0" step="5" class="data-input:aml-fl-c:oscCenter oscInput" /></td>
-            <td><span class="oscInput">\(\alpha_{\rm cent} = \) <span class="data-option:aml-fl-c:oscCenter"></span>%</span>
-            </td>
+            <td><span class="oscInput">
+              \(\alpha_{\rm cent} = \) <span class="data-option:aml-fl-c:oscCenter"></span>%
+              from \(\alpha_{\rm min}\) to \(\alpha_{\rm max}\)
+            </span></td>
           </tr>
           <tr class="bottomBorder">
             <td>Input angle range:</td>
             <td><input type="range" min="0" max="100" value="0" step="5" class="data-input:aml-fl-c:oscMagnitude oscInput" /></td>
-            <td><span class="oscInput">\(\Delta\alpha = \) <span class="data-option:aml-fl-c:oscMagnitude"></span>%</span>
-            </td>
+            <td><span class="oscInput">
+              \(\Delta\alpha = \) <span class="data-option:aml-fl-c:oscMagnitude"></span>%
+              from \(\alpha_{\rm cent}\) to nearest \(\alpha_{\rm min}/\alpha_{\rm max}\)
+            </span></td>
           </tr>
           <tr>
             <td>Grashof index:</td>
