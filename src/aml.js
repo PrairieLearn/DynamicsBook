@@ -285,13 +285,33 @@ ADC or BCD colinear ==> change point
             alphaCent = this.linearInterp(limits.alphaMin, limits.alphaMax, c);
             if (limits.canFlip) {
                 if (oscInput) {
-                    if (oscMagnitude == 100) {
-                        if (oscCenter > 50) {
-                            flipped = (Math.cos((phase + 0.5) * Math.PI / 2) < 0);
-                        } else if (oscCenter == 50) {
-                            flipped = (Math.cos(phase * Math.PI) < 0);
-                        } else { // oscCenter < 50
-                            flipped = (Math.cos((phase - 0.5) * Math.PI / 2) < 0);
+                    if (limits.flipPeriod == 2) {
+                        if (oscMagnitude == 100) {
+                            if (oscCenter > 50) {
+                                flipped = (Math.cos((phase + 0.5) * Math.PI / 2) < 0);
+                            } else if (oscCenter == 50) {
+                                flipped = (Math.cos(phase * Math.PI) < 0);
+                            } else { // oscCenter < 50
+                                flipped = (Math.cos((phase - 0.5) * Math.PI / 2) < 0);
+                            }
+                        }
+                    } else if (limits.flipPeriod == 1) {
+                        if (oscMagnitude == 100) {
+                            if (oscCenter >= 75) {
+                                flipped = (Math.cos((phase / 4 + limits.flipPhase + 1/8) * 2 * Math.PI) < 0);
+                            } else if (oscCenter > 50) {
+                                // FIXME
+                            } else if (oscCenter == 50) {
+                                flipped = (Math.cos((phase / limits.flipPeriod + limits.flipPhase / 4) * 2 * Math.PI) < 0);
+                            } else if (oscCenter > 25) {
+                                // FIXME
+                            } else { // oscCenter <= 25
+                                flipped = (Math.cos((phase / 4 + limits.flipPhase - 1/8) * 2 * Math.PI) < 0);
+                            }
+                        } else { // oscMagnitude < 100
+                            if (c + r > 0.5 && c - r < 0.5) {
+                                flipped = (w > 0.5);
+                            }
                         }
                     }
                 } else {
