@@ -329,7 +329,7 @@ can flip only at alpha = 0 or pi
 
         var pt = pC.subtract(pD);
         var po = pt.rotate(Math.PI/2, $V([0, 0]));
-        var pP = pD.add(pt.x(0.5 + PPosition / 200)).add(po.x(POffset / 200));
+        var pP = pD.add(pt.x(0.5 + PPosition / 200)).add(po.x(POffset / 100));
 
         if (this.getOption("showPivots")) {
             var pivotHeight = 3;

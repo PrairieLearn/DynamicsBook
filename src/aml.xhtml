@@ -40,6 +40,44 @@
           <li>Convert rotational motion to reciprocating motion (pumpjack)</li>
           <li>Magnify force (parrotfish jaw)</li>
         </ul>
+        <p>
+          Degrees of freedom. Count by two vertexes minus length
+          constraints. Also count by three rigid bodies minus joint
+          constraints.
+        </p>
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="aml-sr" class="section level3 contentCol">
+        <h2>
+          Rotating cranks and reciprocating rockers
+        </h2>
+        <p>
+          Change \(b\) to change type: \(b > a\) means input crank, output rocker;
+          \(b = a\) means both cranks;
+          \(b &lt; a\) means input rocker, output crank. Reference excess quantities in full linkage model below.
+        </p>
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="aml-sc" class="section level3 contentCol">
+        <h2>
+          Coupler dynamics
+        </h2>
+        <p>
+          Show a coupler doing something complex, with tracing. Reference full linkage model below.
+        </p>
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="aml-si" class="section level3 contentCol">
+        <h2>
+          Controlling the input angle
+        </h2>
+        <p>
+          Do a lifting parallelogram, with thetaG = 90, a = b = 30, PPos = -100, POff = 50, alphaCent = 25, deltaAlpha = 25.
+          Reference full linkage model below.
+        </p>
       </div>
     </div>
     <div class="contentBlock">
@@ -85,7 +123,6 @@
                 <tr><td>Output \(\beta\):</td><td><span class="data-option:aml-fl-c:outputType"></span></td></tr>
                 <tr><td>Shortest link:</td><td><span class="data-option:aml-fl-c:GrashofInfo"></span></td></tr>
                 <tr><td></td><td>(<span class="data-option:aml-fl-c:GrashofType"></span>)</td></tr>
-                <tr><td></td><td>(\(G\) <span class="data-option:aml-fl-c:GrashofRelation"></span>)</td></tr>
               </table>
             </td>
           </tr>
@@ -160,7 +197,7 @@
           </tr>
           <tr class="bottomBorder">
             <td>Coupler offset:</td>
-            <td><input type="range" min="-400" max="400" value="0" step="10" class="data-input:aml-fl-c:POffset" /></td>
+            <td><input type="range" min="-200" max="200" value="0" step="10" class="data-input:aml-fl-c:POffset" /></td>
             <td>\(P_{\rm off} = \) <span class="data-option:aml-fl-c:POffset"></span>%
             of DC length
             </td>
@@ -353,7 +390,7 @@
           crank). At the pedal and seat, only compression is allowed,
           as there is no way for the rider to pull up on the pedal or
           seat. This doesn't normally matter, as the rider's weight
-          servers to maintain the connection at the seat, while the
+          serves to maintain the connection at the seat, while the
           pedal joint only has force exerted during the down-stroke on
           each side, and the two legs are offset by 180&#176; so one
           is always pushing down. An alternative approach is used on
