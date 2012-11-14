@@ -78,7 +78,7 @@ $(document).ready(function() {
 
         var limitAngles = [
             cosLawAngle(a, g, f + b),
-                -cosLawAngle(a, g, f + b),
+            -cosLawAngle(a, g, f + b),
             cosLawAngle(a, g, f - b),
             2 * Math.PI - cosLawAngle(a, g, f - b),
             cosLawAngle(a, g, b - f),
@@ -127,44 +127,6 @@ can flip only at alpha = 0 or pi
 (1,1) => flip at both 0 and pi
 (1,2) => flip at pi (double period)
 
-            "+++": ["crank",    "rocker",   true,  0, 0, -1, -1], 
-            "0++": ["crank",    "π-rocker", true,  0, 4, -1, -1], 
-            "+0+": ["crank",    "0-rocker", true,  0, 4, -1, -1], 
-            "00+": ["crank",    "crank",    true,  0, 4, -1, -1], 
-            "-0+": ["crank",    "crank",    true,  0, 4, -1, -1], 
-            "0-+": ["crank",    "crank",    true,  0, 4, -1, -1], 
-            "--+": ["crank",    "crank",    true,  0, 0, -1, -1], 
-            "++0": ["crank",    "π-rocker", true,  1, 4, -1, -1], 
-            "0+0": ["crank",    "π-rocker", true,  1, 2, -1, -1], 
-            "+00": ["crank",    "crank",    true,  1, 2, -1, -1], 
-            "000": ["crank",    "crank",    true,  1, 2, -1, -1], 
-            "-00": ["crank",    "crank",    true,  1, 2, -1, -1], 
-            "0-0": ["crank",    "crank",    true,  1, 2, -1, -1], 
-            "--0": ["crank",    "crank",    true,  1, 4, -1, -1], 
-
-            "-+-": ["rocker",   "rocker",   true,  0, 2, 2,  0],  
-            "+--": ["rocker",   "crank",    true,  0, 2, 4,  0],  
-            "++-": ["0-rocker", "π-rocker", false, 0, 2, 1,  0],  
-            "0+-": ["0-rocker", "π-rocker", true,  1, 4, 1,  0],  
-            "+0-": ["0-rocker", "crank",    true,  1, 4, 1,  0],  
-            "00-": ["0-rocker", "crank",    true,  1, 4, 1,  0],  
-            "-0-": ["0-rocker", "0-rocker", true,  1, 4, 1,  0],  
-            "0--": ["0-rocker", "crank",    true,  1, 4, 1,  0],  
-            "---": ["0-rocker", "0-rocker", false, 0, 2, 1,  0],  
-
-            "-++": ["π-rocker", "π-rocker", false, 0, 2, 2,  3],  
-            "+-+": ["π-rocker", "0-rocker", false, 0, 2, 4,  5],  
-            "-+0": ["π-rocker", "π-rocker", true,  1, 4, 2,  3],  
-            "+-0": ["π-rocker", "crank",    true,  1, 4, 4,  5],  
-
-a + g > b + f ==> rocker or zero-rocker
-T3 < 0
-
-a + (b - f) > g
-g + f - b - a < 0 ==> pi-rocker
-T1 < 0
-
-ADC or BCD colinear ==> change point
 
 */
 
@@ -261,7 +223,7 @@ ADC or BCD colinear ==> change point
         this.addOption("GrashofInfo", limits.GrashofInfo);
 
         if (!limits.valid) {
-            this.text($V([0, 0]), $V([0, 0]), "TEX:invalid geometry");
+            this.text($V([0, 0]), $V([0, 0]), "TEX:impossible geometry");
             return;
         }
 
@@ -274,7 +236,6 @@ ADC or BCD colinear ==> change point
         var phase, alpha;
         var flipped = false;
         if (limits.limited) {
-            var alphaRange = limits.alphaMax - limits.alphaMin;
             var r, c;
             if (oscInput) {
                 c = oscCenter / 100;
@@ -283,13 +244,15 @@ ADC or BCD colinear ==> change point
                 c = 0.5;
                 r = 0.5;
             }
-            phase = t / alphaRange - 0.1;
-            var w = c + r * Math.sin(phase * Math.PI);
-            alpha = this.linearInterp(limits.alphaMin, limits.alphaMax, w);
             alphaLimited = true;
             alphaMin = this.linearInterp(limits.alphaMin, limits.alphaMax, c - r);
             alphaMax = this.linearInterp(limits.alphaMin, limits.alphaMax, c + r);
             alphaCent = this.linearInterp(limits.alphaMin, limits.alphaMax, c);
+
+            var alphaRange = alphaMax - alphaMin;
+            phase = (alphaRange > 0) ? (t / alphaRange - 0.1) : 0;
+            var w = c + r * Math.sin(phase * Math.PI);
+            alpha = this.linearInterp(limits.alphaMin, limits.alphaMax, w);
             if (limits.canFlip) {
                 if (oscInput) {
                     if (limits.flipPeriod == 2) {
@@ -338,7 +301,7 @@ ADC or BCD colinear ==> change point
                 var c = oscCenter / 100;
                 var r = 0.5 * oscMagnitude / 100;
                 var alphaRange = r * 4 * Math.PI;
-                var oscPhase = t / alphaRange - 0.1;
+                var oscPhase = (alphaRange > 0) ? (t / alphaRange - 0.1) : 0;
                 var w = c + r * Math.sin(oscPhase * Math.PI);
                 alpha = w * 2 * Math.PI;
                 alphaLimited = true;
@@ -347,7 +310,6 @@ ADC or BCD colinear ==> change point
                 alphaCent = c * 2 * Math.PI;
                 if (limits.canFlip) {
                     phase = alpha / (2 * Math.PI);
-                    phase = this.fixedMod(phase, 2);
                     flipped = (Math.sin((phase / limits.flipPeriod + limits.flipPhase / 4) * 2 * Math.PI) < 0);
                 }
             } else {
@@ -355,7 +317,6 @@ ADC or BCD colinear ==> change point
                 alphaLimited = false;
                 if (limits.canFlip) {
                     phase = alpha / (2 * Math.PI);
-                    phase = this.fixedMod(phase, 2);
                     flipped = (Math.sin((phase / limits.flipPeriod + limits.flipPhase / 4) * 2 * Math.PI) < 0);
                 }
             }
