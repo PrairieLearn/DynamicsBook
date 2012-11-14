@@ -267,24 +267,20 @@ can flip only at alpha = 0 or pi
                         }
                     } else if (limits.flipPeriod == 1) {
                         if (oscMagnitude == 100) {
-                            if (oscCenter >= 75) {
-                                flipped = (Math.cos((phase / 4 + limits.flipPhase + 1/8) * 2 * Math.PI) < 0);
-                            } else if (oscCenter > 50) {
-                                if (Math.cos((phase / 4 + limits.flipPhase + 1/8) * 2 * Math.PI) < 0) {
+                            if (oscCenter > 50) {
+                                if (Math.cos((phase / 4 + 1/8) * 2 * Math.PI) < 0) {
                                     flipped = (w > 0.5);
                                 } else {
                                     flipped = (w < 0.5);
                                 }
                             } else if (oscCenter == 50) {
                                 flipped = (Math.cos((phase / limits.flipPeriod + limits.flipPhase / 4) * 2 * Math.PI) < 0);
-                            } else if (oscCenter > 25) {
-                                if (Math.cos((phase / 4 + limits.flipPhase - 1/8) * 2 * Math.PI) < 0) {
+                            } else { // oscCenter < 50
+                                if (Math.cos((phase / 4 - 1/8) * 2 * Math.PI) < 0) {
                                     flipped = (w < 0.5);
                                 } else {
                                     flipped = (w > 0.5);
                                 }
-                            } else { // oscCenter <= 25
-                                flipped = (Math.cos((phase / 4 + limits.flipPhase - 1/8) * 2 * Math.PI) < 0);
                             }
                         } else { // oscMagnitude < 100
                             if (c + r > 0.5 && c - r < 0.5) {
