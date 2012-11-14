@@ -221,6 +221,7 @@ can flip only at alpha = 0 or pi
         this.addOption("GrashofType", limits.GrashofType);
         this.addOption("GrashofRelation", limits.GrashofRelation);
         this.addOption("GrashofInfo", limits.GrashofInfo);
+        this.addOption("limitedRange", limits.limited);
 
         if (!limits.valid) {
             this.text($V([0, 0]), $V([0, 0]), "TEX:impossible geometry");
@@ -522,6 +523,16 @@ can flip only at alpha = 0 or pi
         }
     });
 
+    aml_fl_c.registerOptionCallback("limitedRange", function(value) {
+        if (value) {
+            $(".limitedDesc").show();
+            $(".unlimitedDesc").hide();
+        } else {
+            $(".limitedDesc").hide();
+            $(".unlimitedDesc").show();
+        }
+    });
+
     var amlConvertFromLengths = function(pd) {
         var a = pd.getOption("a");
         var b = pd.getOption("b");
@@ -538,6 +549,7 @@ can flip only at alpha = 0 or pi
         pd.setOption("GrashofType", limits.GrashofType, false);
         pd.setOption("GrashofRelation", limits.GrashofRelation, false);
         pd.setOption("GrashofInfo", limits.GrashofInfo, false);
+        pd.setOption("limitedRange", limits.limited, false);
 
         if (pd.getOption("controlMethod") === "lengths") {
             var L = a + b + g + f;

@@ -47,9 +47,6 @@
         <h2>
           Full linkage model
         </h2>
-        <ul>
-          <li>fix alphaCent and deltaAlpha descriptions in non-limited case</li>
-        </ul>
         <table class="alignTop figureLeftControl">
           <tr>
             <td>
@@ -185,7 +182,8 @@
             <td><input type="range" min="0" max="100" value="0" step="5" class="data-input:aml-fl-c:oscCenter oscInput" /></td>
             <td><span class="oscInput">
               \(\alpha_{\rm cent} = \) <span class="data-option:aml-fl-c:oscCenter"></span>%
-              from \(\alpha_{\rm min}\) to \(\alpha_{\rm max}\)
+              <span class="limitedDesc">from \(\alpha_{\rm min}\) to \(\alpha_{\rm max}\)</span>
+              <span class="unlimitedDesc">from 0° to 360°</span>
             </span></td>
           </tr>
           <tr class="bottomBorder">
@@ -193,7 +191,8 @@
             <td><input type="range" min="0" max="100" value="0" step="5" class="data-input:aml-fl-c:oscMagnitude oscInput" /></td>
             <td><span class="oscInput">
               \(\Delta\alpha = \) <span class="data-option:aml-fl-c:oscMagnitude"></span>%
-              from \(\alpha_{\rm cent}\) to nearest \(\alpha_{\rm min}/\alpha_{\rm max}\)
+              <span class="limitedDesc">from \(\alpha_{\rm cent}\) to nearest \(\alpha_{\rm min}/\alpha_{\rm max}\)</span>
+              <span class="unlimitedDesc">of 180°</span>
             </span></td>
           </tr>
           <tr>
