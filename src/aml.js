@@ -338,21 +338,23 @@ ADC or BCD colinear ==> change point
                 var c = oscCenter / 100;
                 var r = 0.5 * oscMagnitude / 100;
                 var alphaRange = r * 4 * Math.PI;
-                phase = t / alphaRange - 0.1;
-                var w = c + r * Math.sin(phase * Math.PI);
+                var oscPhase = t / alphaRange - 0.1;
+                var w = c + r * Math.sin(oscPhase * Math.PI);
                 alpha = w * 2 * Math.PI;
                 alphaLimited = true;
                 alphaMin = (c - r) * 2 * Math.PI;
                 alphaMax = (c + r) * 2 * Math.PI;
                 alphaCent = c * 2 * Math.PI;
                 if (limits.canFlip) {
-                    // FIXME
+                    phase = alpha / (2 * Math.PI);
+                    phase = this.fixedMod(phase, 2);
+                    flipped = (Math.sin((phase / limits.flipPeriod + limits.flipPhase / 4) * 2 * Math.PI) < 0);
                 }
             } else {
                 alpha = t + Math.PI/2;
-                phase = alpha / (2 * Math.PI);
                 alphaLimited = false;
                 if (limits.canFlip) {
+                    phase = alpha / (2 * Math.PI);
                     phase = this.fixedMod(phase, 2);
                     flipped = (Math.sin((phase / limits.flipPeriod + limits.flipPhase / 4) * 2 * Math.PI) < 0);
                 }
