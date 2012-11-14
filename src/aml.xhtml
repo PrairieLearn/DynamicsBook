@@ -216,16 +216,55 @@
         </p>
         <table class="smallGrid">
           <tr>
-            <th>\(T_1\)</th><th>\(T_2\)</th><th>\(T_3\)</th><th>Input \(\alpha\)</th><th>Output \(\beta\)</th><th>\(G\)</th><th>Grashof?</th>
+            <th>\(T_1\)</th><th>\(T_2\)</th><th>\(T_3\)</th><th>Input \(\alpha\)</th><th class="midColGroup">Output \(\beta\)</th>
+            <th>\(T_1\)</th><th>\(T_2\)</th><th>\(T_3\)</th><th>Input \(\alpha\)</th><th class="midColGroup">Output \(\beta\)</th>
+            <th>\(T_1\)</th><th>\(T_2\)</th><th>\(T_3\)</th><th>Input \(\alpha\)</th><th>Output \(\beta\)</th>
           </tr>
-          <tr><td>-</td><td>-</td><td>+</td><td>crank</td><td>crank</td><td>+</td><td>Grashof</td></tr>
-          <tr><td>+</td><td>+</td><td>+</td><td>crank</td><td>rocker</td><td>+</td><td>Grashof</td></tr>
-          <tr><td>+</td><td>-</td><td>-</td><td>rocker</td><td>crank</td><td>+</td><td>Grashof</td></tr>
-          <tr><td>-</td><td>+</td><td>-</td><td>rocker</td><td>rocker</td><td>+</td><td>Grashof</td></tr>
-          <tr><td>-</td><td>-</td><td>-</td><td>0-rocker</td><td>0-rocker</td><td>-</td><td>non-Grashof</td></tr>
-          <tr><td>+</td><td>+</td><td>-</td><td>0-rocker</td><td>π-rocker</td><td>-</td><td>non-Grashof</td></tr>
-          <tr><td>+</td><td>-</td><td>+</td><td>π-rocker</td><td>0-rocker</td><td>-</td><td>non-Grashof</td></tr>
-          <tr><td>-</td><td>+</td><td>+</td><td>π-rocker</td><td>π-rocker</td><td>-</td><td>non-Grashof</td></tr>
+          <tr>
+            <td>+</td><td>+</td><td>+</td><td>crank   </td><td class="midColGroup">rocker  </td>
+            <td>+</td><td>+</td><td>0</td><td>crank   </td><td class="midColGroup">π-rocker</td>
+            <td>+</td><td>+</td><td>-</td><td>0-rocker</td><td>π-rocker</td>
+          </tr>
+          <tr>
+            <td>0</td><td>+</td><td>+</td><td>crank   </td><td class="midColGroup">π-rocker</td>
+            <td>0</td><td>+</td><td>0</td><td>crank   </td><td class="midColGroup">π-rocker</td>
+            <td>0</td><td>+</td><td>-</td><td>0-rocker</td><td>π-rocker</td>
+          </tr>
+          <tr>
+            <td>-</td><td>+</td><td>+</td><td>π-rocker</td><td class="midColGroup">π-rocker</td>
+            <td>-</td><td>+</td><td>0</td><td>π-rocker</td><td class="midColGroup">π-rocker</td>
+            <td>-</td><td>+</td><td>-</td><td>rocker  </td><td>rocker  </td>
+          </tr>
+          <tr>
+            <td>+</td><td>0</td><td>+</td><td>crank   </td><td class="midColGroup">0-rocker</td>
+            <td>+</td><td>0</td><td>0</td><td>crank   </td><td class="midColGroup">crank   </td>
+            <td>+</td><td>0</td><td>-</td><td>0-rocker</td><td>crank   </td>
+          </tr>
+          <tr>
+            <td>0</td><td>0</td><td>+</td><td>crank   </td><td class="midColGroup">crank   </td>
+            <td>0</td><td>0</td><td>0</td><td>crank   </td><td class="midColGroup">crank   </td>
+            <td>0</td><td>0</td><td>-</td><td>0-rocker</td><td>crank   </td>
+          </tr>
+          <tr>
+            <td>-</td><td>0</td><td>+</td><td>crank   </td><td class="midColGroup">crank   </td>
+            <td>-</td><td>0</td><td>0</td><td>crank   </td><td class="midColGroup">crank   </td>
+            <td>-</td><td>0</td><td>-</td><td>0-rocker</td><td>0-rocker</td>
+          </tr>
+          <tr>
+            <td>+</td><td>-</td><td>+</td><td>π-rocker</td><td class="midColGroup">0-rocker</td>
+            <td>+</td><td>-</td><td>0</td><td>π-rocker</td><td class="midColGroup">crank   </td>
+            <td>+</td><td>-</td><td>-</td><td>rocker  </td><td>crank   </td>
+          </tr>
+          <tr>
+            <td>0</td><td>-</td><td>+</td><td>crank   </td><td class="midColGroup">crank   </td>
+            <td>0</td><td>-</td><td>0</td><td>crank   </td><td class="midColGroup">crank   </td>
+            <td>0</td><td>-</td><td>-</td><td>0-rocker</td><td>crank   </td>
+          </tr>
+          <tr>
+            <td>-</td><td>-</td><td>+</td><td>crank   </td><td class="midColGroup">crank   </td>
+            <td>-</td><td>-</td><td>0</td><td>crank   </td><td class="midColGroup">crank   </td>
+            <td>-</td><td>-</td><td>-</td><td>0-rocker</td><td>0-rocker</td>
+          </tr>
         </table>
       </div>
     </div>
