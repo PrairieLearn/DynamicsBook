@@ -471,6 +471,14 @@ table.figureLeftControl td.controls {
     padding: 0px 0px 0px 5px;
 }
 
+table.figureLeftControl td.controls table tr td {
+    padding: 0px 0px 0px 0.5em;
+}
+
+table.figureLeftControl td.controls table tr td:first-child {
+    padding: 0px 0px 0px 0px;
+}
+
 /*****************************************************************************/
 
 table.smallGrid {
