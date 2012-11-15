@@ -45,6 +45,31 @@
           constraints. Also count by three rigid bodies minus joint
           constraints.
         </p>
+        <table class="alignTop figureLeftControl">
+          <tr>
+            <td>
+              <canvas id="aml-ft-c" width="600" height="300">
+              </canvas>
+            </td>
+            <td class="controls">
+              <button class="anim-toggle:aml-ft-c">animation</button>
+              <button class="reset:aml-ft-c">reset</button>
+              <table class="alignTop">
+                <tr>
+                  <td>Show:</td>
+                  <td>
+                    <button class="option-toggle:aml-ft-c:showLabels">labels</button>
+                    <button class="option-toggle:aml-ft-c:showPivots">pivots</button>
+                  </td>
+                </tr>
+              </table>
+              <table>
+                <tr><td>Input \(\alpha\):</td><td><span class="data-option:aml-ft-c:inputType"></span></td></tr>
+                <tr><td>Output \(\beta\):</td><td><span class="data-option:aml-ft-c:outputType"></span></td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
       </div>
     </div>
     <div class="contentBlock">
@@ -57,6 +82,46 @@
           \(b = a\) means both cranks;
           \(b &lt; a\) means input rocker, output crank. Reference excess quantities in full linkage model below.
         </p>
+        <table class="alignTop figureLeftControl">
+          <tr>
+            <td>
+              <canvas id="aml-fr-c" width="600" height="300">
+              </canvas>
+            </td>
+            <td class="controls">
+              <button class="anim-toggle:aml-fr-c">animation</button>
+              <button class="reset:aml-fr-c">reset</button>
+              <table class="alignTop">
+                <tr>
+                  <td>Show:</td>
+                  <td>
+                    <button class="option-toggle:aml-fr-c:showLabels">labels</button>
+                    <button class="option-toggle:aml-fr-c:showPivots">pivots</button>
+                  </td>
+                </tr>
+              </table>
+              <table>
+                <tr><td>Input \(\alpha\):</td><td><span class="data-option:aml-fr-c:inputType"></span></td></tr>
+                <tr><td>Output \(\beta\):</td><td><span class="data-option:aml-fr-c:outputType"></span></td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+        <table class="options">
+          <col class="label" />
+          <col class="input" />
+          <col class="value" />
+          <tr>
+            <td>Input link length:</td>
+            <td><input type="range" min="5" max="40" value="0" step="1" class="data-input:aml-fr-c:a lengthInput" /></td>
+            <td>\(a = \) <span class="data-option:aml-fr-c:a"></span> cm</td>
+          </tr>
+          <tr>
+            <td>Output link length:</td>
+            <td><input type="range" min="5" max="40" value="0" step="1" class="data-input:aml-fr-c:b lengthInput" /></td>
+            <td>\(b = \) <span class="data-option:aml-fr-c:b"></span> cm</td>
+          </tr>
+        </table>
       </div>
     </div>
     <div class="contentBlock">
@@ -65,8 +130,66 @@
           Coupler dynamics
         </h2>
         <p>
-          Show a coupler doing something complex, with tracing. Reference full linkage model below.
+          Show a coupler doing something complex, with tracing. Technically a six-bar linkage. Reference full linkage model below.
         </p>
+        <table class="alignTop figureLeftControl">
+          <tr>
+            <td>
+              <canvas id="aml-fc-c" width="600" height="300">
+              </canvas>
+            </td>
+            <td class="controls">
+              <button class="anim-toggle:aml-fc-c">animation</button>
+              <button class="reset:aml-fc-c">reset</button>
+              <table class="alignTop">
+                <tr>
+                  <td>Zoom:</td>
+                  <td><span><input style="width:84px;" type="range" min="10" max="100"
+                  value="100" step="5" class="data-input:aml-fc-c:zoom" />
+                  <span class="data-option:aml-fc-c:zoom"></span>%</span></td>
+                </tr>
+                <tr>
+                  <td>Show:</td>
+                  <td>
+                    <button class="option-toggle:aml-fc-c:showLabels">labels</button>
+                    <button class="option-toggle:aml-fc-c:showPivots">pivots</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Trace:</td>
+                  <td>
+                    <button class="option-toggle:aml-fc-c:traceC">C</button>
+                    <button class="option-toggle:aml-fc-c:traceD">D</button>
+                    <button class="option-toggle:aml-fc-c:traceP">P</button>
+                  </td>
+                </tr>
+              </table>
+              <table>
+                <tr><td>Input \(\alpha\):</td><td><span class="data-option:aml-fc-c:inputType"></span></td></tr>
+                <tr><td>Output \(\beta\):</td><td><span class="data-option:aml-fc-c:outputType"></span></td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+        <table class="options">
+          <col class="label" />
+          <col class="input" />
+          <col class="value" />
+          <tr>
+            <td>Coupler position:</td>
+            <td><input type="range" min="-400" max="400" value="0" step="10" class="data-input:aml-fc-c:PPosition" /></td>
+            <td>\(P_{\rm pos} = \) <span class="data-option:aml-fc-c:PPosition"></span>%
+            from DC midpoint towards C
+            </td>
+          </tr>
+          <tr class="bottomBorder">
+            <td>Coupler offset:</td>
+            <td><input type="range" min="-200" max="200" value="0" step="10" class="data-input:aml-fc-c:POffset" /></td>
+            <td>\(P_{\rm off} = \) <span class="data-option:aml-fc-c:POffset"></span>%
+            of DC length
+            </td>
+          </tr>
+        </table>
       </div>
     </div>
     <div class="contentBlock">
@@ -78,6 +201,47 @@
           Do a lifting parallelogram, with thetaG = 90, a = b = 30, PPos = -100, POff = 50, alphaCent = 25, deltaAlpha = 25.
           Reference full linkage model below.
         </p>
+        <table class="alignTop figureLeftControl">
+          <tr>
+            <td>
+              <canvas id="aml-fi-c" width="600" height="300">
+              </canvas>
+            </td>
+            <td class="controls">
+              <button class="anim-toggle:aml-fi-c">animation</button>
+              <button class="reset:aml-fi-c">reset</button>
+              <table class="alignTop">
+                <tr>
+                  <td>Show:</td>
+                  <td>
+                    <button class="option-toggle:aml-fi-c:showLabels">labels</button>
+                    <button class="option-toggle:aml-fi-c:showPivots">pivots</button>
+                    <button class="option-toggle:aml-fi-c:showInputRange">input range</button>
+                  </td>
+                </tr>
+              </table>
+              <table>
+                <tr><td>Input \(\alpha\):</td><td><span class="data-option:aml-fi-c:inputType"></span></td></tr>
+                <tr><td>Output \(\beta\):</td><td><span class="data-option:aml-fi-c:outputType"></span></td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+        <table class="options">
+          <col class="label" />
+          <col class="input" />
+          <col class="value" />
+          <tr>
+            <td>Input angle center:</td>
+            <td><input type="range" min="0" max="100" value="0" step="5" class="data-input:aml-fi-c:oscCenter" /></td>
+            <td>\(\alpha_{\rm cent} = \) <span class="data-option:aml-fi-c:oscCenter"></span>% from 0° to 360°</td>
+          </tr>
+          <tr class="bottomBorder">
+            <td>Input angle range:</td>
+            <td><input type="range" min="0" max="100" value="0" step="5" class="data-input:aml-fi-c:oscMagnitude" /></td>
+            <td>\(\Delta\alpha = \) <span class="data-option:aml-fi-c:oscMagnitude"></span>% of 180°</td>
+          </tr>
+        </table>
       </div>
     </div>
     <div class="contentBlock">
@@ -110,12 +274,12 @@
                   </td>
                 </tr>
                 <tr>
-                <td>Trace:</td>
-                <td>
-                  <button class="option-toggle:aml-fl-c:traceC">C</button>
-                  <button class="option-toggle:aml-fl-c:traceD">D</button>
-                <button class="option-toggle:aml-fl-c:traceP">P</button>
-                </td>
+                  <td>Trace:</td>
+                  <td>
+                    <button class="option-toggle:aml-fl-c:traceC">C</button>
+                    <button class="option-toggle:aml-fl-c:traceD">D</button>
+                    <button class="option-toggle:aml-fl-c:traceP">P</button>
+                  </td>
                 </tr>
               </table>
               <table>
@@ -139,7 +303,7 @@
             </td>
           </tr>
           <tr>
-            <td><input type="radio" name="aml-fl-c-controlMethod" value="lengths" class="data-input:aml-fl-c:controlMethod" />set link lengths</td>
+            <td><input type="radio" name="aml-fl-c-controlMethod" value="lengths" class="data-input:aml-fl-c:controlMethod" /> set link lengths</td>
             <td></td>
             <td></td>
           </tr>
@@ -164,7 +328,7 @@
             <td>\(f = \) <span class="data-option:aml-fl-c:f"></span> cm</td>
           </tr>
           <tr>
-            <td><input type="radio" name="aml-fl-c-controlMethod" value="excesses" class="data-input:aml-fl-c:controlMethod" />set excess values</td>
+            <td><input type="radio" name="aml-fl-c-controlMethod" value="excesses" class="data-input:aml-fl-c:controlMethod" /> set excess values</td>
             <td></td>
             <td></td>
           </tr>
@@ -209,8 +373,8 @@
             </td>
           </tr>
           <tr>
-            <td><button class="option-toggle:aml-fl-c:oscInput">oscillating input</button></td>
-            <td colspan="2">
+            <td colspan="3">
+              <button class="option-toggle:aml-fl-c:oscInput">limited reciprocating input</button>
               <button class="option-toggle:aml-fl-c:showInputRange">show input range</button>
             </td>
           </tr>

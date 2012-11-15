@@ -86,54 +86,33 @@ $(document).ready(function() {
         ];
 
         var keyMap = {
-            "+++": ["crank",    "rocker",   true,  0, 0, -1, -1], 
-            "0++": ["crank",    "π-rocker", true,  0, 2, -1, -1], 
-            "-++": ["π-rocker", "π-rocker", false, 0, 2, 2,  3],  
-            "+0+": ["crank",    "0-rocker", true,  0, 2, -1, -1], 
-            "00+": ["crank",    "crank",    true,  0, 2, -1, -1], 
-            "-0+": ["crank",    "crank",    true,  0, 2, -1, -1], 
-            "+-+": ["π-rocker", "0-rocker", false, 0, 2, 4,  5],  
-            "0-+": ["crank",    "crank",    true,  0, 2, -1, -1], 
-            "--+": ["crank",    "crank",    true,  0, 0, -1, -1], 
-            "++0": ["crank",    "π-rocker", true,  1, 2, -1, -1], 
-            "0+0": ["crank",    "π-rocker", true,  0, 1, -1, -1], 
-            "-+0": ["π-rocker", "π-rocker", true,  1, 1, 2,  3],  
-            "+00": ["crank",    "crank",    true,  0, 1, -1, -1], 
-            "000": ["crank",    "crank",    true,  0, 1, -1, -1], 
-            "-00": ["crank",    "crank",    true,  0, 1, -1, -1], 
-            "+-0": ["π-rocker", "crank",    true,  1, 1, 4,  5],  
-            "0-0": ["crank",    "crank",    true,  0, 1, -1, -1], 
-            "--0": ["crank",    "crank",    true,  1, 2, -1, -1], 
-            "++-": ["0-rocker", "π-rocker", false, 0, 2, 1,  0],  
-            "0+-": ["0-rocker", "π-rocker", true,  1, 1, 1,  0],  
-            "-+-": ["rocker",   "rocker",   true,  0, 2, 2,  0],  
-            "+0-": ["0-rocker", "crank",    true,  1, 1, 1,  0],  
-            "00-": ["0-rocker", "crank",    true,  1, 1, 1,  0],  
-            "-0-": ["0-rocker", "0-rocker", true,  1, 1, 1,  0],  
-            "+--": ["rocker",   "crank",    true,  0, 2, 4,  0],  
-            "0--": ["0-rocker", "crank",    true,  1, 1, 1,  0],  
-            "---": ["0-rocker", "0-rocker", false, 0, 2, 1,  0],  
-
-
-/*
-
-flipphase/flipperiod = (0,2) or (1,1) in the limited case
-can flip only at alpha = 0, alpha = pi, or alpha = alpha_min/max
-
-                     = (0,0) or (0,2) or (1,1) or (1,2) in the unlimited case
-can flip only at alpha = 0 or pi
-(0,0) => no flip
-(0,2) => flip at zero (double period)
-(1,1) => flip at both 0 and pi
-(1,2) => flip at pi (double period)
-
-
-*/
-
-
-
-
-
+            "+++": ["crank",    "rocker",   true,  0, 0, -1, -1],
+            "0++": ["crank",    "π-rocker", true,  0, 2, -1, -1],
+            "-++": ["π-rocker", "π-rocker", false, 0, 2,  2,  3],
+            "+0+": ["crank",    "0-rocker", true,  0, 2, -1, -1],
+            "00+": ["crank",    "crank",    true,  0, 2, -1, -1],
+            "-0+": ["crank",    "crank",    true,  0, 2, -1, -1],
+            "+-+": ["π-rocker", "0-rocker", false, 0, 2,  4,  5],
+            "0-+": ["crank",    "crank",    true,  0, 2, -1, -1],
+            "--+": ["crank",    "crank",    true,  0, 0, -1, -1],
+            "++0": ["crank",    "π-rocker", true,  1, 2, -1, -1],
+            "0+0": ["crank",    "π-rocker", true,  0, 1, -1, -1],
+            "-+0": ["π-rocker", "π-rocker", true,  1, 1,  2,  3],
+            "+00": ["crank",    "crank",    true,  0, 1, -1, -1],
+            "000": ["crank",    "crank",    true,  0, 1, -1, -1],
+            "-00": ["crank",    "crank",    true,  0, 1, -1, -1],
+            "+-0": ["π-rocker", "crank",    true,  1, 1,  4,  5],
+            "0-0": ["crank",    "crank",    true,  0, 1, -1, -1],
+            "--0": ["crank",    "crank",    true,  1, 2, -1, -1],
+            "++-": ["0-rocker", "π-rocker", false, 0, 2,  1,  0],
+            "0+-": ["0-rocker", "π-rocker", true,  1, 1,  1,  0],
+            "-+-": ["rocker",   "rocker",   true,  0, 2,  2,  0],
+            "+0-": ["0-rocker", "crank",    true,  1, 1,  1,  0],
+            "00-": ["0-rocker", "crank",    true,  1, 1,  1,  0],
+            "-0-": ["0-rocker", "0-rocker", true,  1, 1,  1,  0],
+            "+--": ["rocker",   "crank",    true,  0, 2,  4,  0],
+            "0--": ["0-rocker", "crank",    true,  1, 1,  1,  0],
+            "---": ["0-rocker", "0-rocker", false, 0, 2,  1,  0]
         }
         var data = keyMap[linkageKey];
         limits.inputType = data[0];
@@ -162,7 +141,7 @@ can flip only at alpha = 0 or pi
     **************************************************************
     *************************************************************/
 
-    var aml_fl_c = new PrairieDrawAnim("aml-fl-c", function(t) {
+    var linkagePDFunction = function(t) {
         this.addOption("controlMethod", "lengths");
         this.addOption("reversed", false);
         this.addOption("flipped", false);
@@ -186,6 +165,8 @@ can flip only at alpha = 0 or pi
         this.addOption("oscCenter", 50);
         this.addOption("oscMagnitude", 50);
 
+        this.addOption("phaseOffset", 0.1);
+
         this.addOption("traceC", false);
         this.addOption("traceD", false);
         this.addOption("traceP", false);
@@ -193,12 +174,17 @@ can flip only at alpha = 0 or pi
         this.addOption("showLabels", true);
         this.addOption("showPivots", true);
         this.addOption("showInputRange", false);
+        this.addOption("showCoupler", true);
 
         this.addOption("zoom", 100);
         var zoom = this.getOption("zoom");
         
 	this.setUnits(130, 130 / this.goldenRatio);
         this.scale($V([zoom / 100, zoom / 100]));
+
+        this.addOption("xTranslate", 0);
+        this.addOption("yTranslate", 0);
+        this.translate($V([this.getOption("xTranslate"), this.getOption("yTranslate")]));
 
         var a = this.getOption("a");
         var b = this.getOption("b");
@@ -251,7 +237,7 @@ can flip only at alpha = 0 or pi
             alphaCent = this.linearInterp(limits.alphaMin, limits.alphaMax, c);
 
             var alphaRange = alphaMax - alphaMin;
-            phase = (alphaRange > 0) ? (t / alphaRange - 0.1) : 0;
+            phase = (alphaRange > 0) ? (t / alphaRange - this.getOption("phaseOffset")) : 0;
             var w = c + r * Math.sin(phase * Math.PI);
             alpha = this.linearInterp(limits.alphaMin, limits.alphaMax, w);
             if (limits.canFlip) {
@@ -298,7 +284,7 @@ can flip only at alpha = 0 or pi
                 var c = oscCenter / 100;
                 var r = 0.5 * oscMagnitude / 100;
                 var alphaRange = r * 4 * Math.PI;
-                var oscPhase = (alphaRange > 0) ? (t / alphaRange - 0.1) : 0;
+                var oscPhase = (alphaRange > 0) ? (t / alphaRange - this.getOption("phaseOffset")) : 0;
                 var w = c + r * Math.sin(oscPhase * Math.PI);
                 alpha = w * 2 * Math.PI;
                 alphaLimited = true;
@@ -310,7 +296,7 @@ can flip only at alpha = 0 or pi
                     flipped = (Math.sin((phase / limits.flipPeriod + limits.flipPhase / 4) * 2 * Math.PI) < 0);
                 }
             } else {
-                alpha = t + Math.PI/2;
+                alpha = t + Math.PI/2 + 0.1 - this.getOption("phaseOffset");
                 alphaLimited = false;
                 if (limits.canFlip) {
                     phase = alpha / (2 * Math.PI);
@@ -349,9 +335,11 @@ can flip only at alpha = 0 or pi
         this.point(pC);
         this.point(pB);
 
-        this.line(pD, pP);
-        this.line(pC, pP);
-        this.point(pP);
+        if (this.getOption("showCoupler")) {
+            this.line(pD, pP);
+            this.line(pC, pP);
+            this.point(pP);
+        }
 
         if (this.getOption("traceC")) {
             var pCHistory = this.history("pC", 0.05, 4 * Math.PI + 0.05, t, pC);
@@ -387,7 +375,7 @@ can flip only at alpha = 0 or pi
         }
 
         if (this.getOption("showLabels")) {
-            var anchor;
+            var anchor, otherPoints;
             if (this.getOption("showPivots")) {
                 this.text(pA, $V([2, 0]), "TEX:$A$");
                 this.text(pB, $V([-1.5, -1.5]), "TEX:$B$");
@@ -397,12 +385,22 @@ can flip only at alpha = 0 or pi
                 anchor = this.findAnchorForIntersection(pB, [pA, pC, pB.add(this.vector2DAtAngle(gAngle))]);
                 this.text(pB, anchor, "TEX:$B$");
             }
-            anchor = this.findAnchorForIntersection(pC, [pB, pD, pP]);
+            otherPoints = [pB, pD];
+            if (this.getOption("showCoupler")) {
+                otherPoints.push(pP);
+            }
+            anchor = this.findAnchorForIntersection(pC, otherPoints);
             this.text(pC, anchor, "TEX:$C$");
-            anchor = this.findAnchorForIntersection(pD, [pC, pA, pP]);
+            otherPoints = [pC, pA];
+            if (this.getOption("showCoupler")) {
+                otherPoints.push(pP);
+            }
+            anchor = this.findAnchorForIntersection(pD, otherPoints);
             this.text(pD, anchor, "TEX:$D$");
-            anchor = this.findAnchorForIntersection(pP, [pD, pC]);
-            this.text(pP, anchor, "TEX:$P$");
+            if (this.getOption("showCoupler")) {
+                anchor = this.findAnchorForIntersection(pP, [pD, pC]);
+                this.text(pP, anchor, "TEX:$P$");
+            }
             this.labelLine(pA, pD, $V([0, 1]), "TEX:$a$");
             this.labelLine(pD, pC, $V([0, 1]), "TEX:$f$");
             this.labelLine(pC, pB, $V([0, 1]), "TEX:$b$");
@@ -483,7 +481,151 @@ can flip only at alpha = 0 or pi
                 this.restore();
             }
         }
-    });
+    };
+
+    /*************************************************************
+    **************************************************************
+    **************************************************************
+    *************************************************************/
+
+    var linkageConvertFromLengths = function(pd) {
+        var a = pd.getOption("a");
+        var b = pd.getOption("b");
+        var g = pd.getOption("g");
+        var f = pd.getOption("f");
+
+        var limits = limitsFourBar(g, f, a, b);
+        pd.setOption("inputType", limits.inputType, false);
+        pd.setOption("outputType", limits.outputType, false);
+        pd.setOption("ValidityIndex", limits.ValidityIndex, false);
+        pd.setOption("ValidityRelation", limits.ValidityRelation, false);
+        pd.setOption("GrashofIndex", limits.GrashofIndex, false);
+        pd.setOption("Grashof", limits.Grashof, false);
+        pd.setOption("GrashofType", limits.GrashofType, false);
+        pd.setOption("GrashofRelation", limits.GrashofRelation, false);
+        pd.setOption("GrashofInfo", limits.GrashofInfo, false);
+        pd.setOption("limitedRange", limits.limited, false);
+
+        if (pd.getOption("controlMethod") === "lengths") {
+            var L = a + b + g + f;
+            var T1 = g + f - b - a;
+            var T2 = b + g - f - a;
+            var T3 = f + b - g - a;
+
+            pd.setOption("L", L, false);
+            pd.setOption("T1", T1, false);
+            pd.setOption("T2", T2, false);
+            pd.setOption("T3", T3, false);
+        }
+    };
+
+    var linkageConvertFromExcesses = function(pd) {
+        if (pd.getOption("controlMethod") === "excesses") {
+            var L = pd.getOption("L");
+            var T1 = pd.getOption("T1");
+            var T2 = pd.getOption("T2");
+            var T3 = pd.getOption("T3");
+
+            var a = (L - T1 - T2 - T3) / 4;
+            var b = (L - T1 + T2 + T3) / 4;
+            var g = (L + T1 + T2 - T3) / 4;
+            var f = (L + T1 - T2 + T3) / 4;
+
+            pd.setOption("a", a, false);
+            pd.setOption("b", b, false);
+            pd.setOption("g", g, false);
+            pd.setOption("f", f, false);
+        }
+    };
+
+    /*************************************************************
+    **************************************************************
+    **************************************************************
+    *************************************************************/
+
+    var aml_ft_c = new PrairieDrawAnim("aml-ft-c", linkagePDFunction);
+
+    aml_ft_c.setOption("a", 25, undefined, undefined, true);
+    aml_ft_c.setOption("b", 35, undefined, undefined, true);
+    aml_ft_c.setOption("f", 55, undefined, undefined, true);
+    aml_ft_c.setOption("g", 55, undefined, undefined, true);
+    linkageConvertFromLengths(aml_ft_c);
+
+    aml_ft_c.setOption("yTranslate", -5, undefined, undefined, true);
+    aml_ft_c.setOption("showCoupler", false, undefined, undefined, true);
+
+    /*************************************************************
+    **************************************************************
+    **************************************************************
+    *************************************************************/
+
+    var aml_fr_c = new PrairieDrawAnim("aml-fr-c", linkagePDFunction);
+
+    aml_fr_c.setOption("a", 25, undefined, undefined, true);
+    aml_fr_c.setOption("b", 35, undefined, undefined, true);
+    aml_fr_c.setOption("f", 55, undefined, undefined, true);
+    aml_fr_c.setOption("g", 55, undefined, undefined, true);
+    linkageConvertFromLengths(aml_fr_c);
+
+    aml_fr_c.setOption("yTranslate", -5, undefined, undefined, true);
+    aml_fr_c.setOption("showCoupler", false, undefined, undefined, true);
+
+    aml_fr_c.registerOptionCallback("a", function(value) {linkageConvertFromLengths(this);});
+    aml_fr_c.registerOptionCallback("b", function(value) {linkageConvertFromLengths(this);});
+
+    /*************************************************************
+    **************************************************************
+    **************************************************************
+    *************************************************************/
+
+    var aml_fc_c = new PrairieDrawAnim("aml-fc-c", linkagePDFunction);
+
+    aml_fc_c.setOption("a", 25, undefined, undefined, true);
+    aml_fc_c.setOption("b", 25, undefined, undefined, true);
+    aml_fc_c.setOption("f", 20, undefined, undefined, true);
+    aml_fc_c.setOption("g", 50, undefined, undefined, true);
+    linkageConvertFromLengths(aml_fc_c);
+
+    aml_fc_c.setOption("traceC", true, undefined, undefined, true);
+    aml_fc_c.setOption("traceD", true, undefined, undefined, true);
+    aml_fc_c.setOption("traceP", true, undefined, undefined, true);
+
+    aml_fc_c.setOption("phaseOffset", -0.2, undefined, undefined, true);
+
+    aml_fc_c.setOption("POffset", 60, undefined, undefined, true);
+
+    aml_fc_c.registerOptionCallback("PPosition", function(value) {this.clearAllHistory();});
+    aml_fc_c.registerOptionCallback("POffset", function(value) {this.clearAllHistory();});
+
+    /*************************************************************
+    **************************************************************
+    **************************************************************
+    *************************************************************/
+
+    var aml_fi_c = new PrairieDrawAnim("aml-fi-c", linkagePDFunction);
+
+    aml_fi_c.setOption("a", 40, undefined, undefined, true);
+    aml_fi_c.setOption("b", 40, undefined, undefined, true);
+    aml_fi_c.setOption("f", 20, undefined, undefined, true);
+    aml_fi_c.setOption("g", 20, undefined, undefined, true);
+    linkageConvertFromLengths(aml_fi_c);
+
+    aml_fi_c.setOption("xTranslate", -30, undefined, undefined, true);
+    aml_fi_c.setOption("gAngleDeg", -90, undefined, undefined, true);
+    aml_fi_c.setOption("oscInput", true, undefined, undefined, true);
+    aml_fi_c.setOption("showInputRange", true, undefined, undefined, true);
+    aml_fi_c.setOption("PPosition", 100, undefined, undefined, true);
+    aml_fi_c.setOption("POffset", 150, undefined, undefined, true);
+
+    aml_fi_c.setOption("oscCenter", 25, undefined, undefined, true);
+    aml_fi_c.setOption("oscMagnitude", 20, undefined, undefined, true);
+
+    /*************************************************************
+    **************************************************************
+    **************************************************************
+    *************************************************************/
+
+    var aml_fl_c = new PrairieDrawAnim("aml-fl-c", linkagePDFunction);
 
     aml_fl_c.registerOptionCallback("controlMethod", function(value) {
         if (value === "lengths") {
@@ -533,63 +675,15 @@ can flip only at alpha = 0 or pi
         }
     });
 
-    var amlConvertFromLengths = function(pd) {
-        var a = pd.getOption("a");
-        var b = pd.getOption("b");
-        var g = pd.getOption("g");
-        var f = pd.getOption("f");
+    aml_fl_c.registerOptionCallback("a", function(value) {linkageConvertFromLengths(this);});
+    aml_fl_c.registerOptionCallback("b", function(value) {linkageConvertFromLengths(this);});
+    aml_fl_c.registerOptionCallback("g", function(value) {linkageConvertFromLengths(this);});
+    aml_fl_c.registerOptionCallback("f", function(value) {linkageConvertFromLengths(this);});
 
-        var limits = limitsFourBar(g, f, a, b);
-        pd.setOption("inputType", limits.inputType, false);
-        pd.setOption("outputType", limits.outputType, false);
-        pd.setOption("ValidityIndex", limits.ValidityIndex, false);
-        pd.setOption("ValidityRelation", limits.ValidityRelation, false);
-        pd.setOption("GrashofIndex", limits.GrashofIndex, false);
-        pd.setOption("Grashof", limits.Grashof, false);
-        pd.setOption("GrashofType", limits.GrashofType, false);
-        pd.setOption("GrashofRelation", limits.GrashofRelation, false);
-        pd.setOption("GrashofInfo", limits.GrashofInfo, false);
-        pd.setOption("limitedRange", limits.limited, false);
-
-        if (pd.getOption("controlMethod") === "lengths") {
-            var L = a + b + g + f;
-            var T1 = g + f - b - a;
-            var T2 = b + g - f - a;
-            var T3 = f + b - g - a;
-
-            pd.setOption("L", L, false);
-            pd.setOption("T1", T1, false);
-            pd.setOption("T2", T2, false);
-            pd.setOption("T3", T3, false);
-        }
-    };
-    aml_fl_c.registerOptionCallback("a", function(value) {amlConvertFromLengths(this);});
-    aml_fl_c.registerOptionCallback("b", function(value) {amlConvertFromLengths(this);});
-    aml_fl_c.registerOptionCallback("g", function(value) {amlConvertFromLengths(this);});
-    aml_fl_c.registerOptionCallback("f", function(value) {amlConvertFromLengths(this);});
-
-    var amlConvertFromExcesses = function(pd) {
-        if (pd.getOption("controlMethod") === "excesses") {
-            var L = pd.getOption("L");
-            var T1 = pd.getOption("T1");
-            var T2 = pd.getOption("T2");
-            var T3 = pd.getOption("T3");
-
-            var a = (L - T1 - T2 - T3) / 4;
-            var b = (L - T1 + T2 + T3) / 4;
-            var g = (L + T1 + T2 - T3) / 4;
-            var f = (L + T1 - T2 + T3) / 4;
-
-            pd.setOption("a", a, false);
-            pd.setOption("b", b, false);
-            pd.setOption("g", g, false);
-            pd.setOption("f", f, false);
-        }
-    };
-    aml_fl_c.registerOptionCallback("T1", function(value) {amlConvertFromExcesses(this);});
-    aml_fl_c.registerOptionCallback("T2", function(value) {amlConvertFromExcesses(this);});
-    aml_fl_c.registerOptionCallback("T3", function(value) {amlConvertFromExcesses(this);});
-    aml_fl_c.registerOptionCallback("L", function(value) {amlConvertFromExcesses(this);});
+    aml_fl_c.registerOptionCallback("T1", function(value) {linkageConvertFromExcesses(this);});
+    aml_fl_c.registerOptionCallback("T2", function(value) {linkageConvertFromExcesses(this);});
+    aml_fl_c.registerOptionCallback("T3", function(value) {linkageConvertFromExcesses(this);});
+    aml_fl_c.registerOptionCallback("L", function(value) {linkageConvertFromExcesses(this);});
 
     aml_fl_c.registerOptionCallback("reversed", function(value) {this.clearAllHistory();});
     aml_fl_c.registerOptionCallback("flipped", function(value) {this.clearAllHistory();});
