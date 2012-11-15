@@ -28,22 +28,37 @@
   <body>
     <div class="contentBlock">
       <div id="aml" class="section level2 contentCol">
+        <ul>
+          <li>reset breaks input/output type for aml-sc, etc.</li>
+          <li>bad spacing between "output <i>β</i>:" and "rocker".</li>
+          <li>align controllers under canvases for examples</li>
+          <li>Add captions/ids for all canvases and tables</li>
+        </ul>
+
+
+
+
         <h1>
           Four-Bar Linkages
         </h1>
         <p>
-          Uses of linkages:
+          A planar four-bar linkage consists of four rigid rods in the
+          plane connected by pin joints. We call the rods:
         </p>
         <ul>
-          <li>Constrain motion (knee joint, suspensions)</li>
-          <li>Convert reciprocating motion to rotational motion (bicycle)</li>
-          <li>Convert rotational motion to reciprocating motion (pumpjack)</li>
-          <li>Magnify force (parrotfish jaw)</li>
+          <li>Ground link $g$: fixed to anchor pivots $A$ and $B$.</li>
+          <li>Input link $a$: driven by input angle $\alpha$.</li>
+          <li>Output link $b$: gives output angle $\beta$.</li>
+          <li>Floating link $f$: connects the two moving pins $C$ and $D$.</li>
         </ul>
         <p>
-          Degrees of freedom. Count by two vertexes minus length
-          constraints. Also count by three rigid bodies minus joint
-          constraints.
+          We often think of a four-bar linkage as being driven at the
+          input angle $\alpha$, resulting in the output angle
+          $\beta$. We only need one input, because the system has
+          exactly $N_{\rm DOF} = 1$ degree of freedom. We can count
+          the DOF as 9 free variables (three moving rigid bodies with
+          <a href="">three variables each</a>) minus 8 constraints
+          (four pin joints with <a href="">two constraints each</a>).
         </p>
         <table class="alignTop figureLeftControl">
           <tr>
@@ -70,6 +85,15 @@
             </td>
           </tr>
         </table>
+        <p>
+          Four-bar linkages can be used for many mechanical purposes, including to:
+        </p>
+        <ol>
+          <li>convert rotational motion to reciprocating motion (e.g., <a href="#aml-sp">pumpjack</a> examples below)</li>
+          <li>convert reciprocating motion to rotational motion (e.g., <a href="#aml-sb">bicycle</a> examples below)</li>
+          <li>constrain motion (e.g., <a href="#aml-sk">knee joint</a> and <a href="#aml-sw">suspension</a> examples below)</li>
+          <li>magnify force (e.g., <a href="#aml-sj">parrotfish jaw</a> examples below)</li>
+        </ol>
       </div>
     </div>
     <div class="contentBlock">
@@ -78,9 +102,19 @@
           Rotating cranks and reciprocating rockers
         </h2>
         <p>
-          Change \(b\) to change type: \(b > a\) means input crank, output rocker;
-          \(b = a\) means both cranks;
-          \(b &lt; a\) means input rocker, output crank. Reference excess quantities in full linkage model below.
+          Four-bar linkages can convert between different types of
+          motion. We call these:
+        </p>
+        <ul>
+          <li>Crank rod: rotating motion through a complete circle.</li>
+          <li>Rocker rod: reciprocating motion with a total angle less than $360^\circ$.</li>
+        </ul>
+        <p>
+          On the linkage below, adjusting the lengths of the input rod
+          $a$ and the output rod $b$ shows that we can have an input
+          crank and output rocker or the other way around, depending
+          on whether $a &lt; b$ or $a &gt; b$. The case when $a = b$
+          is special.
         </p>
         <table class="alignTop figureLeftControl">
           <tr>
@@ -130,7 +164,18 @@
           Coupler dynamics
         </h2>
         <p>
-          Show a coupler doing something complex, with tracing. Technically a six-bar linkage. Reference full linkage model below.
+          The joints $C$ and $D$ always move in circles or
+          semi-circles. More complex motion can be achieved with a
+          coupler point $P$ attached to the floating link $f$, as
+          shown below where the position of $P$ can be
+          adjusted. Adding a coupler technically makes this a six-bar
+          linkage (four original links plus $CP$ and $DP$).
+        </p>
+        <p>
+          Here the input and output links are listed as a 0-rocker and
+          π-rocker, as they reciprocate about the angles $\alpha =
+          0^\circ$ and $\beta = 360^\circ = \pi\rm\ rad$,
+          respectively.
         </p>
         <table class="alignTop figureLeftControl">
           <tr>
@@ -195,11 +240,16 @@
     <div class="contentBlock">
       <div id="aml-si" class="section level3 contentCol">
         <h2>
-          Controlling the input angle
+          Limiting the input angle
         </h2>
         <p>
-          Do a lifting parallelogram, with thetaG = 90, a = b = 30, PPos = -100, POff = 50, alphaCent = 25, deltaAlpha = 25.
-          Reference full linkage model below.
+          It is often helpful to limit the input angle in a mechanism,
+          even when the linkage could allow for greater movement. For
+          example, to have a lifting platform the linkage below uses a
+          crank limited to a smaller reciprocating input range. The
+          input center angle $\alpha_{\rm cent}$ and range
+          $\Delta\alpha$ can be adjusted to control the range of
+          movement of the platform.
         </p>
         <table class="alignTop figureLeftControl">
           <tr>
@@ -240,230 +290,6 @@
             <td>Input angle range:</td>
             <td><input type="range" min="0" max="100" value="0" step="5" class="data-input:aml-fi-c:oscMagnitude" /></td>
             <td>\(\Delta\alpha = \) <span class="data-option:aml-fi-c:oscMagnitude"></span>% of 180°</td>
-          </tr>
-        </table>
-      </div>
-    </div>
-    <div class="contentBlock">
-      <div id="aml-sl" class="section level3 contentCol">
-        <h2>
-          Full linkage model
-        </h2>
-        <table class="alignTop figureLeftControl">
-          <tr>
-            <td>
-              <canvas id="aml-fl-c" width="600" height="300">
-              </canvas>
-            </td>
-            <td class="controls">
-              <button class="anim-toggle:aml-fl-c">animation</button>
-              <button class="reset:aml-fl-c">reset</button>
-              <table class="alignTop">
-                <tr>
-                  <td>Zoom:</td>
-                  <td><span><input style="width:84px;" type="range" min="10" max="100"
-                  value="100" step="5" class="data-input:aml-fl-c:zoom" />
-                  <span class="data-option:aml-fl-c:zoom"></span>%</span></td>
-                </tr>
-                <tr>
-                  <td>Show:</td>
-                  <td>
-                    <button class="option-toggle:aml-fl-c:showLabels">labels</button>
-                    <button class="option-toggle:aml-fl-c:showPivots">pivots</button>
-                    <button class="option-toggle:aml-fl-c:showInputRange">input range</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Trace:</td>
-                  <td>
-                    <button class="option-toggle:aml-fl-c:traceC">C</button>
-                    <button class="option-toggle:aml-fl-c:traceD">D</button>
-                    <button class="option-toggle:aml-fl-c:traceP">P</button>
-                  </td>
-                </tr>
-              </table>
-              <table>
-                <tr><td>Input \(\alpha\):</td><td><span class="data-option:aml-fl-c:inputType"></span></td></tr>
-                <tr><td>Output \(\beta\):</td><td><span class="data-option:aml-fl-c:outputType"></span></td></tr>
-                <tr><td>Shortest link:</td><td><span class="data-option:aml-fl-c:GrashofInfo"></span></td></tr>
-                <tr><td></td><td>(<span class="data-option:aml-fl-c:GrashofType"></span>)</td></tr>
-              </table>
-            </td>
-          </tr>
-        </table>
-        <table class="options">
-          <col class="label" />
-          <col class="input" />
-          <col class="value" />
-          <tr class="bottomBorder">
-            <td>Orientation:</td>
-            <td colspan="2">
-              <button class="option-toggle:aml-fl-c:reversed">reverse input angle</button>
-              <button class="option-toggle:aml-fl-c:flipped">flip output-floating triangle</button>
-            </td>
-          </tr>
-          <tr>
-            <td><input type="radio" name="aml-fl-c-controlMethod" value="lengths" class="data-input:aml-fl-c:controlMethod" /> set link lengths</td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Ground link length:</td>
-            <td><input type="range" min="5" max="40" value="0" step="1" class="data-input:aml-fl-c:g lengthInput" /></td>
-            <td>\(g = \) <span class="data-option:aml-fl-c:g"></span> cm</td>
-          </tr>
-          <tr>
-            <td>Input link length:</td>
-            <td><input type="range" min="5" max="40" value="0" step="1" class="data-input:aml-fl-c:a lengthInput" /></td>
-            <td>\(a = \) <span class="data-option:aml-fl-c:a"></span> cm</td>
-          </tr>
-          <tr>
-            <td>Output link length:</td>
-            <td><input type="range" min="5" max="40" value="0" step="1" class="data-input:aml-fl-c:b lengthInput" /></td>
-            <td>\(b = \) <span class="data-option:aml-fl-c:b"></span> cm</td>
-          </tr>
-          <tr class="bottomBorder">
-            <td>Floating link length:</td>
-            <td><input type="range" min="5" max="40" value="0" step="1" class="data-input:aml-fl-c:f lengthInput" /></td>
-            <td>\(f = \) <span class="data-option:aml-fl-c:f"></span> cm</td>
-          </tr>
-          <tr>
-            <td><input type="radio" name="aml-fl-c-controlMethod" value="excesses" class="data-input:aml-fl-c:controlMethod" /> set excess values</td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Ground-free excess:</td>
-            <td><input type="range" min="-40" max="40" value="0" step="1" class="data-input:aml-fl-c:T1 excessInput" /></td>
-            <td>\(T_1 = g + f - b - a = \) <span class="data-option:aml-fl-c:T1"></span> cm</td>
-          </tr>
-          <tr>
-            <td>Output-ground excess:</td>
-            <td><input type="range" min="-40" max="40" value="0" step="1" class="data-input:aml-fl-c:T2 excessInput" /></td>
-            <td>\(T_2 = b + g - f - a = \) <span class="data-option:aml-fl-c:T2"></span> cm</td>
-          </tr>
-          <tr>
-            <td>Free-output excess:</td>
-            <td><input type="range" min="-40" max="40" value="0" step="1" class="data-input:aml-fl-c:T3 excessInput" /></td>
-            <td>\(T_3 = f + b - g - a = \) <span class="data-option:aml-fl-c:T3"></span> cm</td>
-          </tr>
-          <tr class="bottomBorder">
-            <td>Total length:</td>
-            <td><input type="range" min="10" max="200" value="0" step="1" class="data-input:aml-fl-c:L excessInput" /></td>
-            <td>\(L = g + f + b + a = \) <span class="data-option:aml-fl-c:L"></span> cm</td>
-          </tr>
-          <tr>
-            <td>Coupler position:</td>
-            <td><input type="range" min="-400" max="400" value="0" step="10" class="data-input:aml-fl-c:PPosition" /></td>
-            <td>\(P_{\rm pos} = \) <span class="data-option:aml-fl-c:PPosition"></span>%
-            from DC midpoint towards C
-            </td>
-          </tr>
-          <tr class="bottomBorder">
-            <td>Coupler offset:</td>
-            <td><input type="range" min="-200" max="200" value="0" step="10" class="data-input:aml-fl-c:POffset" /></td>
-            <td>\(P_{\rm off} = \) <span class="data-option:aml-fl-c:POffset"></span>%
-            of DC length
-            </td>
-          </tr>
-          <tr class="bottomBorder">
-            <td>Ground link angle:</td>
-            <td><input type="range" min="-180" max="180" value="0" step="5" class="data-input:aml-fl-c:gAngleDeg" /></td>
-            <td>\(\theta_{\rm g} = \) <span class="data-option:aml-fl-c:gAngleDeg"></span>°
-            </td>
-          </tr>
-          <tr>
-            <td colspan="3">
-              <button class="option-toggle:aml-fl-c:oscInput">limited reciprocating input</button>
-              <button class="option-toggle:aml-fl-c:showInputRange">show input range</button>
-            </td>
-          </tr>
-          <tr>
-            <td>Input angle center:</td>
-            <td><input type="range" min="0" max="100" value="0" step="5" class="data-input:aml-fl-c:oscCenter oscInput" /></td>
-            <td><span class="oscInput">
-              \(\alpha_{\rm cent} = \) <span class="data-option:aml-fl-c:oscCenter"></span>%
-              <span class="limitedDesc">from \(\alpha_{\rm min}\) to \(\alpha_{\rm max}\)</span>
-              <span class="unlimitedDesc">from 0° to 360°</span>
-            </span></td>
-          </tr>
-          <tr class="bottomBorder">
-            <td>Input angle range:</td>
-            <td><input type="range" min="0" max="100" value="0" step="5" class="data-input:aml-fl-c:oscMagnitude oscInput" /></td>
-            <td><span class="oscInput">
-              \(\Delta\alpha = \) <span class="data-option:aml-fl-c:oscMagnitude"></span>%
-              <span class="limitedDesc">from \(\alpha_{\rm cent}\) to nearest \(\alpha_{\rm min}/\alpha_{\rm max}\)</span>
-              <span class="unlimitedDesc">of 180°</span>
-            </span></td>
-          </tr>
-          <tr>
-            <td>Grashof index:</td>
-            <td></td>
-            <td>\(G = s + l - p - q = \) <span class="data-option:aml-fl-c:GrashofIndex"></span> cm
-            <span class="data-option:aml-fl-c:GrashofRelation"></span></td>
-          </tr>
-          <tr>
-            <td>Validity index:</td>
-            <td></td>
-            <td>\(V = l - s - p - q = \) <span class="data-option:aml-fl-c:ValidityIndex"></span> cm
-            <span class="data-option:aml-fl-c:ValidityRelation"></span></td>
-          </tr>
-        </table>
-        <p>
-          The variables \(s\) and \(l\) are the shortest and longest
-          side lengths, respectively, while \(p\) and \(q\) are the
-          remaining two side lengths.
-        </p>
-        <table class="smallGrid">
-          <tr>
-            <th>\(T_1\)</th><th>\(T_2\)</th><th>\(T_3\)</th><th>Input \(\alpha\)</th><th class="midColGroup">Output \(\beta\)</th>
-            <th>\(T_1\)</th><th>\(T_2\)</th><th>\(T_3\)</th><th>Input \(\alpha\)</th><th class="midColGroup">Output \(\beta\)</th>
-            <th>\(T_1\)</th><th>\(T_2\)</th><th>\(T_3\)</th><th>Input \(\alpha\)</th><th>Output \(\beta\)</th>
-          </tr>
-          <tr>
-            <td>+</td><td>+</td><td>+</td><td>crank   </td><td class="midColGroup">rocker  </td>
-            <td>+</td><td>+</td><td>0</td><td>crank   </td><td class="midColGroup">π-rocker</td>
-            <td>+</td><td>+</td><td>-</td><td>0-rocker</td><td>π-rocker</td>
-          </tr>
-          <tr>
-            <td>0</td><td>+</td><td>+</td><td>crank   </td><td class="midColGroup">π-rocker</td>
-            <td>0</td><td>+</td><td>0</td><td>crank   </td><td class="midColGroup">π-rocker</td>
-            <td>0</td><td>+</td><td>-</td><td>0-rocker</td><td>π-rocker</td>
-          </tr>
-          <tr>
-            <td>-</td><td>+</td><td>+</td><td>π-rocker</td><td class="midColGroup">π-rocker</td>
-            <td>-</td><td>+</td><td>0</td><td>π-rocker</td><td class="midColGroup">π-rocker</td>
-            <td>-</td><td>+</td><td>-</td><td>rocker  </td><td>rocker  </td>
-          </tr>
-          <tr>
-            <td>+</td><td>0</td><td>+</td><td>crank   </td><td class="midColGroup">0-rocker</td>
-            <td>+</td><td>0</td><td>0</td><td>crank   </td><td class="midColGroup">crank   </td>
-            <td>+</td><td>0</td><td>-</td><td>0-rocker</td><td>crank   </td>
-          </tr>
-          <tr>
-            <td>0</td><td>0</td><td>+</td><td>crank   </td><td class="midColGroup">crank   </td>
-            <td>0</td><td>0</td><td>0</td><td>crank   </td><td class="midColGroup">crank   </td>
-            <td>0</td><td>0</td><td>-</td><td>0-rocker</td><td>crank   </td>
-          </tr>
-          <tr>
-            <td>-</td><td>0</td><td>+</td><td>crank   </td><td class="midColGroup">crank   </td>
-            <td>-</td><td>0</td><td>0</td><td>crank   </td><td class="midColGroup">crank   </td>
-            <td>-</td><td>0</td><td>-</td><td>0-rocker</td><td>0-rocker</td>
-          </tr>
-          <tr>
-            <td>+</td><td>-</td><td>+</td><td>π-rocker</td><td class="midColGroup">0-rocker</td>
-            <td>+</td><td>-</td><td>0</td><td>π-rocker</td><td class="midColGroup">crank   </td>
-            <td>+</td><td>-</td><td>-</td><td>rocker  </td><td>crank   </td>
-          </tr>
-          <tr>
-            <td>0</td><td>-</td><td>+</td><td>crank   </td><td class="midColGroup">crank   </td>
-            <td>0</td><td>-</td><td>0</td><td>crank   </td><td class="midColGroup">crank   </td>
-            <td>0</td><td>-</td><td>-</td><td>0-rocker</td><td>crank   </td>
-          </tr>
-          <tr>
-            <td>-</td><td>-</td><td>+</td><td>crank   </td><td class="midColGroup">crank   </td>
-            <td>-</td><td>-</td><td>0</td><td>crank   </td><td class="midColGroup">crank   </td>
-            <td>-</td><td>-</td><td>-</td><td>0-rocker</td><td>0-rocker</td>
           </tr>
         </table>
       </div>
@@ -671,6 +497,18 @@
           four-bar knee model shown here, the rigid rods include the
           effects of both the ligaments and the meniscus.
         </p>
+        <div class="references">
+          <h3>References</h3>
+          <ul class="references">
+            <li>
+              A. B. Zavatsky and J. J. O'Connor.
+              A model of human knee ligaments in the sagittal plane: Part 1: Response to passive flexion.
+              <i>Proceedings of the Institution of Mechanical Engineers, Part H: Journal of Engineering in Medicine</i>,
+              206(3):125–134, 1992.
+              DOI: <a href="http://dx.doi.org/10.1243/PIME_PROC_1992_206_280_02">10.1243/PIME_PROC_1992_206_280_02</a>
+            </li>
+          </ul>
+        </div>
       </div>
       <div class="infoCol">
         <div id="aml-is" class="infoBox factBox">
@@ -877,6 +715,18 @@
             image</a>).
           </p>
         </div>
+        <div class="references">
+          <h3>References</h3>
+          <ul class="references">
+            <li>
+              M. Muller.
+              A Novel Classification of Planar Four-Bar Linkages and its Application to the Mechanical Analysis of Animal Systems.
+              <i>Philosophical Transactions of the Royal Society B</i>,
+              351(1340):689–720, 1996.
+              DOI: <a href="http://dx.doi.org/10.1098/rstb.1996.0065">10.1098/rstb.1996.0065</a>
+            </li>
+          </ul>
+        </div>
       </div>
       <div class="infoCol">
         <div id="aml-ij" class="infoBox factBox">
@@ -919,6 +769,257 @@
             </p>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="aml-sl" class="section level3 contentCol">
+        <h2>
+          Full linkage model
+        </h2>
+        <p>
+          The linkage model below can have its geometry set either by
+          the link lengths ($g$, $a$, $b$, $f$) or by the excess
+          quantities ($T_1$, $T_2$, $T_3$). Whether each of the $T_i$
+          are positive or negative determines the type of input and
+          output (crank, rocker, etc.). For example, if $T_3$ is
+          negative then $T_3 = f + b - g - a &lt; 0$, which means $g +
+          a > f + b$. This implies that the input angle $\alpha$
+          cannot rotate around to $180^\circ$, as $D$ would be too far
+          from $B$, and so the input rod can't be a crank and must be
+          some type of rocker.
+        </p>
+        <p>
+          Two other useful geometric quantities show below are the
+          Grashof index $G$ and the validity index $V$. If $G \gt 0$
+          then the shortest link is able to fully rotate through
+          $360^\circ$ (the linkage is “Grashof”), while if $G \lt 0$
+          then the shortest link only reciprocates (the linkage is
+          “non-Grashof”). If $V \lt 0$ then the linkage is impossible,
+          as the longest link is longer than the total length of the
+          other three links.
+        </p>
+        <table class="alignTop figureLeftControl">
+          <tr>
+            <td>
+              <canvas id="aml-fl-c" width="600" height="300">
+              </canvas>
+            </td>
+            <td class="controls">
+              <button class="anim-toggle:aml-fl-c">animation</button>
+              <button class="reset:aml-fl-c">reset</button>
+              <table class="alignTop">
+                <tr>
+                  <td>Zoom:</td>
+                  <td><span><input style="width:84px;" type="range" min="10" max="100"
+                  value="100" step="5" class="data-input:aml-fl-c:zoom" />
+                  <span class="data-option:aml-fl-c:zoom"></span>%</span></td>
+                </tr>
+                <tr>
+                  <td>Show:</td>
+                  <td>
+                    <button class="option-toggle:aml-fl-c:showLabels">labels</button>
+                    <button class="option-toggle:aml-fl-c:showPivots">pivots</button>
+                    <button class="option-toggle:aml-fl-c:showInputRange">input range</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Trace:</td>
+                  <td>
+                    <button class="option-toggle:aml-fl-c:traceC">C</button>
+                    <button class="option-toggle:aml-fl-c:traceD">D</button>
+                    <button class="option-toggle:aml-fl-c:traceP">P</button>
+                  </td>
+                </tr>
+              </table>
+              <table>
+                <tr><td>Input \(\alpha\):</td><td><span class="data-option:aml-fl-c:inputType"></span></td></tr>
+                <tr><td>Output \(\beta\):</td><td><span class="data-option:aml-fl-c:outputType"></span></td></tr>
+                <tr><td>Shortest link:</td><td><span class="data-option:aml-fl-c:GrashofInfo"></span></td></tr>
+                <tr><td></td><td>(<span class="data-option:aml-fl-c:GrashofType"></span>)</td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+        <table class="options">
+          <col class="label" />
+          <col class="input" />
+          <col class="value" />
+          <tr class="bottomBorder">
+            <td>Orientation:</td>
+            <td colspan="2">
+              <button class="option-toggle:aml-fl-c:reversed">reverse input angle</button>
+              <button class="option-toggle:aml-fl-c:flipped">flip output-floating triangle</button>
+            </td>
+          </tr>
+          <tr>
+            <td><input type="radio" name="aml-fl-c-controlMethod" value="lengths" class="data-input:aml-fl-c:controlMethod" /> set link lengths</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Ground link length:</td>
+            <td><input type="range" min="5" max="40" value="0" step="1" class="data-input:aml-fl-c:g lengthInput" /></td>
+            <td>\(g = \) <span class="data-option:aml-fl-c:g"></span> cm</td>
+          </tr>
+          <tr>
+            <td>Input link length:</td>
+            <td><input type="range" min="5" max="40" value="0" step="1" class="data-input:aml-fl-c:a lengthInput" /></td>
+            <td>\(a = \) <span class="data-option:aml-fl-c:a"></span> cm</td>
+          </tr>
+          <tr>
+            <td>Output link length:</td>
+            <td><input type="range" min="5" max="40" value="0" step="1" class="data-input:aml-fl-c:b lengthInput" /></td>
+            <td>\(b = \) <span class="data-option:aml-fl-c:b"></span> cm</td>
+          </tr>
+          <tr class="bottomBorder">
+            <td>Floating link length:</td>
+            <td><input type="range" min="5" max="40" value="0" step="1" class="data-input:aml-fl-c:f lengthInput" /></td>
+            <td>\(f = \) <span class="data-option:aml-fl-c:f"></span> cm</td>
+          </tr>
+          <tr>
+            <td><input type="radio" name="aml-fl-c-controlMethod" value="excesses" class="data-input:aml-fl-c:controlMethod" /> set excess values</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Ground-free excess:</td>
+            <td><input type="range" min="-40" max="40" value="0" step="1" class="data-input:aml-fl-c:T1 excessInput" /></td>
+            <td>\(T_1 = g + f - b - a = \) <span class="data-option:aml-fl-c:T1"></span> cm</td>
+          </tr>
+          <tr>
+            <td>Output-ground excess:</td>
+            <td><input type="range" min="-40" max="40" value="0" step="1" class="data-input:aml-fl-c:T2 excessInput" /></td>
+            <td>\(T_2 = b + g - f - a = \) <span class="data-option:aml-fl-c:T2"></span> cm</td>
+          </tr>
+          <tr>
+            <td>Free-output excess:</td>
+            <td><input type="range" min="-40" max="40" value="0" step="1" class="data-input:aml-fl-c:T3 excessInput" /></td>
+            <td>\(T_3 = f + b - g - a = \) <span class="data-option:aml-fl-c:T3"></span> cm</td>
+          </tr>
+          <tr class="bottomBorder">
+            <td>Total length:</td>
+            <td><input type="range" min="10" max="200" value="0" step="1" class="data-input:aml-fl-c:L excessInput" /></td>
+            <td>\(L = g + f + b + a = \) <span class="data-option:aml-fl-c:L"></span> cm</td>
+          </tr>
+          <tr>
+            <td>Coupler position:</td>
+            <td><input type="range" min="-400" max="400" value="0" step="10" class="data-input:aml-fl-c:PPosition" /></td>
+            <td>\(P_{\rm pos} = \) <span class="data-option:aml-fl-c:PPosition"></span>%
+            from DC midpoint towards C
+            </td>
+          </tr>
+          <tr class="bottomBorder">
+            <td>Coupler offset:</td>
+            <td><input type="range" min="-200" max="200" value="0" step="10" class="data-input:aml-fl-c:POffset" /></td>
+            <td>\(P_{\rm off} = \) <span class="data-option:aml-fl-c:POffset"></span>%
+            of DC length
+            </td>
+          </tr>
+          <tr class="bottomBorder">
+            <td>Ground link angle:</td>
+            <td><input type="range" min="-180" max="180" value="0" step="5" class="data-input:aml-fl-c:gAngleDeg" /></td>
+            <td>\(\theta_{\rm g} = \) <span class="data-option:aml-fl-c:gAngleDeg"></span>°
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3">
+              <button class="option-toggle:aml-fl-c:oscInput">limited reciprocating input</button>
+              <button class="option-toggle:aml-fl-c:showInputRange">show input range</button>
+            </td>
+          </tr>
+          <tr>
+            <td>Input angle center:</td>
+            <td><input type="range" min="0" max="100" value="0" step="5" class="data-input:aml-fl-c:oscCenter oscInput" /></td>
+            <td><span class="oscInput">
+              \(\alpha_{\rm cent} = \) <span class="data-option:aml-fl-c:oscCenter"></span>%
+              <span class="limitedDesc">from \(\alpha_{\rm min}\) to \(\alpha_{\rm max}\)</span>
+              <span class="unlimitedDesc">from 0° to 360°</span>
+            </span></td>
+          </tr>
+          <tr class="bottomBorder">
+            <td>Input angle range:</td>
+            <td><input type="range" min="0" max="100" value="0" step="5" class="data-input:aml-fl-c:oscMagnitude oscInput" /></td>
+            <td><span class="oscInput">
+              \(\Delta\alpha = \) <span class="data-option:aml-fl-c:oscMagnitude"></span>%
+              <span class="limitedDesc">from \(\alpha_{\rm cent}\) to nearest \(\alpha_{\rm min}/\alpha_{\rm max}\)</span>
+              <span class="unlimitedDesc">of 180°</span>
+            </span></td>
+          </tr>
+          <tr>
+            <td>Grashof index:</td>
+            <td></td>
+            <td>\(G = s + l - p - q = \) <span class="data-option:aml-fl-c:GrashofIndex"></span> cm
+            <span class="data-option:aml-fl-c:GrashofRelation"></span></td>
+          </tr>
+          <tr>
+            <td>Validity index:</td>
+            <td></td>
+            <td>\(V = l - s - p - q = \) <span class="data-option:aml-fl-c:ValidityIndex"></span> cm
+            <span class="data-option:aml-fl-c:ValidityRelation"></span></td>
+          </tr>
+        </table>
+        <p>
+          The variables \(s\) and \(l\) are the shortest and longest
+          side lengths, respectively, while \(p\) and \(q\) are the
+          remaining two side lengths.
+        </p>
+        <p>
+          The type of input and output links is determined by whether
+          each of $T_1$, $T_2$, and $T_3$ are positive, zero, or
+          negative. The full table of possibilities is given below.
+        </p>
+        <table class="smallGrid">
+          <tr>
+            <th>\(T_1\)</th><th>\(T_2\)</th><th>\(T_3\)</th><th>Input \(\alpha\)</th><th class="midColGroup">Output \(\beta\)</th>
+            <th>\(T_1\)</th><th>\(T_2\)</th><th>\(T_3\)</th><th>Input \(\alpha\)</th><th class="midColGroup">Output \(\beta\)</th>
+            <th>\(T_1\)</th><th>\(T_2\)</th><th>\(T_3\)</th><th>Input \(\alpha\)</th><th>Output \(\beta\)</th>
+          </tr>
+          <tr>
+            <td>+</td><td>+</td><td>+</td><td>crank   </td><td class="midColGroup">rocker  </td>
+            <td>+</td><td>+</td><td>0</td><td>crank   </td><td class="midColGroup">π-rocker</td>
+            <td>+</td><td>+</td><td>-</td><td>0-rocker</td><td>π-rocker</td>
+          </tr>
+          <tr>
+            <td>0</td><td>+</td><td>+</td><td>crank   </td><td class="midColGroup">π-rocker</td>
+            <td>0</td><td>+</td><td>0</td><td>crank   </td><td class="midColGroup">π-rocker</td>
+            <td>0</td><td>+</td><td>-</td><td>0-rocker</td><td>π-rocker</td>
+          </tr>
+          <tr>
+            <td>-</td><td>+</td><td>+</td><td>π-rocker</td><td class="midColGroup">π-rocker</td>
+            <td>-</td><td>+</td><td>0</td><td>π-rocker</td><td class="midColGroup">π-rocker</td>
+            <td>-</td><td>+</td><td>-</td><td>rocker  </td><td>rocker  </td>
+          </tr>
+          <tr>
+            <td>+</td><td>0</td><td>+</td><td>crank   </td><td class="midColGroup">0-rocker</td>
+            <td>+</td><td>0</td><td>0</td><td>crank   </td><td class="midColGroup">crank   </td>
+            <td>+</td><td>0</td><td>-</td><td>0-rocker</td><td>crank   </td>
+          </tr>
+          <tr>
+            <td>0</td><td>0</td><td>+</td><td>crank   </td><td class="midColGroup">crank   </td>
+            <td>0</td><td>0</td><td>0</td><td>crank   </td><td class="midColGroup">crank   </td>
+            <td>0</td><td>0</td><td>-</td><td>0-rocker</td><td>crank   </td>
+          </tr>
+          <tr>
+            <td>-</td><td>0</td><td>+</td><td>crank   </td><td class="midColGroup">crank   </td>
+            <td>-</td><td>0</td><td>0</td><td>crank   </td><td class="midColGroup">crank   </td>
+            <td>-</td><td>0</td><td>-</td><td>0-rocker</td><td>0-rocker</td>
+          </tr>
+          <tr>
+            <td>+</td><td>-</td><td>+</td><td>π-rocker</td><td class="midColGroup">0-rocker</td>
+            <td>+</td><td>-</td><td>0</td><td>π-rocker</td><td class="midColGroup">crank   </td>
+            <td>+</td><td>-</td><td>-</td><td>rocker  </td><td>crank   </td>
+          </tr>
+          <tr>
+            <td>0</td><td>-</td><td>+</td><td>crank   </td><td class="midColGroup">crank   </td>
+            <td>0</td><td>-</td><td>0</td><td>crank   </td><td class="midColGroup">crank   </td>
+            <td>0</td><td>-</td><td>-</td><td>0-rocker</td><td>crank   </td>
+          </tr>
+          <tr>
+            <td>-</td><td>-</td><td>+</td><td>crank   </td><td class="midColGroup">crank   </td>
+            <td>-</td><td>-</td><td>0</td><td>crank   </td><td class="midColGroup">crank   </td>
+            <td>-</td><td>-</td><td>-</td><td>0-rocker</td><td>0-rocker</td>
+          </tr>
+        </table>
       </div>
     </div>
   </body>

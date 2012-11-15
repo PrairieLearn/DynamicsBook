@@ -130,7 +130,7 @@ $(document).ready(function() {
             limits.GrashofInfo = "rotates fully";
         } else {
             limits.GrashofType = "non-Grashof";
-            limits.GrashofInfo = "oscillates";
+            limits.GrashofInfo = "reciprocates";
         }
 
         return limits;
