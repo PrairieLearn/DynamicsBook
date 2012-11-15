@@ -14,8 +14,12 @@ $(document).ready(function() {
     // beta = output interior angle
 
     var cosLawAngle = function(a, b, c) {
-        var C = Math.acos((a * a + b * b - c * c) / (2 * a * b));
-        return C;
+        if (a > 0 && b > 0) {
+            var C = Math.acos((a * a + b * b - c * c) / (2 * a * b));
+            return C;
+        } else {
+            return 0;
+        }
     }
 
     var cosLawLength = function(a, b, C) {
@@ -46,11 +50,11 @@ $(document).ready(function() {
         var limits = {};
         limits.L = g + f + a + b;
         limits.ValidityIndex = limits.L - 2 * Math.max(g, f, a, b);
-        limits.valid = ((limits.ValidityIndex > 0) && (Math.min(g, f, a, b) > 0));
-        if (limits.ValidityIndex > 0) {
-            limits.ValidityRelation = "> 0";
+        limits.valid = ((limits.ValidityIndex >= 0) && (Math.min(g, f, a, b) >= 0));
+        if (limits.ValidityIndex >= 0) {
+            limits.ValidityRelation = "≥ 0";
         } else {
-            limits.ValidityRelation = "≤ 0";
+            limits.ValidityRelation = "< 0";
         }
 
         limits.GrashofIndex = limits.L - 2 * (Math.max(g, f, a, b) + Math.min(g, f, a, b));
@@ -237,7 +241,7 @@ $(document).ready(function() {
             alphaCent = this.linearInterp(limits.alphaMin, limits.alphaMax, c);
 
             var alphaRange = alphaMax - alphaMin;
-            phase = (alphaRange > 0) ? (t / alphaRange - this.getOption("phaseOffset")) : 0;
+            phase = (alphaRange > 0) ? (t / Math.max(alphaRange, 0.3) - this.getOption("phaseOffset")) : 0;
             var w = c + r * Math.sin(phase * Math.PI);
             alpha = this.linearInterp(limits.alphaMin, limits.alphaMax, w);
             if (limits.canFlip) {
@@ -284,7 +288,7 @@ $(document).ready(function() {
                 var c = oscCenter / 100;
                 var r = 0.5 * oscMagnitude / 100;
                 var alphaRange = r * 4 * Math.PI;
-                var oscPhase = (alphaRange > 0) ? (t / alphaRange - this.getOption("phaseOffset")) : 0;
+                var oscPhase = (alphaRange > 0) ? (t / Math.max(alphaRange, 0.3) - this.getOption("phaseOffset")) : 0;
                 var w = c + r * Math.sin(oscPhase * Math.PI);
                 alpha = w * 2 * Math.PI;
                 alphaLimited = true;
