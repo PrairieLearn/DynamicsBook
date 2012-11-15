@@ -488,23 +488,23 @@ $(document).ready(function() {
     **************************************************************
     *************************************************************/
 
-    var linkageConvertFromLengths = function(pd) {
+    var linkageConvertFromLengths = function(pd, setReset) {
         var a = pd.getOption("a");
         var b = pd.getOption("b");
         var g = pd.getOption("g");
         var f = pd.getOption("f");
 
         var limits = limitsFourBar(g, f, a, b);
-        pd.setOption("inputType", limits.inputType, false);
-        pd.setOption("outputType", limits.outputType, false);
-        pd.setOption("ValidityIndex", limits.ValidityIndex, false);
-        pd.setOption("ValidityRelation", limits.ValidityRelation, false);
-        pd.setOption("GrashofIndex", limits.GrashofIndex, false);
-        pd.setOption("Grashof", limits.Grashof, false);
-        pd.setOption("GrashofType", limits.GrashofType, false);
-        pd.setOption("GrashofRelation", limits.GrashofRelation, false);
-        pd.setOption("GrashofInfo", limits.GrashofInfo, false);
-        pd.setOption("limitedRange", limits.limited, false);
+        pd.setOption("inputType", limits.inputType, false, undefined, setReset);
+        pd.setOption("outputType", limits.outputType, false, undefined, setReset);
+        pd.setOption("ValidityIndex", limits.ValidityIndex, false, undefined, setReset);
+        pd.setOption("ValidityRelation", limits.ValidityRelation, false, undefined, setReset);
+        pd.setOption("GrashofIndex", limits.GrashofIndex, false, undefined, setReset);
+        pd.setOption("Grashof", limits.Grashof, false, undefined, setReset);
+        pd.setOption("GrashofType", limits.GrashofType, false, undefined, setReset);
+        pd.setOption("GrashofRelation", limits.GrashofRelation, false, undefined, setReset);
+        pd.setOption("GrashofInfo", limits.GrashofInfo, false, undefined, setReset);
+        pd.setOption("limitedRange", limits.limited, false, undefined, setReset);
 
         if (pd.getOption("controlMethod") === "lengths") {
             var L = a + b + g + f;
@@ -512,10 +512,10 @@ $(document).ready(function() {
             var T2 = b + g - f - a;
             var T3 = f + b - g - a;
 
-            pd.setOption("L", L, false);
-            pd.setOption("T1", T1, false);
-            pd.setOption("T2", T2, false);
-            pd.setOption("T3", T3, false);
+            pd.setOption("L", L, false, undefined, setReset);
+            pd.setOption("T1", T1, false, undefined, setReset);
+            pd.setOption("T2", T2, false, undefined, setReset);
+            pd.setOption("T3", T3, false, undefined, setReset);
         }
     };
 
@@ -549,7 +549,7 @@ $(document).ready(function() {
     aml_ft_c.setOption("b", 35, undefined, undefined, true);
     aml_ft_c.setOption("f", 55, undefined, undefined, true);
     aml_ft_c.setOption("g", 55, undefined, undefined, true);
-    linkageConvertFromLengths(aml_ft_c);
+    linkageConvertFromLengths(aml_ft_c, true);
 
     aml_ft_c.setOption("yTranslate", -5, undefined, undefined, true);
     aml_ft_c.setOption("showCoupler", false, undefined, undefined, true);
@@ -565,7 +565,7 @@ $(document).ready(function() {
     aml_fr_c.setOption("b", 35, undefined, undefined, true);
     aml_fr_c.setOption("f", 55, undefined, undefined, true);
     aml_fr_c.setOption("g", 55, undefined, undefined, true);
-    linkageConvertFromLengths(aml_fr_c);
+    linkageConvertFromLengths(aml_fr_c, true);
 
     aml_fr_c.setOption("yTranslate", -5, undefined, undefined, true);
     aml_fr_c.setOption("showCoupler", false, undefined, undefined, true);
@@ -584,7 +584,7 @@ $(document).ready(function() {
     aml_fc_c.setOption("b", 25, undefined, undefined, true);
     aml_fc_c.setOption("f", 20, undefined, undefined, true);
     aml_fc_c.setOption("g", 50, undefined, undefined, true);
-    linkageConvertFromLengths(aml_fc_c);
+    linkageConvertFromLengths(aml_fc_c, true);
 
     aml_fc_c.setOption("traceC", true, undefined, undefined, true);
     aml_fc_c.setOption("traceD", true, undefined, undefined, true);
@@ -608,7 +608,7 @@ $(document).ready(function() {
     aml_fi_c.setOption("b", 40, undefined, undefined, true);
     aml_fi_c.setOption("f", 20, undefined, undefined, true);
     aml_fi_c.setOption("g", 20, undefined, undefined, true);
-    linkageConvertFromLengths(aml_fi_c);
+    linkageConvertFromLengths(aml_fi_c, true);
 
     aml_fi_c.setOption("xTranslate", -30, undefined, undefined, true);
     aml_fi_c.setOption("gAngleDeg", -90, undefined, undefined, true);
