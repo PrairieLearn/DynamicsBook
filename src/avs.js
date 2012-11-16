@@ -35,46 +35,37 @@ $(document).ready(function() {
         pd.restore();
     };
 
-    f1car.findAngles = function(w, a, h, d) {
-        console.log(w, a, h, d);
+    f1car.findAngles = function(pd, w, a, h, d) {
         var cosMaxAngle = (w * w + h * h - a * a) / (2 * w * h);
         var maxD = a + h * cosMaxAngle / 2 - w / 2;
-        console.log(maxD, d);
         if (Math.abs(d) >= maxD) {
             return [NaN, NaN];
         }
 
-        // Solve:
-        // (w - a cos(a1) - a cos(a2))^2 + (a sin(a1) - a sin(a2))^2 - h^2 = 0
-        // a cos(a1) - a cos(a2) - 2 d = 0
-        // with Newton's method
-        var a1 = Math.PI/2;
-        var a2 = Math.PI/2;
-        var i, f1, f2, J11, J12, J21, J22, det, da1, da2;
+        // bisection method
+        var alpha0 = 0;
+        var alpha1 = Math.PI;
+        var i, alpha, beta, dTest;
         for (i = 0; i < 10; i++) {
-            f1 = Math.pow(w - a * Math.cos(a1) - a * Math.cos(a2), 2) + Math.pow(a * Math.sin(a1) - a * Math.sin(a2), 2) - h*h;
-            f2 = a * Math.cos(a1) - a * Math.cos(a2) - 2 * d;
-            J11 = -2 * a * (-w * Math.sin(a1) + a * Math.sin(a1 + a2));
-            J12 = -2 * a * (-w * Math.sin(a2) + a * Math.sin(a1 + a2));
-            J21 = -a * Math.sin(a1);
-            J22 = a * Math.sin(a2);
-            det = J11 * J22 - J12 * J21;
-            da1 = (J22 * f1 - J12 * f2) / det;
-            da2 = (-J21 * f1 + J11 * f2) / det;
-            a1 = a1 - da1;
-            a2 = a2 - da2;
-            console.log(f1, f2);
+            alpha = (alpha0 + alpha1) / 2;
+            beta = pd.solveFourBar(w, h, a, a, alpha, false);
+            dTest = (a * Math.cos(alpha) + a * Math.cos(beta)) / 2;
+            if (dTest - d > 0) {
+                alpha0 = alpha;
+            } else {
+                alpha1 = alpha;
+            }
         }
-        console.log("a1", a1,"a2", a2);
-        console.log("length", Math.sqrt(Math.pow(w - a * Math.cos(a1) - a * Math.cos(a2), 2) + Math.pow(a * Math.sin(a1) - a * Math.sin(a2), 2)), "h", h);
-        return [a1, a2];
+        alpha = (alpha0 + alpha1) / 2;
+        beta = pd.solveFourBar(w, h, a, a, alpha, false);
+        return [alpha, Math.PI - beta];
     };
 
     f1car.draw = function(pd, trackRodShorten, rackOffset) {
         var t = $V([trackRodShorten, this.trackRodOffset])
         var theta = Math.PI/2 - pd.angleOf(t);
         var a = t.modulus();
-        var angles = this.findAngles(this.width, a, this.width - 2 * trackRodShorten, rackOffset);
+        var angles = this.findAngles(pd, this.width, a, this.width - 2 * trackRodShorten, rackOffset);
         var alpha1 = angles[0];
         var alpha2 = angles[1];
         var frontLeft = $V([-this.width/2, this.length/2]);
@@ -123,7 +114,7 @@ $(document).ready(function() {
         
 	this.setUnits(11, 11);
 
-        f1car.draw(this, 0.2, 0.39);
+        f1car.draw(this, 0.2, 0.35 * Math.sin(t));
 
         if (this.getOption("radii")) {
         }
