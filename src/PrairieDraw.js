@@ -395,6 +395,19 @@ PrairieDraw.prototype.getProp = function(name) {
     return this._props[name];
 }
 
+/** @private Colors.
+*/
+PrairieDraw._colors = {
+    "black": "rgb(0, 0, 0)",
+    "white": "rgb(255, 255, 255)",
+    "red": "rgb(255, 0, 0)",
+    "green": "rgb(0, 255, 0)",
+    "blue": "rgb(0, 0, 255)",
+    "cyan": "rgb(0, 255, 255)",
+    "magenta": "rgb(255, 0, 255)",
+    "yellow": "rgb(255, 255, 0)",
+};
+
 /** @private Get a color property for a given type.
 
     @param {string} type Optional type to find the color for.
@@ -403,7 +416,14 @@ PrairieDraw.prototype._getColorProp = function(type) {
     if (type) {
         var col = type + "Color";
         if (col in this._props) {
-            return this._props[col];
+            var c = this._props[col];
+            if (c in PrairieDraw._colors) {
+                return PrairieDraw._colors[c];
+            } else {
+                return c;
+            }
+        } else if (type in PrairieDraw._colors) {
+            return PrairieDraw._colors[type];
         } else {
             throw new Error("PrairieDraw: unknown type: " + type);
         }
@@ -1777,7 +1797,7 @@ PrairieDraw.prototype.historyToTrace = function(data) {
     @param {Vector} sizeData The size of the axes in data coordinates.
     @param {string} yLabel The vertical axis label.
     @param {Array} data An array of [time, value] vectors to plot.
-    @param {string} type Optional type of line being drawn.
+    @param {string} type (Optional) The type of line being drawn.
 */
 PrairieDraw.prototype.plotHistory = function(originDw, sizeDw, sizeData, timeOffset, yLabel, data, type) {
     var scale = $V([sizeDw.e(1) / sizeData.e(1), sizeDw.e(2) / sizeData.e(2)]);
@@ -2309,6 +2329,65 @@ PrairieDraw.prototype.solveFourBar = function(g, f, a, b, alpha, flipped) {
             return Math.PI + beta1 - beta2;
         }
     }
+};
+
+/*****************************************************************************/
+
+/** Plot a line graph.
+
+    @param {Array} data Array of vectors to plot.
+    @param {Vector} originDw The lower-left position of the axes.
+    @param {Vector} sizeDw The size of the axes (vector from lower-left to upper-right).
+    @param {Vector} originData The lower-left position of the axes in data coordinates.
+    @param {Vector} sizeData The size of the axes in data coordinates.
+    @param {string} xLabel The vertical axis label.
+    @param {string} yLabel The vertical axis label.
+    @param {string} type (Optional) The type of line being drawn.
+    @param {string} drawAxes (Optional) Whether to draw the axes (default: true).
+    @param {string} drawPoint (Optional) Whether to draw the last point (default: false).
+    @param {string} pointLabel (Optional) Label for the last point (default: undefined).
+    @param {string} pointAnchor (Optional) Anchor for the last point label (default: $V([0, -1])).
+*/
+PrairieDraw.prototype.plot = function(data, originDw, sizeDw, originData, sizeData, xLabel, yLabel, type, drawAxes, drawPoint, pointLabel, pointAnchor) {
+    this.save();
+    this.translate(originDw);
+    if (drawAxes === undefined || drawAxes === true) {
+        this.save();
+        this.setProp("arrowLineWidthPx", 1);
+        this.setProp("arrowheadLengthRatio", 11);
+        this.arrow($V([0, 0]), $V([sizeDw.e(1), 0]));
+        this.arrow($V([0, 0]), $V([0, sizeDw.e(2)]));
+        this.text($V([sizeDw.e(1), 0]), $V([1, 1.5]), xLabel);
+        this.text($V([0, sizeDw.e(2)]), $V([1.5, 1]), yLabel);
+        this.restore();
+    }
+    var col = this._getColorProp(type);
+    this.setProp("shapeOutlineColor", col);
+    this.setProp("pointRadiusPx", "4");
+    var bottomLeftPx = this.pos2Px($V([0, 0]));
+    var topRightPx = this.pos2Px(sizeDw);
+    var offsetPx = topRightPx.subtract(bottomLeftPx);
+    this.save();
+    this.scale(sizeDw);
+    this.scale($V([1 / sizeData.e(1), 1 / sizeData.e(2)]));
+    this.translate(originData.x(-1));
+    this.save();
+    this._ctx.beginPath();
+    this._ctx.rect(bottomLeftPx.e(1), 0, offsetPx.e(1), this._height);
+    this._ctx.clip();
+    this.polyLine(data, false);
+    this.restore();
+    if (drawPoint !== undefined && drawPoint === true) {
+        this.point(data[data.length - 1]);
+        if (pointLabel !== undefined) {
+            if (pointAnchor === undefined) {
+                pointAnchor = $V([0, -1]);
+            }
+            this.text(data[data.length - 1], pointAnchor, pointLabel);
+        }
+    }
+    this.restore();
+    this.restore();
 };
 
 /*****************************************************************************/

@@ -47,6 +47,7 @@ $(document).ready(function() {
         var alpha1 = Math.PI;
         var i, alpha, beta, dTest;
         for (i = 0; i < 10; i++) {
+            // 10 iterations starting from pi, so tolerance of pi/1024
             alpha = (alpha0 + alpha1) / 2;
             beta = pd.solveFourBar(w, h, a, a, alpha, false);
             dTest = (a * Math.cos(alpha) + a * Math.cos(beta)) / 2;
@@ -61,11 +62,34 @@ $(document).ready(function() {
         return [alpha, Math.PI - beta];
     };
 
-    f1car.draw = function(pd, trackRodShorten, rackOffset) {
+    f1car.findRadii = function(pd, w, l, a, d, trackRodShorten, alpha1, alpha2) {
+        var r1, r2;
+        var trackRodAngle = Math.asin(trackRodShorten / a);
+        if (d === 0) {
+            r1 = -Infinity;
+            r2 = Infinity;
+        } else {
+            var theta1 = alpha1 + trackRodAngle - Math.PI / 2;
+            var theta2 = -alpha2 - trackRodAngle + Math.PI / 2;
+            if (d > 0) {
+                theta1 = Math.min(theta1, 0);
+                theta2 = Math.min(theta2, 0);
+            } else {
+                theta1 = Math.max(theta1, 0);
+                theta2 = Math.max(theta2, 0);
+            }
+            r1 = -w / 2 + l / Math.tan(theta1);
+            r2 = w / 2 + l / Math.tan(theta2);
+        }
+        return [r1, r2]
+    };
+
+    f1car.draw = function(pd, trackRodShorten, rackOffset, showRadii, showArmLines, showLabels) {
         var t = $V([trackRodShorten, this.trackRodOffset])
         var theta = Math.PI/2 - pd.angleOf(t);
         var a = t.modulus();
-        var angles = this.findAngles(pd, this.width, a, this.width - 2 * trackRodShorten, rackOffset);
+        var h = this.width - 2 * trackRodShorten;
+        var angles = this.findAngles(pd, this.width, a, h, rackOffset);
         var alpha1 = angles[0];
         var alpha2 = angles[1];
         var frontLeft = $V([-this.width/2, this.length/2]);
@@ -88,8 +112,16 @@ $(document).ready(function() {
         pd.restore();
         pd.line(p1, p2);
         var mid = p1.add(p2).x(0.5);
-        pd.arrow($V([0, mid.e(2)]), mid, 'position');
         pd.point(mid);
+        var arrowY = frontLeft.e(2) - this.trackRodOffset - 0.1;
+        pd.arrow($V([0, arrowY]), $V([mid.e(1), arrowY]), 'position');
+        if (showLabels) {
+            pd.text($V([mid.e(1) / 2, arrowY]), $V([0, 1]), "TEX:$d$");
+            pd.text(frontLeft, $V([0, -2]), "TEX:$A$");
+            pd.text(frontRight, $V([0, -2]), "TEX:$B$");
+            pd.text(p2, $V([1, 1.5]), "TEX:$C$");
+            pd.text(p1, $V([-1, 1.5]), "TEX:$D$");
+        }
 
         // rear wheels
         pd.save();
@@ -107,17 +139,94 @@ $(document).ready(function() {
         pd.rectangle(this.wheelWidth, this.wheelLength);
         pd.restore();
         pd.restore();
+
+        // radii
+        var rVec = this.findRadii(pd, this.width, this.length, a, rackOffset, trackRodShorten, alpha1, alpha2);
+        var r1 = rVec[0];
+        var r2 = rVec[1];
+        if (showRadii) {
+            pd.save();
+            pd.setProp("shapeStrokePattern", "dashed");
+            pd.setProp("shapeOutlineColor", "blue");
+            if (isFinite(r1)) {
+                pd.line(frontLeft, $V([r1, -this.length / 2]));
+            } else {
+                pd.line(frontLeft, $V([-this.width * 5, this.length / 2]));
+            }
+            pd.setProp("shapeOutlineColor", "red");
+            if (isFinite(r2)) {
+                pd.line(frontRight, $V([r2, -this.length / 2]));
+            } else {
+                pd.line(frontRight, $V([-this.width * 5, this.length / 2]));
+            }
+            pd.setProp("shapeOutlineColor", "black");
+            pd.line($V([0, -this.length / 2]), $V([-this.width * 5, -this.length / 2]));
+            pd.restore();
+
+            if (showLabels) {
+                if (isFinite(r1)) {
+                    var r1MeasY = -this.length / 2 + this.wheelLength / 2;
+                    pd.measurement($V([0, r1MeasY]), $V([r1, r1MeasY]), "TEX:$r_1$");
+                }
+                if (isFinite(r2)) {
+                    var r2MeasY = -this.length / 2 + this.wheelLength / 2 + 0.4;
+                    pd.measurement($V([0, r2MeasY]), $V([r2, r2MeasY]), "TEX:$r_2$");
+                }
+            }
+        }
+        if (showArmLines) {
+            pd.save();
+            pd.setProp("shapeStrokePattern", "dashed");
+            pd.line(frontLeft, frontLeft.add($V([this.length * Math.tan(Math.PI/2 - alpha1), -this.length])));
+            pd.line(frontRight, frontRight.add($V([-this.length * Math.tan(Math.PI/2 - alpha2), -this.length])));
+            pd.restore();
+        }
+        return rVec;
     };
 
     var avs_fr_c = new PrairieDrawAnim("avs-fr-c", function(t) {
-        this.addOption("radii", false);
+        this.addOption("trackRodShortenCM", 0);
+        this.addOption("showLabels", true);
         
-	this.setUnits(11, 11);
+	this.setUnits(11, 10);
 
-        f1car.draw(this, 0.2, 0.35 * Math.sin(t));
+        var trackRodShorten = this.getOption("trackRodShortenCM") / 100;
 
-        if (this.getOption("radii")) {
+        var dMax = 0.38;
+        var d = dMax * 0.5 * (1 - Math.cos(t));
+        this.save();
+        this.translate($V([3, 2]));
+        var rVec = f1car.draw(this, trackRodShorten, d, true, true, this.getOption("showLabels"));
+        this.restore();
+        var r1 = rVec[0];
+        var r2 = rVec[1];
+
+        var ir1History = this.history("ir1", 0.05, 2 * Math.PI + 0.05, t, $V([d, -1 / r1]));
+        var ir2History = this.history("ir2", 0.05, 2 * Math.PI + 0.05, t, $V([d, -1 / r2]));
+            
+        var ir1Trace = this.historyToTrace(ir1History);
+        var ir2Trace = this.historyToTrace(ir2History);
+
+        var origin = $V([-3.7, -4.1]);
+        var size = $V([8.5, 3]);
+        var pointLabel = undefined;
+        var pointAnchor = undefined;
+        if (this.getOption("showLabels")) {
+            pointLabel = "TEX:$\\displaystyle \\frac{1}{r_1}$";
+            pointAnchor = $V([-1, 1]);
         }
+        this.plot(ir1Trace, origin, size, $V([0, 0]), $V([dMax * 1.2, 0.3]),
+                  "TEX:$d\\ /\\ \\rm m$", "TEX:$\\displaystyle \\frac{1}{r}\\ /\\ \\rm m^{-1}$",
+                  "blue", true, true, pointLabel, pointAnchor);
+        if (this.getOption("showLabels")) {
+            pointLabel = "TEX:$\\displaystyle \\frac{1}{r_2}$";
+            pointAnchor = $V([1, -1]);
+        }
+        this.plot(ir2Trace, origin, size, $V([0, 0]), $V([dMax * 1.2, 0.3]),
+                  "TEX:$d\\ /\\ \\rm m$", "TEX:$\\displaystyle \\frac{1}{r}\\ /\\ \\rm m^{-1}$",
+                  "red", false, true, pointLabel, pointAnchor);
     });
+
+    avs_fr_c.registerOptionCallback("trackRodShortenCM", function(value) {this.clearAllHistory();});
 
 }); // end of document.ready()

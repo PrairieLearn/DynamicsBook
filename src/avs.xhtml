@@ -69,16 +69,27 @@
       </div>
     </div>
     <div class="contentBlock">
-      <div id="avs-sg" class="section level3 contentCol">
-        <h2>Steering geometry</h2>
-        <p>
-          <canvas id="avs-fr-c" width="600" height="600">
+      <div id="avs-sr" class="section level3 contentCol">
+        <h2>Ackerman steering geometry</h2>
+        <div class="figureContainer width600" id="aml-fr">
+          <canvas id="avs-fr-c" width="600" height="800" class="figureImage">
           </canvas>
-        </p>
-        <p>
-          <button class="anim-toggle:avs-fr-c">animation</button>
-          <button class="option-toggle:avs-fr-c:radii">components</button>
-        </p>
+          <p class="controls">
+            <button class="anim-toggle:avs-fr-c">animation</button>
+            <button class="option-toggle:avs-fr-c:showLabels">labels</button>
+            <button class="reset:avs-fr-c">reset</button>
+          </p>
+          <p class="controls">
+            Track rod shorten:
+            <input type="range" min="-10" max="20" value="0" step="1" class="data-input:avs-fr-c:trackRodShortenCM" />
+            \(s = \) <span class="data-option:avs-fr-c:trackRodShortenCM"></span> cm
+          </p>
+          <p class="figureCaption">
+            Adjustable Ackerman steering geometry. The graph shows the
+            radius of curvature for the two front wheels as a function
+            of the rack offset \(d\).
+          </p>
+        </div>
       </div>
       <div class="infoCol">
         <div id="avs-ir" class="infoBox factBox">
@@ -108,11 +119,27 @@
           <p>
             Three wheeled vehicles with two wheels in back and one in
             front (a <em>delta</em> or <em>tricycle</em>
-            configuration) avoid the steering problem, leading Karl
-            Benz to use this system in the world's <a
+            configuration) avoid the steering geometry problem,
+            leading Karl Benz to use this system in the world's <a
             href="http://en.wikipedia.org/wiki/Benz_Patent_Motorwagen">first
-            automobile</a>. <a href="">Episode 4 of Season 9</a> of
-            Top Gear featured an <a
+            automobile</a>.
+          </p>
+          <div class="imageBox width250">
+            <img src="avs_Motorwagen_Serienversion_shaved_small.jpg" alt="Benz Patent-Motorwagen Nr. 3."></img>
+            <p class="caption">
+              Benz Patent-Motorwagen Nr. 3 from 1888. Image credit:
+              <a
+              href="http://commons.wikimedia.org/wiki/File:Motorwagen_Serienversion.jpg">Wikimedia
+              Commons</a> (<a
+              href="http://creativecommons.org/licenses/publicdomain/">public
+              domain</a>) (<a
+              href="avs_Motorwagen_Serienversion.jpg">full-sized
+              image</a>).
+            </p>
+          </div>
+          <p>
+            <a href="">Episode 4 of Season 9</a> of Top Gear featured
+            an <a
             href="http://www.youtube.com/watch?v=_bIn_ZgHJaE">interesting
             segment</a> on the <a
             href="http://en.wikipedia.org/wiki/Reliant_Robin">Reliant

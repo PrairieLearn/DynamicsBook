@@ -2,7 +2,7 @@
 
 import os, sys, re, hashlib, subprocess
 
-TEXT_RE = re.compile("\"TEX:(.+)\"");
+TEXT_RE = re.compile("\"TEX:([^\"]+)\"");
 
 TEXT_DIR = "text"
 
@@ -12,6 +12,18 @@ if len(sys.argv) <= 1:
 
 if not os.path.isdir(TEXT_DIR):
     os.mkdir(TEXT_DIR)
+
+escape_seqs = {
+    "b": "\b",
+    "f": "\f",
+    "n": "\n",
+    "r": "\r",
+    "t": "\t",
+    "v": "\v",
+    "'": "'",
+    '"': '"',
+    "\\": "\\",
+    }
 
 def unescape(s):
     chars = []
@@ -23,24 +35,8 @@ def unescape(s):
             if i == len(s) - 1:
                 break
             i += 1
-            if s[i] == "b":
-                chars.append("\b")
-            elif s[i] == "f":
-                chars.append("\f")
-            elif s[i] == "n":
-                chars.append("\n")
-            elif s[i] == "r":
-                chars.append("\r")
-            elif s[i] == "t":
-                chars.append("\t")
-            elif s[i] == "v":
-                chars.append("\v")
-            elif s[i] == "'":
-                chars.append("'")
-            elif s[i] == '"':
-                chars.append('"')
-            elif s[i] == "\\":
-                chars.append("\\")
+            if s[i] in escape_seqs:
+                chars.append(escape_seqs[s[i]])
         i += 1
     return "".join(chars)
 
@@ -48,9 +44,8 @@ for filename in sys.argv[1:]:
     print filename
     with open(filename) as file:
         for line in file:
-            match = TEXT_RE.search(line)
-            if match:
-                text = unescape(match.group(1))
+            for matchtext in TEXT_RE.findall(line):
+                text = unescape(matchtext)
                 hash = hashlib.sha1(text).hexdigest()
                 print(hash + " " + text)
                 tex_filename = hash + ".tex"
