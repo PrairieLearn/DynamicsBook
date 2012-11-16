@@ -33,15 +33,15 @@ $(document).ready(function() {
         var beta2 = cosLawAngle(l, b, f);
         if (Math.sin(alpha) > 0) {
             if (flipped) {
-                return beta1 - beta2;
+                return Math.PI - beta1 + beta2;
             } else {
-                return beta1 + beta2;
+                return Math.PI - beta1 - beta2;
             }
         } else {
             if (flipped) {
-                return -beta1 - beta2;
+                return Math.PI + beta1 + beta2;
             } else {
-                return -beta1 + beta2;
+                return Math.PI + beta1 - beta2;
             }
         }
     };
@@ -315,7 +315,7 @@ $(document).ready(function() {
         var pA = $V([-g/2, 0]).rotate(gAngle, $V([0, 0]));
         var pB = $V([g/2, 0]).rotate(gAngle, $V([0, 0]));
         var pD = pA.add(this.vector2DAtAngle(angleSign * alpha + gAngle).x(a));
-        var pC = pB.add(this.vector2DAtAngle(angleSign * (Math.PI - beta) + gAngle).x(b));
+        var pC = pB.add(this.vector2DAtAngle(angleSign * beta + gAngle).x(b));
 
         var pt = pC.subtract(pD);
         var po = pt.rotate(Math.PI/2, $V([0, 0]));
@@ -416,7 +416,7 @@ $(document).ready(function() {
             this.labelCircleLine(pA, alphaR, gAngle, alphaShow + gAngle, $V([0, 1]), "TEX:$\\alpha$");
 
             var betaR = Math.min(10, Math.min(g, b) * 0.7);
-            var betaShow = angleSign * this.fixedMod(Math.PI - beta, 2 * Math.PI);
+            var betaShow = angleSign * this.fixedMod(beta, 2 * Math.PI);
             this.save();
             this.setProp("shapeStrokePattern", "dashed");
             this.line(pB, pB.add(this.vector2DAtAngle(gAngle).x(betaR * 1.4)));
@@ -744,7 +744,7 @@ $(document).ready(function() {
             newPivotB = newBasePos[1];
         }
         var unitAB = newPivotB.subtract(newPivotA).toUnitVector();
-        var newPivotC = newPivotB.add(unitAB.rotate(Math.PI - beta, $V([0, 0])).x(b));
+        var newPivotC = newPivotB.add(unitAB.rotate(beta, $V([0, 0])).x(b));
         var newPivotD = newPivotA.add(unitAB.rotate(alpha, $V([0, 0])).x(a));
         var newPivots = [newPivotA, newPivotB, newPivotC, newPivotD];
         
