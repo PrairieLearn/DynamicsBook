@@ -697,6 +697,34 @@ PrairieDraw.prototype.angleFrom = function(vFrom, vTo) {
     return this.angleOf(vTo) - this.angleOf(vFrom);
 };
 
+/** Determine a triangle angle from the three side lengths.
+
+    @param {number} a First adjacent side length.
+    @param {number} b Second adjacent side length.
+    @param {number} c Opposite side length.
+    @return {number} The angle C opposite to side c.
+*/
+PrairieDraw.prototype.cosLawAngle = function(a, b, c) {
+    if (a > 0 && b > 0) {
+        var C = Math.acos((a * a + b * b - c * c) / (2 * a * b));
+        return C;
+    } else {
+        return 0;
+    }
+}
+
+/** Determine a triangle side length from two side lengths and the included angle.
+
+    @param {number} a First adjacent side length.
+    @param {number} b Second adjacent side length.
+    @param {number} C Angle between sides a and b.
+    @return {number} The side length c opposite to angle C.
+*/
+PrairieDraw.prototype.cosLawLength = function(a, b, C) {
+    var c = Math.sqrt(a * a + b * b - 2 * a * b * Math.cos(C));
+    return c;
+}
+
 /** Return the sign of the argument.
 
     @param {number} x The argument to find the sign of.
@@ -2250,6 +2278,37 @@ PrairieDraw.prototype.reportMouseSample = function(event) {
 
 PrairieDraw.prototype.activateMouseSampling = function() {
     this._canvas.addEventListener('click', this.reportMouseSample.bind(this));
+};
+
+/*****************************************************************************/
+
+/** Find the output angle beta for a four-bar linkage.
+
+ @param {number} g Ground link length.
+ @param {number} f Input link length.
+ @param {number} a Output link length.
+ @param {number} b Floating link length.
+ @param {number} alpha Input angle.
+ @param {bool} flipped Whether the output-floating triangle is flipped.
+ @return {number} Output angle beta.
+*/
+PrairieDraw.prototype.solveFourBar = function(g, f, a, b, alpha, flipped) {
+    var l = this.cosLawLength(a, g, alpha);
+    var beta1 = this.cosLawAngle(g, l, a);
+    var beta2 = this.cosLawAngle(l, b, f);
+    if (Math.sin(alpha) > 0) {
+        if (flipped) {
+            return Math.PI - beta1 + beta2;
+        } else {
+            return Math.PI - beta1 - beta2;
+        }
+    } else {
+        if (flipped) {
+            return Math.PI + beta1 + beta2;
+        } else {
+            return Math.PI + beta1 - beta2;
+        }
+    }
 };
 
 /*****************************************************************************/

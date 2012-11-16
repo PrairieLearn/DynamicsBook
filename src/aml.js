@@ -6,47 +6,7 @@ $(document).ready(function() {
     **************************************************************
     *************************************************************/
 
-    // g = ground link
-    // a = input link
-    // b = output link
-    // f = floating link
-    // alpha = input angle
-    // beta = output interior angle
-
-    var cosLawAngle = function(a, b, c) {
-        if (a > 0 && b > 0) {
-            var C = Math.acos((a * a + b * b - c * c) / (2 * a * b));
-            return C;
-        } else {
-            return 0;
-        }
-    }
-
-    var cosLawLength = function(a, b, C) {
-        var c = Math.sqrt(a * a + b * b - 2 * a * b * Math.cos(C));
-        return c;
-    }
-
-    var solveFourBar = function(g, f, a, b, alpha, flipped) {
-        var l = cosLawLength(a, g, alpha);
-        var beta1 = cosLawAngle(g, l, a);
-        var beta2 = cosLawAngle(l, b, f);
-        if (Math.sin(alpha) > 0) {
-            if (flipped) {
-                return Math.PI - beta1 + beta2;
-            } else {
-                return Math.PI - beta1 - beta2;
-            }
-        } else {
-            if (flipped) {
-                return Math.PI + beta1 + beta2;
-            } else {
-                return Math.PI + beta1 - beta2;
-            }
-        }
-    };
-
-    var limitsFourBar = function(g, f, a, b) {
+    var limitsFourBar = function(pd, g, f, a, b) {
         var limits = {};
         limits.L = g + f + a + b;
         limits.ValidityIndex = limits.L - 2 * Math.max(g, f, a, b);
@@ -81,12 +41,12 @@ $(document).ready(function() {
         var linkageKey = (charVal(limits.T1) + charVal(limits.T2) + charVal(limits.T3));
 
         var limitAngles = [
-            cosLawAngle(a, g, f + b),
-            -cosLawAngle(a, g, f + b),
-            cosLawAngle(a, g, f - b),
-            2 * Math.PI - cosLawAngle(a, g, f - b),
-            cosLawAngle(a, g, b - f),
-            2 * Math.PI - cosLawAngle(a, g, b - f)
+            pd.cosLawAngle(a, g, f + b),
+            -pd.cosLawAngle(a, g, f + b),
+            pd.cosLawAngle(a, g, f - b),
+            2 * Math.PI - pd.cosLawAngle(a, g, f - b),
+            pd.cosLawAngle(a, g, b - f),
+            2 * Math.PI - pd.cosLawAngle(a, g, b - f)
         ];
 
         var keyMap = {
@@ -200,7 +160,7 @@ $(document).ready(function() {
 
         var gAngle = this.degToRad(this.getOption("gAngleDeg"));
 
-        var limits = limitsFourBar(g, f, a, b);
+        var limits = limitsFourBar(this, g, f, a, b);
 
         this.addOption("inputType", limits.inputType);
         this.addOption("outputType", limits.outputType);
@@ -311,7 +271,7 @@ $(document).ready(function() {
         flipped = (this.getOption("flipped") ? !flipped : flipped);
         var angleSign = (this.getOption("reversed") ? -1 : 1);
 
-        var beta = solveFourBar(g, f, a, b, alpha, flipped);
+        var beta = this.solveFourBar(g, f, a, b, alpha, flipped);
         var pA = $V([-g/2, 0]).rotate(gAngle, $V([0, 0]));
         var pB = $V([g/2, 0]).rotate(gAngle, $V([0, 0]));
         var pD = pA.add(this.vector2DAtAngle(angleSign * alpha + gAngle).x(a));
@@ -498,7 +458,7 @@ $(document).ready(function() {
         var g = pd.getOption("g");
         var f = pd.getOption("f");
 
-        var limits = limitsFourBar(g, f, a, b);
+        var limits = limitsFourBar(pd, g, f, a, b);
         pd.setOption("inputType", limits.inputType, false, undefined, setReset);
         pd.setOption("outputType", limits.outputType, false, undefined, setReset);
         pd.setOption("ValidityIndex", limits.ValidityIndex, false, undefined, setReset);
@@ -733,7 +693,7 @@ $(document).ready(function() {
         var b = pivotC.subtract(pivotB).modulus();
         var g = pivotB.subtract(pivotA).modulus();
         var f = pivotC.subtract(pivotD).modulus();
-        var beta = solveFourBar(g, f, a, b, alpha, flipped);
+        var beta = pd.solveFourBar(g, f, a, b, alpha, flipped);
         var newPivotA, newPivotB;
         if (pivotPosFcn === undefined) {
             newPivotA = pivotA;
