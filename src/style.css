@@ -390,7 +390,7 @@ button.envShowHide {
 
 /*****************************************************************************/
 
-div.figureContainer600 {
+div.figureContainer.width600 {
     width: 602px;
     display: block;
     margin-left: auto;
@@ -404,11 +404,12 @@ div.figureContainer600 {
     border: 1px solid #000;
 }
 
-div.figureContainer600 .controls {
+div.figureContainer.width600 .controls {
     margin-top: 0px;
+    margin-bottom: 10px;
 }
 
-div.figureContainer600 .controls button:first-child {
+div.figureContainer.width600 .controls button:first-child {
     margin-left: 0px;
 }
 
@@ -422,6 +423,13 @@ p.figureCaption {
 
 /*****************************************************************************/
 
+div.imageBox.width250 {
+    width: 252px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .imageBox img {
     display: block;
     margin-left: auto;
@@ -433,6 +441,15 @@ p.figureCaption {
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+
+div.imageBox.width250 .controls {
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+
+div.imageBox.width250 .controls button:first-child {
+    margin-left: 0px;
 }
 
 .imageBox p.caption {
