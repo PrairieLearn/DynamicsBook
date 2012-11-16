@@ -337,7 +337,7 @@ div.envBody {
 }
 
 canvas {
-    border: 1px solid black;
+    border: 1px solid #000;
 }
 
 canvas.noBorder {
@@ -390,10 +390,26 @@ button.envShowHide {
 
 /*****************************************************************************/
 
+div.figureContainer600 {
+    width: 602px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .figureImage {
     display: block;
     margin-left: auto;
     margin-right: auto;
+    border: 1px solid #000;
+}
+
+div.figureContainer600 .controls {
+    margin-top: 0px;
+}
+
+div.figureContainer600 .controls button:first-child {
+    margin-left: 0px;
 }
 
 p.figureCaption {
@@ -404,10 +420,13 @@ p.figureCaption {
     margin-right: auto;
 }
 
+/*****************************************************************************/
+
 .imageBox img {
     display: block;
     margin-left: auto;
     margin-right: auto;
+    border: 1px solid #000;
 }
 
 .imageBox canvas {
@@ -420,10 +439,11 @@ p.figureCaption {
     font-size: 80%;
 }
 
+
 /*****************************************************************************/
 
 div.references {
-    font-size: 80%;
+    font-size: 90%;
 }
 
 /*****************************************************************************/
