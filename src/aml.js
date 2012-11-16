@@ -933,15 +933,22 @@ $(document).ready(function() {
         }
     });
 
+    $('button[class~="reset-time:aml-fp-c"]').click(function() {
+        aml_fp_c.stopAnim();
+        aml_fp_c.resetTime();
+    });
+
     aml_fp_c.registerOptionCallback("showLinkage", function(value) {
         if (value) {
+            this.stopAnim();
             this.resetTime();
-            this.stopAnim();
             $('button[class~="anim-toggle:aml-fp-c"]').css("visibility", "visible");
+            $('button[class~="reset-time:aml-fp-c"]').css("visibility", "visible");
         } else {
-            this.resetTime(false);
             this.stopAnim();
+            this.resetTime(false);
             $('button[class~="anim-toggle:aml-fp-c"]').css("visibility", "hidden");
+            $('button[class~="reset-time:aml-fp-c"]').css("visibility", "hidden");
         }
     });
 
@@ -1027,15 +1034,22 @@ $(document).ready(function() {
         }
     });
 
+    $('button[class~="reset-time:aml-fb-c"]').click(function() {
+        aml_fb_c.stopAnim();
+        aml_fb_c.resetTime();
+    });
+
     aml_fb_c.registerOptionCallback("showLinkage", function(value) {
         if (value) {
+            this.stopAnim();
             this.resetTime();
-            this.stopAnim();
             $('button[class~="anim-toggle:aml-fb-c"]').css("visibility", "visible");
+            $('button[class~="reset-time:aml-fb-c"]').css("visibility", "visible");
         } else {
-            this.resetTime(false);
             this.stopAnim();
+            this.resetTime(false);
             $('button[class~="anim-toggle:aml-fb-c"]').css("visibility", "hidden");
+            $('button[class~="reset-time:aml-fb-c"]').css("visibility", "hidden");
         }
     });
 
@@ -1144,15 +1158,22 @@ $(document).ready(function() {
         }
     });
 
+    $('button[class~="reset-time:aml-fk-c"]').click(function() {
+        aml_fk_c.stopAnim();
+        aml_fk_c.resetTime();
+    });
+
     aml_fk_c.registerOptionCallback("showLinkage", function(value) {
         if (value) {
+            this.stopAnim();
             this.resetTime();
-            this.stopAnim();
             $('button[class~="anim-toggle:aml-fk-c"]').css("visibility", "visible");
+            $('button[class~="reset-time:aml-fk-c"]').css("visibility", "visible");
         } else {
-            this.resetTime(false);
             this.stopAnim();
+            this.resetTime(false);
             $('button[class~="anim-toggle:aml-fk-c"]').css("visibility", "hidden");
+            $('button[class~="reset-time:aml-fk-c"]').css("visibility", "hidden");
         }
     });
 
@@ -1254,16 +1275,24 @@ $(document).ready(function() {
         }
     });
 
+    $('button[class~="reset-time:aml-fw-c"]').click(function() {
+        aml_fw_c.stopAnim();
+        aml_fw_c.clearAllHistory();
+        aml_fw_c.resetTime();
+    });
+
     aml_fw_c.registerOptionCallback("showLinkage", function(value) {
         if (value) {
-            this.resetTime();
             this.stopAnim();
             this.clearAllHistory();
+            this.resetTime();
             $('button[class~="anim-toggle:aml-fw-c"]').css("visibility", "visible");
+            $('button[class~="reset-time:aml-fw-c"]').css("visibility", "visible");
         } else {
-            this.resetTime(false);
             this.stopAnim();
+            this.resetTime(false);
             $('button[class~="anim-toggle:aml-fw-c"]').css("visibility", "hidden");
+            $('button[class~="reset-time:aml-fw-c"]').css("visibility", "hidden");
         }
     });
 
@@ -1437,19 +1466,27 @@ $(document).ready(function() {
         }
     });
 
+    $('button[class~="reset-time:aml-fj-c"]').click(function() {
+        aml_fj_c.stopAnim();
+        aml_fj_c.setOption("showForces", false);
+        aml_fj_c.resetTime();
+    });
+
     aml_fj_c.registerOptionCallback("showLinkage", function(value) {
         if (value) {
-            this.resetTime();
             this.stopAnim();
             this.setOption("showForces", false);
+            this.resetTime();
             $('button[class~="anim-toggle:aml-fj-c"]').css("visibility", "visible");
             $('button[class~="option-toggle:aml-fj-c:showForces"]').css("visibility", "visible");
+            $('button[class~="reset-time:aml-fj-c"]').css("visibility", "visible");
         } else {
-            this.resetTime(false);
             this.stopAnim();
             this.setOption("showForces", false);
+            this.resetTime(false);
             $('button[class~="anim-toggle:aml-fj-c"]').css("visibility", "hidden");
             $('button[class~="option-toggle:aml-fj-c:showForces"]').css("visibility", "hidden");
+            $('button[class~="reset-time:aml-fj-c"]').css("visibility", "hidden");
         }
     });
 
