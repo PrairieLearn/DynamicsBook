@@ -1753,7 +1753,7 @@ PrairieDraw.prototype.historyToTrace = function(data) {
 */
 PrairieDraw.prototype.plotHistory = function(originDw, sizeDw, sizeData, timeOffset, yLabel, data, type) {
     var scale = $V([sizeDw.e(1) / sizeData.e(1), sizeDw.e(2) / sizeData.e(2)]);
-    var lastTime = data[data.length - 1].e(1);
+    var lastTime = data[data.length - 1][0];
     var offset = $V([timeOffset - lastTime, 0]);
     var plotData = this.scalePoints(this.translatePoints(this.pairsToVectors(data), offset), scale);
 
