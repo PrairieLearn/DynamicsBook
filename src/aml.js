@@ -905,14 +905,14 @@ $(document).ready(function() {
         {outlineData: pumpLinkBC,
          startPivot: 1,
          endPivot: 2,
-         outlineColor: "rgb(0, 255, 0)",
-         insideColor: "rgba(0, 255, 0, 0.3)"
+         outlineColor: "rgb(255, 0, 255)",
+         insideColor: "rgba(255, 0, 255, 0.3)"
         },
         {outlineData: pumpLinkCD,
          startPivot: 2,
          endPivot: 3,
-         outlineColor: "rgb(255, 0, 255)",
-         insideColor: "rgba(255, 0, 255, 0.3)"
+         outlineColor: "rgb(0, 255, 0)",
+         insideColor: "rgba(0, 255, 0, 0.3)"
         },
         {outlineData: pumpLinkDA,
          startPivot: 3,
@@ -999,14 +999,14 @@ $(document).ready(function() {
         {outlineData: bikeLinkBC,
          startPivot: 1,
          endPivot: 2,
-         outlineColor: "rgb(0, 255, 0)",
-         insideColor: "rgba(0, 255, 0, 0.3)"
+         outlineColor: "rgb(255, 0, 255)",
+         insideColor: "rgba(255, 0, 255, 0.3)"
         },
         {outlineData: bikeLinkCD,
          startPivot: 2,
          endPivot: 3,
-         outlineColor: "rgb(255, 0, 255)",
-         insideColor: "rgba(255, 0, 255, 0.3)"
+         outlineColor: "rgb(0, 255, 0)",
+         insideColor: "rgba(0, 255, 0, 0.3)"
         },
         {outlineData: bikeLinkDA,
          startPivot: 3,
@@ -1099,8 +1099,8 @@ $(document).ready(function() {
         {outlineData: kneeLinkBC,
          startPivot: 1,
          endPivot: 2,
-         outlineColor: "rgb(0, 255, 0)",
-         insideColor: "rgba(0, 255, 0, 0.3)",
+         outlineColor: "rgb(255, 0, 255)",
+         insideColor: "rgba(255, 0, 255, 0.3)",
          label: "TEX:PCL",
          labelPos: $V([140, -100]),
          labelAnchor: $V([-1, 0])
@@ -1108,8 +1108,8 @@ $(document).ready(function() {
         {outlineData: kneeLinkCD,
          startPivot: 2,
          endPivot: 3,
-         outlineColor: "rgb(255, 0, 255)",
-         insideColor: "rgba(255, 0, 255, 0.3)",
+         outlineColor: "rgb(0, 255, 0)",
+         insideColor: "rgba(0, 255, 0, 0.3)",
          label: "TEX:femur",
          labelPos: $V([-30, 80]),
          labelAnchor: $V([0, 0])
@@ -1221,14 +1221,14 @@ $(document).ready(function() {
         {outlineData: wattLinkBC,
          startPivot: 1,
          endPivot: 2,
-         outlineColor: "rgb(0, 255, 0)",
-         insideColor: "rgba(0, 255, 0, 0.3)"
+         outlineColor: "rgb(255, 0, 255)",
+         insideColor: "rgba(255, 0, 255, 0.3)"
         },
         {outlineData: wattLinkCD,
          startPivot: 2,
          endPivot: 3,
-         outlineColor: "rgb(255, 0, 255)",
-         insideColor: "rgba(255, 0, 255, 0.3)",
+         outlineColor: "rgb(0, 255, 0)",
+         insideColor: "rgba(0, 255, 0, 0.3)",
          couplerPosition: 0,
          couplerOffset: 0,
          //couplerLabel: "TEX:$P$",
@@ -1398,8 +1398,8 @@ $(document).ready(function() {
         {outlineData: fishJawBC,
          startPivot: 1,
          endPivot: 2,
-         outlineColor: "rgb(0, 255, 0)",
-         insideColor: "rgba(0, 255, 0, 0.3)",
+         outlineColor: "rgb(255, 0, 255)",
+         insideColor: "rgba(255, 0, 255, 0.3)",
          forces: [
              [$V([79, -202]), $V([-50, 10])]
          ],
@@ -1408,8 +1408,8 @@ $(document).ready(function() {
         {outlineData: fishJawCD,
          startPivot: 2,
          endPivot: 3,
-         outlineColor: "rgb(255, 0, 255)",
-         insideColor: "rgba(255, 0, 255, 0.3)",
+         outlineColor: "rgb(0, 255, 0)",
+         insideColor: "rgba(0, 255, 0, 0.3)",
         },
         {outlineData: fishJawDA,
          startPivot: 3,
