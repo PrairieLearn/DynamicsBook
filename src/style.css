@@ -175,18 +175,24 @@ div.footer {
 button {
     display: inline-block;
     padding: 3px 5px;
+    color: #000;
     background-color: #f5f5f5;
     border: 1px solid #bbb;
     border-top: 1px solid #ddd;
     border-left: 1px solid #ddd;
 }
 
-button.active {
-    color: #000;
+button:hover {
+    background-color: #eee;
+}
+
+button:active {
+    background-color: #888;
 }
 
 button.inactive {
     color: #aaa;
+    background-color: #f5f5f5;
 }
 
 .column {
@@ -344,6 +350,10 @@ canvas.noBorder {
     border: 0px;
 }
 
+canvas.drawable {
+    cursor: crosshair;
+}
+
 button.envShowHide {
     display: block;
     padding: 0px;
@@ -411,6 +421,14 @@ div.figureContainer.width600 .controls {
 
 div.figureContainer.width600 .controls button:first-child {
     margin-left: 0px;
+}
+
+div.figureContainer > table {
+    width: 100%;
+}
+
+div.figureContainer > table > tr > td:first-child {
+    width: 4em;
 }
 
 p.figureCaption {
@@ -555,6 +573,16 @@ table.alignTop th {
 
 table.alignTop td {
     vertical-align: top;
+}
+
+/*****************************************************************************/
+
+td.inactive {
+    color: #aaa;
+}
+
+input.inactive {
+    color: #faa;
 }
 
 /*****************************************************************************/

@@ -448,7 +448,12 @@ PrairieDraw.prototype.addOption = function(name, value, triggerRedraw) {
             triggerRedraw: ((triggerRedraw === undefined) ? true : triggerRedraw)
         };
     } else if (!("value" in this._options[name])) {
-        this._options[name].value = value;
+        var option = this._options[name];
+        option.value = value;
+        option.resetValue = value;
+        for (var p in option.callbacks) {
+            option.callbacks[p](option.value);
+        }
     }
 }
 
@@ -550,6 +555,7 @@ PrairieDraw.prototype.clearOptionValue = function(name) {
     if ("value" in this._options[name]) {
         delete this._options[name].value;
     }
+    this.redraw();
 };
 
 /** Reset the value for the given option.
@@ -1795,8 +1801,9 @@ PrairieDraw.prototype.historyToTrace = function(data) {
     @param {Vector} originDw The lower-left position of the axes.
     @param {Vector} sizeDw The size of the axes (vector from lower-left to upper-right).
     @param {Vector} sizeData The size of the axes in data coordinates.
+    @param {number} timeOffset The horizontal position for the current time.
     @param {string} yLabel The vertical axis label.
-    @param {Array} data An array of [time, value] vectors to plot.
+    @param {Array} data An array of [time, value] arrays to plot.
     @param {string} type (Optional) The type of line being drawn.
 */
 PrairieDraw.prototype.plotHistory = function(originDw, sizeDw, sizeData, timeOffset, yLabel, data, type) {
@@ -1846,6 +1853,7 @@ function PrairieDrawAnim(canvas, drawFcn) {
     this._running = false;
     this._sequences = {};
     this._animStateCallbacks = [];
+    this._animStepCallbacks = [];
     if (drawFcn) {
         this.draw = drawFcn.bind(this);
     }
@@ -1917,8 +1925,16 @@ PrairieDrawAnim.prototype.toggleAnim = function() {
     @param {Function} callback The callback(animated) function.
 */
 PrairieDrawAnim.prototype.registerAnimCallback = function(callback) {
-    this._animStateCallbacks.push(callback);
-    callback(this._running);
+    this._animStateCallbacks.push(callback.bind(this));
+    callback.apply(this, [this._running]);
+}
+
+/** Register a callback on animation steps.
+
+    @param {Function} callback The callback(t) function.
+*/
+PrairieDrawAnim.prototype.registerAnimStepCallback = function(callback) {
+    this._animStepCallbacks.push(callback.bind(this));
 }
 
 /** @private Callback function to handle the animationFrame events.
@@ -1930,7 +1946,11 @@ PrairieDrawAnim.prototype._callback = function(t_ms) {
     }
     var animTime = t_ms - this._timeOffset;
     this._drawTime = animTime;
-    this.draw(animTime / 1000);
+    var t = animTime / 1000;
+    for (var i = 0; i < this._animStepCallbacks.length; i++) {
+        this._animStepCallbacks[i](t);
+    }
+    this.draw(t);
     if (this._running) {
         this._requestAnimationFrame.call(window, this._callback.bind(this));
     }
@@ -1950,6 +1970,9 @@ PrairieDrawAnim.prototype.redraw = function() {
 */
 PrairieDrawAnim.prototype.resetTime = function(redraw) {
     this._drawTime = 0;
+    for (var i = 0; i < this._animStepCallbacks.length; i++) {
+        this._animStepCallbacks[i](0);
+    }
     this._startFrame = true;
     if (redraw === undefined || redraw === true) {
         this.redraw();
@@ -1962,7 +1985,7 @@ PrairieDrawAnim.prototype.reset = function() {
     for (optionName in this._options) {
         this.resetOptionValue(optionName)
     }
-    this._sequences = {};
+    this.resetAllSequences();
     this.clearAllHistory();
     this.stopAnim();
     this.resetTime();
@@ -1973,6 +1996,10 @@ PrairieDrawAnim.prototype.reset = function() {
 PrairieDrawAnim.prototype.stop = function() {
     this.stopAnim();
 }
+
+PrairieDrawAnim.prototype.lastDrawTime = function() {
+    return this._drawTime / 1000;
+};
 
 /*****************************************************************************/
 
@@ -2084,14 +2111,20 @@ PrairieDrawAnim.prototype.controlSequence = function(name, states, transTimes, t
 /** Start the next transition for the given sequence.
 
     @param {string} name Name of the sequence to transition.
+    @param {string} stateName (Optional) Only transition if we are currently in stateName.
 */
-PrairieDrawAnim.prototype.stepSequence = function(name) {
+PrairieDrawAnim.prototype.stepSequence = function(name, stateName) {
     if (!(name in this._sequences)) {
         throw new Error("PrairieDraw: unknown sequence: " + name);
     }
     var seq = this._sequences[name];
     if (!seq.lastState.indefiniteHold) {
         return;
+    }
+    if (stateName !== undefined) {
+        if (seq.lastState.name !== stateName) {
+            return;
+        }
     }
     seq.startTransition = true;
     this.startAnim();
@@ -2114,9 +2147,13 @@ PrairieDrawAnim.prototype.newSequence = function(name, states, transTimes, holdT
         this._sequences[name] = {
             startTransition: false,
             lastState: {},
-            callbacks: []
+            callbacks: [],
+            initialized: false
         };
         seq = this._sequences[name];
+    }
+    if (!seq.initialized) {
+        seq.initialized = true;
         for (var e in states[0]) {
             if (typeof states[0][e] === "number") {
                 seq.lastState[e] = states[0][e];
@@ -2128,16 +2165,21 @@ PrairieDrawAnim.prototype.newSequence = function(name, states, transTimes, holdT
         seq.lastState.indefiniteHold = false,
         seq.lastState.index = 0;
         seq.lastState.name = names[seq.lastState.index];
-        seq.lastState.t = t;
+        seq.lastState.t = 0;
+        seq.lastState.realT = t;
         if (holdTimes[0] < 0) {
             seq.lastState.indefiniteHold = true;
+        }
+        for (var i = 0; i < seq.callbacks.length; i++) {
+            seq.callbacks[i]("enter", seq.lastState.index, seq.lastState.name);
         }
     }
     if (seq.startTransition) {
         seq.startTransition = false;
         seq.lastState.inTransition = true;
         seq.lastState.indefiniteHold = false;
-        seq.lastState.t = t;
+        seq.lastState.t = 0;
+        seq.lastState.realT = t;
         for (var i = 0; i < seq.callbacks.length; i++) {
             seq.callbacks[i]("exit", seq.lastState.index, seq.lastState.name);
         }
@@ -2146,7 +2188,7 @@ PrairieDrawAnim.prototype.newSequence = function(name, states, transTimes, holdT
     while (true) {
         nextIndex = (seq.lastState.index + 1) % states.length;
         if (seq.lastState.inTransition) {
-            endTime = seq.lastState.t + transTimes[seq.lastState.index];
+            endTime = seq.lastState.realT + transTimes[seq.lastState.index];
             if (t >= endTime) {
                 seq.lastState = this._interpState(seq.lastState, states[nextIndex], interps, endTime, endTime);
                 seq.lastState.inTransition = false;
@@ -2164,7 +2206,7 @@ PrairieDrawAnim.prototype.newSequence = function(name, states, transTimes, holdT
                 return this._interpState(seq.lastState, states[nextIndex], interps, t, endTime);
             }
         } else {
-            endTime = seq.lastState.t + holdTimes[seq.lastState.index];
+            endTime = seq.lastState.realT + holdTimes[seq.lastState.index];
             if ((holdTimes[seq.lastState.index] >= 0) && (t > endTime)) {
                 seq.lastState = this._extrapState(seq.lastState, states[seq.lastState.index], endTime);
                 seq.lastState.inTransition = true;
@@ -2181,18 +2223,20 @@ PrairieDrawAnim.prototype.newSequence = function(name, states, transTimes, holdT
 
 PrairieDrawAnim.prototype._interpState = function(lastState, nextState, interps, t, tFinal) {
     var s1 = this.dupState(nextState);
-    s1.t = tFinal;
+    s1.realT = tFinal;
+    s1.t = tFinal - lastState.realT;
 
     var s = {};
-    var alpha = (t - lastState.t) / (tFinal - lastState.t);
+    var alpha = (t - lastState.realT) / (tFinal - lastState.realT);
     for (e in nextState) {
         if (e in interps) {
-            s[e] = interps[e](lastState, s1, t - lastState.t);
+            s[e] = interps[e](lastState, s1, t - lastState.realT);
         } else {
             s[e] = this.linearInterp(lastState[e], s1[e], alpha);
         }
     }
-    s.t = t;
+    s.realT = t;
+    s.t = Math.min(t - lastState.realT, s1.t);
     s.index = lastState.index;
     s.inTransition = lastState.inTransition;
     s.indefiniteHold = lastState.indefiniteHold;
@@ -2205,10 +2249,11 @@ PrairieDrawAnim.prototype._extrapState = function(lastState, lastStateData, t) {
         if (typeof lastStateData[e] === "number") {
             s[e] = lastStateData[e];
         } else if (typeof lastStateData[e] === "function") {
-            s[e] = lastStateData[e](lastState, t - lastState.t);
+            s[e] = lastStateData[e](lastState, t - lastState.realT);
         }
     }
-    s.t = t;
+    s.realT = t;
+    s.t = t - lastState.realT;
     s.index = lastState.index;
     s.inTransition = lastState.inTransition;
     s.indefiniteHold = lastState.indefiniteHold;
@@ -2225,11 +2270,11 @@ PrairieDrawAnim.prototype.registerSeqCallback = function(seqName, callback) {
         throw new Error("PrairieDraw: unknown sequence: " + seqName);
     }
     var seq = this._sequences[seqName];
-    seq.callbacks.push(callback);
+    seq.callbacks.push(callback.bind(this));
     if (seq.inTransition) {
-        callback("exit", seq.lastState.index, seq.lastState.name);
+        callback.apply(this, ["exit", seq.lastState.index, seq.lastState.name]);
     } else {
-        callback("enter", seq.lastState.index, seq.lastState.name);
+        callback.apply(this, ["enter", seq.lastState.index, seq.lastState.name]);
     }
 }
 
@@ -2250,6 +2295,19 @@ PrairieDrawAnim.prototype.activationSequence = function(name, transTime, t) {
     var state = this.newSequence(name, states, transTimes, holdTimes, interps, names, t);
     return state.trans;
 }
+
+PrairieDrawAnim.prototype.resetSequence = function(name) {
+    seq = this._sequences[name];
+    if (seq !== undefined) {
+        seq.initialized = false;
+    }
+};
+
+PrairieDrawAnim.prototype.resetAllSequences = function() {
+    for (name in this._sequences) {
+        this.resetSequence(name);
+    }
+};
 
 /*****************************************************************************/
 
@@ -2285,11 +2343,16 @@ PrairieDraw.prototype.drawImage = function(imgSrc, posDw, anchor, widthDw) {
 
 /*****************************************************************************/
 
-PrairieDraw.prototype.reportMouseSample = function(event) {
+PrairieDraw.prototype.mouseEventDw = function(event) {
     var xPx = event.pageX - this._canvas.offsetLeft;
     var yPx = event.pageY - this._canvas.offsetTop;
     var posPx = $V([xPx, yPx]);
     var posDw = this.pos2Dw(posPx);
+    return posDw;
+};
+
+PrairieDraw.prototype.reportMouseSample = function(event) {
+    var posDw = this.mouseEventDw(event);
     var numDecPlaces = 2;
     console.log("$V([" + posDw.e(1).toFixed(numDecPlaces)
                 + ", " + posDw.e(2).toFixed(numDecPlaces)
@@ -2298,6 +2361,104 @@ PrairieDraw.prototype.reportMouseSample = function(event) {
 
 PrairieDraw.prototype.activateMouseSampling = function() {
     this._canvas.addEventListener('click', this.reportMouseSample.bind(this));
+};
+
+/*****************************************************************************/
+
+PrairieDraw.prototype.activateMouseLineDraw = function() {
+    if (this._mouseLineDrawActive === true) {
+        return;
+    }
+    this._mouseLineDrawActive = true;
+    this.mouseLineDraw = false;
+    this.mouseLineDrawing = false;
+    if (this._mouseLineDrawInitialized !== true) {
+        this._mouseLineDrawInitialized = true;
+        if (this._mouseDrawCallbacks === undefined) {
+            this._mouseDrawCallbacks = [];
+        }
+        this._canvas.addEventListener('mousedown', this.mouseLineDrawMousedown.bind(this));
+        this._canvas.addEventListener('mousemove', this.mouseLineDrawMousemove.bind(this));
+        this._canvas.addEventListener('mouseup', this.mouseLineDrawMouseup.bind(this));
+        this._canvas.addEventListener('mouseout', this.mouseLineDrawMouseup.bind(this));
+    }
+    for (var i = 0; i < this._mouseDrawCallbacks.length; i++) {
+        this._mouseDrawCallbacks[i]();
+    }
+    this.redraw();
+};
+
+PrairieDraw.prototype.deactivateMouseLineDraw = function() {
+    this._mouseLineDrawActive = false;
+    this.mouseLineDraw = false;
+    this.mouseLineDrawing = false;
+    this.redraw();
+};
+
+PrairieDraw.prototype.mouseLineDrawMousedown = function(event) {
+    if (!this._mouseLineDrawActive) {
+        return;
+    }
+
+    var posDw = this.mouseEventDw(event);
+    this.mouseLineDrawStart = posDw;
+    this.mouseLineDrawEnd = posDw;
+    this.mouseLineDrawing = true;
+    this.mouseLineDraw = true;
+    for (var i = 0; i < this._mouseDrawCallbacks.length; i++) {
+        this._mouseDrawCallbacks[i]();
+    }
+    this.redraw();
+};
+
+PrairieDraw.prototype.mouseLineDrawMousemove = function(event) {
+    if (!this._mouseLineDrawActive) {
+        return;
+    }
+    if (!this.mouseLineDrawing) {
+        return;
+    }
+    this.mouseLineDrawEnd = this.mouseEventDw(event);
+    for (var i = 0; i < this._mouseDrawCallbacks.length; i++) {
+        this._mouseDrawCallbacks[i]();
+    }
+    this.redraw(); // FIXME: add rate-limiting
+};
+
+PrairieDraw.prototype.mouseLineDrawMouseup = function(event) {
+    if (!this._mouseLineDrawActive) {
+        return;
+    }
+    if (!this.mouseLineDrawing) {
+        return;
+    }
+    this.mouseLineDrawing = false;
+    for (var i = 0; i < this._mouseDrawCallbacks.length; i++) {
+        this._mouseDrawCallbacks[i]();
+    }
+    this.redraw();
+};
+
+PrairieDraw.prototype.mouseLineDrawMouseout = function(event) {
+    if (!this._mouseLineDrawActive) {
+        return;
+    }
+    if (!this.mouseLineDrawing) {
+        return;
+    }
+    this.mouseLineDrawEnd = this.mouseEventDw(event);
+    this.mouseLineDrawing = false;
+    for (var i = 0; i < this._mouseDrawCallbacks.length; i++) {
+        this._mouseDrawCallbacks[i]();
+    }
+    this.redraw();
+};
+
+PrairieDraw.prototype.registerMouseLineDrawCallback = function(callback) {
+    if (this._mouseDrawCallbacks === undefined) {
+        this._mouseDrawCallbacks = [];
+    }
+    this._mouseDrawCallbacks.push(callback.bind(this));
 };
 
 /*****************************************************************************/

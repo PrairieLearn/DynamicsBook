@@ -3,8 +3,9 @@ $(document).ready(function() {
     // page structure
     $("body").children().wrapAll('<div class="mainBlock"/>');
     $("div.mainBlock").wrap('<div class="container"/>');
-    $("div.container").prepend('<div class="navbar"><ul><li><a href="index.xhtml" id="navHome">Home</a></li><li><a href="sched.xhtml" id="navSched">Schedule</a></li><li><a href="ref.xhtml" id="navRef">Reference</a></li><li><a href="apps.xhtml" id="navApps">Applications</a></li><li><a id="navHW">Homeworks</a></li></ul></div>');
-    $("div.container").prepend('<div class="header"><div class="login"><p>Log in</p></div><h1>TAM 212: Dynamics</h1></div>');
+    $("div.container").prepend('<div class="navbar"><ul><li><a href="index.xhtml" id="navHome">Home</a></li><li><a href="sched.xhtml" id="navSched">Schedule</a></li><li><a href="ref.xhtml" id="navRef">Reference</a></li><li><a href="apps.xhtml" id="navApps">Applications</a></li><li><a href="hw.xhtml" id="navHW">Homeworks</a></li></ul></div>');
+    //$("div.container").prepend('<div class="header"><div class="login"><p>Log in</p></div><h1>TAM 212: Dynamics</h1></div>');
+    $("div.container").prepend('<div class="header"><h1>TAM 212: Dynamics</h1></div>');
     $("div.container").append('<div class="footer"><p class="copyright">Copyright (C) 2012 Matthew West</p></div>');
 
     // make sure every contentBlock has an infoCol
@@ -27,6 +28,8 @@ $(document).ready(function() {
         activeNavId = "navRef";
     } else if (/a[a-z]+\.xhtml/.test(window.location.pathname)) {
         activeNavId = "navApps";
+    } else if (/h[a-z]+\.xhtml/.test(window.location.pathname)) {
+        activeNavId = "navHW";
     } else {
         console.log("Warning: unable to determine active navigation");
     }
@@ -95,9 +98,11 @@ $(document).ready(function() {
     });
 
     // Show all / hide all
+    /*
     $("div.infoCol").first().prepend('<div class="infoBox pageControl"><p class="infoHead">Debug page control</p><p><button class="hideAll showHideAll">Collapse all</button><button class="showAll showHideAll">Expand all</button></p></div>');
     $("button.showAll").click(function() {$("button.envShowHide").each(function() {show($(this), true);});});
     $("button.hideAll").click(function() {$("button.envShowHide").each(function() {hide($(this), true);});});
+    */
 
     // External links
     //$('a[href^="http://"]').addClass("externalLink").after('&#xa0;<span data-icon="/" aria-hidden="true" class="externalLinkIcon"></span>');
@@ -119,8 +124,8 @@ $(document).ready(function() {
         $(this).find(":header").first().append(makeLocalAnchor($(this)));
     });
     $("div.pageControl").append('<p><button class="hideAnchors showHideAnchors">Hide anchors</button><button class="showAnchors showHideAnchors">Show anchors</button></p>');
-    $("button.showAnchors").click(function() {$("a.anchor").show();});
-    $("button.hideAnchors").click(function() {$("a.anchor").hide();});
+    $("button.showAnchors").click(function() {$("a.anchor").css("visibility", "visible");});
+    $("button.hideAnchors").click(function() {$("a.anchor").css("visibility", "hidden");});
 
     // Anchors on TOC pages
     $("div.tocColumn").find("a").each(function() {
@@ -177,7 +182,7 @@ $(document).ready(function() {
     }
     var bindSeqStepButton = function(jButton, canvasId, seqName, stateName) {
         var pd = getPD(canvasId);
-        jButton.click(function() {pd.stepSequence(seqName);});
+        jButton.click(function() {pd.stepSequence(seqName, stateName);});
         pd.registerSeqCallback(seqName, function(event, index, currentStateName) {
             var active = (event === "enter") && (stateName === currentStateName);
             if (active) {
