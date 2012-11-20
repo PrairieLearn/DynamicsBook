@@ -34,7 +34,7 @@
           there is no acceleration. Roads or rail lines with only
           straight lines are rather limiting, however, so we
           frequently encounter curves, in the most extreme form in
-          large freeway interchanges such as <a href="#avt-ff">show
+          large freeway interchanges such as <a href="#avt-ff">shown
           below</a>.
         </p>
         <p>
@@ -121,16 +121,16 @@
           uncomfortable and potentially dangerous.
         </p>
         <p>
-          We see that we do not want rapid changes in acceleration for
-          transition curves. That is, we want a low value for the
-          derivative of acceleration with respect to time. The
-          derivative of acceleration is known as <em>jerk</em>,
-          defined by $\vec{\jmath} = \dot{\vec{a}}$ (for vectors) or
-          $j = \dot{a}$ (for scalars). With perfect semi-circular ends
-          we see that the jerk is mathematically infinite at the
-          transition to the curve, although in reality it would just
-          be a very high value as the vehicle would not transition to
-          the semi-circle instantaneously.
+          For passenger comfort, we do not want rapid changes in
+          acceleration for transition curves. That is, we want a low
+          value for the derivative of acceleration with respect to
+          time. The derivative of acceleration is known as
+          <em>jerk</em>, defined by $\vec{\jmath} = \dot{\vec{a}}$
+          (for vectors) or $j = \dot{a}$ (for scalars). With perfect
+          semi-circular ends we see that the jerk is mathematically
+          infinite at the transition to the curve, although in reality
+          it would just be a very high value as the vehicle would not
+          transition to the semi-circle instantaneously.
         </p>
       </div>
       <div class="infoCol">
@@ -263,7 +263,7 @@
           define the shape of the Euler spiral curve, finding the
           explicit equation for the curve is not so easy. We first
           introduce the functions $C(z)$ and $S(z)$, known as <em>Fresnel
-          integrals</em> and defined by
+          integrals</em> and defined by:
         </p>
         <div class="envContainer equation" id="avt-ef">
           <p class="envHeader">Fresnel integrals</p>
@@ -282,9 +282,9 @@
           computed in closed form.
         </p>
         <p>
-          Now we can define the constant $\ell =
-          \sqrt{\frac{\pi}{\alpha}}$ and then the position at distance
-          $s$ along an Euler spiral curve is
+          Now we define the constant $\ell = \sqrt{\pi/\alpha}$, and
+          then the position at distance $s$ along an Euler spiral
+          curve is:
         </p>
         <div class="envContainer equation" id="avt-ee">
           <p class="envHeader">Euler spiral</p>
@@ -302,18 +302,17 @@
             <p>
               We start the spiral curve from the origin, initially
               moving horizontally to the right and curving upwards
-              with constant speed $v$, as shown. Using a
-              tangential/normal basis, let $\theta$ be the angle of
-              $\hat{e}_t$ as shown. Then $\dot{\theta}$ can be found
-              by considering two expressions for the
-              acceleration. From the <a
+              with constant speed $v$. Using a tangential/normal
+              basis, let $\theta$ be the angle of $\hat{e}_t$ as
+              shown. Then $\dot{\theta}$ can be found by considering
+              two expressions for the acceleration. First, from the <a
               href="rvt.xhtml#rvt-ep">tangential/normal acceleration
-              formula</a>: \[ \vec{a} = \ddot{s}
-              \, \hat{e}_t + \kappa v^2 \, \hat{e}_n = \alpha
-              s v^2 \, \hat{e}_n, \] where we used the
-              fact that $\ddot{s} = \dot{v} = 0$ (constant speed) and
-              that $\kappa = \alpha s$ for some constant $\alpha$
-              (curvature is a linear function of distance $s$).
+              formula</a> we have \[ \vec{a} = \ddot{s} \, \hat{e}_t +
+              \kappa v^2 \, \hat{e}_n = \alpha s v^2 \, \hat{e}_n, \]
+              where we used the fact that $\ddot{s} = \dot{v} = 0$
+              (constant speed) and that $\kappa = \alpha s$ for some
+              constant $\alpha$ (the definition of the Euler spiral is
+              that curvature is a linear function of distance $s$).
             </p>
             <p>
               The second expression for acceleration uses the angular
@@ -344,8 +343,8 @@
               \int_0^{s/\ell} \left( \cos\Big(\frac{1}{2} \pi u^2\Big)
               \, \hat{\imath} + \sin\Big(\frac{1}{2} \pi u^2\Big) \,
               \hat{\jmath} \right) du, \end{aligned} \] where we made
-              the substitution $\tau = \frac{\ell}{v} u$ with $\ell =
-              \sqrt{\frac{\pi}{\alpha}}$. Using the definitions of the
+              the substitution $\tau = \ell u / v$ with $\ell =
+              \sqrt{\pi/\alpha}$. Using the definitions of the
               <a href="#avt-ef">Fresnel integrals</a> now gives the <a
               href="#avt-ee">desired expression</a>.
             </p>
@@ -353,9 +352,8 @@
         </div>
         <p>
           Plotting the Euler spiral equation gives the curve below,
-          which we can see starts out at the origin with zero
-          curvature, and the then has steadily increasing curvature as
-          we move along it.
+          which starts out at the origin with zero curvature, and the
+          then has steadily increasing curvature as we move along it.
         </p>
         <div class="figureContainer" id="avt-fs">
           <canvas id="avt-fs-c" width="400" height="400" class="figureImage noBorder">

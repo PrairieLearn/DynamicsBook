@@ -423,11 +423,11 @@ div.figureContainer.width600 .controls button:first-child {
     margin-left: 0px;
 }
 
-div.figureContainer > table {
+div.figureContainer > table.fullWidth {
     width: 100%;
 }
 
-div.figureContainer > table > tr > td:first-child {
+div.figureContainer > table.fullWidth > tr > td:first-child {
     width: 4em;
 }
 

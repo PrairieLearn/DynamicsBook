@@ -94,6 +94,10 @@ PrairieDraw.prototype._initProps = function() {
     this._props.centerOfMassColor = "rgb(180, 49, 4)";
     this._props.centerOfMassRadiusPx = 5;
 
+    this._props.rightAngleSizePx = 10;
+    this._props.rightAngleStrokeWidthPx = 1;
+    this._props.rightAngleColor = "rgb(0, 0, 0)";
+
     this._props.measurementStrokeWidthPx = 1;
     this._props.measurementStrokePattern = 'solid';
     this._props.measurementEndLengthPx = 10;
@@ -109,6 +113,7 @@ PrairieDraw.prototype._initProps = function() {
     this._props.gridColor = "rgb(200, 200, 200)";
     this._props.positionColor = "rgb(0, 0, 255)";
     this._props.velocityColor = "rgb(0, 200, 0)";
+    this._props.angVelColor = "rgb(100, 180, 0)";
     this._props.accelerationColor = "rgb(255, 0, 255)";
     this._props.angMomColor = "rgb(255, 0, 0)";
     this._props.forceColor = "rgb(210, 105, 30)";
@@ -1523,6 +1528,33 @@ PrairieDraw.prototype.measurement = function(startDw, endDw, text) {
     var lineEndDw = this.pos2Dw(lineEndPx);
     this.labelLine(lineStartDw, lineEndDw, $V([0, -1]), text);
 }
+
+/** Draw a right angle.
+
+    @param {Vector} posDw The position angle point.
+    @param {Vector} dirDw The baseline direction (angle is counter-clockwise from this direction).
+*/
+PrairieDraw.prototype.rightAngle = function(posDw, dirDw) {
+    if (dirDw.modulus() < 1e-20) {
+        return;
+    }
+
+    var posPx = this.pos2Px(posDw);
+    var offsetAnglePx = this.angleOf(this.vec2Px(dirDw));
+    var d = this._props.rightAngleSizePx;
+    
+    this._ctx.save();
+    this._ctx.translate(posPx.e(1), posPx.e(2));
+    this._ctx.rotate(offsetAnglePx);
+    this._ctx.lineWidth = this._props.rightAngleStrokeWidthPx;
+    this._ctx.strokeStyle = this._props.rightAngleColor;
+    this._ctx.beginPath();
+    this._ctx.moveTo(d, 0);
+    this._ctx.lineTo(d, -d);
+    this._ctx.lineTo(0, -d);
+    this._ctx.stroke();
+    this._ctx.restore();
+};
 
 /*****************************************************************************/
 

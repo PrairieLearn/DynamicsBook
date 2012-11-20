@@ -36,6 +36,13 @@
           front wheels turn the same amount, or is something more
           complicated going on?
         </p>
+        <p>
+          Good steering control is particularly important at high
+          speeds around sharp corners. Some of the highest speeds and
+          tightest corners are found on Formula 1 circuits, such as
+          the Melbourne F1 track shown below, making steering an
+          especially critical element for F1 cars.
+        </p>
         <div class="figureContainer" id="avs-ff">
           <img class="figureImage" alt="Michael Schumacher winning the 2000 Melbourne Grand Prix in a Ferrari F1-2000"
                src="avs_1402567956_small.jpg" />
@@ -50,9 +57,7 @@
             href="http://en.wikipedia.org/wiki/Melbourne_Grand_Prix_Circuit">Melbourne
             Grand Prix Circuit</a> in a <a
             href="http://en.wikipedia.org/wiki/Ferrari_F1-2000">Ferrari
-            F1-2000</a>. The F1-2000 was powered by a V10 engine which
-            displaced 3 L and developed 574 kW (770 hp). Image source:
-            <a
+            F1-2000</a>. Image source: <a
             href="http://www.flickr.com/photos/schumigirl1956/1402567956/">flikr
             image </a> by <a
             href="http://www.flickr.com/photos/schumigirl1956/">Gail
@@ -66,12 +71,118 @@
       <div class="infoCol">
         <div class="infoBox requirementsBox">
         </div>
+        <div id="avs-if" class="infoBox factBox">
+          <a
+          href="http://en.wikipedia.org/wiki/Michael_Schumacher">Michael
+          Schumacher's </a> victory for <a
+          href="http://en.wikipedia.org/wiki/Scuderia_Ferrari">Scuderia
+          Ferrari</a> on the <a
+          href="http://en.wikipedia.org/wiki/Melbourne_Grand_Prix_Circuit">Melbourne
+          Circuit</a> in <a
+          href="http://en.wikipedia.org/wiki/2000_Australian_Grand_Prix">2000</a>
+          was the first of his nine Grand Prix wins <a
+          href="http://en.wikipedia.org/wiki/2000_Formula_One_season">that
+          year</a>, leading to winning of both the <a
+          href="http://en.wikipedia.org/wiki/List_of_Formula_One_World_Drivers%27_Champions">Drivers'
+          Championship</a> and the <a
+          href="http://en.wikipedia.org/wiki/List_of_Formula_One_World_Constructors%27_Champions">Constructors'
+          Championship</a>, and starting the long dominant run of
+          Schumacher and Ferrari in the subsequent decade. The car
+          that started this success was the <a
+          href="http://en.wikipedia.org/wiki/Ferrari_F1-2000">F1-2000</a>,
+          powered by a V10 engine which <a
+          href="http://en.wikipedia.org/wiki/Engine_displacement">displaced</a>
+          3 L and <a
+          href="http://en.wikipedia.org/wiki/Power_(physics)">developed</a>
+          574 kW (770 hp).
+        </div>
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="avs-st" class="section level3 contentCol">
+        <h2>Turning rigid bodies</h2>
+        <div class="figureContainer width600" id="avs-ft">
+          <canvas id="avs-ft-c" width="600" height="800" class="figureImage">
+          </canvas>
+          <p class="controls">
+            <button class="anim-toggle:avs-ft-c">animation</button>
+            <button class="reset:avs-ft-c">reset</button>
+          </p>
+          <table>
+            <tr>
+              <td>Show:</td>
+              <td colspan="2">
+                <button class="option-toggle:avs-ft-c:showLabels">labels</button>
+                <button class="option-toggle:avs-ft-c:showCornerVelocities">corner velocities</button>
+                <button class="option-toggle:avs-ft-c:showRadialLines">radial lines</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Turn radius:</td>
+              <td><input type="range" min="1" max="5" value="0" step="0.1" class="data-input:avs-ft-c:radius" /></td>
+              <td>$r = $ <span class="data-option:avs-ft-c:radius"></span> m</td>
+            </tr>
+            <tr>
+              <td>Vehicle offset:</td>
+              <td><input type="range" min="-100" max="100" value="0" step="5" class="data-input:avs-ft-c:offset" /></td>
+              <td>$d = $ <span class="data-option:avs-ft-c:offset"></span>%</td>
+            </tr>
+          </table>
+          <p class="figureCaption">
+            A car turning in a circle, showing the directions that the
+            wheels must point as the turn radius $r$ and offset $d$
+            change.
+          </p>
+        </div>
+      </div>
+      <div class="infoCol">
+        <div id="avs-ir" class="infoBox factBox">
+          <p>
+            <a
+            href="http://en.wikipedia.org/wiki/Forklift_truck">Forklifts</a>
+            typically have fixed front wheels and steer with the rear
+            wheels. This gives them great control over the position of
+            the front lifting forks, but makes steering harder for the
+            operator. Rear-wheel steering is a type of <i>non-minimum
+            phase</i> control system. The <a
+            href="http://en.wikipedia.org/wiki/Minimum_phase">technical
+            definition</a> of minimum phase is somewhat complicated,
+            but for vehicle steering it essentially means that we have
+            to steer the “wrong way”. For example, to turn right in a
+            forklift we have to first swing the back out to the
+            left. This makes it very easy to accidentally run into
+            obstacles, and is also unstable at higher speeds.
+          </p>
+          <div class="imageBox width250">
+            <img src="avs_8116755483_small.jpg" alt="Forklift steering."></img>
+            <p class="caption">
+              A Yale GLP-50VX forklift executing a sharp right-hand
+              turn. Image credit: <a
+              href="http://www.flickr.com/photos/asv_/8116755483/">Flickr
+              image</a> by <a
+              href="http://www.flickr.com/people/asv_/">Anastasia
+              Victor</a> (<a
+              href="http://creativecommons.org/licenses/by/2.0/">CC BY
+              2.0</a>) (<a href="avs_8116755483.jpg">full-sized
+              image</a>).
+            </p>
+          </div>
+          <p>
+            Sometimes in cars it would be convenient to also steer
+            with the leading wheels, for example when trying to park
+            in a tight spot. We actually have a mechanism for
+            converting a car to leading-wheel steering, which is to
+            drive backwards, such as when <a
+            href="http://en.wikipedia.org/wiki/Parallel_parking">parallel
+            parking</a>.
+          </p>
+        </div>
       </div>
     </div>
     <div class="contentBlock">
       <div id="avs-sr" class="section level3 contentCol">
         <h2>Ackerman steering geometry</h2>
-        <div class="figureContainer width600" id="aml-fr">
+        <div class="figureContainer width600" id="avs-fr">
           <canvas id="avs-fr-c" width="600" height="800" class="figureImage">
           </canvas>
           <p class="controls">
@@ -80,47 +191,25 @@
             <button class="reset:avs-fr-c">reset</button>
           </p>
           <p class="controls">
-            Track rod shorten:
-            <input type="range" min="-10" max="20" value="0" step="1" class="data-input:avs-fr-c:trackRodShortenCM" />
-            \(s = \) <span class="data-option:avs-fr-c:trackRodShortenCM"></span> cm
+            Steering pivot offset angle:
+            <input type="range" min="-4" max="7" value="0" step="0.5" class="data-input:avs-fr-c:pivotAngleDeg" />
+            $\theta = $ <span class="data-option:avs-fr-c:pivotAngleDeg"></span>°
           </p>
           <p class="figureCaption">
             Adjustable Ackerman steering geometry. The graph shows the
             radius of curvature for the two front wheels as a function
-            of the rack offset \(d\).
+            of the rack offset $d$.
           </p>
         </div>
       </div>
       <div class="infoCol">
-        <div id="avs-ir" class="infoBox factBox">
-          Rear wheel steering. Why do forklifts do it? Why not cars?
-        </div>
-        <div id="avs-if" class="infoBox factBox">
-          <a
-          href="http://en.wikipedia.org/wiki/Michael_Schumacher">Michael
-          Schumacher's </a> victory driving a <a
-          href="http://en.wikipedia.org/wiki/Scuderia_Ferrari">Ferrari</a>
-          <a
-          href="http://en.wikipedia.org/wiki/Ferrari_F1-2000">F1-2000</a>
-          on the <a
-          href="http://en.wikipedia.org/wiki/Melbourne_Grand_Prix_Circuit">Melbourne
-          Circuit</a> in <a
-          href="http://en.wikipedia.org/wiki/2000_Australian_Grand_Prix">2000</a>
-          was the first of 9 Grand Prix wins <a
-          href="http://en.wikipedia.org/wiki/2000_Formula_One_season">that
-          year</a>, leading to winning of both the <a
-          href="http://en.wikipedia.org/wiki/List_of_Formula_One_World_Drivers%27_Champions">Drivers'
-          Championship</a> and the <a
-          href="http://en.wikipedia.org/wiki/List_of_Formula_One_World_Constructors%27_Champions">Constructors'
-          Championship</a>, and starting the long dominant run of
-          Schumacher and Ferrari in the subsequent decade.
-        </div>
         <div id="avs-it" class="infoBox factBox">
           <p>
             Three wheeled vehicles with two wheels in back and one in
             front (a <em>delta</em> or <em>tricycle</em>
-            configuration) avoid the steering geometry problem,
-            leading Karl Benz to use this system in the world's <a
+            configuration) avoid the need for complicated steering
+            geometry, leading Karl Benz to use this system in the
+            world's <a
             href="http://en.wikipedia.org/wiki/Benz_Patent_Motorwagen">first
             automobile</a>.
           </p>
@@ -138,10 +227,11 @@
             </p>
           </div>
           <p>
-            <a href="">Episode 4 of Season 9</a> of Top Gear featured
-            an <a
-            href="http://www.youtube.com/watch?v=_bIn_ZgHJaE">interesting
-            segment</a> on the <a
+            <a href="">Episode 4 of Season 9</a> of <a
+            href="http://en.wikipedia.org/wiki/Top_Gear_(2002_TV_series)">Top
+            Gear</a> featured a <a
+            href="http://www.youtube.com/watch?v=_bIn_ZgHJaE">segment</a>
+            on the <a
             href="http://en.wikipedia.org/wiki/Reliant_Robin">Reliant
             Robin</a>, a three-wheel car produced in the 1970s in the
             United Kingdom. This Top Gear episode clearly demonstrates
@@ -158,7 +248,7 @@
             configuration). An example of this is the smallest
             production car ever made, the <a
             href="http://en.wikipedia.org/wiki/Peel_P50">Peel 50</a>,
-            shown here in another <a
+            shown in another <a
             href="http://www.youtube.com/watch?v=dJfSS0ZXYdo">Top Gear
             episode</a> (Series 10, Episode 3).
           </p>
