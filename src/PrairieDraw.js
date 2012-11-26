@@ -29,6 +29,9 @@ function PrairieDraw(canvas, drawFcn) {
         /** @private */ this._trans = Matrix.I(3);
         /** @private */ this._transStack = [];
 
+        /** @private */ this._trans3D = Matrix.I(4);
+        /** @private */ this._trans3DStack = [];
+
         /** @private */ this._props = {};
         this._initProps();
         /** @private */ this._propStack = [];
@@ -376,6 +379,170 @@ PrairieDraw.prototype.posNm2Px = function(pNm) {
 
 /*****************************************************************************/
 
+/** Return a 3D identity transformation matrix.
+
+    @return {Matrix} A 3D identity transformation.
+*/
+PrairieDraw.prototype.identityTransform3D = function() {
+    return Matrix.I(4);
+};
+
+/** Scale a 3D transformation matrix.
+
+    @param {Matrix} transform The original 3D transformation.
+    @param {Vector} factor Scale factor.
+    @return {Matrix} The new 3D transformation.
+*/
+PrairieDraw.prototype.scaleTransform3D = function(transform, factor) {
+    return transform.x($M([[factor, 0, 0, 0], [0, factor, 0, 0], [0, 0, factor, 0], [0, 0, 1]]));
+}
+
+/** Translate a 3D transformation matrix.
+
+    @param {Matrix} transform The original 3D transformation.
+    @param {Vector} offset Translation 3D offset.
+    @return {Matrix} The new 3D transformation.
+*/
+PrairieDraw.prototype.translateTransform3D = function(transform, offset) {
+    return transform.x($M([[1, 0, 0, offset.e(1)], [0, 1, 0, offset.e(2)], [0, 0, 1, offset.e(3)], [0, 0, 0, 1]]));
+}
+
+/** @private Extend a 3D matrix to a 4D matrix.
+
+    @param {Matrix} mat3D The 3D matrix.
+    @return {Matrix} mat4D The augmented 4D matrix.
+*/
+PrairieDraw.prototype._toM4 = function(mat3D) {
+    var r1 = mat3D.row(1).elements;
+    var r2 = mat3D.row(2).elements;
+    var r3 = mat3D.row(3).elements;
+    r1.push(0);
+    r2.push(0);
+    r3.push(0);
+    var r4 = [0, 0, 0, 1];
+    return $M([r1, r2, r3, r4]);
+};
+
+/** Rotate a 3D transformation matrix about the X axis.
+
+    @param {Matrix} transform The original 3D transformation.
+    @param {number} angleX Angle to rotate by around the X axis (radians).
+    @return {Matrix} The new 3D transformation.
+*/
+PrairieDraw.prototype.rotateTransform3DX = function(transform, angleX) {
+    return transform.x(this._toM4(Matrix.RotationX(angleX)));
+}
+
+/** Rotate a 3D transformation matrix about the Y axis.
+
+    @param {Matrix} transform The original 3D transformation.
+    @param {number} angleY Angle to rotate by around the Y axis (radians).
+    @return {Matrix} The new 3D transformation.
+*/
+PrairieDraw.prototype.rotateTransform3DY = function(transform, angleY) {
+    return transform.x(this._toM4(Matrix.RotationY(angleY)));
+}
+
+/** Rotate a 3D transformation matrix about the Z axis.
+
+    @param {Matrix} transform The original 3D transformation.
+    @param {number} angleZ Angle to rotate by around the Z axis (radians).
+    @return {Matrix} The new 3D transformation.
+*/
+PrairieDraw.prototype.rotateTransform3DZ = function(transform, angleZ) {
+    return transform.x(this._toM4(Matrix.RotationZ(angleZ)));
+}
+
+/** Rotate a 3D transformation matrix.
+
+    @param {Matrix} transform The original 3D transformation.
+    @param {number} angleX Angle to rotate by around the X axis (radians).
+    @param {number} angleY Angle to rotate by around the Y axis (radians).
+    @param {number} angleZ Angle to rotate by around the Z axis (radians).
+    @return {Matrix} The new 3D transformation.
+*/
+PrairieDraw.prototype.rotateTransform3D = function(transform, angleX, angleY, angleZ) {
+    return this.rotateTransform3DZ(this.rotateTransform3DY(this.rotateTransform3DX(transform, angleX), angleY), angleZ);
+}
+
+/*****************************************************************************/
+
+/** Transform a 3D vector by a 3D transformation matrix.
+
+    @param {Matrix} transform The 3D transformation matrix.
+    @param {Vector} vec The 3D vector.
+    @return {Vector} The transformed 3D vector.
+*/
+PrairieDraw.prototype.transformVec3D = function(transform, vec) {
+    var v4 = transform.x($V([vec.e(1), vec.e(2), vec.e(2), 0]))
+    return $V([v4.e(1), v4.e(2), v4.e(3)]);
+}
+
+/** Transform a 3D position by a 3D transformation matrix.
+
+    @param {Matrix} transform The 3D transformation matrix.
+    @param {Vector} pos The 3D position.
+    @return {Vector} The transformed 3D position.
+*/
+PrairieDraw.prototype.transformPos3D = function(transform, pos) {
+    var p4 = transform.x($V([pos.e(1), pos.e(2), pos.e(3), 1]))
+    return $V([p4.e(1), p4.e(2), p4.e(3)]);
+}
+
+/** Transform a 3D position to a 2D position by an orthographic projection.
+
+    @param {Vector} pos The 3D position.
+    @return {Vector} The transformed 3D position.
+*/
+PrairieDraw.prototype.orthProjPos3D = function(pos) {
+    return $V([pos.e(1), pos.e(2)]);
+}
+
+/*****************************************************************************/
+
+/** Scale the 3D coordinate system.
+
+    @param {Vector} factor Scale factor.
+*/
+PrairieDraw.prototype.scale3D = function(factor) {
+    this._trans3D = this.scaleTransform3D(this._trans3D, factor);
+}
+
+/** Translate the 3D coordinate system.
+
+    @param {Vector} offset Translation offset.
+*/
+PrairieDraw.prototype.translate3D = function(offset) {
+    this._trans3D = this.translateTransform3D(this._trans3D, offset);
+}
+
+/** Rotate the 3D coordinate system.
+
+    @param {number} angleX Angle to rotate by around the X axis (radians).
+    @param {number} angleY Angle to rotate by around the Y axis (radians).
+    @param {number} angleZ Angle to rotate by around the Z axis (radians).
+*/
+PrairieDraw.prototype.rotate3D = function(angleX, angleY, angleZ) {
+    this._trans3D = this.rotateTransform3D(this._trans3D, angleX, angleY, angleZ);
+}
+
+/*****************************************************************************/
+
+/** Transform a position from 3D to 2D drawing coords if necessary.
+
+    @param {Vector} pDw Position in 2D 3D drawing coords.
+    @return {Vector} Position in 2D drawing coords.
+*/
+PrairieDraw.prototype.pos3To2 = function(pDw) {
+    if (pDw.elements.length === 3) {
+        return this.orthProjPos3D(this.transformPos3D(this._trans3D, pDw));
+    } else {
+        return pDw;
+    }
+}
+
+/*****************************************************************************/
+
 /** Set a property.
 
     @param {string} name The name of the property.
@@ -595,6 +762,7 @@ PrairieDraw.prototype.save = function() {
     }
     this._propStack.push(oldProps);
     this._transStack.push(this._trans.dup());
+    this._trans3DStack.push(this._trans3D.dup());
 }
 
 /** Restore the graphics state (properties, options, and transformations).
@@ -609,8 +777,12 @@ PrairieDraw.prototype.restore = function() {
     if (this._propStack.length != this._transStack.length) {
         throw new Error("PrairieDraw: incompatible save stack lengths");
     }
+    if (this._propStack.length != this._trans3DStack.length) {
+        throw new Error("PrairieDraw: incompatible save stack lengths");
+    }
     this._props = this._propStack.pop();
     this._trans = this._transStack.pop();
+    this._trans3D = this._trans3DStack.pop();
 }
 
 /*****************************************************************************/
@@ -817,6 +989,7 @@ PrairieDraw.prototype.dupState = function(state) {
     @param {Vector} posDw Position of the point (drawing coords).
 */
 PrairieDraw.prototype.point = function(posDw) {
+    posDw = this.pos3To2(posDw);
     var posPx = this.pos2Px(posDw);
     this._ctx.beginPath();
     this._ctx.arc(posPx.e(1), posPx.e(2), this._props.pointRadiusPx, 0, 2 * Math.PI);
@@ -860,6 +1033,8 @@ PrairieDraw.prototype._dashPattern = function(type) {
     @param {string} type Optional type of line being drawn.
 */
 PrairieDraw.prototype.line = function(startDw, endDw, type) {
+    startDw = this.pos3To2(startDw);
+    endDw = this.pos3To2(endDw);
     var startPx = this.pos2Px(startDw);
     var endPx = this.pos2Px(endDw);
     this._ctx.save();
@@ -907,6 +1082,8 @@ PrairieDraw.prototype._arrowhead = function(posDw, dirDw, lenPx) {
     @param {string} type Optional type of vector being drawn.
 */
 PrairieDraw.prototype.arrow = function(startDw, endDw, type) {
+    startDw = this.pos3To2(startDw);
+    endDw = this.pos3To2(endDw);
     var offsetDw = endDw.subtract(startDw);
     var offsetPx = this.vec2Px(offsetDw);
     var arrowLengthPx = offsetPx.modulus();
@@ -1628,6 +1805,8 @@ PrairieDraw.prototype.text = function(posDw, anchor, text, boxed) {
     @param {string} text The text to draw.
 */
 PrairieDraw.prototype.labelLine = function(startDw, endDw, pos, text) {
+    startDw = this.pos3To2(startDw);
+    endDw = this.pos3To2(endDw);
     var midpointDw = (startDw.add(endDw)).x(0.5);
     var offsetDw = endDw.subtract(startDw).x(0.5);
     var pDw = midpointDw.add(offsetDw.x(pos.e(1)));
@@ -1868,6 +2047,43 @@ PrairieDraw.prototype.plotHistory = function(originDw, sizeDw, sizeData, timeOff
     this.restore();
     this.point(plotData[plotData.length - 1]);
     this.restore();
+};
+
+/*****************************************************************************/
+
+PrairieDraw.prototype.mouseDown3D = function(event) {
+    this._mouseDown3D = true;
+    this._lastMouseX3D = event.clientX;
+    this._lastMouseY3D = event.clientY;
+};
+
+PrairieDraw.prototype.mouseUp3D = function(event) {
+    this._mouseDown3D = false;
+};
+
+PrairieDraw.prototype.mouseMove3D = function(event) {
+    if (!this._mouseDown3D) {
+        return;
+    }
+    var deltaX = event.clientX - this._lastMouseX3D;
+    var deltaY = event.clientY - this._lastMouseY3D;
+    this._viewAngleX3D += deltaY * 0.01;
+    this._viewAngleZ3D += deltaX * 0.01;
+    this._viewAngleX3D = Math.min(0, Math.max(-Math.PI / 2, this._viewAngleX3D));
+    this._viewAngleZ3D = Math.min(-Math.PI / 2, Math.max(-Math.PI, this._viewAngleZ3D));
+    this._lastMouseX3D = event.clientX;
+    this._lastMouseY3D = event.clientY;
+    this.redraw();
+};
+
+PrairieDraw.prototype.activate3DControl = function() {
+    this._viewAngleX3D = -Math.PI / 2 * 0.9;
+    this._viewAngleY3D = 0;
+    this._viewAngleZ3D = -Math.PI / 2 * 1.3;
+    this._canvas.addEventListener("mousedown", this.mouseDown3D.bind(this), false);
+    this._canvas.addEventListener("mouseup", this.mouseUp3D.bind(this), false);
+    this._canvas.addEventListener("mousemove", this.mouseMove3D.bind(this), false);
+    this.redraw();
 };
 
 /*****************************************************************************/

@@ -20,15 +20,17 @@ $(document).ready(function() {
 
     // active navigation link
     var activeNavId;
-    if (/index\.xhtml/.test(window.location.pathname)) {
+    if (/index\.xhtml$/.test(window.location.pathname)) {
         activeNavId = "navHome";
-    } else if (/sched\.xhtml/.test(window.location.pathname)) {
+    } else if (/\/$/.test(window.location.pathname)) {
+        activeNavId = "navHome";
+    } else if (/sched\.xhtml$/.test(window.location.pathname)) {
         activeNavId = "navSched";
-    } else if (/r[a-z]+\.xhtml/.test(window.location.pathname)) {
+    } else if (/r[a-z]+\.xhtml$/.test(window.location.pathname)) {
         activeNavId = "navRef";
-    } else if (/a[a-z]+\.xhtml/.test(window.location.pathname)) {
+    } else if (/a[a-z]+\.xhtml$/.test(window.location.pathname)) {
         activeNavId = "navApps";
-    } else if (/h[a-z]+\.xhtml/.test(window.location.pathname)) {
+    } else if (/h[a-z]+\.xhtml$/.test(window.location.pathname)) {
         activeNavId = "navHW";
     } else {
         console.log("Warning: unable to determine active navigation");
