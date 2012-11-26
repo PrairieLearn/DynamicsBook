@@ -6,19 +6,54 @@
       Spherical coordinates
     </title>
     <link href="style.css" type="text/css" rel="stylesheet" />
+    <link href="rvs.css" type="text/css" rel="stylesheet" />
     <link href="icomoon.css" type="text/css" rel="stylesheet" />
 
     <script src="mathjax/MathJax.js?config=default" type="text/javascript"></script>
     <script src="jquery-1.7.2.min.js" type="text/javascript"></script>
-    <script src="pageControl.js" type="text/javascript"></script>
     <script src="sylvester.js" type="text/javascript"></script>
     <script src="sha1.js" type="text/javascript"></script>
     <script src="PrairieDraw.js" type="text/javascript"></script>
+    <script src="rvs.js" type="text/javascript"></script>
+    <script src="pageControl.js" type="text/javascript"></script>
   </head>
   <body>
     <div class="contentBlock">
-      <div id="rvs" class="section level2 contentCol">
+      <div id="rvs" class="contentCol">
         <h1>Spherical coordinates</h1>
+        <div class="figureContainer" id="rvs-fd">
+          <canvas id="rvs-fd-c" width="400" height="400">
+          </canvas>
+          <p>
+            Show:
+            <button class="option-toggle:rvs-fd-c:showCoords">coordinates</button>
+            <button class="option-toggle:rvs-fd-c:showBasis">basis vectors</button>
+          </p>
+          <p>
+            Coordinate lines:
+            <button class="option-toggle:rvs-fd-c:showCoordLineR">$r$</button>
+            <button class="option-toggle:rvs-fd-c:showCoordLineTheta">$\theta$</button>
+            <button class="option-toggle:rvs-fd-c:showCoordLinePhi">$\phi$</button>
+          </p>
+          <table>
+            <tr>
+              <td>Radius:</td>
+              <td><input type="range" min="1" max="4" value="0" step="0.1" class="data-input:rvs-fd-c:r" /></td>
+              <td>$r = $ <span class="data-option:rvs-fd-c:r"></span></td>
+            </tr>
+            <tr>
+              <td>Longitude:</td>
+              <td><input type="range" min="-180" max="180" value="0" step="5" class="data-input:rvs-fd-c:thetaDeg" /></td>
+              <td>$\theta = $ <span class="data-option:rvs-fd-c:thetaDeg">°</span></td>
+            </tr>
+            <tr>
+              <td>Latitude:</td>
+              <td><input type="range" min="-90" max="90" value="0" step="5" class="data-input:rvs-fd-c:phiDeg" /></td>
+              <td>$\phi = $ <span class="data-option:rvs-fd-c:phiDeg"></span>°</td>
+            </tr>
+          </table>
+        </div>
+
         <p>Coordinates:</p>
         <p>\[\begin{aligned}
         (r, \theta, \phi)\end{aligned}\]</p>
@@ -42,23 +77,28 @@
         - \sin\theta \sin\phi \,\hat{\jmath} + \cos\phi \,\hat{k}\end{aligned}\]</p>
         <p>Angular velocity:</p>
         <p>\[\begin{aligned}
-        \boldsymbol{\omega} &amp;= \dot\theta \,\hat{k} = \dot\theta(\sin\phi \,\hat{e}_r + \cos\phi \,\hat{e}_{\phi})\end{aligned}\]</p>
+        \vec{\omega} &amp;= \dot\theta \,\hat{k} = \dot\theta(\sin\phi \,\hat{e}_r + \cos\phi \,\hat{e}_{\phi})\end{aligned}\]</p>
         <p>Basis vector derivatives:</p>
         <p>\[\begin{aligned}
-        \dot{\hat{e}}_r &amp;= \boldsymbol{\omega} \times \hat{e}_r
+        \dot{\hat{e}}_r &amp;= \vec{\omega} \times \hat{e}_r
         = \dot\theta \cos\phi \,\hat{e}_{\theta} + \dot\phi \,\hat{e}_{\phi} \\
-        \dot{\hat{e}}_{\theta} &amp;= \boldsymbol{\omega} \times \hat{e}_{\theta}
+        \dot{\hat{e}}_{\theta} &amp;= \vec{\omega} \times \hat{e}_{\theta}
         = - \dot\theta \cos\phi \,\hat{e}_r + \dot\theta \sin\phi \,\hat{e}_{\phi} \\
-        \dot{\hat{e}}_{\phi} &amp;= \boldsymbol{\omega} \times \hat{e}_{\phi}
+        \dot{\hat{e}}_{\phi} &amp;= \vec{\omega} \times \hat{e}_{\phi}
         = - \dot\phi \,\hat{e}_r - \dot\theta \sin\theta \,\hat{e}_{\theta}\end{aligned}\]</p>
         <p>Position, velocity, and acceleration:</p>
         <p>\[\begin{aligned}
-        \boldsymbol{r} &amp;= r \,\hat{e}_r \\
-        \boldsymbol{v} &amp;= \dot{r} \,\hat{e}_r + r \dot\theta \cos\phi \,\hat{e}_{\theta}
+        \vec{r} &amp;= r \,\hat{e}_r \\
+        \vec{v} &amp;= \dot{r} \,\hat{e}_r + r \dot\theta \cos\phi \,\hat{e}_{\theta}
         + r \dot\phi \,\hat{e}_{\phi} \\
-        \boldsymbol{a} &amp;= (\ddot{r} - r \dot{\theta}^2 \cos^2\phi - r \dot{\phi}^2) \,\hat{e}_r \\
+        \vec{a} &amp;= (\ddot{r} - r \dot{\theta}^2 \cos^2\phi - r \dot{\phi}^2) \,\hat{e}_r \\
         &amp;\quad + (r \ddot\theta \cos\phi + 2 \dot{r} \dot\theta \cos\phi - 2 r \dot\theta \dot\phi \sin\phi) \,\hat{e}_{\theta} \\
         &amp;\quad + (r \ddot\phi + 2 \dot{r} \dot\phi + r \dot{\theta}^2 \sin\phi \cos\phi) \,\hat{e}_{\phi}\end{aligned}\]</p>
+      </div>
+      <div class="infoCol">
+        <div id="avs-ir" class="infoBox notationBox">
+          Different conventions for angle directions and ranges.
+        </div>
       </div>
     </div>
   </body>

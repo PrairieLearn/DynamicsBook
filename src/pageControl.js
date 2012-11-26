@@ -16,6 +16,7 @@ $(document).ready(function() {
     });
     // infoBox headers
     $("div.factBox").prepend('<h2>Did you know?</h2>');
+    $("div.notationBox").prepend('<h2>Notation note</h2>');
     $("div.requirementsBox").prepend('<h2>Reference material</h2>');
 
     // active navigation link

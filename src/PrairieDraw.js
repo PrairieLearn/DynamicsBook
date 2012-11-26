@@ -175,6 +175,44 @@ PrairieDraw.prototype.fixedMod = function(value, modulus) {
     return ((value % modulus) + modulus) % modulus;
 };
 
+/** Convert spherical to rectangular coordintes.
+
+    @param {Vector} Spherical coordinates (r, theta, phi).
+    @return {Vector} The position in rectangular coordinates (x, y, z).
+*/
+PrairieDraw.prototype.sphericalToRect = function(pS) {
+    var pR = $V([
+        pS.e(1) * Math.cos(pS.e(2)) * Math.cos(pS.e(3)),
+        pS.e(1) * Math.sin(pS.e(2)) * Math.cos(pS.e(3)),
+        pS.e(1) * Math.sin(pS.e(3))
+        ]);
+    return pR;
+};
+
+/** Orthogonal projection.
+
+    @param {Vector} u Vector to project.
+    @param {Vector} v Vector to project onto.
+    @return {Vector} The orthogonal projection of u onto v.
+*/
+PrairieDraw.prototype.orthProj = function(u, v) {
+    if (v.modulus() < 1e-30) {
+        return $V([0, 0, 0]);
+    } else {
+        return v.x(u.dot(v) / Math.pow(v.modulus(), 2));
+    }
+};
+
+/** Orthogonal complement.
+
+    @param {Vector} u Vector to project.
+    @param {Vector} v Vector to complement against.
+    @return {Vector} The orthogonal complement of u with respect to v.
+*/
+PrairieDraw.prototype.orthComp = function(u, v) {
+    return u.subtract(this.orthProj(u, v));
+};
+
 /*****************************************************************************/
 
 /** Return an identity transformation matrix.
@@ -530,12 +568,25 @@ PrairieDraw.prototype.rotate3D = function(angleX, angleY, angleZ) {
 
 /** Transform a position from 3D to 2D drawing coords if necessary.
 
-    @param {Vector} pDw Position in 2D 3D drawing coords.
+    @param {Vector} pDw Position in 2D or 3D drawing coords.
     @return {Vector} Position in 2D drawing coords.
 */
 PrairieDraw.prototype.pos3To2 = function(pDw) {
     if (pDw.elements.length === 3) {
         return this.orthProjPos3D(this.transformPos3D(this._trans3D, pDw));
+    } else {
+        return pDw;
+    }
+}
+
+/** Transform a position from 2D to 3D drawing coords if necessary (adding z = 0).
+
+    @param {Vector} pDw Position in 2D or 3D drawing coords.
+    @return {Vector} Position in 3D drawing coords.
+*/
+PrairieDraw.prototype.pos2To3 = function(pDw) {
+    if (pDw.elements.length === 2) {
+        return $V([pDw.e(1), pDw.e(2), 0]);
     } else {
         return pDw;
     }
@@ -1251,6 +1302,88 @@ PrairieDraw.prototype._circleArrowRadius = function(midRadPx, anglePx, startAngl
         return midRadPx * Math.exp(offsetAnglePx / circleArrowWrapDensity);
     }
 }
+
+/*****************************************************************************/
+
+/** Draw an arc in 3D.
+
+    @param {Vector} posDw The center of the arc.
+    @param {number} radDw The radius of the arc.
+    @param {Vector} normDw (Optional) The normal vector to the plane containing the arc (default: z axis).
+    @param {Vector} refDw (Optional) The reference vector to measure angles from (default: x axis).
+    @param {number} startAngleDw (Optional) The starting angle (counterclockwise from refDw about normDw, in radians, default: 0).
+    @param {number} endAngleDw (Optional) The ending angle (counterclockwise from refDw about normDw, in radians, default: 2 pi).
+    @param {string} type (Optional) The type of the line.
+    @param {Object} options (Optional) Various options.
+*/
+PrairieDraw.prototype.arc3D = function(posDw, radDw, normDw, refDw, startAngleDw, endAngleDw, options) {
+    posDw = this.pos2To3(posDw);
+    normDw = normDw || Vector.k;
+    refDw = refDw || Vector.i;
+    var fullCircle = false;
+    if (startAngleDw === undefined && endAngleDw === undefined) {
+        fullCircle = true;
+    }
+    startAngleDw = (startAngleDw === undefined) ? 0 : startAngleDw;
+    endAngleDw = (endAngleDw === undefined) ? (2 * Math.PI) : endAngleDw;
+
+    options = (options === undefined) ? {} : options;
+    var idealSegmentSize = (options.idealSegmentSize === undefined) ? (2 * Math.PI / 20) : options.idealSegmentSize;
+
+    var uDw = this.orthComp(refDw, normDw).toUnitVector();
+    var vDw = normDw.toUnitVector().cross(uDw);
+    var numSegments = Math.ceil(Math.abs(endAngleDw - startAngleDw) / idealSegmentSize);
+    var points = [];
+    var theta, p;
+    for (var i = 0; i <= numSegments; i++) {
+        theta = this.linearInterp(startAngleDw, endAngleDw, i / numSegments);
+        p = posDw.add(uDw.x(radDw * Math.cos(theta))).add(vDw.x(radDw * Math.sin(theta)));
+        points.push(this.pos3To2(p));
+    }
+    if (fullCircle) {
+        points.pop();
+        this.polyLine(points, true, false);
+    } else {
+        this.polyLine(points);
+    }
+};
+
+/*****************************************************************************/
+
+/** Draw a circle arrow in 3D.
+
+    @param {Vector} posDw The center of the arc.
+    @param {number} radDw The radius of the arc.
+    @param {Vector} normDw (Optional) The normal vector to the plane containing the arc (default: z axis).
+    @param {Vector} refDw (Optional) The reference vector to measure angles from (default: x axis).
+    @param {number} startAngleDw (Optional) The starting angle (counterclockwise from refDw about normDw, in radians, default: 0).
+    @param {number} endAngleDw (Optional) The ending angle (counterclockwise from refDw about normDw, in radians, default: 2 pi).
+    @param {string} type (Optional) The type of the line.
+    @param {Object} options (Optional) Various options.
+*/
+PrairieDraw.prototype.circleArrow3D = function(posDw, radDw, normDw, refDw, startAngleDw, endAngleDw, options) {
+    posDw = this.pos2To3(posDw);
+    normDw = normDw || Vector.k;
+    refDw = refDw || Vector.i;
+    startAngleDw = (startAngleDw === undefined) ? 0 : startAngleDw;
+    endAngleDw = (endAngleDw === undefined) ? (2 * Math.PI) : endAngleDw;
+
+    options = (options === undefined) ? {} : options;
+    var fixedRad = (options.fixedRad === undefined) ? true : options.fixedRad;
+    var idealSegmentSize = (options.idealSegmentSize === undefined) ? (2 * Math.PI / 20) : options.idealSegmentSize;
+
+    var uDw = this.orthComp(refDw, normDw).toUnitVector();
+    var vDw = normDw.toUnitVector().cross(uDw);
+    var numSegments = Math.ceil(Math.abs(endAngleDw - startAngleDw) / idealSegmentSize);
+    var points = [];
+    var theta, p;
+    for (var i = 0; i <= numSegments; i++) {
+        theta = this.linearInterp(startAngleDw, endAngleDw, i / numSegments);
+        p = posDw.add(uDw.x(radDw * Math.cos(theta))).add(vDw.x(radDw * Math.sin(theta)));
+        points.push(this.pos3To2(p));
+    }
+    this.polyLine(points);
+};
 
 /*****************************************************************************/
 
@@ -2069,17 +2202,17 @@ PrairieDraw.prototype.mouseMove3D = function(event) {
     var deltaY = event.clientY - this._lastMouseY3D;
     this._viewAngleX3D += deltaY * 0.01;
     this._viewAngleZ3D += deltaX * 0.01;
-    this._viewAngleX3D = Math.min(0, Math.max(-Math.PI / 2, this._viewAngleX3D));
-    this._viewAngleZ3D = Math.min(-Math.PI / 2, Math.max(-Math.PI, this._viewAngleZ3D));
+    this._viewAngleX3D = Math.min(-1e-6, Math.max(-Math.PI / 2 + 1e-6, this._viewAngleX3D));
+    this._viewAngleZ3D = Math.min(-Math.PI / 2 - 1e-6, Math.max(-Math.PI + 1e-6, this._viewAngleZ3D));
     this._lastMouseX3D = event.clientX;
     this._lastMouseY3D = event.clientY;
     this.redraw();
 };
 
 PrairieDraw.prototype.activate3DControl = function() {
-    this._viewAngleX3D = -Math.PI / 2 * 0.9;
+    this._viewAngleX3D = -Math.PI / 2 * 0.7;
     this._viewAngleY3D = 0;
-    this._viewAngleZ3D = -Math.PI / 2 * 1.3;
+    this._viewAngleZ3D = -Math.PI / 2 * 1.2;
     this._canvas.addEventListener("mousedown", this.mouseDown3D.bind(this), false);
     this._canvas.addEventListener("mouseup", this.mouseUp3D.bind(this), false);
     this._canvas.addEventListener("mousemove", this.mouseMove3D.bind(this), false);
