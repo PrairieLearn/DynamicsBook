@@ -26,9 +26,9 @@ $(document).ready(function() {
         this.arrow(O, rX);
         this.arrow(O, rY);
         this.arrow(O, rZ);
-        this.labelLine(O, rX, $V([1, 1]), "TEX:$x$");
-        this.labelLine(O, rY, $V([1, -1]), "TEX:$y$");
-        this.labelLine(O, rZ, $V([1, -1]), "TEX:$z$");
+        this.labelLine(O, rX, $V([1, -1]), "TEX:$x$");
+        this.labelLine(O, rY, $V([1, 1]), "TEX:$y$");
+        this.labelLine(O, rZ, $V([1, 1]), "TEX:$z$");
 
         var r = this.getOption("r");
         var theta = this.degToRad(this.getOption("thetaDeg"));
@@ -63,18 +63,35 @@ $(document).ready(function() {
         }
 
         this.arrow(O, p, "position");
+        this.labelLine(O, p, $V([0, 1]), "TEX:$\\vec{r}$");
 
         if (this.getOption("showCoords")) {
             this.save();
             this.setProp("shapeStrokePattern", "dashed");
+            this.setProp("arrowLinePattern", "dashed");
             this.line(O, pXY);
+
             if (!(this.getOption("showCoordLineTheta") && phi === 0)) {
                 this.circleArrow3D(O, r, Vector.k, Vector.i, 0, theta);
             }
+            var thetaText = undefined;
+            if (theta > 0) {
+                thetaText = "TEX:$\\theta$";
+            } else if (theta < 0) {
+                thetaText = "TEX:$-\\theta$";
+            }
+            this.labelCircleLine3D(thetaText, $V([0, 1]), O, r, Vector.k, Vector.i, 0, theta);
+
             if (!this.getOption("showCoordLinePhi")) {
                 this.circleArrow3D(O, r, nXY, pXY, 0, phi);
             }
-            this.labelLine(O, p, $V([0, 1]), "TEX:$r$");
+            var phiText = undefined;
+            if (phi > 0) {
+                phiText = "TEX:$\\phi$";
+            } else if (phi < 0) {
+                phiText = "TEX:$-\\phi$";
+            }
+            this.labelCircleLine3D(phiText, $V([0, 1]), O, r, nXY, pXY, 0, phi);
             this.restore();
         }
 

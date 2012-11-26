@@ -159,9 +159,9 @@ $(document).ready(function() {
             jButton.append('<span data-icon="B" aria-hidden="true" class="checkbox"></span>');
         }
         if (checked) {
-            jButton.children("span").attr("data-icon", "B");
+            jButton.children("span.checkbox").attr("data-icon", "B");
         } else {
-            jButton.children("span").attr("data-icon", ",");
+            jButton.children("span.checkbox").attr("data-icon", ",");
         }
     }
     var bindAnimToggleButton = function(jButton, canvasId) {

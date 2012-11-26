@@ -579,6 +579,24 @@ PrairieDraw.prototype.pos3To2 = function(pDw) {
     }
 }
 
+/** Transform a vector from 3D to 2D drawing coords if necessary.
+
+    @param {Vector} vDw Vector in 2D or 3D drawing coords.
+    @param {Vector} pDw Base point of vector (if in 3D).
+    @return {Vector} Vector in 2D drawing coords.
+*/
+PrairieDraw.prototype.vec3To2 = function(vDw, pDw) {
+    if (vDw.elements.length === 3) {
+        var qDw = pDw.add(vDw);
+        var p2Dw = this.pos3To2(pDw);
+        var q2Dw = this.pos3To2(qDw);
+        var vDw = q2Dw.subtract(p2Dw);
+        return vDw;
+    } else {
+        return vDw;
+    }
+}
+
 /** Transform a position from 2D to 3D drawing coords if necessary (adding z = 0).
 
     @param {Vector} pDw Position in 2D or 3D drawing coords.
@@ -589,6 +607,19 @@ PrairieDraw.prototype.pos2To3 = function(pDw) {
         return $V([pDw.e(1), pDw.e(2), 0]);
     } else {
         return pDw;
+    }
+}
+
+/** Transform a vector from 2D to 3D drawing coords if necessary (adding z = 0).
+
+    @param {Vector} vDw Vector in 2D or 3D drawing coords.
+    @return {Vector} Vector in 3D drawing coords.
+*/
+PrairieDraw.prototype.vec2To3 = function(vDw) {
+    if (vDw.elements.length === 2) {
+        return $V([vDw.e(1), vDw.e(2), 0]);
+    } else {
+        return vDw;
     }
 }
 
@@ -1005,6 +1036,17 @@ PrairieDraw.prototype.linearInterp = function(x0, x1, alpha) {
     return (1 - alpha) * x0 + alpha * x1;
 }
 
+/** Linearly interpolate between two vectors.
+
+    @param {Vector} x0 The first vector.
+    @param {Vector} x1 The second vector.
+    @param {number} alpha The proportion of x1 versus x0 (between 0 and 1).
+    @return {number} The quanity (1 - alpha) * x0 + alpha * x1.
+*/
+PrairieDraw.prototype.linearInterpVector = function(x0, x1, alpha) {
+    return x0.x(1 - alpha).add(x1.x(alpha));
+}
+
 /** Linearly interpolate between two states (objects with scalar members).
 
     @param {Object} s0 The first state.
@@ -1101,15 +1143,13 @@ PrairieDraw.prototype.line = function(startDw, endDw, type) {
 
 /*****************************************************************************/
 
-/** @private Draw an arrowhead.
+/** @private Draw an arrowhead in pixel coords.
 
-    @param {Vector} posDw Position of the tip (drawing coords).
-    @param {Vector} dirDw Direction vector that the arrowhead point in (drawing coords).
-    @param {number} lenPx Length of the arrowhead (pixel coords).
+    @param {Vector} posPx Position of the tip.
+    @param {Vector} dirPx Direction vector that the arrowhead points in.
+    @param {number} lenPx Length of the arrowhead.
 */
-PrairieDraw.prototype._arrowhead = function(posDw, dirDw, lenPx) {
-    var posPx = this.pos2Px(posDw);
-    var dirPx = this.vec2Px(dirDw);
+PrairieDraw.prototype._arrowheadPx = function(posPx, dirPx, lenPx) {
     var dxPx = - (1 - this._props.arrowheadOffsetRatio) * lenPx;
     var dyPx = this._props.arrowheadWidthRatio * lenPx;
     
@@ -1124,6 +1164,18 @@ PrairieDraw.prototype._arrowhead = function(posDw, dirDw, lenPx) {
     this._ctx.closePath();
     this._ctx.fill();
     this._ctx.restore();
+}
+
+/** @private Draw an arrowhead.
+
+    @param {Vector} posDw Position of the tip (drawing coords).
+    @param {Vector} dirDw Direction vector that the arrowhead point in (drawing coords).
+    @param {number} lenPx Length of the arrowhead (pixel coords).
+*/
+PrairieDraw.prototype._arrowhead = function(posDw, dirDw, lenPx) {
+    var posPx = this.pos2Px(posDw);
+    var dirPx = this.vec2Px(dirDw);
+    this._arrowheadPx(posPx, dirPx, lenPx);
 }
 
 /** Draw an arrow given start and end positions.
@@ -1328,7 +1380,7 @@ PrairieDraw.prototype.arc3D = function(posDw, radDw, normDw, refDw, startAngleDw
     endAngleDw = (endAngleDw === undefined) ? (2 * Math.PI) : endAngleDw;
 
     options = (options === undefined) ? {} : options;
-    var idealSegmentSize = (options.idealSegmentSize === undefined) ? (2 * Math.PI / 20) : options.idealSegmentSize;
+    var idealSegmentSize = (options.idealSegmentSize === undefined) ? (2 * Math.PI / 40) : options.idealSegmentSize;
 
     var uDw = this.orthComp(refDw, normDw).toUnitVector();
     var vDw = normDw.toUnitVector().cross(uDw);
@@ -1370,6 +1422,7 @@ PrairieDraw.prototype.circleArrow3D = function(posDw, radDw, normDw, refDw, star
 
     options = (options === undefined) ? {} : options;
     var fixedRad = (options.fixedRad === undefined) ? true : options.fixedRad;
+    // FIXME: implement fixedRad === false
     var idealSegmentSize = (options.idealSegmentSize === undefined) ? (2 * Math.PI / 20) : options.idealSegmentSize;
 
     var uDw = this.orthComp(refDw, normDw).toUnitVector();
@@ -1382,7 +1435,49 @@ PrairieDraw.prototype.circleArrow3D = function(posDw, radDw, normDw, refDw, star
         p = posDw.add(uDw.x(radDw * Math.cos(theta))).add(vDw.x(radDw * Math.sin(theta)));
         points.push(this.pos3To2(p));
     }
-    this.polyLine(points);
+    this.polyLineArrow(points);
+}
+
+/** Label a circle line in 3D.
+
+    @param {string} labelText The label text.
+    @param {Vector} labelAnchor The label anchor (first coord -1 to 1 along the line, second -1 to 1 transverse).
+    @param {Vector} posDw The center of the arc.
+    @param {number} radDw The radius of the arc.
+    @param {Vector} normDw (Optional) The normal vector to the plane containing the arc (default: z axis).
+    @param {Vector} refDw (Optional) The reference vector to measure angles from (default: x axis).
+    @param {number} startAngleDw (Optional) The starting angle (counterclockwise from refDw about normDw, in radians, default: 0).
+    @param {number} endAngleDw (Optional) The ending angle (counterclockwise from refDw about normDw, in radians, default: 2 pi).
+    @param {Object} options (Optional) Various options.
+*/
+PrairieDraw.prototype.labelCircleLine3D = function(labelText, labelAnchor, posDw, radDw, normDw, refDw, startAngleDw, endAngleDw, options) {
+    if (labelText === undefined) {
+        return;
+    }
+    posDw = this.pos2To3(posDw);
+    normDw = normDw || Vector.k;
+    refDw = refDw || Vector.i;
+    startAngleDw = (startAngleDw === undefined) ? 0 : startAngleDw;
+    endAngleDw = (endAngleDw === undefined) ? (2 * Math.PI) : endAngleDw;
+
+    var uDw = this.orthComp(refDw, normDw).toUnitVector();
+    var vDw = normDw.toUnitVector().cross(uDw);
+
+    var theta = this.linearInterp(startAngleDw, endAngleDw, (labelAnchor.e(1) + 1) / 2);
+    var p = posDw.add(uDw.x(radDw * Math.cos(theta))).add(vDw.x(radDw * Math.sin(theta)));
+    var p2Dw = this.pos3To2(p);
+    var t3Dw = uDw.x(-Math.sin(theta)).add(vDw.x(Math.cos(theta)));
+    var n3Dw = uDw.x(Math.cos(theta)).add(vDw.x(Math.sin(theta)));
+    var t2Px = this.vec2Px(this.vec3To2(t3Dw, p));
+    var n2Px = this.vec2Px(this.vec3To2(n3Dw, p));
+    n2Px = this.orthComp(n2Px, t2Px);
+    t2Px = t2Px.toUnitVector();
+    n2Px = n2Px.toUnitVector();
+    var oPx = t2Px.x(labelAnchor.e(1)).add(n2Px.x(labelAnchor.e(2)));
+    var oDw = this.vec2Dw(oPx);
+    var aDw = oDw.x(-1).toUnitVector();
+    var anchor = aDw.x(1.0 / Math.abs(aDw.max())).x(Math.abs(labelAnchor.max()));
+    this.text(p2Dw, anchor, labelText);
 };
 
 /*****************************************************************************/
@@ -1443,6 +1538,78 @@ PrairieDraw.prototype.polyLine = function(pointsDw, closed, filled) {
         }
     }
     this._ctx.stroke();
+    this._ctx.restore();
+}
+
+/** Draw a polyLine arrow.
+
+    @param {Array} pointsDw A list of drawing coordinates that form the polyLine.
+*/
+PrairieDraw.prototype.polyLineArrow = function(pointsDw, type) {
+    if (pointsDw.length < 2) {
+        return;
+    }
+
+    // convert the line to pixel coords and find its length
+    var pointsPx = [];
+    var i;
+    var polyLineLengthPx = 0;
+    for (i = 0; i < pointsDw.length; i++) {
+        pointsPx.push(this.pos2Px(this.pos3To2(pointsDw[i])));
+        if (i > 0) {
+            polyLineLengthPx += pointsPx[i].subtract(pointsPx[i - 1]).modulus();
+        }
+    }
+
+    // shorten the line to fit the arrowhead, dropping points and moving the last point
+    var drawArrowHead;
+    if (polyLineLengthPx < 1) {
+        // if too short, don't draw the arrowhead
+        drawArrowHead = false;
+    } else {
+        drawArrowHead = true;
+        var arrowheadMaxLengthPx = this._props.arrowheadLengthRatio * this._props.arrowLineWidthPx;
+        var arrowheadLengthPx = Math.min(arrowheadMaxLengthPx, polyLineLengthPx / 2);
+        var arrowheadCenterLengthPx = (1 - this._props.arrowheadOffsetRatio) * arrowheadLengthPx;
+        var lengthToRemovePx = arrowheadCenterLengthPx;
+        i = pointsPx.length - 1;
+        var arrowheadEndPx = pointsPx[i];
+        var segmentLengthPx;
+        while (i > 0) {
+            segmentLengthPx = pointsPx[i].subtract(pointsPx[i - 1]).modulus();
+            if (lengthToRemovePx > segmentLengthPx) {
+                lengthToRemovePx -= segmentLengthPx;
+                pointsPx.pop();
+                i--;
+            } else {
+                pointsPx[i] = this.linearInterpVector(pointsPx[i], pointsPx[i - 1],
+                                                      lengthToRemovePx / segmentLengthPx);
+                break;
+            }
+        }
+        var arrowheadBasePx = pointsPx[i];
+        var arrowheadOffsetPx = arrowheadEndPx.subtract(arrowheadBasePx);
+    }
+    
+    // draw the line
+    this._ctx.save();
+    this._ctx.lineWidth = this._props.arrowLineWidthPx;
+    this._ctx.setLineDash(this._dashPattern(this._props.arrowLinePattern));
+    this._setLineStyles(type);
+    this._ctx.beginPath();
+    var pPx = pointsPx[0];
+    this._ctx.moveTo(pPx.e(1), pPx.e(2));
+    for (var i = 1; i < pointsDw.length; i++) {
+        pPx = pointsPx[i];
+        this._ctx.lineTo(pPx.e(1), pPx.e(2));
+    }
+    this._ctx.stroke();
+
+    // draw the arrowhead
+    if (drawArrowHead) {
+        i = pointsPx[i];
+        this._arrowheadPx(arrowheadEndPx, arrowheadOffsetPx, arrowheadLengthPx);
+    }
     this._ctx.restore();
 }
 
@@ -2203,14 +2370,14 @@ PrairieDraw.prototype.mouseMove3D = function(event) {
     this._viewAngleX3D += deltaY * 0.01;
     this._viewAngleZ3D += deltaX * 0.01;
     this._viewAngleX3D = Math.min(-1e-6, Math.max(-Math.PI / 2 + 1e-6, this._viewAngleX3D));
-    this._viewAngleZ3D = Math.min(-Math.PI / 2 - 1e-6, Math.max(-Math.PI + 1e-6, this._viewAngleZ3D));
+    this._viewAngleZ3D = Math.min(-1e-6, Math.max(-Math.PI + 1e-6, this._viewAngleZ3D));
     this._lastMouseX3D = event.clientX;
     this._lastMouseY3D = event.clientY;
     this.redraw();
 };
 
 PrairieDraw.prototype.activate3DControl = function() {
-    this._viewAngleX3D = -Math.PI / 2 * 0.7;
+    this._viewAngleX3D = -Math.PI / 2 * 0.73;
     this._viewAngleY3D = 0;
     this._viewAngleZ3D = -Math.PI / 2 * 1.2;
     this._canvas.addEventListener("mousedown", this.mouseDown3D.bind(this), false);
