@@ -21,9 +21,6 @@
     <div class="contentBlock">
       <div id="rvs" class="contentCol">
         <p>
-          Fix line spacing of left-side controls.
-        </p>
-        <p>
           Final derivation.
         </p>
         <p>
@@ -74,16 +71,14 @@
           similarly for the other coordinates.
         </p>
         <div class="figureContainer" id="rvs-fd">
-          <table class="alignTop">
+          <table class="alignTop figureLeftControl">
             <tr>
               <td>
                 <canvas id="rvs-fd-c" width="400" height="400">
                 </canvas>
               </td>
-              <td>
-                <p>
-                  <button class="reset:rvs-fd-c">reset</button>
-                </p>
+              <td class="controls">
+                <button class="reset:rvs-fd-c">reset</button>
                 <table class="alignTop">
                   <tr>
                     <td>Show:</td>
@@ -94,12 +89,16 @@
                     </td>
                   </tr>
                 </table>
-                <p>
-                  Coordinate lines:
-                  <button class="option-toggle:rvs-fd-c:showCoordLineR">$r$</button>
-                  <button class="option-toggle:rvs-fd-c:showCoordLineTheta">$\theta$</button>
-                  <button class="option-toggle:rvs-fd-c:showCoordLinePhi">$\phi$</button>
-                </p>
+                <table>
+                  <tr>
+                    <td>Coordinate lines:</td>
+                    <td>
+                      <button class="option-toggle:rvs-fd-c:showCoordLineR">$r$</button>
+                      <button class="option-toggle:rvs-fd-c:showCoordLineTheta">$\theta$</button>
+                      <button class="option-toggle:rvs-fd-c:showCoordLinePhi">$\phi$</button>
+                    </td>
+                  </tr>
+                </table>
                 <table>
                   <tr>
                     <td>Radius:</td>

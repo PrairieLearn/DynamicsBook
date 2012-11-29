@@ -513,7 +513,6 @@ table.options input[type="range"] {
 /*****************************************************************************/
 
 table.figureLeftControl {
-    /*border: 1px solid #000;*/
     border-spacing: 0;
     border-collapse: collapse;
 }
