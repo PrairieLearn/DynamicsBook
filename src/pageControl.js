@@ -18,6 +18,7 @@ $(document).ready(function() {
     $("div.factBox").prepend('<h2>Did you know?</h2>');
     $("div.notationBox").prepend('<h2>Notation note</h2>');
     $("div.requirementsBox").prepend('<h2>Reference material</h2>');
+    $("div.applicationsBox").prepend('<h2>Related applications</h2>');
 
     // active navigation link
     var activeNavId;
