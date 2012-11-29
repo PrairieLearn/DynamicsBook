@@ -21,9 +21,6 @@
     <div class="contentBlock">
       <div id="rvs" class="contentCol">
         <p>
-          Final derivation.
-        </p>
-        <p>
           Infobox about conventions.
         </p>
         <p>
@@ -308,7 +305,7 @@
               \dot{\hat{e}}_{\theta} &amp;= - \dot\theta \cos\phi \,\hat{e}_r
               + \dot\theta \sin\phi \,\hat{e}_{\phi} \\
               \dot{\hat{e}}_{\phi} &amp;= - \dot\phi \,\hat{e}_r
-              - \dot\theta \sin\theta \,\hat{e}_{\theta}
+              - \dot\theta \sin\phi \,\hat{e}_{\theta}
               \end{aligned}\]
             </p>
           </div>
@@ -376,6 +373,39 @@
         <div class="envContainer derivation" id="rvs-ep-d">
           <div class="envBody">
             <p>
+              Because $\hat{e}_r$ is a unit vector in the direction of
+              the position vector $\vec{r}$, we know that $\vec{r} = r
+              \, \hat{e}_r$. Then we can differentiate this expression
+              to obtain:
+            </p>
+            <p>
+              \[\begin{aligned}
+              \vec{v} &amp;= \dot{\vec{r}} = \frac{d}{dt}\Big(r \, \hat{e}_r \Big)
+              = \dot{r} \, \hat{e}_r + r \, \dot{\hat{e}}_r
+              \end{aligned}\]
+            </p>
+            <p>
+              and we substitute in the expression for
+              $\dot{\hat{e}}_r$ <a href="#rvs-et">from
+              above</a>. Taking another derivative gives:
+            </p>
+            <p>
+              \[\begin{aligned}
+              \vec{a} = \dot{\vec{v}} &amp;= \frac{d}{dt}\Big(
+              \dot{r} \,\hat{e}_r
+              + r \dot\theta \cos\phi \,\hat{e}_{\theta}
+              + r \dot\phi \,\hat{e}_{\phi} \Big) \\
+              &amp;= \ddot{r} \, \hat{e}_r + \dot{r} \, \dot{\hat{e}}_r
+              + (\dot{r} \dot\theta \cos\phi + r \ddot\theta \cos\phi
+              - r \dot\theta \sin\phi \, \dot\phi) \, \hat{e}_\theta \\
+              &amp;\quad + r \dot\theta \cos\phi \, \dot{\hat{e}}_\theta
+              + (\dot{r} \dot\phi + r \ddot\phi) \, \hat{e}_\phi
+              + r \dot\phi \, \dot{\hat{e}}_\phi
+              \end{aligned}\]
+            </p>
+            <p>
+              and again we can substitute the <a href="#rvs-et">basis
+              vector derivatives</a>.
             </p>
           </div>
         </div>
