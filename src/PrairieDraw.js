@@ -29,7 +29,16 @@ function PrairieDraw(canvas, drawFcn) {
         /** @private */ this._trans = Matrix.I(3);
         /** @private */ this._transStack = [];
 
-        /** @private */ this._trans3D = Matrix.I(4);
+        /** @private */ this._initViewAngleX3D = -Math.PI / 2 * 0.75;
+        /** @private */ this._initViewAngleY3D = 0;
+        /** @private */ this._initViewAngleZ3D = -Math.PI / 2 * 1.25;
+        /** @private */ this._viewAngleX3D = this._initViewAngleX3D;
+        /** @private */ this._viewAngleY3D = this._initViewAngleY3D;
+        /** @private */ this._viewAngleZ3D = this._initViewAngleZ3D;
+        /** @private */ this._trans3D = this.rotateTransform3D(Matrix.I(4),
+                                                               this._initViewAngleX3D,
+                                                               this._initViewAngleY3D,
+                                                               this._initViewAngleZ3D);
         /** @private */ this._trans3DStack = [];
 
         /** @private */ this._props = {};
@@ -45,7 +54,9 @@ function PrairieDraw(canvas, drawFcn) {
         if (drawFcn) {
             this.draw = drawFcn.bind(this);
         }
+        this.save();
         this.draw();
+        this.restoreAll();
     }
 }
 
@@ -70,12 +81,21 @@ PrairieDraw.prototype.draw = function() {
 /** Redraw the drawing.
 */
 PrairieDraw.prototype.redraw = function() {
+    this.save();
     this.draw();
+    this.restoreAll();
 }
 
 /** @private Initialize properties.
 */
 PrairieDraw.prototype._initProps = function() {
+
+    this._props.viewAngleXMin = -Math.PI / 2 + 1e-6;
+    this._props.viewAngleXMax = -1e-6;
+    this._props.viewAngleYMin = -Infinity;
+    this._props.viewAngleYMax = Infinity;
+    this._props.viewAngleZMin = -Infinity;
+    this._props.viewAngleZMax = Infinity;
 
     this._props.arrowLineWidthPx = 2;
     this._props.arrowLinePattern = 'solid';
@@ -173,6 +193,16 @@ PrairieDraw.prototype.radToDeg = function(radians) {
 */
 PrairieDraw.prototype.fixedMod = function(value, modulus) {
     return ((value % modulus) + modulus) % modulus;
+};
+
+/** Clip a value x to the given interval [a, b].
+
+    @param {number} x Value to clip.
+    @param {number} a Lower interval end.
+    @param {number} b Upper interval end.
+*/
+PrairieDraw.prototype.clip = function(x, a, b) {
+    return Math.max(a, Math.min(b, x));
 };
 
 /** Convert spherical to rectangular coordintes.
@@ -538,6 +568,54 @@ PrairieDraw.prototype.orthProjPos3D = function(pos) {
 
 /*****************************************************************************/
 
+/** Set the 3D view to the given angles.
+
+    @param {number} angleX The rotation angle about the X axis.
+    @param {number} angleY The rotation angle about the Y axis.
+    @param {number} angleZ The rotation angle about the Z axis.
+    @param {bool} clip (Optional) Whether to clip to max/min range (default: true).
+    @param {bool} redraw (Optional) Whether to redraw (default: true).
+*/
+PrairieDraw.prototype.setView3D = function(angleX, angleY, angleZ, clip, redraw) {
+    clip = (clip === undefined) ? true : clip;
+    redraw = (redraw === undefined) ? true : redraw;
+    this._viewAngleX3D = angleX;
+    this._viewAngleY3D = angleY;
+    this._viewAngleZ3D = angleZ;
+    if (clip) {
+        this._viewAngleX3D = this.clip(this._viewAngleX3D, this._props.viewAngleXMin, this._props.viewAngleXMax);
+        this._viewAngleY3D = this.clip(this._viewAngleY3D, this._props.viewAngleYMin, this._props.viewAngleYMax);
+        this._viewAngleZ3D = this.clip(this._viewAngleZ3D, this._props.viewAngleZMin, this._props.viewAngleZMax);
+    }
+    this._trans3D = this.rotateTransform3D(Matrix.I(4), this._viewAngleX3D, this._viewAngleY3D, this._viewAngleZ3D);
+    if (redraw) {
+        this.redraw();
+    }
+};
+
+/** Reset the 3D view to default.
+
+    @param {bool} redraw (Optional) Whether to redraw (default: true).
+*/
+PrairieDraw.prototype.resetView3D = function(redraw) {
+    this.setView3D(this._initViewAngleX3D, this._initViewAngleY3D, this._initViewAngleZ3D, undefined, redraw);
+};
+
+/** Increment the 3D view by the given angles.
+
+    @param {number} deltaAngleX The incremental rotation angle about the X axis.
+    @param {number} deltaAngleY The incremental rotation angle about the Y axis.
+    @param {number} deltaAngleZ The incremental rotation angle about the Z axis.
+    @param {bool} clip (Optional) Whether to clip to max/min range (default: true).
+*/
+PrairieDraw.prototype.incrementView3D = function(deltaAngleX, deltaAngleY, deltaAngleZ, clip) {
+    this.setView3D(this._viewAngleX3D + deltaAngleX,
+                   this._viewAngleY3D + deltaAngleY,
+                   this._viewAngleZ3D + deltaAngleZ);
+};
+
+/*****************************************************************************/
+
 /** Scale the 3D coordinate system.
 
     @param {Vector} factor Scale factor.
@@ -867,14 +945,19 @@ PrairieDraw.prototype.restore = function() {
     this._trans3D = this._trans3DStack.pop();
 }
 
+/** Restore all outstanding saves.
+*/
+PrairieDraw.prototype.restoreAll = function() {
+    while (this._propStack.length > 0) {
+        this.restore();
+    }
+};
+
 /*****************************************************************************/
 
 /** Reset the canvas image and drawing context.
 */
-PrairieDraw.prototype.resetDrawing = function() {
-    while (this._propStack.length > 0) {
-        this.restore();
-    }
+PrairieDraw.prototype.clearDrawing = function() {
     this._ctx.clearRect(0, 0, this._width, this._height);
 }
 
@@ -884,6 +967,7 @@ PrairieDraw.prototype.reset = function() {
     for (optionName in this._options) {
         this.resetOptionValue(optionName)
     }
+    this.resetView3D(false);
     this.redraw();
 }
 
@@ -902,8 +986,7 @@ PrairieDraw.prototype.stop = function() {
     @param {bool} preserveCanvasSize (Optional) If true, do not resize the canvas to match the coordinate ratio.
 */
 PrairieDraw.prototype.setUnits = function(xSize, ySize, canvasWidth, preserveCanvasSize) {
-    this.resetDrawing();
-    this.save();
+    this.clearDrawing();
     if (canvasWidth !== undefined) {
         var canvasHeight = Math.floor(ySize / xSize * canvasWidth);
         if ((this._width != canvasWidth) || (this._height != canvasHeight)) {
@@ -1423,7 +1506,7 @@ PrairieDraw.prototype.circleArrow3D = function(posDw, radDw, normDw, refDw, star
     options = (options === undefined) ? {} : options;
     var fixedRad = (options.fixedRad === undefined) ? true : options.fixedRad;
     // FIXME: implement fixedRad === false
-    var idealSegmentSize = (options.idealSegmentSize === undefined) ? (2 * Math.PI / 20) : options.idealSegmentSize;
+    var idealSegmentSize = (options.idealSegmentSize === undefined) ? (2 * Math.PI / 40) : options.idealSegmentSize;
 
     var uDw = this.orthComp(refDw, normDw).toUnitVector();
     var vDw = normDw.toUnitVector().cross(uDw);
@@ -1478,6 +1561,26 @@ PrairieDraw.prototype.labelCircleLine3D = function(labelText, labelAnchor, posDw
     var aDw = oDw.x(-1).toUnitVector();
     var anchor = aDw.x(1.0 / Math.abs(aDw.max())).x(Math.abs(labelAnchor.max()));
     this.text(p2Dw, anchor, labelText);
+};
+
+/*****************************************************************************/
+
+/** Label an angle with an inset label.
+
+    @param {Vector} pos The corner position.
+    @param {Vector} p1 Position of first other point.
+    @param {Vector} p2 Position of second other point.
+    @param {string} label The label text.
+*/
+PrairieDraw.prototype.labelAngle = function(pos, p1, p2, label) {
+    pos = this.pos3To2(pos);
+    p1 = this.pos3To2(p1);
+    p2 = this.pos3To2(p2);
+    var v1 = p1.subtract(pos);
+    var v2 = p2.subtract(pos);
+    var vMid = v1.add(v2).x(0.5);
+    var anchor = vMid.x(-1.8 / this.supNorm(vMid));
+    this.text(pos, anchor, label);
 };
 
 /*****************************************************************************/
@@ -1599,7 +1702,7 @@ PrairieDraw.prototype.polyLineArrow = function(pointsDw, type) {
     this._ctx.beginPath();
     var pPx = pointsPx[0];
     this._ctx.moveTo(pPx.e(1), pPx.e(2));
-    for (var i = 1; i < pointsDw.length; i++) {
+    for (var i = 1; i < pointsPx.length; i++) {
         pPx = pointsPx[i];
         this._ctx.lineTo(pPx.e(1), pPx.e(2));
     }
@@ -2043,7 +2146,7 @@ PrairieDraw.prototype.rightAngle = function(posDw, dirDw) {
     @param {bool} boxed (Optional) Whether to draw a white box behind the text (default: false).
 */
 PrairieDraw.prototype.text = function(posDw, anchor, text, boxed) {
-    var posPx = this.pos2Px(posDw);
+    var posPx = this.pos2Px(this.pos3To2(posDw));
     if (text.slice(0,4) == "TEX:") {
         var tex_text = text.slice(4);
         var hash = Sha1.hash(tex_text);
@@ -2153,18 +2256,20 @@ PrairieDraw.prototype.labelCircleLine = function(posDw, radDw, startAngleDw, end
     this.text(pDw, a, text);
 };
 
-/** Find the anchor for the intersection of two lines.
+/** Find the anchor for the intersection of several lines.
 
     @param {Vector} labelPoint The point to be labeled.
     @param {Array} points The end of the lines that meet at labelPoint.
     @return {Vector} The anchor offset.
 */
-PrairieDraw.prototype.findAnchorForIntersection = function(labelPoint, points) {
+PrairieDraw.prototype.findAnchorForIntersection = function(labelPointDw, pointsDw) {
     // find the angles on the unit circle for each of the lines
+    var labelPointPx = this.pos2Px(this.pos3To2(labelPointDw));
     var i, v;
     var angles = [];
-    for (i = 0; i < points.length; i++) {
-        v = points[i].subtract(labelPoint);
+    for (i = 0; i < pointsDw.length; i++) {
+        v = this.pos2Px(this.pos3To2(pointsDw[i])).subtract(labelPointPx);
+        v = $V([v.e(1), -v.e(2)]);
         if (v.modulus() > 1e-6) {
             angles.push(this.angleOf(v));
         }
@@ -2213,6 +2318,17 @@ PrairieDraw.prototype.findAnchorForIntersection = function(labelPoint, points) {
     var dir = this.vector2DAtAngle(bestAngle);
     dir = dir.x(1 / this.supNorm(dir));
     return dir.x(-1);
+};
+
+/** Label the intersection of several lines.
+
+    @param {Vector} labelPoint The point to be labeled.
+    @param {Array} points The end of the lines that meet at labelPoint.
+    @param {string} label The label text.
+*/
+PrairieDraw.prototype.labelIntersection = function(labelPoint, points, label) {
+    var anchor = this.findAnchorForIntersection(labelPoint, points);
+    this.text(labelPoint, anchor, label);
 };
 
 /*****************************************************************************/
@@ -2352,6 +2468,7 @@ PrairieDraw.prototype.plotHistory = function(originDw, sizeDw, sizeData, timeOff
 /*****************************************************************************/
 
 PrairieDraw.prototype.mouseDown3D = function(event) {
+    event.preventDefault();
     this._mouseDown3D = true;
     this._lastMouseX3D = event.clientX;
     this._lastMouseY3D = event.clientY;
@@ -2367,23 +2484,24 @@ PrairieDraw.prototype.mouseMove3D = function(event) {
     }
     var deltaX = event.clientX - this._lastMouseX3D;
     var deltaY = event.clientY - this._lastMouseY3D;
-    this._viewAngleX3D += deltaY * 0.01;
-    this._viewAngleZ3D += deltaX * 0.01;
-    this._viewAngleX3D = Math.min(-1e-6, Math.max(-Math.PI / 2 + 1e-6, this._viewAngleX3D));
-    this._viewAngleZ3D = Math.min(-1e-6, Math.max(-Math.PI + 1e-6, this._viewAngleZ3D));
     this._lastMouseX3D = event.clientX;
     this._lastMouseY3D = event.clientY;
-    this.redraw();
+    this.incrementView3D(deltaY * 0.01, 0, deltaX * 0.01);
 };
 
 PrairieDraw.prototype.activate3DControl = function() {
-    this._viewAngleX3D = -Math.PI / 2 * 0.73;
-    this._viewAngleY3D = 0;
-    this._viewAngleZ3D = -Math.PI / 2 * 1.2;
-    this._canvas.addEventListener("mousedown", this.mouseDown3D.bind(this), false);
-    this._canvas.addEventListener("mouseup", this.mouseUp3D.bind(this), false);
-    this._canvas.addEventListener("mousemove", this.mouseMove3D.bind(this), false);
-    this.redraw();
+    /* Listen just on the canvas for mousedown, but on whole window
+     * for move/up. This allows mouseup while off-canvas (and even
+     * off-window) to be captured. Ideally we should also listen for
+     * mousedown on the whole window and use mouseEventOnCanvas(), but
+     * this is broken on Canary for some reason (some areas off-canvas
+     * don't work). The advantage of listening for mousedown on the
+     * whole window is that we can get the event during the "capture"
+     * phase rather than the later "bubble" phase, allowing us to
+     * preventDefault() before things like select-drag starts. */
+    this._canvas.addEventListener("mousedown", this.mouseDown3D.bind(this), true);
+    window.addEventListener("mouseup", this.mouseUp3D.bind(this), true);
+    window.addEventListener("mousemove", this.mouseMove3D.bind(this), true);
 };
 
 /*****************************************************************************/
@@ -2405,7 +2523,9 @@ function PrairieDrawAnim(canvas, drawFcn) {
     if (drawFcn) {
         this.draw = drawFcn.bind(this);
     }
+    this.save();
     this.draw(0);
+    this.restoreAll();
 }
 PrairieDrawAnim.prototype = new PrairieDraw;
 
@@ -2498,7 +2618,9 @@ PrairieDrawAnim.prototype._callback = function(t_ms) {
     for (var i = 0; i < this._animStepCallbacks.length; i++) {
         this._animStepCallbacks[i](t);
     }
+    this.save();
     this.draw(t);
+    this.restoreAll();
     if (this._running) {
         this._requestAnimationFrame.call(window, this._callback.bind(this));
     }
@@ -2508,7 +2630,9 @@ PrairieDrawAnim.prototype._callback = function(t_ms) {
 */
 PrairieDrawAnim.prototype.redraw = function() {
     if (!this._running) {
+        this.save();
         this.draw(this._drawTime / 1000);
+        this.restoreAll();
     }
 }
 
@@ -2536,7 +2660,9 @@ PrairieDrawAnim.prototype.reset = function() {
     this.resetAllSequences();
     this.clearAllHistory();
     this.stopAnim();
-    this.resetTime();
+    this.resetView3D(false);
+    this.resetTime(false);
+    this.redraw();
 }
 
 /** Stop all action and computation.
@@ -2891,12 +3017,29 @@ PrairieDraw.prototype.drawImage = function(imgSrc, posDw, anchor, widthDw) {
 
 /*****************************************************************************/
 
-PrairieDraw.prototype.mouseEventDw = function(event) {
+PrairieDraw.prototype.mouseEventPx = function(event) {
     var xPx = event.pageX - this._canvas.offsetLeft;
     var yPx = event.pageY - this._canvas.offsetTop;
     var posPx = $V([xPx, yPx]);
+    return posPx;
+};
+
+PrairieDraw.prototype.mouseEventDw = function(event) {
+    var posPx = this.mouseEventPx(event);
     var posDw = this.pos2Dw(posPx);
     return posDw;
+};
+
+PrairieDraw.prototype.mouseEventOnCanvas = function(event) {
+    var posPx = this.mouseEventPx(event);
+    console.log(posPx.e(1), posPx.e(2), this._width, this._height);
+    if (posPx.e(1) >= 0 && posPx.e(1) <= this._width
+        && posPx.e(2) >= 0 && posPx.e(2) <= this._height) {
+        console.log(true);
+        return true;
+    }
+    console.log(false);
+    return false;
 };
 
 PrairieDraw.prototype.reportMouseSample = function(event) {
