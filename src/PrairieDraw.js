@@ -207,15 +207,26 @@ PrairieDraw.prototype.clip = function(x, a, b) {
 
 /** Convert spherical to rectangular coordintes.
 
-    @param {Vector} Spherical coordinates (r, theta, phi).
+    @param {Vector} pS Spherical coordinates (r, theta, phi).
     @return {Vector} The position in rectangular coordinates (x, y, z).
 */
 PrairieDraw.prototype.sphericalToRect = function(pS) {
-    var pR = $V([
-        pS.e(1) * Math.cos(pS.e(2)) * Math.cos(pS.e(3)),
-        pS.e(1) * Math.sin(pS.e(2)) * Math.cos(pS.e(3)),
-        pS.e(1) * Math.sin(pS.e(3))
-        ]);
+    var pR = $V([pS.e(1) * Math.cos(pS.e(2)) * Math.cos(pS.e(3)),
+                 pS.e(1) * Math.sin(pS.e(2)) * Math.cos(pS.e(3)),
+                 pS.e(1) * Math.sin(pS.e(3))
+                ]);
+    return pR;
+};
+
+/** Convert cylindrical to rectangular coordintes.
+
+    @param {Vector} pC Cylindrical coordinates (r, theta, z).
+    @return {Vector} The position in rectangular coordinates (x, y, z).
+*/
+PrairieDraw.prototype.cylindricalToRect = function(pC) {
+    var pR = $V([pC.e(1) * Math.cos(pC.e(2)),
+                 pC.e(1) * Math.sin(pC.e(2)),
+                 pC.e(3)]);
     return pR;
 };
 
@@ -2146,6 +2157,9 @@ PrairieDraw.prototype.rightAngle = function(posDw, dirDw) {
     @param {bool} boxed (Optional) Whether to draw a white box behind the text (default: false).
 */
 PrairieDraw.prototype.text = function(posDw, anchor, text, boxed) {
+    if (text === undefined) {
+        return;
+    }
     var posPx = this.pos2Px(this.pos3To2(posDw));
     if (text.slice(0,4) == "TEX:") {
         var tex_text = text.slice(4);
@@ -2208,6 +2222,9 @@ PrairieDraw.prototype.text = function(posDw, anchor, text, boxed) {
     @param {string} text The text to draw.
 */
 PrairieDraw.prototype.labelLine = function(startDw, endDw, pos, text) {
+    if (text === undefined) {
+        return;
+    }
     startDw = this.pos3To2(startDw);
     endDw = this.pos3To2(endDw);
     var midpointDw = (startDw.add(endDw)).x(0.5);
