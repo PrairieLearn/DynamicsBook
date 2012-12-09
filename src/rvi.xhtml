@@ -25,9 +25,9 @@
           <p class="envHeader">Cross product anti-symmetry</p>
           <div class="envBody">
             <p>
-              \[\begin{aligned} \boldsymbol{u} \times
-              \boldsymbol{v} = - \boldsymbol{v} \times
-              \boldsymbol{u}\end{aligned}\]
+              \[\begin{aligned} \vec{a} \times
+              \vec{b} = - \vec{b} \times
+              \vec{a}\end{aligned}\]
             </p>
           </div>
         </div>
@@ -42,8 +42,8 @@
           <p class="envHeader">Cross product self-annihilation</p>
           <div class="envBody">
             <p>
-              \[\begin{aligned} \boldsymbol{u} \times
-              \boldsymbol{u} = 0\end{aligned}\]
+              \[\begin{aligned} \vec{a} \times
+              \vec{a} = 0\end{aligned}\]
             </p>
           </div>
         </div>
@@ -58,16 +58,16 @@
           <p class="envHeader">Cross product bi-linearity</p>
           <div class="envBody">
             <p>
-              \[\begin{aligned} \boldsymbol{a} \times
-              (\boldsymbol{b} + \boldsymbol{c}) &amp;=
-              \boldsymbol{a} \times \boldsymbol{b} + \boldsymbol{a}
-              \times \boldsymbol{c} \\ (\boldsymbol{a} +
-              \boldsymbol{b}) \times \boldsymbol{c} &amp;=
-              \boldsymbol{a} \times \boldsymbol{c} + \boldsymbol{b}
-              \times \boldsymbol{c} \\ \boldsymbol{a} \times (\beta
-              \boldsymbol{b}) &amp;= \beta (\boldsymbol{a} \times
-              \boldsymbol{b}) = (\beta \boldsymbol{a}) \times
-              \boldsymbol{b}\end{aligned}\]
+              \[\begin{aligned} \vec{a} \times
+              (\vec{b} + \vec{c}) &amp;=
+              \vec{a} \times \vec{b} + \vec{a}
+              \times \vec{c} \\ (\vec{a} +
+              \vec{b}) \times \vec{c} &amp;=
+              \vec{a} \times \vec{c} + \vec{b}
+              \times \vec{c} \\ \vec{a} \times (\beta
+              \vec{b}) &amp;= \beta (\vec{a} \times
+              \vec{b}) = (\beta \vec{a}) \times
+              \vec{b}\end{aligned}\]
             </p>
           </div>
         </div>
@@ -79,20 +79,20 @@
           </div>
         </div>
         <p>
-          The scalar triple product is \(\boldsymbol{u} \cdot
-          (\boldsymbol{v} \times \boldsymbol{w})\), which gives the
-          volume of the parallelepiped defined by \(\boldsymbol{u},
-          \boldsymbol{v}, \boldsymbol{w}\). It satisfies:
+          The scalar triple product is \(\vec{a} \cdot
+          (\vec{b} \times \vec{c})\), which gives the
+          volume of the parallelepiped defined by \(\vec{a},
+          \vec{b}, \vec{c}\). It satisfies:
         </p>
         <div class="envContainer equation" id="rvi-es">
           <p class="envHeader">Scalar triple product formula</p>
           <div class="envBody">
             <p>
-              \[\begin{aligned} \boldsymbol{u} \cdot
-              (\boldsymbol{v} \times \boldsymbol{w}) =
-              \boldsymbol{v} \cdot (\boldsymbol{w} \times
-              \boldsymbol{u}) = \boldsymbol{w} \cdot
-              (\boldsymbol{u} \times \boldsymbol{v})\end{aligned}\]
+              \[\begin{aligned} \vec{a} \cdot
+              (\vec{b} \times \vec{c}) =
+              \vec{b} \cdot (\vec{c} \times
+              \vec{a}) = \vec{c} \cdot
+              (\vec{a} \times \vec{b})\end{aligned}\]
             </p>
           </div>
         </div>
@@ -103,29 +103,31 @@
               check that they give the same result:
             </p>
             <p>
-              \[\begin{aligned} \boldsymbol{u} \cdot
-              (\boldsymbol{v} \times \boldsymbol{w}) &amp;= (u_1
-              \,\hat{\imath} + u_2 \,\hat{\jmath} + u_3 \,\hat{k})
-              \cdot \big( (v_1 \,\hat{\imath} + v_2 \,\hat{\jmath}
-              + v_3 \,\hat{k}) \times (w_1 \,\hat{\imath} + w_2
-              \,\hat{\jmath} + w_3 \,\hat{k}) \big) \\ &amp;= (u_1
-              \,\hat{\imath} + u_2 \,\hat{\jmath} + u_3 \,\hat{k})
-              \cdot \big( (v_2 w_3 - v_3 w_2) \,\hat{\imath} + (v_3
-              w_1 - v_1 w_3) \,\hat{\jmath} + (v_1 w_2 - v_2 w_1)
-              \,\hat{k} \big) \\ &amp;= u_1 v_2 w_3 - u_1 v_3 w_2 +
-              u_2 v_3 w_1 - u_2 v_1 w_3 + u_3 v_1 w_2 - u_3 v_2 w_1
-              \\ \boldsymbol{v} \cdot (\boldsymbol{w} \times
-              \boldsymbol{u}) &amp;= (v_1 \,\hat{\imath} + v_2
-              \,\hat{\jmath} + v_3 \,\hat{k}) \cdot \big( (w_1
-              \,\hat{\imath} + w_2 \,\hat{\jmath} + w_3 \,\hat{k})
-              \times (u_1 \,\hat{\imath} + u_2 \,\hat{\jmath} + u_3
-              \,\hat{k}) \big) \\ &amp;= (v_1 \,\hat{\imath} + v_2
-              \,\hat{\jmath} + v_3 \,\hat{k}) \cdot \big( (w_2 u_3
-              - w_3 u_2) \,\hat{\imath} + (w_3 u_1 - w_1 u_3)
-              \,\hat{\jmath} + (w_1 u_2 - w_2 u_1) \,\hat{k} \big)
-              \\ &amp;= v_1 w_2 u_3 - v_1 w_3 u_2 + v_2 w_3 u_1 -
-              v_2 w_1 u_3 + v_3 w_1 u_2 - v_3 w_2
-              u_1\end{aligned}\]
+              \[\begin{aligned} \vec{a} \cdot
+              (\vec{b} \times \vec{c}) &amp;= (a_1
+              \,\hat{\imath} + a_2 \,\hat{\jmath} + a_3 \,\hat{k}) \\
+              &amp;\qquad \cdot \big( (b_1 \,\hat{\imath} + b_2 \,\hat{\jmath}
+              + b_3 \,\hat{k}) \times (c_1 \,\hat{\imath} + c_2
+              \,\hat{\jmath} + c_3 \,\hat{k}) \big) \\ &amp;= (a_1
+              \,\hat{\imath} + a_2 \,\hat{\jmath} + a_3 \,\hat{k}) \\
+              &amp;\qquad \cdot \big( (b_2 c_3 - b_3 c_2) \,\hat{\imath} + (b_3
+              c_1 - b_1 c_3) \,\hat{\jmath} + (b_1 c_2 - b_2 c_1)
+              \,\hat{k} \big) \\ &amp;= a_1 b_2 c_3 - a_1 b_3 c_2 +
+              a_2 b_3 c_1 - a_2 b_1 c_3 + a_3 b_1 c_2 - a_3 b_2 c_1
+              \\ \vec{b} \cdot (\vec{c} \times
+              \vec{a}) &amp;= (b_1 \,\hat{\imath} + b_2
+              \,\hat{\jmath} + b_3 \,\hat{k}) \\
+              &amp;\qquad \cdot \big( (c_1
+              \,\hat{\imath} + c_2 \,\hat{\jmath} + c_3 \,\hat{k})
+              \times (a_1 \,\hat{\imath} + a_2 \,\hat{\jmath} + a_3
+              \,\hat{k}) \big) \\ &amp;= (b_1 \,\hat{\imath} + b_2
+              \,\hat{\jmath} + b_3 \,\hat{k}) \\
+              &amp;\qquad \cdot \big( (c_2 a_3
+              - c_3 a_2) \,\hat{\imath} + (c_3 a_1 - c_1 a_3)
+              \,\hat{\jmath} + (c_1 a_2 - c_2 a_1) \,\hat{k} \big)
+              \\ &amp;= b_1 c_2 a_3 - b_1 c_3 a_2 + b_2 c_3 a_1 -
+              b_2 c_1 a_3 + b_3 c_1 a_2 - b_3 c_2
+              a_1\end{aligned}\]
             </p>
             <p>
               The third expression is also the same.
@@ -133,18 +135,18 @@
           </div>
         </div>
         <p>
-          The vector triple product is \(\boldsymbol{a} \times
-          (\boldsymbol{b} \times \boldsymbol{c})\). It satisfies:
+          The vector triple product is \(\vec{a} \times
+          (\vec{b} \times \vec{c})\). It satisfies:
         </p>
         <div class="envContainer equation" id="rvi-ev">
           <p class="envHeader">Vector triple product expansion</p>
           <div class="envBody">
             <p>
-              \[\begin{aligned} \boldsymbol{a} \times
-              (\boldsymbol{b} \times \boldsymbol{c}) =
-              (\boldsymbol{a} \cdot \boldsymbol{c}) \boldsymbol{b}
-              - (\boldsymbol{a} \cdot \boldsymbol{b})
-              \boldsymbol{c}\end{aligned}\]
+              \[\begin{aligned} \vec{a} \times
+              (\vec{b} \times \vec{c}) =
+              (\vec{a} \cdot \vec{c}) \vec{b}
+              - (\vec{a} \cdot \vec{b})
+              \vec{c}\end{aligned}\]
             </p>
           </div>
         </div>
@@ -154,14 +156,14 @@
               In components:
             </p>
             <p>
-              \[\begin{aligned} \boldsymbol{a} \times
-              (\boldsymbol{b} \times \boldsymbol{c}) &amp;= (a_1
-              \,\hat{\imath} + a_2 \,\hat{\jmath} + a_3 \,\hat{k})
-              \times \Big( (b_1 \,\hat{\imath} + b_2 \,\hat{\jmath}
+              \[\begin{aligned} \vec{a} \times
+              (\vec{b} \times \vec{c}) &amp;= (a_1
+              \,\hat{\imath} + a_2 \,\hat{\jmath} + a_3 \,\hat{k}) \\
+              &amp;\qquad \times \Big( (b_1 \,\hat{\imath} + b_2 \,\hat{\jmath}
               + b_3 \,\hat{k}) \times (c_1 \,\hat{\imath} + c_2
               \,\hat{\jmath} + c_3 \,\hat{k}) \Big) \\ &amp;= (a_1
-              \,\hat{\imath} + a_2 \,\hat{\jmath} + a_3 \,\hat{k})
-              \times \Big( (b_2 c_3 - b_3 c_2) \,\hat{\imath} +
+              \,\hat{\imath} + a_2 \,\hat{\jmath} + a_3 \,\hat{k}) \\
+              &amp;\qquad \times \Big( (b_2 c_3 - b_3 c_2) \,\hat{\imath} +
               (b_3 c_1 - b_1 c_3) \,\hat{\jmath} + (b_1 c_2 - b_2
               c_1) \,\hat{k} \Big) \\ &amp;= \Big(a_2 (b_1 c_2 -
               b_2 c_1) - a_3 (b_3 c_1 - b_1 c_3)\Big)
@@ -181,14 +183,16 @@
               (a_1 b_3 c_1 + a_2 b_3 c_2 + a_3 b_3 c_3 - a_1 b_1
               c_3 - a_2 b_2 c_3 - a_3 b_3 c_3) \,\hat{k} \\ &amp;=
               (a_1 b_1 + a_2 c_2 + a_3 c_3) b_1 \,\hat{\imath} +
-              (a_1 c_1 + a_2 c_2 + a_3 c_3) b_2 \,\hat{\jmath} +
+              (a_1 c_1 + a_2 c_2 + a_3 c_3) b_2 \,\hat{\jmath} \\
+              &amp;\qquad +
               (a_1 c_1 + a_2 c_2 + a_3 c_3) b_3 \,\hat{k} \\
               &amp;\quad- (a_1 b_1 + a_2 b_2 + a_3 b_3) c_1
               \,\hat{\imath} - (a_1 b_1 + a_2 b_2 + a_3 b_3) c_2
-              \,\hat{\jmath} - (a_1 b_1 + a_2 b_2 + a_3 b_3) c_3
-              \,\hat{k} \\ &amp;= (\boldsymbol{a} \cdot
-              \boldsymbol{c}) \boldsymbol{b} - (\boldsymbol{a}
-              \cdot \boldsymbol{b}) \boldsymbol{c}\end{aligned}\]
+              \,\hat{\jmath} \\
+              &amp;\qquad - (a_1 b_1 + a_2 b_2 + a_3 b_3) c_3
+              \,\hat{k} \\ &amp;= (\vec{a} \cdot
+              \vec{c}) \vec{b} - (\vec{a}
+              \cdot \vec{b}) \vec{c}\end{aligned}\]
             </p>
           </div>
         </div>
@@ -196,10 +200,10 @@
           <p class="envHeader">Cross product orthogonality</p>
           <div class="envBody">
             <p>
-              \[\begin{aligned} \boldsymbol{a} \times
-              \boldsymbol{b} \text{ is orthogonal to }
-              \boldsymbol{a} \text{ and }
-              \boldsymbol{b}\end{aligned}\]
+              \[\begin{aligned} \vec{a} \times
+              \vec{b} \text{ is orthogonal to }
+              \vec{a} \text{ and }
+              \vec{b}\end{aligned}\]
             </p>
           </div>
         </div>
@@ -210,13 +214,13 @@
               formula:
             </p>
             <p>
-              \[\begin{aligned} \boldsymbol{a} \cdot
-              (\boldsymbol{a} \times \boldsymbol{b}) =
-              \boldsymbol{b} \cdot (\boldsymbol{a} \times
-              \boldsymbol{a}) = 0\end{aligned}\]
+              \[\begin{aligned} \vec{a} \cdot
+              (\vec{a} \times \vec{b}) =
+              \vec{b} \cdot (\vec{a} \times
+              \vec{a}) = 0\end{aligned}\]
             </p>
             <p>
-              and similarly for \(\boldsymbol{b}\).
+              and similarly for \(\vec{b}\).
             </p>
           </div>
         </div>
@@ -224,13 +228,13 @@
           <p class="envHeader">Binet-Cauchy identity</p>
           <div class="envBody">
             <p>
-              \[\begin{aligned} (\boldsymbol{a} \times
-              \boldsymbol{b}) \cdot (\boldsymbol{c} \times
-              \boldsymbol{d}) = (\boldsymbol{a} \cdot
-              \boldsymbol{c})(\boldsymbol{b} \cdot \boldsymbol{d})
-              - (\boldsymbol{a} \cdot
-              \boldsymbol{d})(\boldsymbol{b} \cdot
-              \boldsymbol{c})\end{aligned}\]
+              \[\begin{aligned} (\vec{a} \times
+              \vec{b}) \cdot (\vec{c} \times
+              \vec{d}) = (\vec{a} \cdot
+              \vec{c})(\vec{b} \cdot \vec{d})
+              - (\vec{a} \cdot
+              \vec{d})(\vec{b} \cdot
+              \vec{c})\end{aligned}\]
             </p>
           </div>
         </div>
@@ -241,18 +245,18 @@
               triple product expansion:
             </p>
             <p>
-              \[\begin{aligned} (\boldsymbol{a} \times
-              \boldsymbol{b}) \cdot (\boldsymbol{c} \times
-              \boldsymbol{d}) &amp;= \boldsymbol{c} \cdot \big(
-              \boldsymbol{d} \times (\boldsymbol{a} \times
-              \boldsymbol{b}) \big) \\ &amp;= \boldsymbol{c} \cdot
-              \big( (\boldsymbol{d} \cdot \boldsymbol{b})
-              \boldsymbol{a} - (\boldsymbol{d} \cdot
-              \boldsymbol{a}) \boldsymbol{b} \big) \\ &amp;=
-              (\boldsymbol{d} \cdot \boldsymbol{b}) (\boldsymbol{c}
-              \cdot \boldsymbol{a}) - (\boldsymbol{d} \cdot
-              \boldsymbol{a}) (\boldsymbol{c} \cdot
-              \boldsymbol{b})\end{aligned}\]
+              \[\begin{aligned} (\vec{a} \times
+              \vec{b}) \cdot (\vec{c} \times
+              \vec{d}) &amp;= \vec{c} \cdot \big(
+              \vec{d} \times (\vec{a} \times
+              \vec{b}) \big) \\ &amp;= \vec{c} \cdot
+              \big( (\vec{d} \cdot \vec{b})
+              \vec{a} - (\vec{d} \cdot
+              \vec{a}) \vec{b} \big) \\ &amp;=
+              (\vec{d} \cdot \vec{b}) (\vec{c}
+              \cdot \vec{a}) - (\vec{d} \cdot
+              \vec{a}) (\vec{c} \cdot
+              \vec{b})\end{aligned}\]
             </p>
           </div>
         </div>
@@ -260,10 +264,10 @@
           <p class="envHeader">Lagrange's identity</p>
           <div class="envBody">
             <p>
-              \[\begin{aligned} \| \boldsymbol{a}
-              \times \boldsymbol{b} \|^2 = \|\boldsymbol{a}\|^2
-              \|\boldsymbol{b}\|^2 - (\boldsymbol{a} \cdot
-              \boldsymbol{b})^2\end{aligned}\]
+              \[\begin{aligned} \| \vec{a}
+              \times \vec{b} \|^2 = \|\vec{a}\|^2
+              \|\vec{b}\|^2 - (\vec{a} \cdot
+              \vec{b})^2\end{aligned}\]
             </p>
           </div>
         </div>
@@ -278,9 +282,9 @@
           <p class="envHeader">Cross product length</p>
           <div class="envBody">
             <p>
-              \[\begin{aligned} \| \boldsymbol{a}
-              \times \boldsymbol{b} \| = \|\boldsymbol{a}\|
-              \|\boldsymbol{b}\| \sin\theta\end{aligned}\]
+              \[\begin{aligned} \| \vec{a}
+              \times \vec{b} \| = \|\vec{a}\|
+              \|\vec{b}\| \sin\theta\end{aligned}\]
             </p>
           </div>
         </div>
@@ -290,15 +294,15 @@
               From Lagrange’s identity:
             </p>
             <p>
-              \[\begin{aligned} \| \boldsymbol{a} \times
-              \boldsymbol{b} \|^2 &amp;= \|\boldsymbol{a}\|^2
-              \|\boldsymbol{b}\|^2 - (\boldsymbol{a} \cdot
-              \boldsymbol{b})^2 \\ &amp;= \|\boldsymbol{a}\|^2
-              \|\boldsymbol{b}\|^2 - (\|\boldsymbol{a}\|
-              \|\boldsymbol{b}\| \cos\theta)^2 \\ &amp;=
-              \|\boldsymbol{a}\|^2 \|\boldsymbol{b}\|^2 (1 -
-              \cos^2\theta) \\ &amp;= \|\boldsymbol{a}\|^2
-              \|\boldsymbol{b}\|^2 \sin^2\theta\end{aligned}\]
+              \[\begin{aligned} \| \vec{a} \times
+              \vec{b} \|^2 &amp;= \|\vec{a}\|^2
+              \|\vec{b}\|^2 - (\vec{a} \cdot
+              \vec{b})^2 \\ &amp;= \|\vec{a}\|^2
+              \|\vec{b}\|^2 - (\|\vec{a}\|
+              \|\vec{b}\| \cos\theta)^2 \\ &amp;=
+              \|\vec{a}\|^2 \|\vec{b}\|^2 (1 -
+              \cos^2\theta) \\ &amp;= \|\vec{a}\|^2
+              \|\vec{b}\|^2 \sin^2\theta\end{aligned}\]
             </p>
           </div>
         </div>
@@ -306,11 +310,11 @@
           <p class="envHeader">Jacobi's identity</p>
           <div class="envBody">
             <p>
-              \[\begin{aligned} \boldsymbol{a} \times
-              (\boldsymbol{b} \times \boldsymbol{c}) +
-              \boldsymbol{b} \times (\boldsymbol{c} \times
-              \boldsymbol{a}) + \boldsymbol{c} \times
-              (\boldsymbol{a} \times \boldsymbol{b}) =
+              \[\begin{aligned} \vec{a} \times
+              (\vec{b} \times \vec{c}) +
+              \vec{b} \times (\vec{c} \times
+              \vec{a}) + \vec{c} \times
+              (\vec{a} \times \vec{b}) =
               0\end{aligned}\]
             </p>
           </div>
@@ -321,19 +325,19 @@
               Using the vector triple product expansion:
             </p>
             <p>
-              \[\begin{aligned} &amp;\boldsymbol{a} \times
-              (\boldsymbol{b} \times \boldsymbol{c}) +
-              \boldsymbol{b} \times (\boldsymbol{c} \times
-              \boldsymbol{a}) + \boldsymbol{c} \times
-              (\boldsymbol{a} \times \boldsymbol{b}) \\
-              &amp;\qquad= (\boldsymbol{a} \cdot \boldsymbol{c})
-              \boldsymbol{b} - (\boldsymbol{a} \cdot
-              \boldsymbol{b}) \boldsymbol{c} + (\boldsymbol{b}
-              \cdot \boldsymbol{a}) \boldsymbol{c} -
-              (\boldsymbol{b} \cdot \boldsymbol{c}) \boldsymbol{a}
-              + (\boldsymbol{c} \cdot \boldsymbol{b})
-              \boldsymbol{a} - (\boldsymbol{c} \cdot
-              \boldsymbol{a}) \boldsymbol{b} \\ &amp;\qquad=
+              \[\begin{aligned} &amp;\vec{a} \times
+              (\vec{b} \times \vec{c}) +
+              \vec{b} \times (\vec{c} \times
+              \vec{a}) + \vec{c} \times
+              (\vec{a} \times \vec{b}) \\
+              &amp;\qquad= (\vec{a} \cdot \vec{c})
+              \vec{b} - (\vec{a} \cdot
+              \vec{b}) \vec{c} + (\vec{b}
+              \cdot \vec{a}) \vec{c} -
+              (\vec{b} \cdot \vec{c}) \vec{a}
+              + (\vec{c} \cdot \vec{b})
+              \vec{a} - (\vec{c} \cdot
+              \vec{a}) \vec{b} \\ &amp;\qquad=
               0\end{aligned}\]
             </p>
           </div>
@@ -342,54 +346,54 @@
           <p class="envHeader">Vector quadruple product expansion</p>
           <div class="envBody">
             <p>
-              \[\begin{aligned} (\boldsymbol{a} \times
-              \boldsymbol{b}) \times (\boldsymbol{a} \times
-              \boldsymbol{c}) = \big( \boldsymbol{a} \cdot
-              (\boldsymbol{b} \times \boldsymbol{c}) \big)
-              \boldsymbol{a}\end{aligned}\]
+              \[\begin{aligned} (\vec{a} \times
+              \vec{b}) \times (\vec{a} \times
+              \vec{c}) = \big( \vec{a} \cdot
+              (\vec{b} \times \vec{c}) \big)
+              \vec{a}\end{aligned}\]
             </p>
           </div>
         </div>
         <div class="envContainer derivation">
           <div class="envBody">
             <p>
-              Take \(\boldsymbol{d} = (\boldsymbol{a} \times
-              \boldsymbol{b}) \times (\boldsymbol{a} \times
-              \boldsymbol{c})\). Then \(\boldsymbol{d}\) is in the
-              \(\boldsymbol{a},\boldsymbol{b}\) plane and in the
-              \(\boldsymbol{a},\boldsymbol{c}\) plane, so it is a
-              scalar multiple of \(\boldsymbol{a}\). We use the
+              Take \(\vec{d} = (\vec{a} \times
+              \vec{b}) \times (\vec{a} \times
+              \vec{c})\). Then \(\vec{d}\) is in the
+              \(\vec{a},\vec{b}\) plane and in the
+              \(\vec{a},\vec{c}\) plane, so it is a
+              scalar multiple of \(\vec{a}\). We use the
               scalar triple product formula and the vector triple
               product expansion to compute:
             </p>
             <p>
-              \[\begin{aligned} \boldsymbol{d} \cdot \boldsymbol{a}
-              &amp;= \boldsymbol{a} \cdot \big( (\boldsymbol{a}
-              \times \boldsymbol{b}) \times (\boldsymbol{a} \times
-              \boldsymbol{c}) \big) \\ &amp;= (\boldsymbol{a}
-              \times \boldsymbol{c}) \cdot \big( \boldsymbol{a}
-              \times (\boldsymbol{a} \times \boldsymbol{b}) \big)
-              \\ &amp;= (\boldsymbol{a} \times \boldsymbol{c})
-              \cdot \big( (\boldsymbol{a} \cdot \boldsymbol{b})
-              \boldsymbol{a} - (\boldsymbol{a} \cdot
-              \boldsymbol{a}) \boldsymbol{b} \big) \\ &amp;= -
-              (\boldsymbol{a} \cdot \boldsymbol{a}) \boldsymbol{b}
-              \cdot (\boldsymbol{a} \times \boldsymbol{c}) \\
-              &amp;= (\boldsymbol{a} \cdot \boldsymbol{a}) \big(
-              \boldsymbol{a} \cdot (\boldsymbol{b} \times
-              \boldsymbol{c}) \big)\end{aligned}\]
+              \[\begin{aligned} \vec{d} \cdot \vec{a}
+              &amp;= \vec{a} \cdot \big( (\vec{a}
+              \times \vec{b}) \times (\vec{a} \times
+              \vec{c}) \big) \\ &amp;= (\vec{a}
+              \times \vec{c}) \cdot \big( \vec{a}
+              \times (\vec{a} \times \vec{b}) \big)
+              \\ &amp;= (\vec{a} \times \vec{c})
+              \cdot \big( (\vec{a} \cdot \vec{b})
+              \vec{a} - (\vec{a} \cdot
+              \vec{a}) \vec{b} \big) \\ &amp;= -
+              (\vec{a} \cdot \vec{a}) \vec{b}
+              \cdot (\vec{a} \times \vec{c}) \\
+              &amp;= (\vec{a} \cdot \vec{a}) \big(
+              \vec{a} \cdot (\vec{b} \times
+              \vec{c}) \big)\end{aligned}\]
             </p>
             <p>
               Then
             </p>
             <p>
-              \[\begin{aligned} \boldsymbol{d} =
-              \operatorname{Proj}(\boldsymbol{d}, \boldsymbol{a}) =
-              \left(\frac{\boldsymbol{d} \cdot
-              \boldsymbol{a}}{\boldsymbol{a} \cdot
-              \boldsymbol{a}}\right) \boldsymbol{a} = \big(
-              \boldsymbol{a} \cdot (\boldsymbol{b} \times
-              \boldsymbol{c}) \big) \boldsymbol{a}\end{aligned}\]
+              \[\begin{aligned} \vec{d} =
+              \operatorname{Proj}(\vec{d}, \vec{a}) =
+              \left(\frac{\vec{d} \cdot
+              \vec{a}}{\vec{a} \cdot
+              \vec{a}}\right) \vec{a} = \big(
+              \vec{a} \cdot (\vec{b} \times
+              \vec{c}) \big) \vec{a}\end{aligned}\]
             </p>
           </div>
         </div>

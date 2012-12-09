@@ -40,8 +40,49 @@
         </p>
       </div>
       <div class="infoCol">
-        <div id="avs-ir" class="infoBox factBox">
+        <div id="avs-ip" class="infoBox factBox">
           Map projections.
+        </div>
+        <div id="avs-ij" class="infoBox factBox">
+          J2 effect, spherical harmonics to model Earth shape.
+        </div>
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="aos-sp" class="contentCol">
+        <h2>Diagram</h2>
+        <div class="figureContainer" id="aos-fd">
+          <canvas id="aos-fd-c" width="600" height="600">
+          </canvas>
+          <p>
+            Show:
+            <button class="option-toggle:aos-fd-c:showLabels">labels</button>
+            <button class="option-toggle:aos-fd-c:showLatLongLines">latitude/longitude grid</button>
+            <button class="option-toggle:aos-fd-c:showCityGreatCircle">great circle between cities</button>
+            <button class="option-toggle:aos-fd-c:showCityPositionVectors">city position vectors</button>
+          </p>
+          <table>
+            <tr>
+              <td>Longitude 1:</td>
+              <td><input type="range" min="-180" max="180" value="0" step="1" class="data-input:aos-fd-c:longitudeDeg1" /></td>
+              <td>$\lambda_1 = $ <span class="data-option:aos-fd-c:longitudeDeg1"></span>°</td>
+            </tr>
+            <tr>
+              <td>Latitude 1:</td>
+              <td><input type="range" min="-90" max="90" value="0" step="1" class="data-input:aos-fd-c:latitudeDeg1" /></td>
+              <td>$\phi_1 = $ <span class="data-option:aos-fd-c:latitudeDeg1"></span>°</td>
+            </tr>
+            <tr>
+              <td>Longitude 2:</td>
+              <td><input type="range" min="-180" max="180" value="0" step="1" class="data-input:aos-fd-c:longitudeDeg2" /></td>
+              <td>$\lambda_1 = $ <span class="data-option:aos-fd-c:longitudeDeg2"></span>°</td>
+            </tr>
+            <tr>
+              <td>Latitude 2:</td>
+              <td><input type="range" min="-90" max="90" value="0" step="1" class="data-input:aos-fd-c:latitudeDeg2" /></td>
+              <td>$\phi_1 = $ <span class="data-option:aos-fd-c:latitudeDeg2"></span>°</td>
+            </tr>
+          </table>
         </div>
       </div>
     </div>

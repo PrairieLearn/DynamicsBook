@@ -113,6 +113,11 @@ PrairieDraw.prototype._initProps = function() {
     this._props.shapeOutlineColor = "rgb(0, 0, 0)";
     this._props.shapeInsideColor = "rgb(255, 255, 255)";
 
+    this._props.hiddenLineDraw = true;
+    this._props.hiddenLineWidthPx = 2;
+    this._props.hiddenLinePattern = "dashed";
+    this._props.hiddenLineColor = "rgb(0, 0, 0)";
+
     this._props.centerOfMassStrokeWidthPx = 2;
     this._props.centerOfMassColor = "rgb(180, 49, 4)";
     this._props.centerOfMassRadiusPx = 5;
@@ -253,6 +258,29 @@ PrairieDraw.prototype.orthProj = function(u, v) {
 PrairieDraw.prototype.orthComp = function(u, v) {
     return u.subtract(this.orthProj(u, v));
 };
+
+/** Choose a 3D unit vector orthogonal to the given vector.
+
+    @param {Vector} v The base vector.
+    @return {Vector} A unit vector n that is orthogonal to v.
+*/
+PrairieDraw.prototype.chooseNormVec = function(v) {
+    var e1 = Math.abs(v.e(1));
+    var e2 = Math.abs(v.e(2));
+    var e3 = Math.abs(v.e(3));
+    var n;
+    if (e1 < Math.min(e2, e3)) {
+        n = Vector.i;
+    }
+    if (e2 < Math.min(e3, e1)) {
+        n = Vector.j;
+    }
+    if (e3 < Math.min(e1, e2)) {
+        n = Vector.k;
+    }
+    n = this.orthComp(n, v).toUnitVector();
+    return n;
+}
 
 /*****************************************************************************/
 
@@ -553,7 +581,7 @@ PrairieDraw.prototype.rotateTransform3D = function(transform, angleX, angleY, an
     @return {Vector} The transformed 3D vector.
 */
 PrairieDraw.prototype.transformVec3D = function(transform, vec) {
-    var v4 = transform.x($V([vec.e(1), vec.e(2), vec.e(2), 0]))
+    var v4 = transform.x($V([vec.e(1), vec.e(2), vec.e(3), 0]))
     return $V([v4.e(1), v4.e(2), v4.e(3)]);
 }
 
@@ -655,6 +683,46 @@ PrairieDraw.prototype.rotate3D = function(angleX, angleY, angleZ) {
 
 /*****************************************************************************/
 
+/** Transform a position to the view coordinates in 3D.
+
+    @param {Vector} pDw Position in 3D drawing coords.
+    @return {Vector} Position in 3D viewing coords.
+*/
+PrairieDraw.prototype.posDwToVw = function(pDw) {
+    var pVw = this.transformPos3D(this._trans3D, pDw);
+    return pVw;
+};
+
+/** Transform a position from the view coordinates in 3D.
+
+    @param {Vector} pVw Position in 3D viewing coords.
+    @return {Vector} Position in 3D drawing coords.
+*/
+PrairieDraw.prototype.posVwToDw = function(pVw) {
+    var pDw = this.transformPos3D(this._trans3D.inverse(), pVw);
+    return pDw;
+};
+
+/** Transform a vector to the view coordinates in 3D.
+
+    @param {Vector} vDw Vector in 3D drawing coords.
+    @return {Vector} Vector in 3D viewing coords.
+*/
+PrairieDraw.prototype.vecDwToVw = function(vDw) {
+    var vVw = this.transformVec3D(this._trans3D, vDw);
+    return vVw;
+};
+
+/** Transform a vector from the view coordinates in 3D.
+
+    @param {Vector} vVw Vector in 3D viewing coords.
+    @return {Vector} Vector in 3D drawing coords.
+*/
+PrairieDraw.prototype.vecVwToDw = function(vVw) {
+    var vDw = this.transformVec3D(this._trans3D.inverse(), vVw);
+    return vDw;
+};
+
 /** Transform a position from 3D to 2D drawing coords if necessary.
 
     @param {Vector} pDw Position in 2D or 3D drawing coords.
@@ -662,7 +730,7 @@ PrairieDraw.prototype.rotate3D = function(angleX, angleY, angleZ) {
 */
 PrairieDraw.prototype.pos3To2 = function(pDw) {
     if (pDw.elements.length === 3) {
-        return this.orthProjPos3D(this.transformPos3D(this._trans3D, pDw));
+        return this.orthProjPos3D(this.posDwToVw(pDw));
     } else {
         return pDw;
     }
@@ -756,24 +824,32 @@ PrairieDraw._colors = {
     @param {string} type Optional type to find the color for.
 */
 PrairieDraw.prototype._getColorProp = function(type) {
-    if (type) {
-        var col = type + "Color";
-        if (col in this._props) {
-            var c = this._props[col];
-            if (c in PrairieDraw._colors) {
-                return PrairieDraw._colors[c];
-            } else {
-                return c;
-            }
-        } else if (type in PrairieDraw._colors) {
-            return PrairieDraw._colors[type];
-        } else {
-            throw new Error("PrairieDraw: unknown type: " + type);
-        }
-    } else {
+    if (type === undefined) {
         return this._props.shapeOutlineColor;
     }
+    var col = type + "Color";
+    if (col in this._props) {
+        var c = this._props[col];
+        if (c in PrairieDraw._colors) {
+            return PrairieDraw._colors[c];
+        } else {
+            return c;
+        }
+    } else if (type in PrairieDraw._colors) {
+        return PrairieDraw._colors[type];
+    } else {
+        return type;
+    }
 }
+
+/** @private Set shape drawing properties for drawing hidden lines.
+*/
+
+PrairieDraw.prototype.setShapeDrawHidden = function() {
+    this._props.shapeStrokeWidthPx = this._props.hiddenLineWidthPx;
+    this._props.shapeStrokePattern = this._props.hiddenLinePattern;
+    this._props.shapeOutlineColor = this._props.hiddenLineColor;
+};
 
 /*****************************************************************************/
 
@@ -1456,7 +1532,7 @@ PrairieDraw.prototype._circleArrowRadius = function(midRadPx, anglePx, startAngl
     @param {Vector} posDw The center of the arc.
     @param {number} radDw The radius of the arc.
     @param {Vector} normDw (Optional) The normal vector to the plane containing the arc (default: z axis).
-    @param {Vector} refDw (Optional) The reference vector to measure angles from (default: x axis).
+    @param {Vector} refDw (Optional) The reference vector to measure angles from (default: an orthogonal vector to normDw).
     @param {number} startAngleDw (Optional) The starting angle (counterclockwise from refDw about normDw, in radians, default: 0).
     @param {number} endAngleDw (Optional) The ending angle (counterclockwise from refDw about normDw, in radians, default: 2 pi).
     @param {string} type (Optional) The type of the line.
@@ -1465,7 +1541,7 @@ PrairieDraw.prototype._circleArrowRadius = function(midRadPx, anglePx, startAngl
 PrairieDraw.prototype.arc3D = function(posDw, radDw, normDw, refDw, startAngleDw, endAngleDw, options) {
     posDw = this.pos2To3(posDw);
     normDw = normDw || Vector.k;
-    refDw = refDw || Vector.i;
+    refDw = refDw || this.chooseNormVec(normDw);
     var fullCircle = false;
     if (startAngleDw === undefined && endAngleDw === undefined) {
         fullCircle = true;
@@ -1573,6 +1649,132 @@ PrairieDraw.prototype.labelCircleLine3D = function(labelText, labelAnchor, posDw
     var anchor = aDw.x(1.0 / Math.abs(aDw.max())).x(Math.abs(labelAnchor.max()));
     this.text(p2Dw, anchor, labelText);
 };
+
+/*****************************************************************************/
+
+/** Draw a sphere.
+
+    @param {Vector} posDw Position of the sphere center.
+    @param {number} radDw Radius of the sphere.
+    @param {bool} filled (Optional) Whether to fill the sphere (default: false).
+*/
+PrairieDraw.prototype.sphere = function(posDw, radDw, filled) {
+    filled = (filled === undefined) ? false : filled;
+    var posVw = this.posDwToVw(posDw);
+    var edgeDw = posDw.add($V([radDw, 0, 0]));
+    var edgeVw = this.posDwToVw(edgeDw);
+    var radVw = edgeVw.subtract(posVw).modulus();
+    var posDw2 = this.orthProjPos3D(posVw);
+    this.circle(posDw2, radVw, filled);
+};
+
+/** Draw a great circle on a sphere.
+
+    @param {Vector} posDw Position of the sphere center.
+    @param {number} radDw Radius of the sphere.
+    @param {Vector} normDw Normal vector to the great circle.
+    @param {string} drawBack (Optional) Whether to draw the back line (default: true).
+    @param {string} drawFront (Optional) Whether to draw the front line (default: true).
+*/
+PrairieDraw.prototype.greatCircle = function(posDw, radDw, normDw, drawBack, drawFront) {
+    drawBack = (drawBack === undefined) ? true : drawBack;
+    drawFront = (drawFront === undefined) ? true : drawFront;
+    var normVw = this.vecDwToVw(normDw);
+    var refVw = this.orthComp(Vector.k, normVw);
+    if (refVw.modulus() < 1e-10) {
+        // looking straight down on the great circle
+        return;
+    };
+    var refDw = this.vecVwToDw(refVw);
+    if (drawBack && this._props.hiddenLineDraw) {
+        this.save();
+        this.setShapeDrawHidden();
+        this.arc3D(posDw, radDw, normDw, refDw, Math.PI / 2, Math.PI * 3 / 2);
+        this.restore();
+    }
+    if (drawFront) {
+        this.arc3D(posDw, radDw, normDw, refDw, -Math.PI / 2, Math.PI / 2);
+    }
+}
+
+/** Draw a circular slice on a sphere.
+
+    @param {Vector} posDw Position of the sphere center.
+    @param {number} radDw Radius of the sphere.
+    @param {Vector} normDw Normal vector to the circle.
+    @param {number} distDw Distance from sphere center to circle center along normDw.
+    @param {string} drawBack (Optional) Whether to draw the back line (default: true).
+    @param {string} drawFront (Optional) Whether to draw the front line (default: true).
+*/
+PrairieDraw.prototype.sphereSlice = function(posDw, radDw, normDw, distDw, drawBack, drawFront) {
+    var cRDwSq = radDw * radDw - distDw * distDw;
+    if (cRDwSq <= 0) {
+        return;
+    }
+    var cRDw = Math.sqrt(cRDwSq);
+    var circlePosDw = posDw.add(normDw.toUnitVector().x(distDw));
+    drawBack = (drawBack === undefined) ? true : drawBack;
+    drawFront = (drawFront === undefined) ? true : drawFront;
+
+    var normVw = this.vecDwToVw(normDw);
+    var refVw = this.orthComp(Vector.k, normVw);
+    if (refVw.modulus() < 1e-10) {
+        // looking straight down on the circle
+        if (distDw > 0) {
+            // front side, completely visible
+            this.arc3D(circlePosDw, cRDw, normDw);
+        } else if (distDw < 0) {
+            // back side, completely invisible
+            this.save();
+            this.setShapeDrawHidden();
+            this.arc3D(circlePosDw, cRDw, normDw);
+            this.restore();
+        }
+        // if distDw == 0 then it's a great circle, don't draw it
+        return;
+    };
+    var refDw = this.vecVwToDw(refVw);
+    var uVw = refVw.toUnitVector();
+    var vVw = uVw.cross(normVw.toUnitVector());
+    var dVw = this.vecDwToVw(normDw.toUnitVector().x(distDw));
+    var cRVw = this.vecDwToVw(refDw.toUnitVector().x(cRDw)).modulus();
+    var A = -dVw.e(3);
+    var B = uVw.e(3) * cRVw;
+    var C = vVw.e(3) * cRVw;
+    var BCMag = Math.sqrt(B * B + C * C);
+    var AN = A / BCMag;
+    var BN = B / BCMag;
+    var CN = C / BCMag;
+    var phi = Math.atan2(C, B);
+    if (AN <= -1) {
+        // only front
+        if (drawFront) {
+            this.arc3D(circlePosDw, cRDw, normDw, refDw);
+        }
+    } else if (AN >= 1) {
+        // only back
+        if (drawBack && this._props.hiddenLineDraw) {
+            this.save();
+            this.setShapeDrawHidden();
+            this.arc3D(circlePosDw, cRDw, normDw, refDw);
+            this.restore();
+        }
+    } else {
+        // front and back
+        var theta1 = phi + Math.acos(AN);
+        var theta2 = 2 * Math.PI - theta1;
+
+        if (drawBack && this._props.hiddenLineDraw) {
+            this.save();
+            this.setShapeDrawHidden();
+            this.arc3D(circlePosDw, cRDw, normDw, refDw, theta1, theta2);
+            this.restore();
+        }
+        if (drawFront) {
+            this.arc3D(circlePosDw, cRDw, normDw, refDw, theta2, theta1 + 2 * Math.PI);
+        }
+    }
+}
 
 /*****************************************************************************/
 
@@ -1811,8 +2013,11 @@ PrairieDraw.prototype.printPoints = function(name, points, numDecPlaces) {
 
     @param {Vector} centerDw The center in drawing coords.
     @param {number} radiusDw the radius in drawing coords.
+    @param {bool} filled (Optional) Whether to fill the circle (default: true).
 */
-PrairieDraw.prototype.circle = function(centerDw, radiusDw) {
+PrairieDraw.prototype.circle = function(centerDw, radiusDw, filled) {
+    filled = (filled === undefined) ? true : filled;
+
     var centerPx = this.pos2Px(centerDw);
     var offsetDw = $V([radiusDw, 0]);
     var offsetPx = this.vec2Px(offsetDw);
@@ -1825,7 +2030,9 @@ PrairieDraw.prototype.circle = function(centerDw, radiusDw) {
     this._ctx.fillStyle = this._props.shapeInsideColor;
     this._ctx.beginPath();
     this._ctx.arc(centerPx.e(1),centerPx.e(2), radiusPx, 0, 2 * Math.PI);
-    this._ctx.fill();
+    if (filled) {
+        this._ctx.fill();
+    }
     this._ctx.stroke();
     this._ctx.restore();
 }
