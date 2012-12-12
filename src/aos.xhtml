@@ -6,6 +6,7 @@
       Shortest flight paths
     </title>
     <link href="style.css" type="text/css" rel="stylesheet" />
+    <link href="aos.css" type="text/css" rel="stylesheet" />
     <link href="icomoon.css" type="text/css" rel="stylesheet" />
 
     <script src=
@@ -60,27 +61,33 @@
             <button class="option-toggle:aos-fd-c:showLatLongLines">latitude/longitude grid</button>
             <button class="option-toggle:aos-fd-c:showCityGreatCircle">great circle between cities</button>
             <button class="option-toggle:aos-fd-c:showCityPositionVectors">city position vectors</button>
+            <button class="option-toggle:aos-fd-c:showCityLatLong">city latitude and longitude</button>
           </p>
           <table>
             <tr>
-              <td>Longitude 1:</td>
-              <td><input type="range" min="-180" max="180" value="0" step="1" class="data-input:aos-fd-c:longitudeDeg1" /></td>
-              <td>$\lambda_1 = $ <span class="data-option:aos-fd-c:longitudeDeg1"></span>°</td>
+              <td>Earth transparency:</td>
+              <td><input type="range" min="0" max="100" value="0" step="1" class="data-input:aos-fd-c:sphereTransPerc" /></td>
+              <td><span class="data-option:aos-fd-c:sphereTransPerc"></span>%</td>
             </tr>
             <tr>
-              <td>Latitude 1:</td>
+              <td>City 1 Latitude:</td>
               <td><input type="range" min="-90" max="90" value="0" step="1" class="data-input:aos-fd-c:latitudeDeg1" /></td>
               <td>$\phi_1 = $ <span class="data-option:aos-fd-c:latitudeDeg1"></span>°</td>
             </tr>
             <tr>
-              <td>Longitude 2:</td>
-              <td><input type="range" min="-180" max="180" value="0" step="1" class="data-input:aos-fd-c:longitudeDeg2" /></td>
-              <td>$\lambda_1 = $ <span class="data-option:aos-fd-c:longitudeDeg2"></span>°</td>
+              <td>City 1 Longitude:</td>
+              <td><input type="range" min="-180" max="180" value="0" step="1" class="data-input:aos-fd-c:longitudeDeg1" /></td>
+              <td>$\lambda_1 = $ <span class="data-option:aos-fd-c:longitudeDeg1"></span>°</td>
             </tr>
             <tr>
-              <td>Latitude 2:</td>
+              <td>City 2 Latitude:</td>
               <td><input type="range" min="-90" max="90" value="0" step="1" class="data-input:aos-fd-c:latitudeDeg2" /></td>
               <td>$\phi_1 = $ <span class="data-option:aos-fd-c:latitudeDeg2"></span>°</td>
+            </tr>
+            <tr>
+              <td>City 2 Longitude:</td>
+              <td><input type="range" min="-180" max="180" value="0" step="1" class="data-input:aos-fd-c:longitudeDeg2" /></td>
+              <td>$\lambda_1 = $ <span class="data-option:aos-fd-c:longitudeDeg2"></span>°</td>
             </tr>
           </table>
         </div>

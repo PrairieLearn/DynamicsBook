@@ -210,6 +210,70 @@ PrairieDraw.prototype.clip = function(x, a, b) {
     return Math.max(a, Math.min(b, x));
 };
 
+/** Intersection of two intervals.
+
+    @param {Array} int1 First interval (two entries giving start and end).
+    @param {Array} int2 Second interval (two entries giving start and end).
+    @return {Array} Intersected interval (two entries giving start and end), or an empty array.
+*/
+PrairieDraw.prototype.intersectIntervals = function(int1, int2) {
+    var result = [Math.max(int1[0], int2[0]),
+                  Math.min(int1[1], int2[1])]
+    if (result[1] < result[0]) {
+        result = [];
+    }
+    return result;
+};
+
+/** Intersection of two angle ranges modulo 2 pi.
+
+    @param {Array} r1 First range (two entries giving start and end), or an empty array.
+    @param {Array} r2 Second range (two entries giving start and end), or an empty array.
+    @return {Array} Intersected range (two entries giving start and end), or an empty array.
+*/
+PrairieDraw.prototype.intersectAngleRanges = function(r1, r2) {
+    console.log("r1", r1, "r2", r2);
+    if (r1.length === 0 || r2.length === 0) {
+        return [];
+    }
+    if (r1[0] > r1[1]) {
+        r1 = [r1[1], r1[0]];
+    }
+    if (r2[0] > r2[1]) {
+        r2 = [r2[1], r2[0]];
+    }
+    var TWOPI = 2 * Math.PI
+    var start1 = this.fixedMod(r1[0], TWOPI);
+    var end1 = this.fixedMod(r1[1], TWOPI);
+    var start2 = this.fixedMod(r2[0], TWOPI);
+    var end2 = this.fixedMod(r2[1], TWOPI);
+    console.log("start1", start1, "end1", end1, "start2", start2, "end2", end2);
+    var r1List;
+    if (end1 > start1) {
+        r1List = [[start1, end1]]
+    } else {
+        r1List = [[start1 - TWOPI, end1],
+               [start1, end1 + TWOPI]];
+    }
+    var r2Use;
+    if (end2 > start2) {
+        r2Use = [start2, end2];
+    } else {
+        r2Use = [start2, end2 + TWOPI];
+    }
+    var i, r1Use, r12;
+    var result = [];
+    for (i = 0; i < r1List.length; i++) {
+        r1Use = r1List[i];
+        r12 = this.intersectIntervals(r1Use, r2Use);
+        if (r12.length > 0) {
+            result.push(r12);
+        }
+    }
+    console.log("result", result);
+    return result;
+};
+
 /** Convert spherical to rectangular coordintes.
 
     @param {Vector} pS Spherical coordinates (r, theta, phi).
@@ -1540,12 +1604,9 @@ PrairieDraw.prototype._circleArrowRadius = function(midRadPx, anglePx, startAngl
 */
 PrairieDraw.prototype.arc3D = function(posDw, radDw, normDw, refDw, startAngleDw, endAngleDw, options) {
     posDw = this.pos2To3(posDw);
-    normDw = normDw || Vector.k;
-    refDw = refDw || this.chooseNormVec(normDw);
-    var fullCircle = false;
-    if (startAngleDw === undefined && endAngleDw === undefined) {
-        fullCircle = true;
-    }
+    normDw = (normDw === undefined) ? Vector.k : normDw;
+    refDw = (refDw === undefined) ? this.chooseNormVec(normDw) : refDw;
+    var fullCircle = (startAngleDw === undefined && endAngleDw === undefined);
     startAngleDw = (startAngleDw === undefined) ? 0 : startAngleDw;
     endAngleDw = (endAngleDw === undefined) ? (2 * Math.PI) : endAngleDw;
 
@@ -1554,6 +1615,7 @@ PrairieDraw.prototype.arc3D = function(posDw, radDw, normDw, refDw, startAngleDw
 
     var uDw = this.orthComp(refDw, normDw).toUnitVector();
     var vDw = normDw.toUnitVector().cross(uDw);
+    console.log("arc3D", "uDw", uDw.inspect(), "vDw", vDw.inspect())
     var numSegments = Math.ceil(Math.abs(endAngleDw - startAngleDw) / idealSegmentSize);
     var points = [];
     var theta, p;
@@ -1668,35 +1730,6 @@ PrairieDraw.prototype.sphere = function(posDw, radDw, filled) {
     this.circle(posDw2, radVw, filled);
 };
 
-/** Draw a great circle on a sphere.
-
-    @param {Vector} posDw Position of the sphere center.
-    @param {number} radDw Radius of the sphere.
-    @param {Vector} normDw Normal vector to the great circle.
-    @param {string} drawBack (Optional) Whether to draw the back line (default: true).
-    @param {string} drawFront (Optional) Whether to draw the front line (default: true).
-*/
-PrairieDraw.prototype.greatCircle = function(posDw, radDw, normDw, drawBack, drawFront) {
-    drawBack = (drawBack === undefined) ? true : drawBack;
-    drawFront = (drawFront === undefined) ? true : drawFront;
-    var normVw = this.vecDwToVw(normDw);
-    var refVw = this.orthComp(Vector.k, normVw);
-    if (refVw.modulus() < 1e-10) {
-        // looking straight down on the great circle
-        return;
-    };
-    var refDw = this.vecVwToDw(refVw);
-    if (drawBack && this._props.hiddenLineDraw) {
-        this.save();
-        this.setShapeDrawHidden();
-        this.arc3D(posDw, radDw, normDw, refDw, Math.PI / 2, Math.PI * 3 / 2);
-        this.restore();
-    }
-    if (drawFront) {
-        this.arc3D(posDw, radDw, normDw, refDw, -Math.PI / 2, Math.PI / 2);
-    }
-}
-
 /** Draw a circular slice on a sphere.
 
     @param {Vector} posDw Position of the sphere center.
@@ -1705,8 +1738,16 @@ PrairieDraw.prototype.greatCircle = function(posDw, radDw, normDw, drawBack, dra
     @param {number} distDw Distance from sphere center to circle center along normDw.
     @param {string} drawBack (Optional) Whether to draw the back line (default: true).
     @param {string} drawFront (Optional) Whether to draw the front line (default: true).
+    @param {Vector} refDw (Optional) The reference vector to measure angles from (default: an orthogonal vector to normDw).
+    @param {number} startAngleDw (Optional) The starting angle (counterclockwise from refDw about normDw, in radians, default: 0).
+    @param {number} endAngleDw (Optional) The ending angle (counterclockwise from refDw about normDw, in radians, default: 2 pi).
 */
-PrairieDraw.prototype.sphereSlice = function(posDw, radDw, normDw, distDw, drawBack, drawFront) {
+PrairieDraw.prototype.sphereSlice = function(posDw, radDw, normDw, distDw, drawBack, drawFront, refDw, startAngleDw, endAngleDw) {
+    console.log("******************************************************************");
+    console.log("normDw", normDw.inspect());
+    if (refDw !== undefined) {
+        console.log("refDw", refDw.inspect());
+    }
     var cRDwSq = radDw * radDw - distDw * distDw;
     if (cRDwSq <= 0) {
         return;
@@ -1717,25 +1758,29 @@ PrairieDraw.prototype.sphereSlice = function(posDw, radDw, normDw, distDw, drawB
     drawFront = (drawFront === undefined) ? true : drawFront;
 
     var normVw = this.vecDwToVw(normDw);
-    var refVw = this.orthComp(Vector.k, normVw);
-    if (refVw.modulus() < 1e-10) {
+    if (this.orthComp(Vector.k, normVw).modulus() < 1e-10) {
         // looking straight down on the circle
         if (distDw > 0) {
             // front side, completely visible
-            this.arc3D(circlePosDw, cRDw, normDw);
+            this.arc3D(circlePosDw, cRDw, normDw, refDw, startAngleDw, endAngleDw);
         } else if (distDw < 0) {
             // back side, completely invisible
             this.save();
             this.setShapeDrawHidden();
-            this.arc3D(circlePosDw, cRDw, normDw);
+            this.arc3D(circlePosDw, cRDw, normDw, refDw, startAngleDw, endAngleDw);
             this.restore();
         }
         // if distDw == 0 then it's a great circle, don't draw it
         return;
     };
-    var refDw = this.vecVwToDw(refVw);
+    var refVw;
+    if (refDw === undefined) {
+        refVw = this.orthComp(Vector.k, normVw);
+        refDw = this.vecVwToDw(refVw);
+    }
+    refVw = this.vecDwToVw(refDw);
     var uVw = refVw.toUnitVector();
-    var vVw = uVw.cross(normVw.toUnitVector());
+    var vVw = normVw.toUnitVector().cross(uVw);
     var dVw = this.vecDwToVw(normDw.toUnitVector().x(distDw));
     var cRVw = this.vecDwToVw(refDw.toUnitVector().x(cRDw)).modulus();
     var A = -dVw.e(3);
@@ -1746,32 +1791,69 @@ PrairieDraw.prototype.sphereSlice = function(posDw, radDw, normDw, distDw, drawB
     var BN = B / BCMag;
     var CN = C / BCMag;
     var phi = Math.atan2(C, B);
+    console.log("uVw", uVw.inspect(), "vVw", vVw.inspect(), "dVw", dVw.inspect(), "cRVw", cRVw);
+    console.log("A", A, "B", B, "C", C, "BCMag", BCMag, "AN", AN, "BN", BN, "CN", CN, "phi", phi);
     if (AN <= -1) {
         // only front
         if (drawFront) {
-            this.arc3D(circlePosDw, cRDw, normDw, refDw);
+            this.arc3D(circlePosDw, cRDw, normDw, refDw, startAngleDw, endAngleDw);
         }
     } else if (AN >= 1) {
         // only back
         if (drawBack && this._props.hiddenLineDraw) {
             this.save();
             this.setShapeDrawHidden();
-            this.arc3D(circlePosDw, cRDw, normDw, refDw);
+            this.arc3D(circlePosDw, cRDw, normDw, refDw, startAngleDw, endAngleDw);
             this.restore();
         }
     } else {
         // front and back
-        var theta1 = phi + Math.acos(AN);
-        var theta2 = 2 * Math.PI - theta1;
+        var acosAN = Math.acos(AN);
+        var theta1 = phi + acosAN
+        var theta2 = phi + 2 * Math.PI - acosAN;
+        console.log("acos(AN)", Math.acos(AN), "theta1", theta1, "theta2", theta2);
 
+        var testR1 = uVw.x(Math.cos(theta1)).add(vVw.x(Math.sin(theta1)));
+        var testR2 = uVw.x(Math.cos(theta2)).add(vVw.x(Math.sin(theta2)));
+        console.log("testR1", testR1.inspect(), "testR2", testR2.inspect());
+        if (startAngleDw !== undefined) {
+            //this.line($V([0, 0, 0]), this.vecVwToDw(testR1));
+            //this.line($V([0, 0, 0]), this.vecVwToDw(testR2));
+        }
+        console.log("refDw", refDw.inspect(), "normDw", normDw.inspect());
+        console.log("uDw", this.vecVwToDw(uVw).inspect(), "vDw", this.vecVwToDw(vVw).inspect());
+
+        var i, intersections, range;
         if (drawBack && this._props.hiddenLineDraw) {
             this.save();
             this.setShapeDrawHidden();
-            this.arc3D(circlePosDw, cRDw, normDw, refDw, theta1, theta2);
+            if (theta2 > theta1) {
+                if (startAngleDw === undefined || endAngleDw === undefined) {
+                    this.arc3D(circlePosDw, cRDw, normDw, refDw, theta1, theta2);
+                } else {
+                    console.log("back *************");
+                    intersections = this.intersectAngleRanges([theta1, theta2], [startAngleDw, endAngleDw])
+                    for (i = 0; i < intersections.length; i++) {
+                        range = intersections[i];
+                        console.log("range", range);
+                        this.arc3D(circlePosDw, cRDw, normDw, refDw, range[0], range[1]);
+                    }
+                }
+            }
             this.restore();
         }
         if (drawFront) {
-            this.arc3D(circlePosDw, cRDw, normDw, refDw, theta2, theta1 + 2 * Math.PI);
+            if (startAngleDw === undefined || endAngleDw === undefined) {
+                this.arc3D(circlePosDw, cRDw, normDw, refDw, theta2, theta1 + 2 * Math.PI);
+            } else {
+                console.log("front *************");
+                intersections = this.intersectAngleRanges([theta2, theta1 + 2 * Math.PI], [startAngleDw, endAngleDw])
+                for (i = 0; i < intersections.length; i++) {
+                    range = intersections[i];
+                    console.log("range", range);
+                    this.arc3D(circlePosDw, cRDw, normDw, refDw, range[0], range[1]);
+                }
+            }
         }
     }
 }

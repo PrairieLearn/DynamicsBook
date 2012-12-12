@@ -6,16 +6,18 @@ $(document).ready(function() {
 
         this.addOption("showLabels", true);
         this.addOption("showLatLongLines", true);
-        this.addOption("showCityGreatCircle", true);
-        this.addOption("showCityPositionVectors", true);
+        this.addOption("showCityGreatCircle", false);
+        this.addOption("showCityPositionVectors", false);
+        this.addOption("showCityLatLong", true);
+
+        this.addOption("sphereTransPerc", 20);
         
         this.addOption("latitudeDeg1", 0);
         this.addOption("longitudeDeg1", 0);
         this.addOption("latitudeDeg2", 0);
         this.addOption("longitudeDeg2", 45);
-
+        
         this.setProp("hiddenLinePattern", "solid");
-        //this.setProp("hiddenLineColor", "rgb(220, 220, 220)");
 
         var O = $V([0, 0, 0]);
         var rX = $V([1.2, 0, 0]);
@@ -51,6 +53,9 @@ $(document).ready(function() {
             this.setProp("shapeOutlineColor", cityColor1);
             this.point(p1);
             this.restore();
+            if (this.getOption("showLabels")) {
+                this.text(p1, $V([1.2, -1.2]), "TEX:$A$");
+            }
         }
         if (p2Back) {
             this.save();
@@ -58,6 +63,9 @@ $(document).ready(function() {
             this.setProp("shapeOutlineColor", cityColor2);
             this.point(p2);
             this.restore();
+            if (this.getOption("showLabels")) {
+                this.text(p2, $V([-1.2, -1.2]), "TEX:$B$");
+            }
         }
 
         // great circle between cities
@@ -66,6 +74,29 @@ $(document).ready(function() {
             this.setProp("hiddenLineWidthPx", greatCircleWidthPx);
             this.setProp("hiddenLineColor", greatCircleColor);
             this.sphereSlice(O, 1, p12norm, 0, true, false);
+            this.restore();
+        }
+
+        // city lat/long
+        if (this.getOption("showCityLatLong")) {
+            this.save();
+            this.setProp("hiddenLineWidthPx", greatCircleWidthPx);
+            this.setProp("hiddenLineColor", cityColor1);
+            if (theta1 !== 0) {
+                this.sphereSlice(O, 1, Vector.k, 0, true, false, Vector.i, 0, theta1);
+            }
+            if (phi1 !== 0) {
+                var norm = $V([Math.sin(theta1), -Math.cos(theta1), 0]);
+                this.sphereSlice(O, 1, norm, 0, true, false, p1, -phi1, 0);
+            }
+            this.setProp("hiddenLineColor", cityColor2);
+            if (theta2 !== 0) {
+                this.sphereSlice(O, 1, Vector.k, 0, true, false, Vector.i, 0, theta2);
+            }
+            if (phi2 !== 0) {
+                var norm = $V([Math.sin(theta2), -Math.cos(theta2), 0]);
+                this.sphereSlice(O, 1, norm, 0, true, false, p2, -phi2, 0);
+            }
             this.restore();
         }
 
@@ -102,13 +133,16 @@ $(document).ready(function() {
         } else {
             this.line(O, rZS);
         }
+        if (this.getOption("showLabels")) {
+            this.labelIntersection(O, [rX, rY, rZ], "TEX:$O$");
+        }
 
         var i, norm, theta;
         var n_lat = 2;
-        var n_long = 8;
+        var n_long = 4;
         if (this.getOption("showLatLongLines")) {
             for (i = 0; i < n_long; i++) {
-                theta = i / n_long * 2 * Math.PI;
+                theta = i / n_long * Math.PI;
                 norm = $V([-Math.sin(theta), Math.cos(theta), 0]);
                 this.sphereSlice(O, 1, norm, 0, true, false);
             }
@@ -130,7 +164,8 @@ $(document).ready(function() {
         // sphere with alpha
 
         this.save();
-        this.setProp("shapeInsideColor", "rgba(255, 255, 255, 0.8)");
+        var sphereAlpha = 1 - this.getOption("sphereTransPerc") / 100;
+        this.setProp("shapeInsideColor", "rgba(255, 255, 255, " + sphereAlpha + ")");
         this.sphere(O, 1, true);
         this.restore();
 
@@ -158,13 +193,36 @@ $(document).ready(function() {
 
         if (this.getOption("showLatLongLines")) {
             for (i = 0; i < n_long; i++) {
-                theta = i / n_long * 2 * Math.PI;
+                theta = i / n_long * Math.PI;
                 norm = $V([-Math.sin(theta), Math.cos(theta), 0]);
                 this.sphereSlice(O, 1, norm, 0, false, true);
             }
             for (i = -n_lat; i <= n_lat; i++) {
                 this.sphereSlice(O, 1, Vector.k, Math.sin(i * Math.PI / (2 * n_lat + 2)), false, true);
             }
+        }
+
+        // city lat/long
+        if (this.getOption("showCityLatLong")) {
+            this.save();
+            this.setProp("shapeStrokeWidthPx", greatCircleWidthPx);
+            this.setProp("shapeOutlineColor", cityColor1);
+            if (theta1 !== 0) {
+                this.sphereSlice(O, 1, Vector.k, 0, false, true, Vector.i, 0, theta1);
+            }
+            if (phi1 !== 0) {
+                var norm = $V([Math.sin(theta1), -Math.cos(theta1), 0]);
+                this.sphereSlice(O, 1, norm, 0, false, true, p1, -phi1, 0);
+            }
+            this.setProp("shapeOutlineColor", cityColor2);
+            if (theta2 !== 0) {
+                this.sphereSlice(O, 1, Vector.k, 0, false, true, Vector.i, 0, theta2);
+            }
+            if (phi2 !== 0) {
+                var norm = $V([Math.sin(theta2), -Math.cos(theta2), 0]);
+                this.sphereSlice(O, 1, norm, 0, false, true, p2, -phi2, 0);
+            }
+            this.restore();
         }
 
         // great circle between cities
@@ -183,6 +241,9 @@ $(document).ready(function() {
             this.setProp("shapeOutlineColor", cityColor1);
             this.point(p1);
             this.restore();
+            if (this.getOption("showLabels")) {
+                this.text(p1, $V([1.2, -1.2]), "TEX:$A$");
+            }
         }
         if (!p2Back) {
             this.save();
@@ -190,6 +251,9 @@ $(document).ready(function() {
             this.setProp("shapeOutlineColor", cityColor2);
             this.point(p2);
             this.restore();
+            if (this.getOption("showLabels")) {
+                this.text(p2, $V([-1.2, -1.2]), "TEX:$B$");
+            }
         }
     });
 
