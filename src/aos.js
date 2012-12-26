@@ -7,15 +7,16 @@ $(document).ready(function() {
         this.addOption("showLabels", true);
         this.addOption("showLatLongLines", true);
         this.addOption("showCityGreatCircle", false);
+        this.addOption("showCityGreatCircleNormal", false);
         this.addOption("showCityPositionVectors", false);
         this.addOption("showCityLatLong", true);
 
         this.addOption("sphereTransPerc", 20);
         
-        this.addOption("latitudeDeg1", 0);
-        this.addOption("longitudeDeg1", 0);
-        this.addOption("latitudeDeg2", 0);
-        this.addOption("longitudeDeg2", 45);
+        this.addOption("longitudeDeg1", -20);
+        this.addOption("latitudeDeg1", 50);
+        this.addOption("longitudeDeg2", 55);
+        this.addOption("latitudeDeg2", -20);
         
         this.setProp("hiddenLinePattern", "solid");
 
@@ -258,5 +259,55 @@ $(document).ready(function() {
     });
 
     aos_fd_c.activate3DControl();
+
+    var aos_fm_c = new PrairieDraw("aos-fm-c", function() {
+        this.setUnits(360, 180);
+
+        this.save();
+        var i;
+        this.setProp("shapeStrokeWidthPx", 1);
+        for (i = 0; i < world_coastline.length; i++) {
+            this.polyLine(this.pairsToVectors(world_coastline[i]));
+        }
+        this.restore();
+
+        var aLat = 40.109665; // Urbana
+        var aLong = -88.204247;
+        var bLat = 28.61; // Delhi
+        var bLong = 77.23;
+
+        var greatCircleWidthPx = 4;
+        var greatCircleColor = "rgb(0, 255, 0)";
+        var cityRadiusPx = 6;
+        var cityColor1 = "rgb(255, 0, 0)";
+        var cityColor2 = "rgb(0, 0, 255)";
+
+        var aV = this.sphericalToRect($V([1, this.degToRad(aLong), this.degToRad(aLat)]));
+        var bV = this.sphericalToRect($V([1, this.degToRad(bLong), this.degToRad(bLat)]));
+
+        var p = [];
+        var n = 100;
+        var alpha, v, vS;
+        for (i = 0; i <= n; i++) {
+            alpha = i / n;
+            v = aV.x(1 - alpha).add(bV.x(alpha));
+            vS = this.rectToSpherical(v);
+            p.push($V([this.radToDeg(vS.e(2)), this.radToDeg(vS.e(3))]));
+        }
+
+        this.save();
+        this.setProp("shapeOutlineColor", greatCircleColor);
+        this.setProp("shapeStrokeWidthPx", greatCircleWidthPx);
+        this.polyLine(p);
+        this.restore();
+
+        this.save();
+        this.setProp("pointRadiusPx", cityRadiusPx);
+        this.setProp("shapeOutlineColor", cityColor1);
+        this.point($V([aLong, aLat]));
+        this.setProp("shapeOutlineColor", cityColor2);
+        this.point($V([bLong, bLat]));
+        this.restore();
+    });
 
 }); // end of document.ready()

@@ -232,7 +232,6 @@ PrairieDraw.prototype.intersectIntervals = function(int1, int2) {
     @return {Array} Intersected range (two entries giving start and end), or an empty array.
 */
 PrairieDraw.prototype.intersectAngleRanges = function(r1, r2) {
-    console.log("r1", r1, "r2", r2);
     if (r1.length === 0 || r2.length === 0) {
         return [];
     }
@@ -247,7 +246,6 @@ PrairieDraw.prototype.intersectAngleRanges = function(r1, r2) {
     var end1 = this.fixedMod(r1[1], TWOPI);
     var start2 = this.fixedMod(r2[0], TWOPI);
     var end2 = this.fixedMod(r2[1], TWOPI);
-    console.log("start1", start1, "end1", end1, "start2", start2, "end2", end2);
     var r1List;
     if (end1 > start1) {
         r1List = [[start1, end1]]
@@ -270,7 +268,6 @@ PrairieDraw.prototype.intersectAngleRanges = function(r1, r2) {
             result.push(r12);
         }
     }
-    console.log("result", result);
     return result;
 };
 
@@ -285,6 +282,22 @@ PrairieDraw.prototype.sphericalToRect = function(pS) {
                  pS.e(1) * Math.sin(pS.e(3))
                 ]);
     return pR;
+};
+
+/** Convert rectangular to spherical coordintes.
+
+    @param {Vector} pR Rectangular coordinates (x, y, z).
+    @return {Vector} Spherical coordinates (r, theta, phi).
+*/
+PrairieDraw.prototype.rectToSpherical = function(pR) {
+    var x = pR.e(1);
+    var y = pR.e(2);
+    var z = pR.e(3);
+    var r = Math.sqrt(x*x + y*y + z*z);
+    var theta = Math.atan2(y, x);
+    var phi = Math.asin(z / r);
+    var pS = $V([r, theta, phi]);
+    return pS;
 };
 
 /** Convert cylindrical to rectangular coordintes.
@@ -1615,7 +1628,6 @@ PrairieDraw.prototype.arc3D = function(posDw, radDw, normDw, refDw, startAngleDw
 
     var uDw = this.orthComp(refDw, normDw).toUnitVector();
     var vDw = normDw.toUnitVector().cross(uDw);
-    console.log("arc3D", "uDw", uDw.inspect(), "vDw", vDw.inspect())
     var numSegments = Math.ceil(Math.abs(endAngleDw - startAngleDw) / idealSegmentSize);
     var points = [];
     var theta, p;
@@ -1743,11 +1755,6 @@ PrairieDraw.prototype.sphere = function(posDw, radDw, filled) {
     @param {number} endAngleDw (Optional) The ending angle (counterclockwise from refDw about normDw, in radians, default: 2 pi).
 */
 PrairieDraw.prototype.sphereSlice = function(posDw, radDw, normDw, distDw, drawBack, drawFront, refDw, startAngleDw, endAngleDw) {
-    console.log("******************************************************************");
-    console.log("normDw", normDw.inspect());
-    if (refDw !== undefined) {
-        console.log("refDw", refDw.inspect());
-    }
     var cRDwSq = radDw * radDw - distDw * distDw;
     if (cRDwSq <= 0) {
         return;
@@ -1791,8 +1798,6 @@ PrairieDraw.prototype.sphereSlice = function(posDw, radDw, normDw, distDw, drawB
     var BN = B / BCMag;
     var CN = C / BCMag;
     var phi = Math.atan2(C, B);
-    console.log("uVw", uVw.inspect(), "vVw", vVw.inspect(), "dVw", dVw.inspect(), "cRVw", cRVw);
-    console.log("A", A, "B", B, "C", C, "BCMag", BCMag, "AN", AN, "BN", BN, "CN", CN, "phi", phi);
     if (AN <= -1) {
         // only front
         if (drawFront) {
@@ -1811,17 +1816,6 @@ PrairieDraw.prototype.sphereSlice = function(posDw, radDw, normDw, distDw, drawB
         var acosAN = Math.acos(AN);
         var theta1 = phi + acosAN
         var theta2 = phi + 2 * Math.PI - acosAN;
-        console.log("acos(AN)", Math.acos(AN), "theta1", theta1, "theta2", theta2);
-
-        var testR1 = uVw.x(Math.cos(theta1)).add(vVw.x(Math.sin(theta1)));
-        var testR2 = uVw.x(Math.cos(theta2)).add(vVw.x(Math.sin(theta2)));
-        console.log("testR1", testR1.inspect(), "testR2", testR2.inspect());
-        if (startAngleDw !== undefined) {
-            //this.line($V([0, 0, 0]), this.vecVwToDw(testR1));
-            //this.line($V([0, 0, 0]), this.vecVwToDw(testR2));
-        }
-        console.log("refDw", refDw.inspect(), "normDw", normDw.inspect());
-        console.log("uDw", this.vecVwToDw(uVw).inspect(), "vDw", this.vecVwToDw(vVw).inspect());
 
         var i, intersections, range;
         if (drawBack && this._props.hiddenLineDraw) {
@@ -1831,11 +1825,9 @@ PrairieDraw.prototype.sphereSlice = function(posDw, radDw, normDw, distDw, drawB
                 if (startAngleDw === undefined || endAngleDw === undefined) {
                     this.arc3D(circlePosDw, cRDw, normDw, refDw, theta1, theta2);
                 } else {
-                    console.log("back *************");
                     intersections = this.intersectAngleRanges([theta1, theta2], [startAngleDw, endAngleDw])
                     for (i = 0; i < intersections.length; i++) {
                         range = intersections[i];
-                        console.log("range", range);
                         this.arc3D(circlePosDw, cRDw, normDw, refDw, range[0], range[1]);
                     }
                 }
@@ -1846,11 +1838,9 @@ PrairieDraw.prototype.sphereSlice = function(posDw, radDw, normDw, distDw, drawB
             if (startAngleDw === undefined || endAngleDw === undefined) {
                 this.arc3D(circlePosDw, cRDw, normDw, refDw, theta2, theta1 + 2 * Math.PI);
             } else {
-                console.log("front *************");
                 intersections = this.intersectAngleRanges([theta2, theta1 + 2 * Math.PI], [startAngleDw, endAngleDw])
                 for (i = 0; i < intersections.length; i++) {
                     range = intersections[i];
-                    console.log("range", range);
                     this.arc3D(circlePosDw, cRDw, normDw, refDw, range[0], range[1]);
                 }
             }

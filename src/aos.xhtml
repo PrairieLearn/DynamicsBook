@@ -21,6 +21,7 @@
             </script>
             <script src="PrairieDraw.js" type="text/javascript">
             </script>
+            <script src="world_coastline.js" type="text/javascript"></script>
             <script src="aos.js" type="text/javascript"></script>
             <script src="pageControl.js" type="text/javascript">
             </script>
@@ -55,37 +56,62 @@
         <div class="figureContainer" id="aos-fd">
           <canvas id="aos-fd-c" width="600" height="600">
           </canvas>
-          <p>
-            Show:
-            <button class="option-toggle:aos-fd-c:showLabels">labels</button>
-            <button class="option-toggle:aos-fd-c:showLatLongLines">latitude/longitude grid</button>
-            <button class="option-toggle:aos-fd-c:showCityGreatCircle">great circle between cities</button>
-            <button class="option-toggle:aos-fd-c:showCityPositionVectors">city position vectors</button>
-            <button class="option-toggle:aos-fd-c:showCityLatLong">city latitude and longitude</button>
-          </p>
           <table>
             <tr>
-              <td>Earth transparency:</td>
-              <td><input type="range" min="0" max="100" value="0" step="1" class="data-input:aos-fd-c:sphereTransPerc" /></td>
-              <td><span class="data-option:aos-fd-c:sphereTransPerc"></span>%</td>
+              <td colspan="4">
+                <button class="reset:aos-fd-c">reset</button>
+              </td>
+            </tr>
+            <tr class="startSection">
+              <td>Show:</td>
+              <td colspan="3">
+                <button class="option-toggle:aos-fd-c:showLabels">labels</button>
+                <button class="option-toggle:aos-fd-c:showLatLongLines">latitude/longitude grid</button>
+              </td>
             </tr>
             <tr>
-              <td>City 1 Latitude:</td>
+              <td></td>
+              <td colspan="3">
+                <button class="option-toggle:aos-fd-c:showCityLatLong">city latitude and longitude</button>
+                <button class="option-toggle:aos-fd-c:showCityPositionVectors">city position vectors</button>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td colspan="3">
+                <button class="option-toggle:aos-fd-c:showCityGreatCircle">great circle between cities</button>
+                <button class="option-toggle:aos-fd-c:showCityGreatCircleNormal">great circle normal vector</button>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td colspan="3">
+                Earth transparency:
+                <input type="range" min="0" max="100" value="0" step="1" class="data-input:aos-fd-c:sphereTransPerc" />
+                <span class="data-option:aos-fd-c:sphereTransPerc"></span>%
+              </td>
+            </tr>
+            <tr class="startSection">
+              <td>City A:</td>
+              <td>Latitude:</td>
               <td><input type="range" min="-90" max="90" value="0" step="1" class="data-input:aos-fd-c:latitudeDeg1" /></td>
               <td>$\phi_1 = $ <span class="data-option:aos-fd-c:latitudeDeg1"></span>°</td>
             </tr>
             <tr>
-              <td>City 1 Longitude:</td>
+              <td></td>
+              <td>Longitude:</td>
               <td><input type="range" min="-180" max="180" value="0" step="1" class="data-input:aos-fd-c:longitudeDeg1" /></td>
               <td>$\lambda_1 = $ <span class="data-option:aos-fd-c:longitudeDeg1"></span>°</td>
             </tr>
-            <tr>
-              <td>City 2 Latitude:</td>
+            <tr class="startSection">
+              <td>City B:</td>
+              <td>Latitude:</td>
               <td><input type="range" min="-90" max="90" value="0" step="1" class="data-input:aos-fd-c:latitudeDeg2" /></td>
               <td>$\phi_1 = $ <span class="data-option:aos-fd-c:latitudeDeg2"></span>°</td>
             </tr>
             <tr>
-              <td>City 2 Longitude:</td>
+              <td></td>
+              <td>Longitude:</td>
               <td><input type="range" min="-180" max="180" value="0" step="1" class="data-input:aos-fd-c:longitudeDeg2" /></td>
               <td>$\lambda_1 = $ <span class="data-option:aos-fd-c:longitudeDeg2"></span>°</td>
             </tr>
@@ -176,6 +202,15 @@
           <li><p>What is the maximum latitude reached if we fly along a great circle from Chicago to Shanghai? Find latitude as a function of longitude along this path and plot it on a 2D map of the earth.</p></li>
           <li><p>A better model of the Earth is an ellipsoid, satisfying \((x/6378)^2 + (y/6378)^2 + (z/6357)^2 = 1\) (in km). How could we compute distances on an ellipsoid? This is hard. See <a href="https://en.wikipedia.org/wiki/Vincenty%27s_formulae"><code class="url">https://en.wikipedia.org/wiki/Vincenty%27s_formulae</code></a> for one answer.</p></li>
         </ol>
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="aos-sm" class="contentCol">
+        <h2>Diagram</h2>
+        <div class="figureContainer" id="aos-fm">
+          <canvas id="aos-fm-c" width="600" height="600">
+          </canvas>
+        </div>
       </div>
     </div>
   </body>
