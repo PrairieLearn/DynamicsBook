@@ -1,6 +1,104 @@
 
 $(document).ready(function() {
 
+    var aos_fm_c = new PrairieDraw("aos-fm-c", function() {
+        this.setUnits(360, 180);
+
+        this.addOption("showMapPath", false);
+        this.addOption("showShortestPath", false);
+
+        this.save();
+        this.setProp("shapeStrokeWidthPx", 1);
+        this.setProp("shapeOutlineColor", "rgb(200, 200, 200)");
+        var i;
+        for (i = -170; i <= 170; i += 10) {
+            this.line($V([i, -90]), $V([i, 90]));
+        }
+        for (i = -80; i <= 80; i += 10) {
+            this.line($V([-180, i]), $V([180, i]));
+        }
+        this.restore();
+
+        this.save();
+        this.setProp("shapeStrokeWidthPx", 1);
+        for (i = 0; i < world_coastline.length; i++) {
+            this.polyLine(this.pairsToVectors(world_coastline[i]));
+        }
+        this.restore();
+
+        var greatCircleWidthPx = 4;
+        var greatCircleColor = "rgb(0, 255, 0)";
+        var cityRadiusPx = 6;
+        var cityColor1 = "rgb(255, 0, 0)";
+        var cityColor2 = "rgb(0, 0, 255)";
+
+        var aLat = 40.109665; // Urbana
+        var aLong = -88.204247;
+        var bLat = 28.61; // Delhi
+        var bLong = 77.23;
+
+        var aP = $V([aLong, aLat]);
+        var bP = $V([bLong, bLat]);
+
+        var aS = $V([1, this.degToRad(aLong), this.degToRad(aLat)]);
+        var bS = $V([1, this.degToRad(bLong), this.degToRad(bLat)]);
+
+        var aR = this.sphericalToRect(aS);
+        var bR = this.sphericalToRect(bS);
+
+        var earthRad = 6.371e6;
+        var shortestDist = earthRad * Math.acos(aR.dot(bR));
+        var shortestDistStr = (shortestDist / 1000).toFixed(0) + " km";
+
+        var mapDist = 0;
+        var nSegments = 100;
+        var lastR = aR;
+        var vR;
+        for (i = 1; i <= nSegments; i++) {
+            vR = this.sphericalToRect(this.linearInterpVector(aS, bS, i / nSegments));
+            mapDist += vR.subtract(lastR).modulus() * earthRad;
+            lastR = vR;
+        }
+        var mapDistStr = (mapDist / 1000).toFixed(0) + " km";
+
+        if (this.getOption("showMapPath")) {
+            this.text(this.linearInterpVector(aP, bP, 0.5), $V([0, 1]), mapDistStr, true);
+            this.save();
+            this.setProp("shapeOutlineColor", "rgb(255, 0, 255)");
+            this.setProp("shapeStrokeWidthPx", greatCircleWidthPx);
+            this.line(aP, bP);
+            this.restore();
+        }
+
+        if (this.getOption("showShortestPath")) {
+            var points = [];
+            var vS;
+            for (i = 0; i <= nSegments; i++) {
+                vR = this.linearInterpVector(aR, bR, i / nSegments);
+                vS = this.rectToSpherical(vR);
+                points.push($V([this.radToDeg(vS.e(2)), this.radToDeg(vS.e(3))]));
+            }
+
+            var labelPoint = points[Math.floor(nSegments / 2)];
+            this.text(labelPoint, $V([0, 1]), shortestDistStr, true);
+            this.save();
+            this.setProp("shapeOutlineColor", greatCircleColor);
+            this.setProp("shapeStrokeWidthPx", greatCircleWidthPx);
+            this.polyLine(points);
+            this.restore();
+        }
+
+        this.save();
+        this.setProp("pointRadiusPx", cityRadiusPx);
+        this.setProp("shapeOutlineColor", cityColor1);
+        this.text(aP, $V([1.2, 0]), "TEX:Urbana", true);
+        this.point(aP);
+        this.setProp("shapeOutlineColor", cityColor2);
+        this.text(bP, $V([-1.2, 0]), "TEX:Delhi", true);
+        this.point(bP);
+        this.restore();
+    });
+
     var aos_fd_c = new PrairieDraw("aos-fd-c", function() {
         this.setUnits(2.5, 2.5);
 
@@ -15,7 +113,7 @@ $(document).ready(function() {
         
         this.addOption("longitudeDeg1", -20);
         this.addOption("latitudeDeg1", 50);
-        this.addOption("longitudeDeg2", 55);
+        this.addOption("longitudeDeg2", 65);
         this.addOption("latitudeDeg2", -20);
         
         this.setProp("hiddenLinePattern", "solid");
@@ -32,13 +130,30 @@ $(document).ready(function() {
 
         var p1 = this.sphericalToRect($V([1, theta1, phi1]));
         var p2 = this.sphericalToRect($V([1, theta2, phi2]));
-        var p12norm = p1.cross(p2);
+        var p12Norm = p1.cross(p2);
+        if (p12Norm.modulus() < 1e-10) {
+            p12Norm = p1.cross(Vector.i);
+            if (p12Norm.modulus() < 1e-10) {
+                p12Norm = p1.cross(Vector.j);
+            }
+        }
+        p12Norm = p12Norm.toUnitVector();
 
         var cityRadiusPx = 6;
         var cityColor1 = "rgb(255, 0, 0)";
         var cityColor2 = "rgb(0, 0, 255)";
         var greatCircleWidthPx = 4;
         var greatCircleColor = "rgb(0, 255, 0)";
+
+        var rXS = $V([1, 0, 0]);
+        var rYS = $V([0, 1, 0]);
+        var rZS = $V([0, 0, 1]);
+        var rXVw = this.posDwToVw(rX);
+        var rYVw = this.posDwToVw(rY);
+        var rZVw = this.posDwToVw(rZ);
+        var rXBack = (rXVw.e(3) < 0);
+        var rYBack = (rYVw.e(3) < 0);
+        var rZBack = (rZVw.e(3) < 0);
 
         /***********************************************************/
         // back lines
@@ -70,11 +185,11 @@ $(document).ready(function() {
         }
 
         // great circle between cities
-        if (this.getOption("showCityGreatCircle") && p12norm.modulus() > 1e-10) {
+        if (this.getOption("showCityGreatCircle")) {
             this.save();
             this.setProp("hiddenLineWidthPx", greatCircleWidthPx);
             this.setProp("hiddenLineColor", greatCircleColor);
-            this.sphereSlice(O, 1, p12norm, 0, true, false);
+            this.sphereSlice(O, 1, p12Norm, 0, true, false);
             this.restore();
         }
 
@@ -101,15 +216,7 @@ $(document).ready(function() {
             this.restore();
         }
 
-        var rXS = $V([1, 0, 0]);
-        var rYS = $V([0, 1, 0]);
-        var rZS = $V([0, 0, 1]);
-        var rXVw = this.posDwToVw(rX);
-        var rYVw = this.posDwToVw(rY);
-        var rZVw = this.posDwToVw(rZ);
-        var rXBack = (rXVw.e(3) < 0);
-        var rYBack = (rYVw.e(3) < 0);
-        var rZBack = (rZVw.e(3) < 0);
+        // coordinate axes
         if (rXBack) {
             this.arrow(O, rX);
             if (this.getOption("showLabels")) {
@@ -173,25 +280,6 @@ $(document).ready(function() {
         /***********************************************************/
         // front lines
 
-        if (!rXBack) {
-            this.arrow(rXS, rX);
-            if (this.getOption("showLabels")) {
-                this.labelLine(O, rX, $V([1, -1]), "TEX:$x$");
-            }
-        }
-        if (!rYBack) {
-            this.arrow(rYS, rY);
-            if (this.getOption("showLabels")) {
-                this.labelLine(O, rY, $V([1, -1]), "TEX:$y$");
-            }
-        }
-        if (!rZBack) {
-            this.arrow(rZS, rZ);
-            if (this.getOption("showLabels")) {
-                this.labelLine(O, rZ, $V([1, -1]), "TEX:$z$");
-            }
-        }
-
         if (this.getOption("showLatLongLines")) {
             for (i = 0; i < n_long; i++) {
                 theta = i / n_long * Math.PI;
@@ -227,11 +315,11 @@ $(document).ready(function() {
         }
 
         // great circle between cities
-        if (this.getOption("showCityGreatCircle") && p12norm.modulus() > 1e-10) {
+        if (this.getOption("showCityGreatCircle")) {
             this.save();
             this.setProp("shapeStrokeWidthPx", greatCircleWidthPx);
             this.setProp("shapeOutlineColor", greatCircleColor)
-            this.sphereSlice(O, 1, p12norm, 0, false, true);
+            this.sphereSlice(O, 1, p12Norm, 0, false, true);
             this.restore();
         }
 
@@ -256,57 +344,87 @@ $(document).ready(function() {
                 this.text(p2, $V([-1.2, -1.2]), "TEX:$B$");
             }
         }
+
+        // coordinate axes
+        if (!rXBack) {
+            this.arrow(rXS, rX);
+            if (this.getOption("showLabels")) {
+                this.labelLine(O, rX, $V([1, -1]), "TEX:$x$");
+            }
+        }
+        if (!rYBack) {
+            this.arrow(rYS, rY);
+            if (this.getOption("showLabels")) {
+                this.labelLine(O, rY, $V([1, -1]), "TEX:$y$");
+            }
+        }
+        if (!rZBack) {
+            this.arrow(rZS, rZ);
+            if (this.getOption("showLabels")) {
+                this.labelLine(O, rZ, $V([1, -1]), "TEX:$z$");
+            }
+        }
     });
 
     aos_fd_c.activate3DControl();
 
-    var aos_fm_c = new PrairieDraw("aos-fm-c", function() {
-        this.setUnits(360, 180);
+    var aos_fp_c = new PrairieDraw("aos-fp-c", function() {
+        this.setUnits(360, 360);
+
+        this.addOption("projection", "equirectangular");
+
+        var projFunc;
+        if (this.getOption("projection") === "mercator") {
+            projFunc = function(p) {
+                var phi = Math.max(-89, Math.min(89, p[1])) / 180 * Math.PI
+                return $V([p[0], Math.log(Math.tan(Math.PI / 4 + phi / 2)) * 180 / Math.PI]);
+            };
+        } else if (this.getOption("projection") === "hobo-dyer") {
+            projFunc = function(p) {
+                return $V([p[0], Math.sin(p[1] / 180 * Math.PI) / Math.pow(Math.cos(37.5 / 180 * Math.PI), 2) * 180 / Math.PI]);
+            };
+        } else if (this.getOption("projection") === "winkel") {
+            projFunc = function(p) {
+                var lambda = p[0] / 180 * Math.PI;
+                var phi = p[1] / 180 * Math.PI;
+                var phi1 = Math.acos(2 / Math.PI);
+                var alpha = Math.acos(Math.cos(phi) * Math.cos(lambda / 2));
+                var x = 0.5 * (lambda * Math.cos(phi1) + 2 * Math.cos(phi) * Math.sin(lambda / 2) / (Math.sin(alpha) / alpha));
+                var y = 0.5 * (phi + Math.sin(phi) / (Math.sin(alpha) / alpha));
+                return $V([x * 68, y * 68]);
+            };
+        } else {
+            // equirectangular
+            projFunc = function(p) {
+                return $V([p[0], p[1]]);
+            };
+        }
 
         this.save();
-        var i;
+        this.setProp("shapeStrokeWidthPx", 1);
+        this.setProp("shapeOutlineColor", "rgb(200, 200, 200)");
+        var i, j, p;
+        for (i = -180; i <= 180; i += 10) {
+            p = [];
+            for (j = -90; j <= 90; j += 10) {
+                p.push([i, j]);
+            }
+            this.polyLine(p.map(projFunc));
+        }
+        for (j = -90; j <= 90; j += 10) {
+            p = [];
+            for (i = -180; i <= 180; i+= 10) {
+                p.push([i, j]);
+            }
+            this.polyLine(p.map(projFunc));
+        }
+        this.restore();
+
+        this.save();
         this.setProp("shapeStrokeWidthPx", 1);
         for (i = 0; i < world_coastline.length; i++) {
-            this.polyLine(this.pairsToVectors(world_coastline[i]));
+            this.polyLine(world_coastline[i].map(projFunc));
         }
-        this.restore();
-
-        var aLat = 40.109665; // Urbana
-        var aLong = -88.204247;
-        var bLat = 28.61; // Delhi
-        var bLong = 77.23;
-
-        var greatCircleWidthPx = 4;
-        var greatCircleColor = "rgb(0, 255, 0)";
-        var cityRadiusPx = 6;
-        var cityColor1 = "rgb(255, 0, 0)";
-        var cityColor2 = "rgb(0, 0, 255)";
-
-        var aV = this.sphericalToRect($V([1, this.degToRad(aLong), this.degToRad(aLat)]));
-        var bV = this.sphericalToRect($V([1, this.degToRad(bLong), this.degToRad(bLat)]));
-
-        var p = [];
-        var n = 100;
-        var alpha, v, vS;
-        for (i = 0; i <= n; i++) {
-            alpha = i / n;
-            v = aV.x(1 - alpha).add(bV.x(alpha));
-            vS = this.rectToSpherical(v);
-            p.push($V([this.radToDeg(vS.e(2)), this.radToDeg(vS.e(3))]));
-        }
-
-        this.save();
-        this.setProp("shapeOutlineColor", greatCircleColor);
-        this.setProp("shapeStrokeWidthPx", greatCircleWidthPx);
-        this.polyLine(p);
-        this.restore();
-
-        this.save();
-        this.setProp("pointRadiusPx", cityRadiusPx);
-        this.setProp("shapeOutlineColor", cityColor1);
-        this.point($V([aLong, aLat]));
-        this.setProp("shapeOutlineColor", cityColor2);
-        this.point($V([bLong, bLat]));
         this.restore();
     });
 

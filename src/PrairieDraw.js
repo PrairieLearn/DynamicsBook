@@ -172,6 +172,10 @@ PrairieDraw.prototype.heightPx = function() {
 
 /*****************************************************************************/
 
+/** Conversion constants.
+*/
+PrairieDraw.prototype.milesPerKilometer = 0.621371;
+
 /** Convert degrees to radians.
 
     @param {number} degrees The angle in degrees.
@@ -2439,6 +2443,7 @@ PrairieDraw.prototype.text = function(posDw, anchor, text, boxed) {
     if (text === undefined) {
         return;
     }
+    boxed = (boxed === undefined) ? false : boxed;
     var posPx = this.pos2Px(this.pos3To2(posDw));
     if (text.slice(0,4) == "TEX:") {
         var tex_text = text.slice(4);
@@ -2453,7 +2458,7 @@ PrairieDraw.prototype.text = function(posDw, anchor, text, boxed) {
             var textBorderPx = 5;
             this._ctx.save();
             this._ctx.translate(posPx.e(1), posPx.e(2));
-            if (boxed !== undefined && boxed === true) {
+            if (boxed) {
                 this._ctx.save();
                 this._ctx.fillStyle = "white";
                 this._ctx.fillRect(xPx - offsetPx.e(1) - textBorderPx,
@@ -2472,24 +2477,38 @@ PrairieDraw.prototype.text = function(posDw, anchor, text, boxed) {
             this._texts[hash] = img;
         }
     } else {
-        var align, baseline;
+        var align, baseline, bbRelOffset;
         switch (this.sign(anchor.e(1))) {
-        case -1: align = "left"; break;
-        case  0: align = "center"; break;
-        case  1: align = "right"; break;
+        case -1: align = "left"; bbRelOffset = 0; break;
+        case  0: align = "center"; bbRelOffset = 0.5; break;
+        case  1: align = "right"; bbRelOffset = 1; break;
         }
         switch (this.sign(anchor.e(2))) {
         case -1: baseline = "bottom"; break;
         case  0: baseline = "middle"; break;
         case  1: baseline = "top"; break;
         }
-        this._ctx.save();
+        this.save();
         this._ctx.textAlign = align;
         this._ctx.textBaseline = baseline;
         this._ctx.translate(posPx.e(1), posPx.e(2));
         var offsetPx = anchor.toUnitVector().x(Math.abs(anchor.max()) * this._props.textOffsetPx);
-        this._ctx.fillText(text, - offsetPx.e(1), offsetPx.e(2));
-        this._ctx.restore();
+        var drawPx = $V([-offsetPx.e(1), offsetPx.e(2)]);
+        var metrics = this._ctx.measureText(text);
+        var d = this._props.textOffsetPx;
+        //var bb0 = drawPx.add($V([-metrics.actualBoundingBoxLeft - d, -metrics.actualBoundingBoxAscent - d]));
+        //var bb1 = drawPx.add($V([metrics.actualBoundingBoxRight + d, metrics.actualBoundingBoxDescent + d]));
+        var textHeight = 10;
+        var bb0 = drawPx.add($V([- bbRelOffset * metrics.width - d, - d]));
+        var bb1 = drawPx.add($V([(1 - bbRelOffset) * metrics.width + d, textHeight + d]));
+        if (boxed) {
+            this._ctx.save();
+            this._ctx.fillStyle = "white";
+            this._ctx.fillRect(bb0.e(1), bb0.e(2), bb1.e(1) - bb0.e(1), bb1.e(2) - bb0.e(2));
+            this._ctx.restore();
+        }
+        this._ctx.fillText(text, drawPx.e(1), drawPx.e(2));
+        this.restore();
     }
 }
 
