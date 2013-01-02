@@ -6,7 +6,7 @@ $(document).ready(function() {
     $("div.container").prepend('<div class="navbar"><ul><li><a href="index.xhtml" id="navHome">Home</a></li><li><a href="sched.xhtml" id="navSched">Schedule</a></li><li><a href="ref.xhtml" id="navRef">Reference</a></li><li><a href="apps.xhtml" id="navApps">Applications</a></li><li><a href="hw.xhtml" id="navHW">Homeworks</a></li></ul></div>');
     //$("div.container").prepend('<div class="header"><div class="login"><p>Log in</p></div><h1>TAM 212: Dynamics</h1></div>');
     $("div.container").prepend('<div class="header"><h1>TAM 212: Dynamics</h1></div>');
-    $("div.container").append('<div class="footer"><p class="copyright">Copyright (C) 2012 Matthew West</p></div>');
+    $("div.container").append('<div class="footer"><p class="copyright">Copyright (C) 2012-2013 Matthew West</p></div>');
 
     // make sure every contentBlock has an infoCol
     $("div.contentBlock").each(function() {
@@ -40,19 +40,18 @@ $(document).ready(function() {
     }
     $("a#" + activeNavId).closest("li").addClass("activeNav");
 
+    // Derivation header
+    $("div.envContainer.derivation").prepend('<p class="envHeader">Derivation</p>');
+
     // if we have a hash in the URL, set the corresponding element
     var linkedElem = document.getElementById(window.location.hash.slice(1))
 
     // Example show/hide
-    $("div.envContainer.example").children("p.envHeader").append('<button class="envShowHide">-</button>');
-    var divsToHide = $("div.envContainer.example").not(linkedElem);
+    var hideableContainerDivs = $("div.envContainer").not(".equation")
+    hideableContainerDivs.children("p.envHeader").append('<button class="envShowHide">-</button>');
+    var divsToHide = hideableContainerDivs.not(linkedElem);
     divsToHide.children("div.envBody").hide();
     divsToHide.find("button.envShowHide").text("+");
-
-    // Derivation show/hide
-    $("div.envContainer.derivation").prepend('<p class="envHeader">Derivation</p>');
-    $("div.envContainer.derivation").children("p.envHeader").append('<button class="envShowHide">+</button>');
-    $("div.envContainer.derivation").children("div.envBody").hide();
 
     // Show/hide buttons
     var hide = function(jButton, doFast) {

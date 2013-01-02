@@ -36,7 +36,7 @@
           <em>rotation rate</em>. By taking the rotation axis as a
           direction and the rotation rate as a length, we can write
           the rotation as a vector, known as the <em>angular
-          velocity vector</em> \(\boldsymbol{\omega}\). We use the
+          velocity vector</em> \(\vec{\omega}\). We use the
           <em>right-hand-rule</em> to describe the direction of
           rotation.
         </p>
@@ -76,13 +76,13 @@
           </div>
         </div>
         <p>
-          If a vector \(\boldsymbol{v}\) is rotating with angular
-          velocity vector \(\boldsymbol{\omega}\), the rate of
-          change of \(\boldsymbol{v}\) is
+          If a vector \(\vec{a}\) is rotating with angular
+          velocity vector \(\vec{\omega}\), the rate of
+          change of \(\vec{a}\) is
         </p>
         <p>
-          \[\begin{aligned} \dot{\boldsymbol{v}} &amp;=
-          \boldsymbol{\omega} \times \boldsymbol{v}\end{aligned}\]
+          \[\begin{aligned} \dot{\vec{a}} &amp;=
+          \vec{\omega} \times \vec{a}\end{aligned}\]
         </p>
         <p>
           We will see below that this is correct.
@@ -102,48 +102,48 @@
               the vector:
             </p>
             <p>
-              \[\begin{aligned} \dot{\boldsymbol{v}} \cdot
-              \boldsymbol{v} = 0 \end{aligned}\]
+              \[\begin{aligned} \dot{\vec{a}} \cdot
+              \vec{a} = 0 \end{aligned}\]
             </p>
             <p>
               Derivation: Using the scalar triple product formula:
             </p>
             <p>
-              \[\begin{aligned} \boldsymbol{v} \cdot
-              \dot{\boldsymbol{v}} &amp;= \boldsymbol{v} \cdot
-              \big( \boldsymbol{\omega} \times \boldsymbol{v} \big)
-              &amp;= \boldsymbol{\omega} \cdot \big( \boldsymbol{v}
-              \times \boldsymbol{v} \big) &amp;= 0 \end{aligned}\]
+              \[\begin{aligned} \vec{a} \cdot
+              \dot{\vec{a}} &amp;= \vec{a} \cdot
+              \big( \vec{\omega} \times \vec{a} \big)
+              &amp;= \vec{\omega} \cdot \big( \vec{a}
+              \times \vec{a} \big) &amp;= 0 \end{aligned}\]
             </p>
           </li>
           <li>
             <p>
-              If we have two vectors \(\boldsymbol{u}\) and
-              \(\boldsymbol{v}\) both rotating with an angular
-              velocity \(\boldsymbol{\omega}\), then
-              \(\boldsymbol{u} \cdot \boldsymbol{v}\) is constant:
+              If we have two vectors \(\vec{b}\) and
+              \(\vec{a}\) both rotating with an angular
+              velocity \(\vec{\omega}\), then
+              \(\vec{b} \cdot \vec{a}\) is constant:
             </p>
             <p>
-              \[\begin{aligned} \frac{d}{dt} \big( \boldsymbol{u}
-              \cdot \boldsymbol{v} \big) = 0 \end{aligned}\]
+              \[\begin{aligned} \frac{d}{dt} \big( \vec{b}
+              \cdot \vec{a} \big) = 0 \end{aligned}\]
             </p>
             <p>
               Derivation: Using the scalar triple product formula:
             </p>
             <p>
-              \[\begin{aligned} \frac{d}{dt} \big( \boldsymbol{u}
-              \cdot \boldsymbol{v} \big) &amp;=
-              \dot{\boldsymbol{u}} \cdot \boldsymbol{v} +
-              \boldsymbol{u} \cdot \dot{\boldsymbol{v}} \\ &amp;=
-              (\boldsymbol{\omega} \times \boldsymbol{u}) \cdot
-              \boldsymbol{v} + \boldsymbol{u} \cdot
-              (\boldsymbol{\omega} \times \boldsymbol{v}) \\ &amp;=
-              \boldsymbol{v} \cdot (\boldsymbol{\omega} \times
-              \boldsymbol{u}) + \boldsymbol{v} \cdot
-              (\boldsymbol{u} \times \boldsymbol{\omega}) \\ &amp;=
-              \boldsymbol{v} \cdot (\boldsymbol{\omega} \times
-              \boldsymbol{u}) - \boldsymbol{v} \cdot
-              (\boldsymbol{\omega} \times \boldsymbol{u}) \\ &amp;=
+              \[\begin{aligned} \frac{d}{dt} \big( \vec{b}
+              \cdot \vec{a} \big) &amp;=
+              \dot{\vec{b}} \cdot \vec{a} +
+              \vec{b} \cdot \dot{\vec{a}} \\ &amp;=
+              (\vec{\omega} \times \vec{b}) \cdot
+              \vec{a} + \vec{b} \cdot
+              (\vec{\omega} \times \vec{a}) \\ &amp;=
+              \vec{a} \cdot (\vec{\omega} \times
+              \vec{b}) + \vec{a} \cdot
+              (\vec{b} \times \vec{\omega}) \\ &amp;=
+              \vec{a} \cdot (\vec{\omega} \times
+              \vec{b}) - \vec{a} \cdot
+              (\vec{\omega} \times \vec{b}) \\ &amp;=
               0 \end{aligned}\]
             </p>
           </li>
@@ -152,8 +152,8 @@
               Lengths of vectors are preserved by rotation:
             </p>
             <p>
-              \[\begin{aligned} v = \sqrt{\boldsymbol{v} \cdot
-              \boldsymbol{v}} = \text{constant} \end{aligned}\]
+              \[\begin{aligned} a = \sqrt{\vec{a} \cdot
+              \vec{a}} = \text{constant} \end{aligned}\]
             </p>
             <p>
               Derivation: Use derivative of dot product formula.
@@ -165,8 +165,8 @@
             </p>
             <p>
               \[\begin{aligned} \theta =
-              \cos^{-1}\left(\frac{\boldsymbol{u} \cdot
-              \boldsymbol{v}}{u v}\right) = \text{constant}
+              \cos^{-1}\left(\frac{\vec{b} \cdot
+              \vec{a}}{b a}\right) = \text{constant}
               \end{aligned}\]
             </p>
             <p>
@@ -175,20 +175,20 @@
           </li>
           <li>
             <p>
-              If \(\boldsymbol{v}\) is parallel to
-              \(\boldsymbol{\omega}\) then \(\dot{\boldsymbol{v}} =
+              If \(\vec{a}\) is parallel to
+              \(\vec{\omega}\) then \(\dot{\vec{a}} =
               0\).
             </p>
           </li>
         </ul>
         <p>
           This shows that the rotation formula
-          \(\dot{\boldsymbol{v}} = \boldsymbol{\omega} \times
-          \boldsymbol{v}\) does indeed perform a rigid rotation
-          about \(\boldsymbol{\omega}\).
+          \(\dot{\vec{a}} = \vec{\omega} \times
+          \vec{a}\) does indeed perform a rigid rotation
+          about \(\vec{\omega}\).
         </p>
         <p>
-          The units of \(\boldsymbol{\omega}\) are \(\rm rad/s\).
+          The units of \(\vec{\omega}\) are \(\rm rad/s\).
         </p>
         <div class="envContainer example" id="rkr-xf">
           <p class="envHeader">
@@ -213,19 +213,19 @@
           Decompositions of rotation rates
         </h2>
         <p>
-          \[\begin{aligned} \boldsymbol{\omega} =
-          \frac{\dot{\boldsymbol{v}} \times \boldsymbol{v}}{v^2} =
-          \frac{\dot{\boldsymbol{v}} \times
-          \boldsymbol{v}}{\boldsymbol{v} \cdot
-          \boldsymbol{v}}\end{aligned}\]
+          \[\begin{aligned} \vec{\omega} =
+          \frac{\dot{\vec{a}} \times \vec{a}}{a^2} =
+          \frac{\dot{\vec{a}} \times
+          \vec{a}}{\vec{a} \cdot
+          \vec{a}}\end{aligned}\]
         </p>
         <p>
-          \[\begin{aligned} \frac{d}{dt} \,\hat{v} &amp;=
-          \boldsymbol{\omega} \times \,\hat{v} \\ \frac{d}{dt}
-          \boldsymbol{v} &amp;= \boldsymbol{\omega} \times
-          \boldsymbol{v} \\ \frac{d}{dt} \boldsymbol{v} &amp;=
-          \dot{v} \,\hat{v} + \boldsymbol{\omega} \times
-          \boldsymbol{v}\end{aligned}\]
+          \[\begin{aligned} \frac{d}{dt} \,\hat{a} &amp;=
+          \vec{\omega} \times \,\hat{a} \\ \frac{d}{dt}
+          \vec{a} &amp;= \vec{\omega} \times
+          \vec{a} \\ \frac{d}{dt} \vec{a} &amp;=
+          \dot{a} \,\hat{a} + \vec{\omega} \times
+          \vec{a}\end{aligned}\]
         </p>
       </div>
       <div class="infoCol"></div>
@@ -236,8 +236,8 @@
           Rodrigues’ rotation formula
         </h2>
         <p>
-          Rodrigues’ rotation formula: \(\boldsymbol{v}\) is
-          rotated by angle \(\theta\) about \(\hat{u}\) to give:
+          Rodrigues’ rotation formula: \(\vec{a}\) is
+          rotated by angle \(\theta\) about \(\hat{b}\) to give:
         </p>
         <div class="envContainer equation" id="rkr-er">
           <p class="envHeader">
@@ -245,53 +245,54 @@
           </p>
           <div class="envBody">
             <p>
-              \[\operatorname{Rot}_{\theta}(\boldsymbol{v}) =
-              \boldsymbol{v} \cos\theta + (\hat{u} \times
-              \boldsymbol{v}) \sin\theta + \hat{u} (\hat{u} \cdot
-              \boldsymbol{v}) (1 - \cos\theta)\]
+              \[\operatorname{Rot}_{\theta,\hat{b}}(\vec{a}) =
+              \vec{a} \cos\theta + (\hat{b} \times
+              \vec{a}) \sin\theta + \hat{b} (\hat{b} \cdot
+              \vec{a}) (1 - \cos\theta)\]
             </p>
           </div>
         </div>
         <div class="envContainer derivation">
           <div class="envBody">
             <p>
-              Assume \(\boldsymbol{v}\) is not parallel to
-              \(\hat{u}\). Then let \(\boldsymbol{b} = \hat{u} \times
-              \boldsymbol{v}\) and \(\boldsymbol{a} = \boldsymbol{b}
-              \times \boldsymbol{u}\), so \(\hat{a}, \hat{b}, \hat{u}\)
+              Assume \(\vec{a}\) is not parallel to
+              \(\hat{b}\). Then let \(\vec{b} = \hat{b} \times
+              \vec{a}\) and \(\vec{a} = \vec{b}
+              \times \vec{b}\), so \(\hat{a}, \hat{b}, \hat{b}\)
               is a right-handed orthonormal basis (see PV.CC). Take
-              \(\phi\) to be the angle between \(\boldsymbol{v}\) and
-              \(\hat{u}\). Then we do a rotation by \(\theta\) in
+              \(\phi\) to be the angle between \(\vec{a}\) and
+              \(\hat{b}\). Then we do a rotation by \(\theta\) in
               the \(\hat{a}\)-\(\hat{b}\) plane:
             </p>
             <p>
-              \[\begin{aligned} \boldsymbol{v} &amp;= v \sin\phi
-              \,\hat{a} + v \cos\phi \,\hat{u} \\
-              \operatorname{Rot}_{\theta}(\boldsymbol{v}) &amp;= v
-              \cos\theta \sin\phi \,\hat{a} + v \sin\theta \sin\phi
-              \,\hat{b} + v \cos\phi \,\hat{u}\end{aligned}\]
+              \[\begin{aligned} \vec{a} &amp;= a \sin\phi
+              \,\hat{a} + a \cos\phi \,\hat{b} \\
+              \operatorname{Rot}_{\theta,\hat{b}}(\vec{a}) &amp;= a
+              \cos\theta \sin\phi \,\hat{a} + a \sin\theta \sin\phi
+              \,\hat{b} + a \cos\phi \,\hat{b}\end{aligned}\]
             </p>
             <p>
               Now we want to convert from the
-              \(\hat{a},\hat{b},\hat{u}\) basis to write the rotated
-              result in terms of \(\boldsymbol{v}, (\hat{u} \times
-              \boldsymbol{v}), \hat{u}\). To do this, we need to work
-              out what \(\hat{a},\hat{b},\hat{u}\) are in terms of
+              \(\hat{a},\hat{b},\hat{b}\) basis to write the rotated
+              result in terms of \(\vec{a}, (\hat{b} \times
+              \vec{a}), \hat{b}\). To do this, we need to work
+              out what \(\hat{a},\hat{b},\hat{b}\) are in terms of
               these other vectors.
             </p>
             <p>
-              \[\begin{aligned} \hat{b} &amp;= \frac{\hat{u} \times
-              \boldsymbol{v}}{\|\hat{u} \times \boldsymbol{v}\|} =
-              \frac{\hat{u} \times \boldsymbol{v}}{v \sin\phi} \\
-              \hat{a} &amp;= \frac{\boldsymbol{b} \times
-              \hat{u}}{\|\boldsymbol{b} \times \boldsymbol{u}\|} =
-              \frac{\boldsymbol{b} \times \hat{u}}{v \sin\phi} =
-              \frac{(\hat{u} \times \boldsymbol{v}) \times \hat{u}}{v
-              \sin\phi} = \frac{\hat{u} \times (\boldsymbol{v} \times
-              \hat{u})}{v \sin\phi} = \frac{\boldsymbol{v} - (\hat{u}
-              \cdot \boldsymbol{v}) \hat{u}}{v \sin\phi} = \frac{1}{v
-              \sin\phi} \boldsymbol{v} - \frac{\hat{u} \cdot
-              \boldsymbol{v}}{v \sin\phi} \hat{u}\end{aligned}\]
+              \[\begin{aligned} \hat{b} &amp;= \frac{\hat{b} \times
+              \vec{a}}{\|\hat{b} \times \vec{a}\|} =
+              \frac{\hat{b} \times \vec{a}}{a \sin\phi} \\
+              \hat{a} &amp;= \frac{\vec{b} \times
+              \hat{b}}{\|\vec{b} \times \vec{b}\|} =
+              \frac{\vec{b} \times \hat{b}}{a \sin\phi} =
+              \frac{(\hat{b} \times \vec{a}) \times \hat{b}}{a
+              \sin\phi} = \frac{\hat{b} \times (\vec{a} \times
+              \hat{b})}{a \sin\phi} \\
+              &amp;= \frac{\vec{a} - (\hat{b}
+              \cdot \vec{a}) \hat{b}}{a \sin\phi} = \frac{1}{a
+              \sin\phi} \vec{a} - \frac{\hat{b} \cdot
+              \vec{a}}{a \sin\phi} \hat{b}\end{aligned}\]
             </p>
             <p>
               Substituting these into the rotated vector expression
@@ -299,18 +300,18 @@
             </p>
             <p>
               \[\begin{aligned}
-              \operatorname{Rot}_{\theta}(\boldsymbol{v}) &amp;= v
-              \cos\theta \sin\phi \left( \frac{1}{v \sin\phi}
-              \boldsymbol{v} - \frac{\hat{u} \cdot \boldsymbol{v}}{v
-              \sin\phi} \hat{u} \right) + v \sin\theta \sin\phi \left(
-              \frac{\hat{u} \times \boldsymbol{v}}{v \sin\phi} \right)
-              + v \cos\phi \,\hat{u} \\ &amp;= \cos\theta
-              \boldsymbol{v} - \cos\theta (\hat{u} \cdot
-              \boldsymbol{v}) \,\hat{u} + \sin\theta (\hat{u} \times
-              \boldsymbol{v}) + v\cos\theta \,\hat{u} \\ &amp;=
-              \cos\theta \boldsymbol{v} + (1 - \cos\theta) (\hat{u}
-              \cdot \boldsymbol{v}) \hat{u} + \sin\theta (\hat{u}
-              \times \boldsymbol{v})\end{aligned}\]
+              \operatorname{Rot}_{\theta,\hat{b}}(\vec{a}) &amp;= a
+              \cos\theta \sin\phi \left( \frac{1}{a \sin\phi}
+              \vec{a} - \frac{\hat{b} \cdot \vec{a}}{a
+              \sin\phi} \hat{b} \right) \\ &amp;\qquad+ a \sin\theta \sin\phi \left(
+              \frac{\hat{b} \times \vec{a}}{a \sin\phi} \right)
+              + a \cos\phi \,\hat{b} \\ &amp;= \cos\theta
+              \,\vec{a} - \cos\theta \,(\hat{b} \cdot
+              \vec{a}) \,\hat{b} + \sin\theta \,(\hat{b} \times
+              \vec{a}) + a\cos\theta \,\hat{b} \\ &amp;=
+              \cos\theta \,\vec{a} + (1 - \cos\theta) (\hat{b}
+              \cdot \vec{a}) \,\hat{b} + \sin\theta \,(\hat{b}
+              \times \vec{a})\end{aligned}\]
             </p>
           </div>
         </div>
@@ -321,8 +322,8 @@
           <div class="envBody">
             <p>
               Rotations are not vectors. We could write a rotation
-              about the direction \(\hat{u}\) by angle \(\theta\) as
-              the vector \(\boldsymbol{v} = \theta \hat{u}\). But this
+              about the direction \(\hat{b}\) by angle \(\theta\) as
+              the vector \(\vec{a} = \theta \hat{b}\). But this
               would be dangerous, as adding rotation vectors would not
               correspond to composing the rotations (as rotations do
               not commute). See p. 89 in GCP.

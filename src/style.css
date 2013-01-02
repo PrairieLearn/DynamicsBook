@@ -108,7 +108,7 @@ body {
     padding: 15px 10px;
     margin: 0px;
     font-size: 300%;
-    font-weight: bold;
+    font-family: 'NoticiaTextBold',Arial,Sans-serif;
 }
 
 .login {
@@ -222,7 +222,7 @@ div.footer {
 }
 
 .infoHead {
-    font-weight: bold;
+    font-family: 'NoticiaTextBold',Arial,Sans-serif;
 }
 
 button {
@@ -267,7 +267,7 @@ span.checkbox {
     /* float: right; */ /* causes jumping on animated exapansion of blocks */
     font-size: small;
     padding: 0px 5px 0px 10px;
-    font-weight: normal;
+    font-family: 'NoticiaTextRegular',Arial,Sans-serif;
 }
 
 a.anchor:link {
@@ -322,14 +322,14 @@ a:visited {
     list-style-type: none;
     padding: 0px;
     margin: 0px 0px 0px 0px;
-    font-weight: bold;
+    font-family: 'NoticiaTextBold',Arial,Sans-serif;
 }
 
 .tocColumn ol ol {
     list-style-type: none;
     padding: 0px;
     margin: 0px 0px 10px 20px;
-    font-weight: normal;
+    font-family: 'NoticiaTextRegular',Arial,Sans-serif;
 }
 
 /*****************************************************************************/
@@ -361,11 +361,25 @@ table.schedule th {
 /*****************************************************************************/
 
 p.envHeader {
-    font-weight: bold;
+    font-family: 'NoticiaTextBold',Arial,Sans-serif;
 }
 
 div.envContainer.example {
     background: #e0f0e0;
+    border: 1px solid #ccc;
+    padding: 0px;
+    margin: 10px 0px;
+}
+
+div.envContainer.exampleProblem {
+    background: #e0f0e0;
+    border: 1px solid #ccc;
+    padding: 0px;
+    margin: 10px 0px;
+}
+
+div.envContainer.warning {
+    background: #f0e0e0;
     border: 1px solid #ccc;
     padding: 0px;
     margin: 10px 0px;
@@ -417,7 +431,7 @@ button.envShowHide {
     border-left: 1px solid #eee;
 }
 
-.example button.envShowHide {
+button.envShowHide {
     float: left;
     margin: 0px 5px 0px 0px;
 }
@@ -531,6 +545,30 @@ div.imageBox.width250 .controls button:first-child {
 
 div.references {
     font-size: 90%;
+}
+
+/*****************************************************************************/
+
+table.basic {
+    border-collapse: collapse;
+    border-spacing: 0px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table.basic td {
+    padding: 3px 7px 3px 7px;
+    text-align: center;
+}
+
+table.basic th {
+    padding: 3px 7px 3px 7px;
+    text-align: center;
+}
+
+table.basic th {
+    text-align: center;
+    font-family: 'NoticiaTextBold',Arial,Sans-serif;
 }
 
 /*****************************************************************************/

@@ -1518,8 +1518,9 @@ PrairieDraw.prototype.circleArrowCentered = function(posDw, radDw, centerAngleDw
     @param {number} endAngleDw The ending angle (counterclockwise from x axis, in radians).
     @param {string} type (Optional) The type of the arrow.
     @param {bool} fixedRad (Optional) Whether to use a fixed radius (default: false).
+    @param {number} idealSegmentSize (Optional) The ideal linear segment size to use (radians).
 */
-PrairieDraw.prototype.circleArrow = function(posDw, radDw, startAngleDw, endAngleDw, type, fixedRad) {
+PrairieDraw.prototype.circleArrow = function(posDw, radDw, startAngleDw, endAngleDw, type, fixedRad, idealSegmentSize) {
     this.save();
     this._ctx.lineWidth = this._props.arrowLineWidthPx;
     this._ctx.setLineDash(this._dashPattern(this._props.arrowLinePattern));
@@ -1551,7 +1552,7 @@ PrairieDraw.prototype.circleArrow = function(posDw, radDw, startAngleDw, endAngl
 
     this._ctx.save();
     this._ctx.translate(posPx.e(1), posPx.e(2));
-    var idealSegmentSize = 0.2; // radians
+    var idealSegmentSize = (idealSegmentSize === undefined) ? 0.2 : idealSegmentSize; // radians
     var numSegments = Math.ceil(Math.abs(preEndAnglePx - startAnglePx) / idealSegmentSize);
     var i, anglePx, rPx;
     var offsetPx = this.vector2DAtAngle(startAnglePx).x(startRadiusPx);
@@ -1878,10 +1879,14 @@ PrairieDraw.prototype.labelAngle = function(pos, p1, p2, label) {
 
     @param {Vector} centerDw The center of the circle.
     @param {Vector} radiusDw The radius of the circle.
-    @param {number} startAngle The start angle of the arc (radians).
-    @param {number} endAngle The end angle of the arc (radians).
+    @param {number} startAngle (Optional) The start angle of the arc (radians, default: 0).
+    @param {number} endAngle (Optional) The end angle of the arc (radians, default: 2 pi).
+    @param {bool} filled (Optional) Whether to fill the arc (default: false).
 */
-PrairieDraw.prototype.arc = function(centerDw, radiusDw, startAngle, endAngle) {
+PrairieDraw.prototype.arc = function(centerDw, radiusDw, startAngle, endAngle, filled) {
+    startAngle = (startAngle === undefined) ? 0 : startAngle;
+    endAngle = (endAngle === undefined) ? 2 * Math.PI : endAngle;
+    filled = (filled === undefined) ? false : filled;
     var centerPx = this.pos2Px(centerDw);
     var offsetDw = $V([radiusDw, 0]);
     var offsetPx = this.vec2Px(offsetDw);
@@ -1890,8 +1895,12 @@ PrairieDraw.prototype.arc = function(centerDw, radiusDw, startAngle, endAngle) {
     this._ctx.lineWidth = this._props.shapeStrokeWidthPx;
     this._ctx.setLineDash(this._dashPattern(this._props.shapeStrokePattern));
     this._ctx.strokeStyle = this._props.shapeOutlineColor;
+    this._ctx.fillStyle = this._props.shapeInsideColor;
     this._ctx.beginPath();
     this._ctx.arc(centerPx.e(1), centerPx.e(2), radiusPx, startAngle, endAngle);
+    if (filled) {
+    this._ctx.fill();
+    }
     this._ctx.stroke();
     this._ctx.restore();
 }
@@ -2559,9 +2568,10 @@ PrairieDraw.prototype.labelCircleLine = function(posDw, radDw, startAngleDw, end
 
     var textAnglePx = (1.0 - pos.e(1)) / 2.0 * startAnglePx + (1.0 + pos.e(1)) / 2.0 * endAnglePx;
     var u1Px = this.vector2DAtAngle(textAnglePx);
-    var u2Px = u1Px.rotate(Math.PI / 2, $V([0, 0]));
-    var oPx = u1Px.x(pos.e(2)).add(u2Px.x(pos.e(1)));
-    var oDw = this.vec2Dw(oPx);
+    var u2Px = u1Px.rotate(-Math.PI / 2, $V([0, 0]));
+    var u1Dw = this.vec2Dw(u1Px).toUnitVector();
+    var u2Dw = this.vec2Dw(u2Px).toUnitVector();
+    var oDw = u1Dw.x(pos.e(2)).add(u2Dw.x(pos.e(1)));
     var aDw = oDw.x(-1).toUnitVector();
     var a = aDw.x(1.0 / Math.abs(aDw.max())).x(Math.abs(pos.max()));
 
