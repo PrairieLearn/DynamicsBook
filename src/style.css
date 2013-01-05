@@ -378,6 +378,13 @@ div.envContainer.exampleProblem {
     margin: 10px 0px;
 }
 
+div.envContainer.solution {
+    background: #efffef;
+    border: 1px solid #ccc;
+    padding: 0px;
+    margin: 0px;
+}
+
 div.envContainer.warning {
     background: #f0e0e0;
     border: 1px solid #ccc;
@@ -559,16 +566,26 @@ table.basic {
 table.basic td {
     padding: 3px 7px 3px 7px;
     text-align: center;
+    vertical-align: top;
 }
 
 table.basic th {
     padding: 3px 7px 3px 7px;
     text-align: center;
+    vertical-align: top;
 }
 
 table.basic th {
     text-align: center;
     font-family: 'NoticiaTextBold',Arial,Sans-serif;
+}
+
+table.basic .lineBelow td {
+    border-bottom: 1px solid #666;
+}
+
+table.basic .lineBelow th {
+    border-bottom: 1px solid #666;
 }
 
 /*****************************************************************************/

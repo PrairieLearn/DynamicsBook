@@ -140,9 +140,11 @@ PrairieDraw.prototype._initProps = function() {
 
     this._props.gridColor = "rgb(200, 200, 200)";
     this._props.positionColor = "rgb(0, 0, 255)";
+    this._props.angleColor = "rgb(0, 100, 180)";
     this._props.velocityColor = "rgb(0, 200, 0)";
     this._props.angVelColor = "rgb(100, 180, 0)";
     this._props.accelerationColor = "rgb(255, 0, 255)";
+    this._props.angAccColor = "rgb(100, 0, 180)";
     this._props.angMomColor = "rgb(255, 0, 0)";
     this._props.forceColor = "rgb(210, 105, 30)";
     this._props.momentColor = "rgb(255, 102, 80)";
@@ -314,6 +316,15 @@ PrairieDraw.prototype.cylindricalToRect = function(pC) {
                  pC.e(1) * Math.sin(pC.e(2)),
                  pC.e(3)]);
     return pR;
+};
+
+/** Perpendicular vector in 2D.
+
+    @param {Vector} v A 2D vector.
+    @return {Vector} The counter-clockwise perpendicular vector to v.
+*/
+PrairieDraw.prototype.perp = function(v) {
+    return $V([-v.e(2), v.e(1)]);
 };
 
 /** Orthogonal projection.
@@ -2255,6 +2266,19 @@ PrairieDraw.prototype.rectangle = function(widthDw, heightDw) {
     this.polyLine(pointsDw, closed);
 }
 
+/** Draw a rectangle with the given corners and height.
+
+    @param {Vector} pos1Dw First corner of the rectangle.
+    @param {Vector} pos2Dw Second corner of the rectangle.
+    @param {number} heightDw The height of the rectangle.
+*/
+PrairieDraw.prototype.rectangleGeneric = function(pos1Dw, pos2Dw, heightDw) {
+    var dDw = this.perp(pos2Dw.subtract(pos1Dw)).toUnitVector().x(heightDw);
+    var pointsDw = [pos1Dw, pos2Dw, pos2Dw.add(dDw), pos1Dw.add(dDw)];
+    var closed = true;
+    this.polyLine(pointsDw, closed);
+}
+
 /** Draw a ground element.
 
     @param {Vector} posDw The position of the ground center (drawing coordinates).
@@ -2296,6 +2320,7 @@ PrairieDraw.prototype.ground = function(posDw, normDw, lengthDw) {
     @param {number} offsetDw (Optional) The offset of the shading (drawing coords).
 */
 PrairieDraw.prototype.groundHashed = function(posDw, normDw, lengthDw, offsetDw) {
+    offsetDw = (offsetDw === undefined) ? 0 : offsetDw;
     var tangentDw = normDw.rotate(Math.PI/2, $V([0,0])).toUnitVector().x(lengthDw);
     var offsetVecDw = tangentDw.toUnitVector().x(offsetDw);
     var posPx = this.pos2Px(posDw);
