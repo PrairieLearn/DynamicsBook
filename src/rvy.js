@@ -80,7 +80,9 @@ $(document).ready(function() {
             if (z !== 0 && theta !== 0) {
                 this.arrow(O, pXY);
             }
-            this.labelLine(O, pXY, $V([0, -1]), "TEX:$r$");
+            if (this.getOption("showLabels")) {
+                this.labelLine(O, pXY, $V([0, -1]), "TEX:$r$");
+            }
             if (z !== 0) {
                 this.line(pZ, p);
             }

@@ -1,0 +1,21 @@
+
+/*****************************************************************************/
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+strong {
+    font-family: 'NoticiaTextBold',Arial,Sans-serif;
+}
+
+td {
+    padding-left: 10px;
+}
+
+.leftSpace {
+    padding-left: 50px;
+}
+
+/*****************************************************************************/

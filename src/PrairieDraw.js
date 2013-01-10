@@ -277,6 +277,32 @@ PrairieDraw.prototype.intersectAngleRanges = function(r1, r2) {
     return result;
 };
 
+/** Convert polar to rectangular coordinates.
+
+    @param {Vector} pP Polar coordinates (r, theta).
+    @return {Vector} The position in rectangular coordinates (x, y).
+*/
+PrairieDraw.prototype.sphericalToRect = function(pP) {
+    var pR = $V([pP.e(1) * Math.cos(pP.e(2)),
+                 pP.e(1) * Math.sin(pP.e(2))
+                ]);
+    return pR;
+};
+
+/** Convert rectangular to polar coordintes.
+
+    @param {Vector} pR Rectangular coordinates (x, y).
+    @return {Vector} Polar coordinates (r, theta).
+*/
+PrairieDraw.prototype.rectToPolar = function(pR) {
+    var x = pR.e(1);
+    var y = pR.e(2);
+    var r = Math.sqrt(x*x + y*y);
+    var theta = Math.atan2(y, x);
+    var pP = $V([r, theta]);
+    return pP;
+};
+
 /** Convert spherical to rectangular coordintes.
 
     @param {Vector} pS Spherical coordinates (r, theta, phi).
@@ -361,13 +387,13 @@ PrairieDraw.prototype.chooseNormVec = function(v) {
     var e2 = Math.abs(v.e(2));
     var e3 = Math.abs(v.e(3));
     var n;
-    if (e1 < Math.min(e2, e3)) {
+    if (e1 <= Math.min(e2, e3)) {
         n = Vector.i;
     }
-    if (e2 < Math.min(e3, e1)) {
+    if (e2 <= Math.min(e3, e1)) {
         n = Vector.j;
     }
-    if (e3 < Math.min(e1, e2)) {
+    if (e3 <= Math.min(e1, e2)) {
         n = Vector.k;
     }
     n = this.orthComp(n, v).toUnitVector();
@@ -1908,9 +1934,9 @@ PrairieDraw.prototype.arc = function(centerDw, radiusDw, startAngle, endAngle, f
     this._ctx.strokeStyle = this._props.shapeOutlineColor;
     this._ctx.fillStyle = this._props.shapeInsideColor;
     this._ctx.beginPath();
-    this._ctx.arc(centerPx.e(1), centerPx.e(2), radiusPx, startAngle, endAngle);
+    this._ctx.arc(centerPx.e(1), centerPx.e(2), radiusPx, -endAngle, -startAngle);
     if (filled) {
-    this._ctx.fill();
+        this._ctx.fill();
     }
     this._ctx.stroke();
     this._ctx.restore();
@@ -2479,7 +2505,7 @@ PrairieDraw.prototype.text = function(posDw, anchor, text, boxed) {
     }
     boxed = (boxed === undefined) ? false : boxed;
     var posPx = this.pos2Px(this.pos3To2(posDw));
-    if (text.slice(0,4) == "TEX:") {
+    if (text.slice(0,4) === "TEX:") {
         var tex_text = text.slice(4);
         var hash = Sha1.hash(tex_text);
         this._texts = this._texts || {};
@@ -2552,8 +2578,9 @@ PrairieDraw.prototype.text = function(posDw, anchor, text, boxed) {
     @param {Vector} endDw The end position of the line.
     @param {Vector} pos The position relative to the line (-1 to 1 local coordinates, x along the line, y orthogonal).
     @param {string} text The text to draw.
+    @param {Vector} anchor (Optional) The anchor position on the text.
 */
-PrairieDraw.prototype.labelLine = function(startDw, endDw, pos, text) {
+PrairieDraw.prototype.labelLine = function(startDw, endDw, pos, text, anchor) {
     if (text === undefined) {
         return;
     }
@@ -2566,6 +2593,9 @@ PrairieDraw.prototype.labelLine = function(startDw, endDw, pos, text) {
     var u2Dw = u1Dw.rotate(Math.PI/2, $V([0,0]));
     var oDw = u1Dw.x(pos.e(1)).add(u2Dw.x(pos.e(2)));
     var a = oDw.x(-1).toUnitVector().x(Math.abs(pos.max()));
+    if (anchor !== undefined) {
+        a = anchor;
+    }
     this.text(pDw, a, text);
 }
 
