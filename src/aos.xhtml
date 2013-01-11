@@ -27,6 +27,23 @@
             </script>
   </head>
   <body>
+    <div class="container">
+      <div class="header"><h1>TAM 212: Introductory Dynamics</h1></div>
+      <div class="navbar">
+        <ul>
+          <li><a href="index.xhtml" id="navHome">Home</a></li>
+          <li><a href="info.xhtml" id="navInfo">Info</a>
+          </li><li><a href="people.xhtml" id="navPeople">People</a>
+          </li><li><a href="sched.xhtml" id="navSched">Schedule</a></li>
+          <li><a href="ref.xhtml" id="navRef">Reference</a>
+          </li><li><a href="apps.xhtml" id="navApps">Applications</a></li>
+        </ul>
+      </div>
+      <div class="browserWarning">
+        <strong>Warning:</strong>
+        This website has only been tested on Chrome version 24 and higher. Your browser may not be fully supported.
+      </div>
+      <div class="mainBlock">
     <div class="contentBlock">
       <div id="aos" class="contentCol">
         <h1>Shortest flight paths</h1>
@@ -59,9 +76,8 @@
           minutes, and seconds</a>, with the latitude first, and the
           direction given as North/South or East/West rather than
           positive and negative. Plotting the city locations on a map
-          of the Earth gives the <a href="#aos-fm">figure
-          below</a>. Such a map can give a very misleading idea of the
-          shortest route, however.
+          of the Earth gives the figure below. Such a map can give a
+          very misleading idea of the shortest route, however.
         </p>
         <div class="figureContainer width600" id="aos-fm">
           <canvas id="aos-fm-c" width="600" height="600">
@@ -82,6 +98,7 @@
         <div class="infoBox requirementsBox">
           <ul>
             <li><a href="rvv.xhtml#rvv-sd">Dot product</a></li>
+            <li><a href="rvs.xhtml">Spherical coordinates</a></li>
           </ul>
         </div>
       </div>
@@ -365,6 +382,11 @@
             gravity measurements</a>.
           </p>
         </div>
+      </div>
+    </div>
+    </div>
+      <div class="footer">
+        <p class="copyright">Copyright (C) 2012-2013 Matthew West</p>
       </div>
     </div>
   </body>

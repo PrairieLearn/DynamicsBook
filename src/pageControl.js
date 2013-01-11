@@ -1,12 +1,24 @@
 
 $(document).ready(function() {
     // page structure
+    /*
     $("body").children().wrapAll('<div class="mainBlock"/>');
     $("div.mainBlock").wrap('<div class="container"/>');
     $("div.container").prepend('<div class="navbar"><ul><li><a href="index.xhtml" id="navHome">Home</a></li><li><a href="info.xhtml" id="navInfo">Info</a></li><li><a href="people.xhtml" id="navPeople">People</a></li><li><a href="sched.xhtml" id="navSched">Schedule</a></li><li><a href="ref.xhtml" id="navRef">Reference</a></li><li><a href="apps.xhtml" id="navApps">Applications</a></li></ul></div>');
     //$("div.container").prepend('<div class="header"><div class="login"><p>Log in</p></div><h1>TAM 212: Introductory Dynamics</h1></div>');
     $("div.container").prepend('<div class="header"><h1>TAM 212: Introductory Dynamics</h1></div>');
     $("div.container").append('<div class="footer"><p class="copyright">Copyright (C) 2012-2013 Matthew West</p></div>');
+    */
+
+    // disable the browserWarning on Chrome
+    var browserRE = /Chrome\/([1-9][0-9]*)/;
+    var matchArray = browserRE.exec(navigator.userAgent);
+    if (matchArray) {
+        var version = parseInt(matchArray[1]);
+        if (version >= 24) {
+            $("div.browserWarning").hide();
+        }
+    }
 
     // make sure every contentBlock has an infoCol
     $("div.contentBlock").each(function() {

@@ -161,6 +161,21 @@ body {
 
 /*****************************************************************************/
 
+div.browserWarning {
+    width: 968px;
+    background: #fcc;
+    text-align: left;
+    margin: 10px 0px 10px 0px;
+    padding: 10px 15px 10px 15px;
+    border: 1px solid #f00;
+}
+
+div.browserWarning strong {
+    font-family: 'NoticiaTextBold',Arial,Sans-serif;
+}
+
+/*****************************************************************************/
+
 div.footer {
     border-top: 1px solid #aaa;
     font-size: 70%;
