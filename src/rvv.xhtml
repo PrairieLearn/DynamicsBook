@@ -174,7 +174,7 @@
         </h2>
         <p>
           The length of a vector $\vec{a}$ is written
-          either $\|\vec{a}\|$ or just plain $v$. The
+          either $\|\vec{a}\|$ or just plain $a$. The
           length can be computed using <em>Pythagorus’
           theorem</em>:
         </p>
@@ -468,10 +468,10 @@
           </p>
           <div class="envBody">
             <p>\[
-            \vec{b} \times \vec{a}
-            = (b_2 a_3 - b_3 a_2) \,\hat{\imath}
-            + (b_3 a_1 - b_1 a_3) \,\hat{\jmath}
-            + (b_1 a_2 - b_2 a_1) \,\hat{k}
+            \vec{a} \times \vec{b}
+            = (a_2 b_3 - a_3 b_2) \,\hat{\imath}
+            + (a_3 b_1 - a_1 b_3) \,\hat{\jmath}
+            + (a_1 b_2 - a_2 b_1) \,\hat{k}
             \]
             </p>
           </div>
@@ -509,11 +509,25 @@
             </p>
           </div>
         </div>
+        <div class="envContainer equation" id="rvv-eo">
+          <p class="envHeader">
+            Cross product of basis vectors
+          </p>
+          <div class="envBody">
+            <p>circle of products
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+          <p>This can be derived <a href="rvi.xhtml#rvi.el">from Lagrange's identity</a>.</p>
+          </div>
+        </div>
         <p>
           Alternatively, the cross product can be defined by
           specifying the length and direction of the resulting
-          vector. The direction of $\vec{b} \times \vec{a}$ is
-          orthogonal to both $\vec{b}$ and $\vec{a}$, with the
+          vector. The direction of $\vec{a} \times \vec{b}$ is
+          orthogonal to both $\vec{a}$ and $\vec{b}$, with the
           direction given by the <a href="">right-hand-rule</a>. The
           magnitude of the cross product is given by:
         </p>
@@ -523,13 +537,13 @@
           </p>
           <div class="envBody">
             <p>
-              \[\| \vec{b} \times \vec{a} \| = b a \sin\theta\]
+              \[\| \vec{a} \times \vec{b} \| = a b \sin\theta\]
             </p>
           </div>
         </div>
         <div class="envContainer derivation">
           <div class="envBody">
-          <p>This can be derived <a href="rvi.xhtml#rvi.el">from Lagrange's identity</a>.</p>
+          <p>This can be derived from <a href="rvi.xhtml#rvi-el">Lagrange's identity</a>.</p>
           </div>
         </div>
         <p>
@@ -606,7 +620,6 @@
       <div class="infoCol">
       </div>
     </div>
-    <!--
     <div class="contentBlock">
       <div id="rvv-sb" class="contentCol">
         <h2>
@@ -617,9 +630,9 @@
           to know how the basis vectors are related. We do this by
           writing one set of basis vectors in terms of the other
           basis vectors. If we want to change from
-          $\hat\imath,\hat\jmath$ to $\hat{a},\hat{b}$, then we
+          $\hat\imath,\hat\jmath$ to $\hat{u},\hat{v}$, then we
           need to write $\hat\imath,\hat\jmath$ in terms of
-          $\hat{a},\hat{b}$.
+          $\hat{u},\hat{v}$.
         </p>
         <div class="envContainer example" id="rvv-xn">
           <p class="envHeader">
@@ -629,17 +642,24 @@
             <p>
               For example, if we have $\vec{a} =
               3\,\hat{\imath} + 2\,\hat{\jmath}$ and we want to
-              write this in the $\,\hat{a}, \,\hat{b}$ basis,
+              write this in the $\,\hat{u}, \,\hat{v}$ basis,
               then we need to know $\,\hat{\imath},
-              \,\hat{\jmath}$ in terms of $\,\hat{a},
-              \,\hat{b}$. For example,
+              \,\hat{\jmath}$ in terms of $\,\hat{u},
+              \,\hat{v}$.
             </p>
+            <canvas id="rvv-xn-c" width="300" height="200" class="standaloneImage">
+            </canvas>
             <p>
-              \[\begin{aligned} \,\hat{\imath} &amp;=
-              \frac{1}{\sqrt{2}} \,\hat{a} - \frac{1}{\sqrt{2}}
-              \,\hat{b} \\ \,\hat{\jmath} &amp;= \frac{1}{\sqrt{2}}
-              \,\hat{a} + \frac{1}{\sqrt{2}}
-              \,\hat{b}\end{aligned}\]
+              From above we see that:
+              \[\begin{aligned} \hat{\imath} &amp;=
+              \cos\theta \, \hat{u} - \sin\theta \, \hat{v}
+              = \frac{1}{\sqrt{2}} \,\hat{u} - \frac{1}{\sqrt{2}}
+              \,\hat{v} \\
+              \hat{\jmath} &amp;=
+              \sin\theta \, \hat{u} + \cos\theta \, \hat{v}
+              = \frac{1}{\sqrt{2}}
+              \,\hat{u} + \frac{1}{\sqrt{2}}
+              \,\hat{v}.\end{aligned}\]
             </p>
             <p>
               Then we can substitute and re-arrange:
@@ -647,28 +667,39 @@
             <p>
               \[\begin{aligned} \vec{a} &amp;=
               3\,\hat{\imath} + 2\,\hat{\jmath} \\ &amp;=
-              3\left(\frac{1}{\sqrt{2}} \,\hat{a} -
-              \frac{1}{\sqrt{2}} \,\hat{b}\right) +
-              2\left(\frac{1}{\sqrt{2}} \,\hat{a} +
-              \frac{1}{\sqrt{2}} \,\hat{b}\right) \\ &amp;=
+              3\left(\frac{1}{\sqrt{2}} \,\hat{u} -
+              \frac{1}{\sqrt{2}} \,\hat{v}\right) +
+              2\left(\frac{1}{\sqrt{2}} \,\hat{u} +
+              \frac{1}{\sqrt{2}} \,\hat{v}\right) \\ &amp;=
               \left(\frac{3}{\sqrt{2}} + \frac{2}{\sqrt{2}} \right)
-              \,\hat{a} + \left(-\frac{3}{\sqrt{2}} +
-              \frac{2}{\sqrt{2}} \right) \,\hat{b} \\ &amp;=
-              \frac{5}{\sqrt{2}} \,\hat{a} - \frac{1}{\sqrt{2}}
-              \,\hat{b}\end{aligned}\]
+              \,\hat{u} + \left(-\frac{3}{\sqrt{2}} +
+              \frac{2}{\sqrt{2}} \right) \,\hat{v} \\ &amp;=
+              \frac{5}{\sqrt{2}} \,\hat{u} - \frac{1}{\sqrt{2}}
+              \,\hat{v}.\end{aligned}\]
             </p>
             <p>
-              If we want to convert back the other way then we
-              would need to know $\,\hat{a}, \,\hat{b}$ in terms
-              of $\,\hat{\imath}, \,\hat{\jmath}$. We can find
-              this by solving for $\,\hat{a}, \,\hat{b}$ above.
+              If we want to convert back the other way then we would
+              need to know $\,\hat{u}, \,\hat{v}$ in terms of
+              $\,\hat{\imath}, \,\hat{\jmath}$. We can find this by
+              solving for $\,\hat{u}, \,\hat{v}$ above, giving:
+            </p>
+            <p>
+              From above we see that:
+              \[\begin{aligned} \hat{u} &amp;=
+              \cos\theta \, \hat\imath + \sin\theta \, \hat\jmath
+              = \frac{1}{\sqrt{2}} \,\hat\imath + \frac{1}{\sqrt{2}}
+              \,\hat\jmath \\
+              \hat{v} &amp;=
+              -\sin\theta \, \hat\imath + \cos\theta \, \hat\jmath
+              = -\frac{1}{\sqrt{2}}
+              \,\hat\imath + \frac{1}{\sqrt{2}}
+              \,\hat\jmath.\end{aligned}\]
             </p>
           </div>
         </div>
         <p>
-          <strong>Important:</strong> Vector expressions are true
-          no matter which basis we write the vectors in, even if
-          they are written in different bases.
+          Vector expressions are true no matter which basis we write
+          the vectors in, even if they are written in different bases.
         </p>
         <div class="envContainer example" id="rvv-xa">
           <p class="envHeader">
@@ -676,75 +707,23 @@
           </p>
           <div class="envBody">
             <p>
-              $\vec{c} = \vec{b} + 2
-              \vec{a}$, draw the image. This is true no
-              matter which bases are being used for
-              $\vec{b}$ and $\vec{a}$. For
-              example, even if we use different bases:
-              $\vec{b} = 3\,\hat{\imath} +
-              2\,\hat{\jmath}$ and $\vec{a} = 5\,\hat{a} -
-              \,\hat{b}$, then $\vec{c} = 3\,\hat{\imath}
-              + 2\,\hat{\jmath} + 10\,\hat{a} - 2\,\hat{b}$ is
-              true. Of course, we would normally convert these to a
-              single basis, but we don’t have to.
+              Adding $\vec{a}$ and $\vec{b}$ to get the result
+              $\vec{c}$ is a well-defined operation even before any
+              basis is used, so it cannot depend on the basis
+              chosen. As we see below, we can do the calculation in
+              either the $\hat\imath,\hat\jmath$ or $\hat{u},\hat{v}$
+              basis.
             </p>
-            <canvas id="rvv-xa-c" width="400" height="400"></canvas>
-            <script type="application/javascript">
-              /* <![CDATA[ */
-              rvv_xa_c = new PrairieDrawAnim("rvv-xa-c", function(t) {
-              this.addOption("components",false);
-
-              var back = {start:  0,         end: Math.PI/4, initial: 1, fin: 2};
-              var forth = {start: Math.PI/4, end: Math.PI/2, initial: 2.15, fin: 0.75};
-              var states = [back, forth];
-              var transTimes = [1, 1];
-              var holdTimes = [2, 2];
-              var state = this.sequence(states, transTimes, holdTimes, t);
-	      
-              this.setUnits(4, 4);
-              this.setProp("arrowLineWidthPx",2);
-              
-              this.translate($V([-1,-1]));
-              
-              var O = $V([0,0]);
-              var P = $V([1,2]);
-              var X = this.vector2DAtAngle(state.start).x(state.initial);
-              var Y = this.vector2DAtAngle(state.end+Math.PI/4).x(state.fin);
-	      
-              this.arrow(O, P);
-              this.text($V([1.25, 2.25]), $V([1,1]), "c = b + a");
-              
-              if (this.getOption("components")) {
-              this.arrow(O, X);
-	      this.arrow(O, Y);
-	      
-	      if (t % 6 == 0 || (t % 6 >= 4 && t % 6 < 6)){ //state.index == 0
-	      this.text($V([0.5,-0.2]), $V([1,-1]), "b");
-	      this.text($V([-0.1,1]), $V([0,1]), "a");
-	      }
-	      else if (t % 6 >= 1 && t % 6 < 3){ //state.index == 1
-	      this.text($V([0.85,0.6]), $V([1,-1]), "b");
-	      this.text($V([-0.3,0.3]), $V([0,1]), "a");
-	      }	
-              }
-	      
-              //AXES
-              this.setProp("arrowLineWidthPx",1);
-              this.arrow($V([0,0]), $V([3,0]));
-              this.text($V([3,0.1]), $V([1,0]), "i");
-              this.arrow($V([0,0]), $V([0,3]));
-              this.text($V([0.1,3]), $V([0,1]), "j");
-              
-              this.arrow($V([0,0]), $V([3,3]));
-              this.text($V([2.8,3]), $V([1,1]), "a");
-              this.arrow($V([0,0]), $V([-1,1]));
-              this.text($V([-0.8,1]), $V([-1,1]), "b");
-              });
-              /* ]]> */
-            </script>
+            <canvas id="rvv-xa-c" width="500" height="300" class="standaloneImage">
+            </canvas>
             <p>
-              <button onclick="rvv_xa_c.toggleOption('components');">See Components</button>
-              <button onclick="rvv_xa_c.toggleAnim();">Change Basis</button>
+              Show components:
+              <input type="radio" name="rvv-xa-c-showBasis" value="none" class="data-input:rvv-xa-c:showBasis" />
+              none
+              <input type="radio" name="rvv-xa-c-showBasis" value="ij" class="data-input:rvv-xa-c:showBasis" />
+              $\hat\imath,\hat\jmath$
+              <input type="radio" name="rvv-xa-c-showBasis" value="uv" class="data-input:rvv-xa-c:showBasis" />
+              $\hat{u},\hat{v}$
             </p>
           </div>
         </div>
@@ -753,18 +732,62 @@
             Example: Cross product in different bases.
           </p>
           <div class="envBody">
+            Consider the two vectors shown below and their components
+            in two bases, together with their lengths:
             <p>
-              $\vec{c} = \vec{b} \times
-              \vec{a}$, same as above: $\vec{b} =
-              3\,\hat{\imath} + 2\,\hat{\jmath}$ and
-              $\vec{a} = 5\,\hat{a} - \,\hat{b}$. Then
-              $\vec{c} = 15 \,\hat{\imath} \times \,\hat{a}
-              - 3 \,\hat{\imath} \times \,\hat{b} + 10
-              \,\hat{\jmath} \times \,\hat{a} - 2 \,\hat{\jmath}
-              \times \,\hat{b}$. Work out what these are
-              individually. Take $\,\hat{a}, \,\hat{b}$ rotated
-              by $\pi/4$ from $\,\hat{\imath}, \,\hat{\jmath}$,
-              so we can do the cross products by hand or something?
+              \[\begin{aligned}
+              \vec{a} &amp;= 3\hat\imath + 2\hat\jmath = 3.5\hat{u} - 0.7\hat{v}
+              &amp; a &amp;= \sqrt{3^2 + 2^2} = 3.6 \\
+              \vec{b} &amp;= 3\hat\imath - \hat\jmath = 1.4\hat{u} - 2.8\hat{v}
+              &amp; b &amp;= \sqrt{3^2 + 1^2} = 3.2
+              \end{aligned}\]
+            </p>
+            <canvas id="rvv-xx-c" width="400" height="300" class="standaloneImage">
+            </canvas>
+            <p>
+              Show components:
+              <input type="radio" name="rvv-xx-c-showBasis" value="none" class="data-input:rvv-xx-c:showBasis" />
+              none
+              <input type="radio" name="rvv-xx-c-showBasis" value="ij" class="data-input:rvv-xx-c:showBasis" />
+              $\hat\imath,\hat\jmath$
+              <input type="radio" name="rvv-xx-c-showBasis" value="uv" class="data-input:rvv-xx-c:showBasis" />
+              $\hat{u},\hat{v}$
+            </p>
+            <p>
+              The dot product is $\vec{a} \cdot \vec{b} = 8$, so
+              $\cos\theta = 8 / (ab)$, giving $\theta \approx
+              45^\circ$ and so the cross product is
+
+              \[\begin{aligned}
+              \vec{a} \times \vec{b} &amp;= a b \sin\theta \, \hat{k} \\
+              &amp;= 9 \hat{k}.
+              \end{aligned}\]
+
+              We can compute the same cross product in the
+              $\hat\imath,\hat\jmath$ or $\hat{u},\hat{v}$ bases, or
+              even in a mixture of bases:
+
+              \[\begin{aligned}
+              (3\hat\imath + 2\hat\jmath) \times (3\hat\imath - \hat\jmath)
+              &amp;= -3 \hat\imath \times \hat\jmath + 6 \hat\jmath \times \hat\imath \\
+              &amp;= -3 \hat{k} - 6 \hat{k} \\
+              &amp;= -9 \hat{k} \\
+              (3.5 \hat{u} - 0.7 \hat{v}) \times (1.4 \hat{u} - 2.8 \hat{v})
+              &amp;= - (3.5 \times 2.8) \hat{u} \times \hat{v}
+              - (0.7 \times 1.4) \hat{v} \times \hat{u} \\
+              &amp;= -10 \hat{k} + \hat{k} \\
+              &amp;= -9 \hat{k} \\
+              (3\hat\imath + 2\hat\jmath) \times (1.4\hat{u} - 2.8\hat{v})
+              &amp;= (3 \times 1.4) \hat\imath \times \hat{u}
+              - (3 \times 2.8) \hat\imath \times \hat{v} \\
+              &amp;\quad + (2 \times 1.4) \hat\jmath \times \hat{u}
+              - (2 \times 2.8) \hat\jmath \times \hat{v} \\
+              &amp;= 4.2 \sin 45^\circ \, \hat{k}
+              - 8.5 \sin 135^\circ \, \hat{k} \\
+              &amp;\quad - 2.8 \sin 45^\circ \, \hat{k}
+              - 5.7 \sin 45^\circ \, \hat{k} \\
+              &amp;= - 9 \hat{k}.
+              \end{aligned}\]
             </p>
           </div>
         </div>
@@ -793,11 +816,11 @@
             <p>
               Consider two different orthonormal bases,
               $\hat\imath,\hat\jmath$ and
-              $\hat{b},\hat{a}$, with the relationship
+              $\hat{v},\hat{u}$, with the relationship
             </p>
             <p>
-              \[\begin{aligned} \hat{b} &amp;= b_i \, \hat\imath +
-              b_j \, \hat\jmath \\ \hat{a} &amp;= a_i \, \hat\imath
+              \[\begin{aligned} \hat{v} &amp;= b_i \, \hat\imath +
+              b_j \, \hat\jmath \\ \hat{u} &amp;= a_i \, \hat\imath
               + a_j \, \hat\jmath\end{aligned}\]
             </p>
             <p>
@@ -806,14 +829,14 @@
               <a href="#rvv-xn">#rvv-xn</a>):
             </p>
             <p>
-              \[\begin{aligned} \hat{a} &amp;= a_i \, \hat\imath +
-              a_j \, \hat\jmath \\ &amp;= a_b \, \hat{b} + a_a \,
-              \hat{a} \\ &amp;= a_b (b_i \, \hat\imath + b_j \,
+              \[\begin{aligned} \hat{u} &amp;= a_i \, \hat\imath +
+              a_j \, \hat\jmath \\ &amp;= a_b \, \hat{v} + a_a \,
+              \hat{u} \\ &amp;= a_b (b_i \, \hat\imath + b_j \,
               \hat\jmath) + a_a (a_i \, \hat\imath + a_j \,
               \hat\jmath) \\ &amp;= (a_b b_i + a_a a_i) \,
               \hat\imath + (a_b b_j + a_a a_j) \, \hat\jmath \\
-              \hat{b} &amp;= b_i \, \hat\imath + b_j \, \hat\jmath
-              \\ &amp;= b_b \, \hat{b} + b_a \, \hat{a} \\ &amp;=
+              \hat{v} &amp;= b_i \, \hat\imath + b_j \, \hat\jmath
+              \\ &amp;= b_b \, \hat{v} + b_a \, \hat{u} \\ &amp;=
               b_b (b_i \, \hat\imath + b_j \, \hat\jmath) + b_a
               (a_i \, \hat\imath + a_j \, \hat\jmath) \\ &amp;=
               (b_b b_i + b_a a_i) \, \hat\imath + (b_b b_j + b_a
@@ -838,17 +861,17 @@
               a_i) (b_b b_i + b_a a_i) + (a_b b_j + a_a a_j) (b_b
               b_j + b_a a_j) \\ &amp;= a_b b_b (b_i^2 + b_j^2) +
               a_a b_a (a_i^2 + a_j^2) + (a_b b_a + a_a b_b) (b_i
-              a_i + b_j a_j) \\ &amp;= a_b b_b \| \hat{b} \|^2 +
-              a_a b_a \| \hat{a} \|^2 + (a_b b_a + a_a b_b)
-              (\hat{b} \cdot \hat{a}) \\ &amp;= a_b b_b + a_a
+              a_i + b_j a_j) \\ &amp;= a_b b_b \| \hat{v} \|^2 +
+              a_a b_a \| \hat{u} \|^2 + (a_b b_a + a_a b_b)
+              (\hat{v} \cdot \hat{u}) \\ &amp;= a_b b_b + a_a
               b_a\end{aligned}\]
             </p>
             <p>
               To get the last line we used the fact that
-              $\hat{b}$ and $\hat{a}$ form an orthornormal
+              $\hat{v}$ and $\hat{u}$ form an orthornormal
               basis, so that they each have length 1 (that is,
-              $\|\hat{b}\| = \|\hat{a}\| = 1$) and they are
-              orthogonal (that is, $\hat{b} \cdot \hat{a} = 0$).
+              $\|\hat{v}\| = \|\hat{u}\| = 1$) and they are
+              orthogonal (that is, $\hat{v} \cdot \hat{u} = 0$).
             </p>
             <p>
               This then shows that
@@ -985,7 +1008,6 @@
       </div>
       <div class="infoCol"></div>
     </div>
--->
       </div>
       <div class="footer">
         <p class="copyright">Copyright (C) 2012-2013 Matthew West</p>

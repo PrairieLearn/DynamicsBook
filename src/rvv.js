@@ -338,4 +338,216 @@ $(document).ready(function() {
         this.rightAngle(ap, ac);
     });
 
+    rvv_xn_c = new PrairieDraw("rvv-xn-c", function() {
+        this.setUnits(6, 4);
+
+        var O = $V([0, 0]);
+        var a = $V([3, 2]);
+        var ei = $V([1, 0]);
+        var ej = $V([0, 1]);
+        var eu = $V([1, 1]).toUnitVector();
+        var ev = $V([-1, 1]).toUnitVector();
+
+        var ai = a.dot(ei);
+        var aj = a.dot(ej);
+        var au = a.dot(eu);
+        var av = a.dot(ev);
+
+        this.save();
+        this.translate($V([-0.7, -1.5]));
+        this.arrow(O, a, "red");
+        this.labelLine(O, a, $V([0, -1]), "TEX:$\\vec{a}$");
+        this.arrow(O, ei.x(ai));
+        this.arrow(ei.x(ai), a);
+        this.labelLine(O, ei.x(ai), $V([0, -1]), "TEX:$3 \\hat\\imath$");
+        this.labelLine(ei.x(ai), a, $V([0, -1]), "TEX:$2 \\hat\\jmath$");
+        this.arrow(O, eu.x(au), "blue");
+        this.arrow(eu.x(au), a, "blue");
+        this.labelLine(O, eu.x(au), $V([0, 1.2]), "TEX:?$\\hat{u}$");
+        this.labelLine(eu.x(au), a, $V([0, 1]), "TEX:?$\\hat{v}$");
+        this.restore();
+
+        this.save();
+        this.translate($V([-1.8, 0.5]));
+        this.arrow(O, ei);
+        this.arrow(O, ej);
+        this.labelLine(O, ei, $V([1, -1]), "TEX:$\\hat\\imath$");
+        this.labelLine(O, ej, $V([1, 1]), "TEX:$\\hat\\jmath$");
+        this.arrow(O, eu, "blue");
+        this.arrow(O, ev, "blue");
+        this.labelLine(O, eu, $V([1, -1]), "TEX:$\\hat{u}$");
+        this.labelLine(O, ev, $V([1, 1]), "TEX:$\\hat{v}$");
+        this.text(O, $V([-2, -1]), "TEX:$45^\\circ$");
+        this.restore();
+    });
+
+    rvv_xa_c = new PrairieDraw("rvv-xa-c", function() {
+        this.setUnits(10, 6);
+
+        this.addOption("showBasis", "none");
+
+        var O = $V([0, 0]);
+        var a = $V([3, 2]);
+        var b = $V([3, -1]);
+        var c = a.add(b);
+
+        var ei = $V([1, 0]);
+        var ej = $V([0, 1]);
+        var eu = $V([1, 1]).toUnitVector();
+        var ev = $V([-1, 1]).toUnitVector();
+
+        var ai = a.dot(ei);
+        var aj = a.dot(ej);
+        var au = a.dot(eu);
+        var av = a.dot(ev);
+
+        var bi = b.dot(ei);
+        var bj = b.dot(ej);
+        var bu = b.dot(eu);
+        var bv = b.dot(ev);
+
+        var ci = c.dot(ei);
+        var cj = c.dot(ej);
+        var cu = c.dot(eu);
+        var cv = c.dot(ev);
+
+        // console.log(au, av, bu, bv, cu, cv);
+        // 3.5355339059327373 -0.7071067811865475 1.414213562373095 -2.82842712474619 4.949747468305832 -3.5355339059327373
+
+        this.save();
+        this.translate($V([-2, -0.3]));
+        this.arrow(O, a, "red");
+        this.labelLine(O, a, $V([0, -1]), "TEX:$\\vec{a}$");
+        if (this.getOption("showBasis") === "ij") {
+            this.arrow(O, ej.x(aj));
+            this.arrow(ej.x(aj), a);
+            this.labelLine(O, ej.x(aj), $V([0, 1]), "TEX:$2 \\hat\\jmath$");
+            this.labelLine(ej.x(aj), a, $V([0, 1]), "TEX:$3 \\hat\\imath$");
+        }
+        if (this.getOption("showBasis") === "uv") {
+            this.arrow(O, eu.x(au));
+            this.arrow(eu.x(au), a);
+            this.labelLine(O, eu.x(au), $V([0, 1.2]), "TEX:$3.5 \\hat{u}$");
+            this.labelLine(eu.x(au), a, $V([-1, 1]), "TEX:$-0.7 \\hat{v}$");
+        }
+
+        this.arrow(O, c, "darkgreen");
+        this.labelLine(O, c, $V([0, -1]), "TEX:$\\vec{c}$");
+        if (this.getOption("showBasis") === "ij") {
+            this.arrow(O, ei.x(ci));
+            this.arrow(ei.x(ci), c);
+            this.labelLine(O, ei.x(ci), $V([0, -1]), "TEX:$6 \\hat\\imath$");
+            this.labelLine(ei.x(ci), c, $V([0, -1]), "TEX:$\\hat\\jmath$");
+        }
+        if (this.getOption("showBasis") === "uv") {
+            this.arrow(O, ev.x(cv));
+            this.arrow(ev.x(cv), c);
+            this.labelLine(O, ev.x(cv), $V([0, -1.2]), "TEX:$-3.5 \\hat{v}$");
+            this.labelLine(ev.x(cv), c, $V([0, -1.2]), "TEX:$2.9 \\hat{u}$");
+        }
+
+        this.translate(a);
+        this.arrow(O, b, "blue");
+        this.labelLine(O, b, $V([0, -1]), "TEX:$\\vec{b}$");
+        if (this.getOption("showBasis") === "ij") {
+            this.arrow(O, ei.x(bi));
+            this.arrow(ei.x(bi), b);
+            this.labelLine(O, ei.x(bi), $V([0, 1]), "TEX:$3 \\hat\\imath$");
+            this.labelLine(ei.x(bi), b, $V([0, 1]), "TEX:$- \\hat\\jmath$");
+        }
+        if (this.getOption("showBasis") === "uv") {
+            this.arrow(O, eu.x(bu));
+            this.arrow(eu.x(bu), b);
+            this.labelLine(O, eu.x(bu), $V([0.5, 1.5]), "TEX:1.4 $\\hat{u}$");
+            this.labelLine(eu.x(bu), b, $V([0, 1.2]), "TEX:-2.8 $\\hat{v}$");
+        }
+        this.restore();
+
+        this.save();
+        this.translate($V([-3.5, -2]));
+        this.arrow(O, ei);
+        this.arrow(O, ej);
+        this.labelLine(O, ei, $V([1, -1]), "TEX:$\\hat\\imath$");
+        this.labelLine(O, ej, $V([1, 1]), "TEX:$\\hat\\jmath$");
+        this.arrow(O, eu);
+        this.arrow(O, ev);
+        this.labelLine(O, eu, $V([1, -1]), "TEX:$\\hat{u}$");
+        this.labelLine(O, ev, $V([1, 1]), "TEX:$\\hat{v}$");
+        this.text(O, $V([-2, -1]), "TEX:$45^\\circ$");
+        this.restore();
+    });
+
+    rvv_xx_c = new PrairieDraw("rvv-xx-c", function() {
+        this.setUnits(8, 6);
+
+        this.addOption("showBasis", "none");
+
+        var O = $V([0, 0]);
+        var a = $V([3, 2]);
+        var b = $V([3, -1]);
+
+        var ei = $V([1, 0]);
+        var ej = $V([0, 1]);
+        var eu = $V([1, 1]).toUnitVector();
+        var ev = $V([-1, 1]).toUnitVector();
+
+        var ai = a.dot(ei);
+        var aj = a.dot(ej);
+        var au = a.dot(eu);
+        var av = a.dot(ev);
+
+        var bi = b.dot(ei);
+        var bj = b.dot(ej);
+        var bu = b.dot(eu);
+        var bv = b.dot(ev);
+
+        this.save();
+        this.translate($V([0, -0.3]));
+        this.arrow(O, a, "red");
+        this.labelLine(O, a, $V([0, 1]), "TEX:$\\vec{a}$");
+        if (this.getOption("showBasis") === "ij") {
+            this.arrow(O, ej.x(aj));
+            this.arrow(ej.x(aj), a);
+            this.labelLine(O, ej.x(aj), $V([0, 1]), "TEX:$2 \\hat\\jmath$");
+            this.labelLine(ej.x(aj), a, $V([0, 1]), "TEX:$3 \\hat\\imath$");
+        }
+        if (this.getOption("showBasis") === "uv") {
+            this.arrow(O, eu.x(au));
+            this.arrow(eu.x(au), a);
+            this.labelLine(O, eu.x(au), $V([0, 1.2]), "TEX:$3.5 \\hat{u}$");
+            this.labelLine(eu.x(au), a, $V([0, 1]), "TEX:$-0.7 \\hat{v}$");
+        }
+
+        this.arrow(O, b, "blue");
+        this.labelLine(O, b, $V([0, 1]), "TEX:$\\vec{b}$");
+        if (this.getOption("showBasis") === "ij") {
+            this.arrow(O, ej.x(bj));
+            this.arrow(ej.x(bj), b);
+            this.labelLine(O, ej.x(bj), $V([0, -1]), "TEX:$- \\hat\\jmath$");
+            this.labelLine(ej.x(bj), b, $V([0, -1]), "TEX:$3 \\hat\\imath$");
+        }
+        if (this.getOption("showBasis") === "uv") {
+            this.arrow(O, ev.x(bv));
+            this.arrow(ev.x(bv), b);
+            this.labelLine(O, ev.x(bv), $V([0, -1.2]), "TEX:1.4 $\\hat{u}$");
+            this.labelLine(ev.x(bv), b, $V([0, -1.2]), "TEX:-2.8 $\\hat{v}$");
+        }
+
+        this.text(O, $V([-3, -0.5]), "TEX:$\\theta$");
+        this.restore();
+
+        this.save();
+        this.translate($V([-2.5, -1]));
+        this.arrow(O, ei);
+        this.arrow(O, ej);
+        this.labelLine(O, ei, $V([1, -1]), "TEX:$\\hat\\imath$");
+        this.labelLine(O, ej, $V([1, 1]), "TEX:$\\hat\\jmath$");
+        this.arrow(O, eu);
+        this.arrow(O, ev);
+        this.labelLine(O, eu, $V([1, -1]), "TEX:$\\hat{u}$");
+        this.labelLine(O, ev, $V([1, 1]), "TEX:$\\hat{v}$");
+        this.text(O, $V([-2, -1]), "TEX:$45^\\circ$");
+        this.restore();
+    });
+
 }); // end of document.ready()
