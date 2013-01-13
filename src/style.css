@@ -418,6 +418,13 @@ div.envContainer.equation {
     margin: 2px 0px;
 }
 
+.equationImage {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border: 0px;
+}
+
 p.envHeader {
     padding: 0px;
     margin: 0px;
@@ -490,6 +497,13 @@ button.envShowHide {
 
 div.figureContainer.width600 {
     width: 602px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div.figureContainer.width500 {
+    width: 502px;
     display: block;
     margin-left: auto;
     margin-right: auto;

@@ -106,7 +106,7 @@
     <div class="contentBlock">
       <div id="rvv-sv" class="contentCol">
         <h2>
-          Vector basis
+          Vector bases
         </h2>
         <p>
           To describe vectors mathematically, we write them as a
@@ -144,6 +144,23 @@
             scale factors are the components of the vector. Here
             $\vec{a} = 3\hat\imath + 2\hat\jmath$, so the components
             of $\vec{a}$ are $a_1 = 3$ and $a_2 = 2$.
+          </p>
+        </div>
+        <p>
+          We draw the symbol $\odot$ (arrow tip) to indicate a vector
+          coming out of the page, and $\otimes$ (arrow <a
+          href="http://en.wikipedia.org/wiki/Fletching">fletching</a>)
+          to indicate an arrow going into the page.
+        </p>
+        <div class="figureContainer width600" id="rvv-f3">
+          <canvas id="rvv-f3-c" width="300" height="200" class="figureImage">
+          </canvas>
+          <p class="figureCaption">
+            Two standard arrangements of the basis vectors when
+            working in 2D. Either $\hat\jmath$ is the vertical and
+            $\hat{k}$ is out of the page, or $\hat{k}$ is the vertical
+            and $\hat\jmath$ is into the page. In both cases
+            $\hat\imath$ is horizontal.
           </p>
         </div>
       </div>
@@ -235,8 +252,10 @@
         <div class="infoBox factBox">
           <p>
             Sets of three integers $a,b,c$ where $a^2 + b^2 = c^2$ are
-            called <em>Pythagorean triples</em>. A long list of such
-            triples is given on the <a
+            called <a
+            href="http://en.wikipedia.org/wiki/Pythagorean_triples"><em>Pythagorean
+            triples</em></a>. A long list of such triples is given on
+            the <a
             href="http://en.wikipedia.org/wiki/Plimpton_322">Plimpton
             322</a> clay tablet written by the ancient Babylonians
             around 1800 BCE, although it is unclear how they generated
@@ -464,7 +483,7 @@
         </p>
         <div class="envContainer equation" id="rvv-ex">
           <p class="envHeader">
-            Cross product in components
+            Cross product in components.
           </p>
           <div class="envBody">
             <p>\[
@@ -476,9 +495,62 @@
             </p>
           </div>
         </div>
+        <p>
+          It is sometimes more convenient to work with cross products
+          of individual basis vectors, which are related as follows.
+        </p>
+        <div class="envContainer equation" id="rvv-eo">
+          <p class="envHeader">
+            Cross products of basis vectors.
+          </p>
+          <div class="envBody">
+            <canvas id="rvv-eo-c" width="500" height="200" class="equationImage">
+            </canvas>
+            <p>
+              \[\begin{aligned}
+              \hat\imath \times \hat\jmath &amp;= \hat{k}
+              &amp; \hat\jmath \times \hat{k} &amp;= \hat\imath
+              &amp; \hat{k} \times \hat\imath &amp;= \hat\jmath \\
+              \hat\jmath \times \hat\imath &amp;= -\hat{k}
+              &amp; \hat{k} \times \hat\jmath &amp;= -\hat\imath
+              &amp; \hat\imath \times \hat{k} &amp;= -\hat\jmath \\
+              \end{aligned}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+          <p>
+            Writing the basis vectors in terms of themselves gives the
+            components:
+
+            \[\begin{aligned}
+            i_1 &amp;= 1 &amp; i_2 &amp;= 0 &amp; i_3 &amp;= 0 \\
+            j_1 &amp;= 0 &amp; j_2 &amp;= 1 &amp; j_3 &amp;= 0 \\
+            k_1 &amp;= 0 &amp; k_2 &amp;= 0 &amp; k_3 &amp;= 1.
+            \end{aligned}\]
+
+            These values can now be substituted into the definition <a
+            href="#rvv-ex">#rvv-ex</a>. For example,
+
+            \[\begin{aligned}
+            \hat\imath \times \hat\jmath
+            &amp;= (i_2 j_3 - i_3 j_2) \,\hat{\imath}
+            + (i_3 j_1 - i_1 j_3) \,\hat{\jmath}
+            + (i_1 j_2 - i_2 j_1) \,\hat{k} \\
+            &amp;= (0 \times 0 - 0 \times 1) \,\hat{\imath}
+            + (0 \times 0 - 1 \times 0) \,\hat{\jmath}
+            + (1 \times 1 - 0 \times 0) \,\hat{k} \\
+            &amp;= \hat{k}
+            \end{aligned}\]
+
+            The other combinations can be computed similarly.
+          </p>
+          </div>
+        </div>
         <div class="envContainer warning" id="rvv-wc">
           <p class="envHeader">
-            Warning: Cross product is not associative
+            Warning: The cross product is not associative.
           </p>
           <div class="envBody">
             <p>
@@ -509,31 +581,17 @@
             </p>
           </div>
         </div>
-        <div class="envContainer equation" id="rvv-eo">
-          <p class="envHeader">
-            Cross product of basis vectors
-          </p>
-          <div class="envBody">
-            <p>circle of products
-            </p>
-          </div>
-        </div>
-        <div class="envContainer derivation">
-          <div class="envBody">
-          <p>This can be derived <a href="rvi.xhtml#rvi.el">from Lagrange's identity</a>.</p>
-          </div>
-        </div>
         <p>
-          Alternatively, the cross product can be defined by
-          specifying the length and direction of the resulting
-          vector. The direction of $\vec{a} \times \vec{b}$ is
-          orthogonal to both $\vec{a}$ and $\vec{b}$, with the
-          direction given by the <a href="">right-hand-rule</a>. The
-          magnitude of the cross product is given by:
+          Rather than using components, the cross product can be
+          defined by specifying the length and direction of the
+          resulting vector. The direction of $\vec{a} \times \vec{b}$
+          is orthogonal to both $\vec{a}$ and $\vec{b}$, with the
+          direction given by the right-hand rule. The magnitude of the
+          cross product is given by:
         </p>
         <div class="envContainer equation" id="rvv-el">
           <p class="envHeader">
-            Cross product length
+            Cross product length.
           </p>
           <div class="envBody">
             <p>
@@ -543,7 +601,21 @@
         </div>
         <div class="envContainer derivation">
           <div class="envBody">
-          <p>This can be derived from <a href="rvi.xhtml#rvi-el">Lagrange's identity</a>.</p>
+          <p>
+            Using <a href="rvi.xhtml#rvi-el">Lagrange's identity</a> we can calculate:
+
+            \[\begin{aligned}
+            \| \vec{a} \times \vec{b} \|^2
+            &amp;= \|\vec{a}\|^2 \|\vec{b}\|^2
+            - (\vec{a} \cdot \vec{b})^2 \\
+            &amp;= a^2 b^2 - (a b \cos\theta)^2 \\
+            &amp;= a^2 b^2 (1 - \cos^2\theta) \\
+            &amp;= a^2 b^2 \sin^2\theta.
+            \end{aligned}\]
+
+            Taking the square root of this expression gives the
+            desired cross-product length formula.
+          </p>
           </div>
         </div>
         <p>
@@ -587,7 +659,7 @@
         <div class="envContainer equation" id="rvv-em">
           <p class="envHeader">
             Orthogonal complement of $\vec{a}$ with respect to
-            $\vec{a}$.
+            $\vec{b}$.
           </p>
           <div class="envBody">
             <p>
@@ -632,7 +704,7 @@
           basis vectors. If we want to change from
           $\hat\imath,\hat\jmath$ to $\hat{u},\hat{v}$, then we
           need to write $\hat\imath,\hat\jmath$ in terms of
-          $\hat{u},\hat{v}$.
+          $\hat{u},\hat{v}$ and then substitute the expressions.
         </p>
         <div class="envContainer example" id="rvv-xn">
           <p class="envHeader">
@@ -682,9 +754,7 @@
               need to know $\,\hat{u}, \,\hat{v}$ in terms of
               $\,\hat{\imath}, \,\hat{\jmath}$. We can find this by
               solving for $\,\hat{u}, \,\hat{v}$ above, giving:
-            </p>
-            <p>
-              From above we see that:
+
               \[\begin{aligned} \hat{u} &amp;=
               \cos\theta \, \hat\imath + \sin\theta \, \hat\jmath
               = \frac{1}{\sqrt{2}} \,\hat\imath + \frac{1}{\sqrt{2}}
@@ -694,6 +764,116 @@
               = -\frac{1}{\sqrt{2}}
               \,\hat\imath + \frac{1}{\sqrt{2}}
               \,\hat\jmath.\end{aligned}\]
+            </p>
+          </div>
+        </div>
+        <p>
+          We can also write the general expressions for basis change,
+          as below.
+        </p>
+        <div class="envContainer equation" id="rvv-eg">
+          <p class="envHeader">
+            Change of basis formulas.
+          </p>
+          <div class="envBody">
+            <p>
+              \[\begin{aligned}
+              a_i &amp;= u_i a_u + v_i a_v + w_i a_w
+              &amp; a_u &amp;= i_u a_i + i_u a_j + i_u a_k \\
+              a_j &amp;= u_j a_u + v_j a_v + w_j a_w
+              &amp; a_v &amp;= i_v a_i + i_v a_j + i_v a_k \\
+              a_k &amp;= u_k a_u + v_k a_v + w_k a_w
+              &amp; a_w &amp;= i_w a_i + i_w a_j + i_w a_k
+              \end{aligned}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
+              We will derive the second set of equations (the first
+              set are derived similarly). The vector $\vec{a}$ can be
+              written in both the $\hat\imath,\hat\jmath,\hat{k}$ and
+              $\hat{u},\hat{v},\hat{w}$ bases:
+
+              \[\begin{aligned}
+              \vec{a} &amp;= a_i \hat\imath + a_j \hat\jmath + a_k \hat{k}
+              &amp; \vec{a} &amp;= a_u \hat{u} + a_v \hat{v} + a_w \hat{w}.
+              \end{aligned}\]
+            </p>
+            <p>
+              We can write each $\hat{u},\hat{v},\hat{w}$ basis vector
+              in terms of the $\hat\imath,\hat\jmath,\hat{k}$ basis:
+
+              \[\begin{aligned}
+              \hat{u} &amp;= u_i \hat\imath + u_j \hat\jmath + u_k \hat{k} \\
+              \hat{v} &amp;= v_i \hat\imath + v_j \hat\jmath + v_k \hat{k} \\
+              \hat{w} &amp;= w_i \hat\imath + w_j \hat\jmath + w_k \hat{k}.
+              \end{aligned}\]
+
+              Substituting these expressions into $\vec{a}$ gives:
+              \[\begin{aligned}
+              \vec{a} &amp;= a_u \hat{u} + a_v \hat{v} + a_w \hat{w} \\
+              &amp;= a_u (u_i \hat\imath + u_j \hat\jmath + u_k \hat{k})
+              + a_v (v_i \hat\imath + v_j \hat\jmath + v_k \hat{k})
+              + a_w (w_i \hat\imath + w_j \hat\jmath + w_k \hat{k}) \\
+              &amp;= (a_u u_i + a_v v_i + a_w w_i) \hat\imath
+              + (a_u u_j + a_v v_j + a_w w_j) \hat\jmath
+              + (a_u u_k + a_v v_k + a_w w_k) \hat{k} \\
+              &amp;= a_i \hat\imath + a_j \hat\jmath + a_k \hat{k}.
+              \end{aligned}\]
+
+              Comparing the last two lines gives the component formulas.
+            </p>
+          </div>
+        </div>
+        <p>
+          In 2D the change between two orthonormal bases is a rotation
+          by an angle $\theta$, resulting in the change of basis
+          expression below.
+        </p>
+        <div class="envContainer equation" id="rvv-e2">
+          <p class="envHeader">
+            Change of basis formula in 2D.
+          </p>
+          <div class="envBody">
+            <canvas id="rvv-e2-c" width="200" height="200" class="equationImage">
+            </canvas>
+            <p>
+              \[\begin{aligned}
+              a_i &amp;= \cos\theta \, a_u - \sin\theta \, a_v
+              &amp; a_u &amp;= \cos\theta \, a_i + \sin\theta \, a_j \\
+              a_j &amp;= \sin\theta \, a_u + \cos\theta \, a_v
+              &amp; a_v &amp;= \cos\theta \, a_i - \sin\theta \, a_j
+              \end{aligned}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
+              Elementary geometry gives the relationships between the
+              basis vectors:
+
+              \[\begin{aligned}
+              \hat\imath &amp;= \cos\theta \, \hat{u} - \sin\theta \, \hat{v}
+              &amp; \hat{u} &amp;= \cos\theta \, \hat\imath + \sin\theta \, \hat\jmath \\
+              \hat\jmath &amp;= \sin\theta \, \hat{u} + \cos\theta \, \hat{v}
+              &amp; \hat{v} &amp;= -\sin\theta \, \hat\imath + \cos\theta \, \hat\jmath.
+              \end{aligned}\]
+
+              Thus we have the components:
+
+              \[\begin{aligned}
+              i_u &amp;= \cos\theta &amp; i_v &amp;= -\sin\theta
+              &amp; u_i &amp;= \cos\theta &amp; u_j &amp;= \sin\theta \\
+              j_u &amp;= \cos\theta &amp; j_v &amp;= \sin\theta
+              &amp; v_i &amp;= \cos\theta &amp; v_j &amp;= -\sin\theta.
+              \end{aligned}\]
+
+              Substituting these into <a href="#rvv-eg">#rvv-eg</a>
+              and ignoring the third components gives the desired
+              expressions.
             </p>
           </div>
         </div>
@@ -724,6 +904,23 @@
               $\hat\imath,\hat\jmath$
               <input type="radio" name="rvv-xa-c-showBasis" value="uv" class="data-input:rvv-xa-c:showBasis" />
               $\hat{u},\hat{v}$
+              <input type="radio" name="rvv-xa-c-showBasis" value="mixed" class="data-input:rvv-xa-c:showBasis" />
+              mixed
+            </p>
+            <p>
+              \[\begin{aligned}
+              \vec{c} &amp;= \vec{a} + \vec{b} \\
+              &amp;= (3\hat\imath + 2\hat\jmath) + (3\hat\imath - \hat\jmath) \\
+              &amp;= 6\hat\imath + \hat\jmath \\
+              \vec{c} &amp;= \vec{a} + \vec{b} \\
+              &amp;= (3.5\hat{u} - 0.7\hat{v}) + (1.4\hat{u} - 2.8\hat{v}) \\
+              &amp;= 2.9\hat{u} - 3.5\hat{v} \\
+              \vec{c} &amp;= \vec{a} + \vec{b} \\
+              &amp;= (3\hat\imath + 2\hat\jmath) + (1.4\hat{u} - 2.8\hat{v}) \\
+              &amp;= 3\hat\imath - 2.8\hat{v} + 2\hat\jmath + 1.4\hat{u}.
+              \end{aligned}\]
+
+              The component order in the mixed expression is arbitrary.
             </p>
           </div>
         </div>
@@ -831,59 +1028,18 @@
               the algebra short, we will only do this in 2D.
             </p>
             <p>
-              Consider two different orthonormal bases,
-              $\hat\imath,\hat\jmath$ and
-              $\hat{u},\hat{v}$, with the relationship
-            </p>
-            <p>
-              \[\begin{aligned}
-              \hat{u} &amp;= u_i \, \hat\imath + u_j \, \hat\jmath \\
-              \hat{v} &amp;= v_i \, \hat\imath + v_j \, \hat\jmath.
-              \end{aligned}\]
-            </p>
-            <p>
-              Now we can write $\vec{a}$ and
-              $\vec{b}$ in terms of either basis (see
-              <a href="#rvv-xn">#rvv-xn</a>):
-            </p>
-            <p>
-              \[\begin{aligned}
-              \hat{a} &amp;= a_i \, \hat\imath + a_j \, \hat\jmath \\
-              &amp;= a_u \, \hat{u} + a_v \, \hat{v} \\
-              &amp;= a_u (u_i \, \hat\imath + u_j \, \hat\jmath)
-              + a_v (v_i \, \hat\imath + v_j \, \hat\jmath) \\
-              &amp;= (a_u u_i + a_v v_i) \, \hat\imath
-              + (a_u u_j + a_v v_j) \, \hat\jmath \\
-              \hat{b} &amp;= b_i \, \hat\imath + b_j \, \hat\jmath \\
-              &amp;= b_u \, \hat{u} + b_v \, \hat{v} \\
-              &amp;= b_u (u_i \, \hat\imath + u_j \, \hat\jmath)
-              + b_v (v_i \, \hat\imath + v_j \, \hat\jmath) \\
-              &amp;= (b_u u_i + b_v v_i) \, \hat\imath
-              + (b_u u_j + b_v v_j) \, \hat\jmath.
-              \end{aligned}\]
-            </p>
-            <p>
-              From this we can identify the basis change relations:
-            </p>
-            <p>
-              \[\begin{aligned}
-              a_i &amp;= a_u u_i + a_v v_i \\
-              a_j &amp;= a_u u_j + a_v v_j \\
-              b_i &amp;= b_u u_i + b_v v_i \\
-              b_j &amp;= b_u u_j + b_v v_j.
-              \end{aligned}\]
-            </p>
-            <p>
-              If we compute the dot product using <a
+              We compute the dot product using <a
               href="#rvv-es">#rvv-es</a> in the
-              $\hat\imath,\hat\jmath$ basis then we have:
+              $\hat\imath,\hat\jmath$ basis and substitute in the
+              change-of-basis expressions <a
+              href="#rvv-eg">#rvv-eg</a>, giving:
             </p>
             <p>
               \[\begin{aligned} \vec{a} \cdot \vec{b}
               &amp;= a_i b_i + a_j b_j \\
-              &amp;= (a_u u_i + a_v v_i) (b_u u_i + b_v v_i) + (a_u u_j + a_v v_j) (b_u u_j + b_v v_j) \\
-              &amp;= a_u b_u (u_i^2 + u_j^2) + a_v b_v (v_i^2 + v_j^2) + (a_u b_v + a_v b_u) (u_i v_i + u_j b_j) \\
-              &amp;= a_u b_u \| \hat{u} \|^2 + a_v b_v \| \hat{v} \|^2 + (a_u b_v + a_v b_u) (\hat{u} \cdot \hat{v}) \\
+              &amp;= (u_i a_u + v_i a_v ) (u_i b_u + v_i b_v) + (u_j a_u + v_j a_v) (u_j b_u + v_j b_v) \\
+              &amp;= (u_i^2 + u_j^2) a_u b_u + (v_i^2 + v_j^2) a_v b_v + (u_i v_i + u_j b_j) (a_u b_v + a_v b_u) \\
+              &amp;= \| \hat{u} \|^2 a_u b_u + \| \hat{v} \|^2 a_v b_v + (\hat{u} \cdot \hat{v}) (a_u b_v + a_v b_u) \\
               &amp;= a_u b_u + a_v b_v.
               \end{aligned}\]
             </p>
@@ -918,114 +1074,29 @@
           Time-dependent vectors and bases
         </h2>
         <p>
-          We can have dynamic vectors which change over time, so
-          their components also change. Alternatively, we can have
-          a fixed vector but dynamic basis.
+          We can have dynamic vectors which change over time, so their
+          components also change. Alternatively, we can have a fixed
+          vector but dynamic basis. Because we are using orthonormal
+          bases, the only type of basis change that can occur is
+          rigid rotational motion of the basis.
         </p>
-        <div class="envContainer example" id="rvv-xv">
-          <p class="envHeader">
-            Example: Changing vector, fixed basis.
+        <div class="figureContainer width500" id="rvv-fi">
+          <canvas id="rvv-fi-c" width="500" height="250" class="figureImage">
+          </canvas>
+          <p class="controls">
+            <button class="anim-toggle:rvv-fi-c">animate</button>
+            <button class="reset:rvv-fi-c">reset</button>
+            Movement:
+            <input type="radio" name="rvv-fi-c-movementType" value="vector" class="data-input:rvv-fi-c:movementType" />
+            vector
+            <input type="radio" name="rvv-fi-c-movementType" value="basis" class="data-input:rvv-fi-c:movementType" />
+            basis
           </p>
-          <div class="envBody">
-            <p>
-              Show a lengthening and rotating vector and how its
-              components change over time in a fixed basis.
-            </p>
-            <canvas id="rvv-xv-c" width="400" height="400"></canvas>
-            <script type="application/javascript">
-              /* <![CDATA[ */
-              rvv_xv_c = new PrairieDrawAnim("rvv-xv-c", function(t) {
-              this.addOption("components",false);
-              this.addOption("rotate", false);
-	      
-              this.setUnits(6, 6);
-              this.setProp("arrowLineWidthPx",2);
-	      
-              var O = $V([0, 0]);
-              var P = $V([2.5 * Math.cos(t+Math.PI/4), 2.5 * Math.sin(t+Math.PI/4)]);
-	      
-              if(this.getOption("components")){
-	      this.arrow(O, $V([P.e(1), 0]));
-	      this.text($V([P.e(1)/2, -0.5]), $V([-1,-1]), "b");
-	      this.arrow(O, $V([0, P.e(2)]));
-	      this.text($V([-0.5, P.e(2)/2]), $V([-1,1]), "a");
-              }
-	      
-              this.arrow(O, P);
-              this.text($V([P.e(1)+0.5, P.e(2)+0.5]), $V([1,1]), "c = b + a");
-	      
-              this.setProp("arrowLineWidthPx", 1);
-              this.arrow($V([-3,0]), $V([3,0]));
-              this.text($V([3,0.2]), $V([1,0]), "i");
-              this.arrow($V([0,-3]), $V([0,3]));
-              this.text($V([0.15,3]), $V([0,1]), "j");
-              });
-              /* ]]> */
-            </script>
-            <p>
-              <button onclick="rvv_xv_c.toggleOption('components');">See Components</button>
-              <button onclick="rvv_xv_c.toggleAnim();">Rotate Vector</button>
-            </p>
-          </div>
-        </div>
-        <div class="envContainer example" id="rvv-xb">
-          <p class="envHeader">
-            Example: Fixed vector, changing basis.
+          <p class="figureCaption">
+            A time-varying vector or basis. Whether the vector or the
+            basis changes with time, in either case the components are
+            also changing with time.
           </p>
-          <div class="envBody">
-            <p>
-              Show a fixed vector, but a rotating basis, and how
-              the components change over time.
-            </p>
-            <canvas id="rvv-xb-c" width="400" height="400"></canvas>
-            <script type="application/javascript">
-              /* <![CDATA[ */
-              rvv_xb_c = new PrairieDrawAnim("rvv-xb-c", function(t) {
-              this.addOption("components",false);
-
-              this.setUnits(4, 4);
-              this.setProp("arrowLineWidthPx",2);
-
-              var ellipse = function(t, axis){
-              if(axis=="x")
-	      t = t-Math.PI/2;
-              else if(axis=="y")
-	      t = t+Math.PI/2;
-              
-              x = Math.sqrt(2)/2 + 1*Math.cos(t)*Math.cos(Math.PI/4) - 1*Math.sin(t)*Math.sin(Math.PI/4);
-              y = Math.sqrt(2)/2 + 1*Math.cos(t)*Math.sin(Math.PI/4) + 1*Math.sin(t)*Math.cos(Math.PI/4);
-              return $V([x,y]);
-              }
-              
-              var x_axis = $V([Math.cos(t/2), Math.sin(t/2)]).x(4);
-              var y_axis = $V([Math.cos(t/2+Math.PI/2), Math.sin(t/2+Math.PI/2)]).x(4);
-              var O = $V([0, 0]);
-              var P = $V([Math.sqrt(2), Math.sqrt(2)]);
-              
-              if(this.getOption("components")){
-	      this.arrow(O, ellipse(t, "x"));
-	      this.text($V([ellipse(t, "x").e(1)/2, ellipse(t, "x").e(2)/2 - 0.2]), $V([1,0]), "b");
-	      this.arrow(O, ellipse(t, "y"));
-	      this.text($V([ellipse(t, "y").e(1)/2 - 0.2, ellipse(t, "y").e(2)/2]), $V([0,1]), "a");
-              }
-              
-              this.arrow(O, P);
-              this.text($V([P.e(1)+0.5, P.e(2)+0.5]), $V([1,1]), "c = b + a");
-              
-              //AXES
-              this.setProp("arrowLineWidthPx",1);
-              this.arrow(O, x_axis);
-              this.text($V([x_axis.e(1)/2.55, x_axis.e(2)/2.55]), $V([-1,-1]), "i");
-              this.arrow(O, y_axis);
-              this.text($V([y_axis.e(1)/2.55 - 0.2, y_axis.e(2)/2.55]), $V([0,-1]), "j");
-              });
-              /* ]]> */
-            </script>
-            <p>
-              <button onclick="rvv_xb_c.toggleOption('components');">See Components</button>
-              <button onclick="rvv_xb_c.toggleAnim();">Change Basis</button>
-            </p>
-          </div>
         </div>
       </div>
       <div class="infoCol"></div>
