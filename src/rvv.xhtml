@@ -729,66 +729,83 @@
         </div>
         <div class="envContainer example" id="rvv-xx">
           <p class="envHeader">
-            Example: Cross product in different bases.
+            Example Problem: Cross product in different bases.
           </p>
           <div class="envBody">
-            Consider the two vectors shown below and their components
-            in two bases, together with their lengths:
-            <p>
-              \[\begin{aligned}
-              \vec{a} &amp;= 3\hat\imath + 2\hat\jmath = 3.5\hat{u} - 0.7\hat{v}
-              &amp; a &amp;= \sqrt{3^2 + 2^2} = 3.6 \\
-              \vec{b} &amp;= 3\hat\imath - \hat\jmath = 1.4\hat{u} - 2.8\hat{v}
-              &amp; b &amp;= \sqrt{3^2 + 1^2} = 3.2
-              \end{aligned}\]
-            </p>
-            <canvas id="rvv-xx-c" width="400" height="300" class="standaloneImage">
-            </canvas>
-            <p>
-              Show components:
-              <input type="radio" name="rvv-xx-c-showBasis" value="none" class="data-input:rvv-xx-c:showBasis" />
-              none
-              <input type="radio" name="rvv-xx-c-showBasis" value="ij" class="data-input:rvv-xx-c:showBasis" />
-              $\hat\imath,\hat\jmath$
-              <input type="radio" name="rvv-xx-c-showBasis" value="uv" class="data-input:rvv-xx-c:showBasis" />
-              $\hat{u},\hat{v}$
-            </p>
-            <p>
-              The dot product is $\vec{a} \cdot \vec{b} = 8$, so
-              $\cos\theta = 8 / (ab)$, giving $\theta \approx
-              45^\circ$ and so the cross product is
+            <div class="question">
+              Consider the two vectors shown below and their components
+              in two bases, together with their lengths:
+              <p>
+                \[\begin{aligned}
+                \vec{a} &amp;= 3\hat\imath + 2\hat\jmath = 3.5\hat{u} - 0.7\hat{v}
+                &amp; a &amp;= \sqrt{3^2 + 2^2} = 3.6 \\
+                \vec{b} &amp;= 3\hat\imath - \hat\jmath = 1.4\hat{u} - 2.8\hat{v}
+                &amp; b &amp;= \sqrt{3^2 + 1^2} = 3.2
+                \end{aligned}\]
+              </p>
+              <canvas id="rvv-xx-c" width="400" height="300" class="standaloneImage">
+              </canvas>
+              <p>
+                Show components:
+                <input type="radio" name="rvv-xx-c-showBasis" value="none" class="data-input:rvv-xx-c:showBasis" />
+                none
+                <input type="radio" name="rvv-xx-c-showBasis" value="ij" class="data-input:rvv-xx-c:showBasis" />
+                $\hat\imath,\hat\jmath$
+                <input type="radio" name="rvv-xx-c-showBasis" value="uv" class="data-input:rvv-xx-c:showBasis" />
+                $\hat{u},\hat{v}$
+              </p>
+              <p>
+                Compute the cross product $\vec{a} \times \vec{b}$
+                using: (1) the angle formula <a
+                href="#rvv-el">#rvv-el</a>; (2) the component formula
+                <a href="#rvv-ex">#rvv-ex</a> with $\vec{a},\vec{b}$
+                both in the $\hat\imath,\hat\jmath$ basis, both in the
+                $\hat{u},\hat{v}$ basis, and with $\vec{a}$ in the
+                $\hat\imath,\hat\jmath$ basis and $\vec{b}$ in the
+                $\hat{u},\hat{v}$ basis.
+              </p>
+            </div>
+            <div class="envContainer solution">
+              <div class="envBody">
+                <p>
+                  (1) The dot product is $\vec{a} \cdot \vec{b} = 8$
+                  and the vector lengths are $a = 3.6$ and $b = 3.2$,
+                  so $\cos\theta = 8 / (ab)$ and $\theta \approx
+                  45^\circ$. Now using <a href="#rvv-el">#rvv-el</a>
+                  gives:
 
-              \[\begin{aligned}
-              \vec{a} \times \vec{b} &amp;= a b \sin\theta \, \hat{k} \\
-              &amp;= 9 \hat{k}.
-              \end{aligned}\]
+                  \[\begin{aligned}
+                  \vec{a} \times \vec{b} &amp;= a b \sin\theta ( -\hat{k}) \\
+                  &amp;= -9 \hat{k}.
+                  \end{aligned}\]
 
-              We can compute the same cross product in the
-              $\hat\imath,\hat\jmath$ or $\hat{u},\hat{v}$ bases, or
-              even in a mixture of bases:
+                  (2) Using the component formula <a
+                  href="#rvv-ex">#rvv-ex</a> gives:
 
-              \[\begin{aligned}
-              (3\hat\imath + 2\hat\jmath) \times (3\hat\imath - \hat\jmath)
-              &amp;= -3 \hat\imath \times \hat\jmath + 6 \hat\jmath \times \hat\imath \\
-              &amp;= -3 \hat{k} - 6 \hat{k} \\
-              &amp;= -9 \hat{k} \\
-              (3.5 \hat{u} - 0.7 \hat{v}) \times (1.4 \hat{u} - 2.8 \hat{v})
-              &amp;= - (3.5 \times 2.8) \hat{u} \times \hat{v}
-              - (0.7 \times 1.4) \hat{v} \times \hat{u} \\
-              &amp;= -10 \hat{k} + \hat{k} \\
-              &amp;= -9 \hat{k} \\
-              (3\hat\imath + 2\hat\jmath) \times (1.4\hat{u} - 2.8\hat{v})
-              &amp;= (3 \times 1.4) \hat\imath \times \hat{u}
-              - (3 \times 2.8) \hat\imath \times \hat{v} \\
-              &amp;\quad + (2 \times 1.4) \hat\jmath \times \hat{u}
-              - (2 \times 2.8) \hat\jmath \times \hat{v} \\
-              &amp;= 4.2 \sin 45^\circ \, \hat{k}
-              - 8.5 \sin 135^\circ \, \hat{k} \\
-              &amp;\quad - 2.8 \sin 45^\circ \, \hat{k}
-              - 5.7 \sin 45^\circ \, \hat{k} \\
-              &amp;= - 9 \hat{k}.
-              \end{aligned}\]
-            </p>
+                  \[\begin{aligned}
+                  (3\hat\imath + 2\hat\jmath) \times (3\hat\imath - \hat\jmath)
+                  &amp;= -3 \hat\imath \times \hat\jmath + 6 \hat\jmath \times \hat\imath \\
+                  &amp;= -3 \hat{k} - 6 \hat{k} \\
+                  &amp;= -9 \hat{k} \\
+                  (3.5 \hat{u} - 0.7 \hat{v}) \times (1.4 \hat{u} - 2.8 \hat{v})
+                  &amp;= - (3.5 \times 2.8) \hat{u} \times \hat{v}
+                  - (0.7 \times 1.4) \hat{v} \times \hat{u} \\
+                  &amp;= -10 \hat{k} + \hat{k} \\
+                  &amp;= -9 \hat{k} \\
+                  (3\hat\imath + 2\hat\jmath) \times (1.4\hat{u} - 2.8\hat{v})
+                  &amp;= (3 \times 1.4) \hat\imath \times \hat{u}
+                  - (3 \times 2.8) \hat\imath \times \hat{v} \\
+                  &amp;\quad + (2 \times 1.4) \hat\jmath \times \hat{u}
+                  - (2 \times 2.8) \hat\jmath \times \hat{v} \\
+                  &amp;= 4.2 \sin 45^\circ \, \hat{k}
+                  - 8.5 \sin 135^\circ \, \hat{k} \\
+                  &amp;\quad - 2.8 \sin 45^\circ \, \hat{k}
+                  - 5.7 \sin 45^\circ \, \hat{k} \\
+                  &amp;= - 9 \hat{k}.
+                  \end{aligned}\]
+                </p>
+              </div>
+            </div>
           </div>
         </div>
         <div class="envContainer example" id="rvv-xd">
@@ -816,12 +833,13 @@
             <p>
               Consider two different orthonormal bases,
               $\hat\imath,\hat\jmath$ and
-              $\hat{v},\hat{u}$, with the relationship
+              $\hat{u},\hat{v}$, with the relationship
             </p>
             <p>
-              \[\begin{aligned} \hat{v} &amp;= b_i \, \hat\imath +
-              b_j \, \hat\jmath \\ \hat{u} &amp;= a_i \, \hat\imath
-              + a_j \, \hat\jmath\end{aligned}\]
+              \[\begin{aligned}
+              \hat{u} &amp;= u_i \, \hat\imath + u_j \, \hat\jmath \\
+              \hat{v} &amp;= v_i \, \hat\imath + v_j \, \hat\jmath.
+              \end{aligned}\]
             </p>
             <p>
               Now we can write $\vec{a}$ and
@@ -829,26 +847,31 @@
               <a href="#rvv-xn">#rvv-xn</a>):
             </p>
             <p>
-              \[\begin{aligned} \hat{u} &amp;= a_i \, \hat\imath +
-              a_j \, \hat\jmath \\ &amp;= a_b \, \hat{v} + a_a \,
-              \hat{u} \\ &amp;= a_b (b_i \, \hat\imath + b_j \,
-              \hat\jmath) + a_a (a_i \, \hat\imath + a_j \,
-              \hat\jmath) \\ &amp;= (a_b b_i + a_a a_i) \,
-              \hat\imath + (a_b b_j + a_a a_j) \, \hat\jmath \\
-              \hat{v} &amp;= b_i \, \hat\imath + b_j \, \hat\jmath
-              \\ &amp;= b_b \, \hat{v} + b_a \, \hat{u} \\ &amp;=
-              b_b (b_i \, \hat\imath + b_j \, \hat\jmath) + b_a
-              (a_i \, \hat\imath + a_j \, \hat\jmath) \\ &amp;=
-              (b_b b_i + b_a a_i) \, \hat\imath + (b_b b_j + b_a
-              a_j) \, \hat\jmath.\end{aligned}\]
+              \[\begin{aligned}
+              \hat{a} &amp;= a_i \, \hat\imath + a_j \, \hat\jmath \\
+              &amp;= a_u \, \hat{u} + a_v \, \hat{v} \\
+              &amp;= a_u (u_i \, \hat\imath + u_j \, \hat\jmath)
+              + a_v (v_i \, \hat\imath + v_j \, \hat\jmath) \\
+              &amp;= (a_u u_i + a_v v_i) \, \hat\imath
+              + (a_u u_j + a_v v_j) \, \hat\jmath \\
+              \hat{b} &amp;= b_i \, \hat\imath + b_j \, \hat\jmath \\
+              &amp;= b_u \, \hat{u} + b_v \, \hat{v} \\
+              &amp;= b_u (u_i \, \hat\imath + u_j \, \hat\jmath)
+              + b_v (v_i \, \hat\imath + v_j \, \hat\jmath) \\
+              &amp;= (b_u u_i + b_v v_i) \, \hat\imath
+              + (b_u u_j + b_v v_j) \, \hat\jmath.
+              \end{aligned}\]
             </p>
             <p>
               From this we can identify the basis change relations:
             </p>
             <p>
-              \[\begin{aligned} a_i &amp;= a_b b_i + a_a a_i \\ a_j
-              &amp;= a_b b_j + a_a a_j \\ b_i &amp;= b_b b_i + b_a
-              a_i \\ b_j &amp;= b_b b_j + b_a a_j.\end{aligned}\]
+              \[\begin{aligned}
+              a_i &amp;= a_u u_i + a_v v_i \\
+              a_j &amp;= a_u u_j + a_v v_j \\
+              b_i &amp;= b_u u_i + b_v v_i \\
+              b_j &amp;= b_u u_j + b_v v_j.
+              \end{aligned}\]
             </p>
             <p>
               If we compute the dot product using <a
@@ -857,28 +880,27 @@
             </p>
             <p>
               \[\begin{aligned} \vec{a} \cdot \vec{b}
-              &amp;= a_i b_i + a_j b_j \\ &amp;= (a_b b_i + a_a
-              a_i) (b_b b_i + b_a a_i) + (a_b b_j + a_a a_j) (b_b
-              b_j + b_a a_j) \\ &amp;= a_b b_b (b_i^2 + b_j^2) +
-              a_a b_a (a_i^2 + a_j^2) + (a_b b_a + a_a b_b) (b_i
-              a_i + b_j a_j) \\ &amp;= a_b b_b \| \hat{v} \|^2 +
-              a_a b_a \| \hat{u} \|^2 + (a_b b_a + a_a b_b)
-              (\hat{v} \cdot \hat{u}) \\ &amp;= a_b b_b + a_a
-              b_a\end{aligned}\]
+              &amp;= a_i b_i + a_j b_j \\
+              &amp;= (a_u u_i + a_v v_i) (b_u u_i + b_v v_i) + (a_u u_j + a_v v_j) (b_u u_j + b_v v_j) \\
+              &amp;= a_u b_u (u_i^2 + u_j^2) + a_v b_v (v_i^2 + v_j^2) + (a_u b_v + a_v b_u) (u_i v_i + u_j b_j) \\
+              &amp;= a_u b_u \| \hat{u} \|^2 + a_v b_v \| \hat{v} \|^2 + (a_u b_v + a_v b_u) (\hat{u} \cdot \hat{v}) \\
+              &amp;= a_u b_u + a_v b_v.
+              \end{aligned}\]
             </p>
             <p>
               To get the last line we used the fact that
-              $\hat{v}$ and $\hat{u}$ form an orthornormal
+              $\hat{u}$ and $\hat{v}$ form an orthornormal
               basis, so that they each have length 1 (that is,
-              $\|\hat{v}\| = \|\hat{u}\| = 1$) and they are
-              orthogonal (that is, $\hat{v} \cdot \hat{u} = 0$).
+              $\|\hat{u}\| = \|\hat{v}\| = 1$) and they are
+              orthogonal (that is, $\hat{u} \cdot \hat{v} = 0$).
             </p>
             <p>
               This then shows that
             </p>
             <p>
-              \[\begin{aligned} a_i b_i + a_j b_j &amp;= a_b b_b +
-              a_a b_a\end{aligned}\]
+              \[\begin{aligned}
+              a_i b_i + a_j b_j &amp;= a_u b_u + a_v b_v
+              \end{aligned}\]
             </p>
             <p>
               and so it doesn’t matter which basis we use to
