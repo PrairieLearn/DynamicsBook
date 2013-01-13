@@ -103,6 +103,7 @@ PrairieDraw.prototype._initProps = function() {
     this._props.arrowheadWidthRatio = 0.3; // arrowheadWidth / arrowheadLength
     this._props.arrowheadOffsetRatio = 0.3; // arrowheadOffset / arrowheadLength
     this._props.circleArrowWrapOffsetRatio = 1.5;
+    this._props.arrowOutOfPageRadiusPx = 5;
 
     this._props.textOffsetPx = 4;
 
@@ -1528,6 +1529,67 @@ PrairieDraw.prototype.arrowFrom = function(startDw, offsetDw, type) {
 PrairieDraw.prototype.arrowTo = function(endDw, offsetDw, type) {
     var startDw = endDw.subtract(offsetDw);
     this.arrow(startDw, endDw, type);
+}
+
+/** Draw an arrow out of the page (circle with centered dot).
+
+    @param {Vector} posDw The position of the arrow.
+    @param {string} type Optional type of vector being drawn.
+*/
+PrairieDraw.prototype.arrowOutOfPage = function(posDw, type) {
+    var posPx = this.pos2Px(posDw);
+    var r = this._props.arrowOutOfPageRadiusPx;
+    var rs = r / Math.sqrt(2);
+    this._ctx.save();
+    this._ctx.translate(posPx.e(1), posPx.e(2));
+
+    this._ctx.beginPath();
+    this._ctx.arc(0, 0, r, 0, 2 * Math.PI);
+    this._ctx.fillStyle = "rgb(255, 255, 255)";
+    this._ctx.fill();
+
+    this._ctx.lineWidth = this._props.arrowLineWidthPx;
+    this._setLineStyles(type);
+    this._ctx.stroke();
+
+    this._ctx.beginPath();
+    this._ctx.arc(0, 0, this._props.arrowLineWidthPx * 0.7, 0, 2 * Math.PI);
+    this._ctx.fill();
+
+    this._ctx.restore();
+}
+
+/** Draw an arrow into the page (circle with times).
+
+    @param {Vector} posDw The position of the arrow.
+    @param {string} type Optional type of vector being drawn.
+*/
+PrairieDraw.prototype.arrowIntoPage = function(posDw, type) {
+    var posPx = this.pos2Px(posDw);
+    var r = this._props.arrowOutOfPageRadiusPx;
+    var rs = r / Math.sqrt(2);
+    this._ctx.save();
+    this._ctx.lineWidth = this._props.arrowLineWidthPx;
+    this._setLineStyles(type);
+    this._ctx.translate(posPx.e(1), posPx.e(2));
+
+    this._ctx.beginPath();
+    this._ctx.arc(0, 0, r, 0, 2 * Math.PI);
+    this._ctx.fillStyle = "rgb(255, 255, 255)";
+    this._ctx.fill();
+    this._ctx.stroke();
+
+    this._ctx.beginPath();
+    this._ctx.moveTo(-rs, -rs);
+    this._ctx.lineTo(rs, rs);
+    this._ctx.stroke();
+
+    this._ctx.beginPath();
+    this._ctx.moveTo(rs, -rs);
+    this._ctx.lineTo(-rs, rs);
+    this._ctx.stroke();
+
+    this._ctx.restore();
 }
 
 /*****************************************************************************/
