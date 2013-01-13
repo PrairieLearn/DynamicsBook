@@ -165,37 +165,40 @@
                 a function of time?
               </p>
             </div>
-            <div class="solution">
-              <p>
-                We can use Newton's equations to find the acceleration
-                of the cannonball, using the method of assumed forces:
+            <div class="envContainer solution">
+              <div class="envBody">
+                <p>
+                  We can use Newton's equations to find the
+                  acceleration of the cannonball, using the method of
+                  assumed forces:
                 
-                \[\begin{aligned}
-                m \vec{a} &amp;= \vec{F}_{\rm w} + \vec{F}_{\rm g} \\
-                \vec{a} &amp;= \frac{1}{m} \left(
-                - C_{\rm w} \hat{\imath} - m g \hat{\jmath} \right)
-                \end{aligned}\]
-              </p>
-              <p>
-                If $\vec{r}$ is the position vector of the cannonball
-                then we have the differential equation:
+                  \[\begin{aligned}
+                  m \vec{a} &amp;= \vec{F}_{\rm w} + \vec{F}_{\rm g} \\
+                  \vec{a} &amp;= \frac{1}{m} \left(
+                  - C_{\rm w} \hat{\imath} - m g \hat{\jmath} \right)
+                  \end{aligned}\]
+                </p>
+                <p>
+                  If $\vec{r}$ is the position vector of the
+                  cannonball then we have the differential equation:
                 
-                \[\begin{aligned}
-                \ddot{\vec{r}}(t) &amp;= - C_{\rm w} \hat{\imath} - m g \hat{\jmath} 
-                &amp; \vec{r}(0) &amp;= \vec{0}
-                &amp; \dot{\vec{r}}(0) &amp;= \vec{v}_0.
-                \end{aligned}\]
+                  \[\begin{aligned}
+                  \ddot{\vec{r}}(t) &amp;= - C_{\rm w} \hat{\imath} - m g \hat{\jmath} 
+                  &amp; \vec{r}(0) &amp;= \vec{0}
+                  &amp; \dot{\vec{r}}(0) &amp;= \vec{v}_0.
+                  \end{aligned}\]
                 
-                Because the acceleration is constant we can use the <a
-                href="">elementary motion</a> solution to find the
-                trajectory of the cannonball:
+                  Because the acceleration is constant we can use the
+                  <a href="">elementary motion</a> solution to find
+                  the trajectory of the cannonball:
                 
-                \[
-                \vec{r}(t) = \vec{v}_0 t
-                - \frac{1}{2} t^2 (C_{\rm w} \hat{\imath}
-                + m g \hat{\jmath}).
-                \]
-              </p>
+                  \[
+                  \vec{r}(t) = \vec{v}_0 t
+                  - \frac{1}{2} t^2 (C_{\rm w} \hat{\imath}
+                  + m g \hat{\jmath}).
+                  \]
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -213,34 +216,36 @@
                 air resistance.
               </p>
             </div>
-            <div class="solution">
-              <p>
-                We can determine the acceleration of the car, and then
-                use Newton's equations and method of assumed motion to
-                find the total force and thus the road force. First,
-                we find the acceleration:
+            <div class="envContainer solution">
+              <div class="envBody">
+                <p>
+                  We can determine the acceleration of the car, and
+                  then use Newton's equations and method of assumed
+                  motion to find the total force and thus the road
+                  force. First, we find the acceleration:
 
-                \[\begin{aligned}
-                x(t) &amp;= x_0 + v_0 t \\
-                \vec{r}(t) &amp;= x(t)\,\hat{\imath} + y(x(t))\,\hat{\jmath} \\
-                &amp;= (x_0 + v_0 t)\,\hat{\imath} + A \sin(k x_0 + k v_0 t)\,\hat{\jmath} \\
-                \vec{a}(t) = \ddot{\vec{r}}(t)
-                &amp;= - A (k v_0)^2 \sin(k x_0 + k v_0 t)\,\hat{\jmath} \\
-                &amp;= - A (k v_0)^2 \sin(k x)\,\hat{\jmath}.
-                \end{aligned}\]
+                  \[\begin{aligned}
+                  x(t) &amp;= x_0 + v_0 t \\
+                  \vec{r}(t) &amp;= x(t)\,\hat{\imath} + y(x(t))\,\hat{\jmath} \\
+                  &amp;= (x_0 + v_0 t)\,\hat{\imath} + A \sin(k x_0 + k v_0 t)\,\hat{\jmath} \\
+                  \vec{a}(t) = \ddot{\vec{r}}(t)
+                  &amp;= - A (k v_0)^2 \sin(k x_0 + k v_0 t)\,\hat{\jmath} \\
+                  &amp;= - A (k v_0)^2 \sin(k x)\,\hat{\jmath}.
+                  \end{aligned}\]
 
-                Given the force of gravity $\vec{F}_{\rm g} = - m g
-                \,\hat{\jmath}$ and the road force $\vec{F}_{\rm r}$,
-                Newton's equations give the forces as:
+                  Given the force of gravity $\vec{F}_{\rm g} = - m g
+                  \,\hat{\jmath}$ and the road force $\vec{F}_{\rm
+                  r}$, Newton's equations give the forces as:
 
-                \[\begin{aligned}
-                \vec{F}_{\rm r} + \vec{F}_{\rm g} &amp;= m \vec{a} \\
-                \vec{F}_{\rm r} &amp;= - m A (k v_0)^2 \sin(k x)\,\hat{\jmath} - m g \,\hat{\jmath} \\
-                &amp;= - m \Big(g + A (k v_0)^2 \sin(k x)\Big) \,\hat{\jmath},
-                \end{aligned}\]
-
-                where we have solved for the road force on the car.
-              </p>
+                  \[\begin{aligned}
+                  \vec{F}_{\rm r} + \vec{F}_{\rm g} &amp;= m \vec{a} \\
+                  \vec{F}_{\rm r} &amp;= - m A (k v_0)^2 \sin(k x)\,\hat{\jmath} - m g \,\hat{\jmath} \\
+                  &amp;= - m \Big(g + A (k v_0)^2 \sin(k x)\Big) \,\hat{\jmath},
+                  \end{aligned}\]
+                  
+                  where we have solved for the road force on the car.
+                </p>
+              </div>
             </div>
           </div>
         </div>
