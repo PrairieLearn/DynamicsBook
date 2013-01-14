@@ -2528,26 +2528,33 @@ PrairieDraw.prototype.measurement = function(startDw, endDw, text) {
 /** Draw a right angle.
 
     @param {Vector} posDw The position angle point.
-    @param {Vector} dirDw The baseline direction (angle is counter-clockwise from this direction).
+    @param {Vector} dirDw The baseline direction (angle is counter-clockwise from this direction in 2D).
+    @param {Vector} normDw (Optional) The third direction (required for 3D).
 */
-PrairieDraw.prototype.rightAngle = function(posDw, dirDw) {
+PrairieDraw.prototype.rightAngle = function(posDw, dirDw, normDw) {
     if (dirDw.modulus() < 1e-20) {
         return;
     }
+    var posPx, dirPx, normPx;
+    if (posDw.elements.length === 3) {
+        posPx = this.pos2Px(this.pos3To2(posDw));
+        var d = this.vec2To3(this.vec2Dw($V([this._props.rightAngleSizePx, 0]))).modulus();
+        dirPx = this.vec2Px(this.vec3To2(dirDw.toUnitVector().x(d), posDw));
+        normPx = this.vec2Px(this.vec3To2(normDw.toUnitVector().x(d), posDw));
+    } else {
+        posPx = this.pos2Px(posDw);
+        dirPx = this.vec2Px(dirDw).toUnitVector().x(this._props.rightAngleSizePx);
+        normPx = dirPx.rotate(-Math.PI / 2, $V([0, 0]));
+    }
 
-    var posPx = this.pos2Px(posDw);
-    var offsetAnglePx = this.angleOf(this.vec2Px(dirDw));
-    var d = this._props.rightAngleSizePx;
-    
     this._ctx.save();
     this._ctx.translate(posPx.e(1), posPx.e(2));
-    this._ctx.rotate(offsetAnglePx);
     this._ctx.lineWidth = this._props.rightAngleStrokeWidthPx;
     this._ctx.strokeStyle = this._props.rightAngleColor;
     this._ctx.beginPath();
-    this._ctx.moveTo(d, 0);
-    this._ctx.lineTo(d, -d);
-    this._ctx.lineTo(0, -d);
+    this._ctx.moveTo(dirPx.e(1), dirPx.e(2));
+    this._ctx.lineTo(dirPx.e(1) + normPx.e(1), dirPx.e(2) + normPx.e(2));
+    this._ctx.lineTo(normPx.e(1), normPx.e(2));
     this._ctx.stroke();
     this._ctx.restore();
 };
