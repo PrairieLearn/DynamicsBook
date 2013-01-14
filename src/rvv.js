@@ -2,13 +2,13 @@
 $(document).ready(function() {
 
     rvv_fc_c = new PrairieDrawAnim("rvv-fc-c", function(t) {
-	this.setUnits(6, 4);
+	this.setUnits(8, 4);
 
         this.addOption("otherLength", false);
         this.addOption("otherDir", false);
 
-        var O1 = $V([1.47 * Math.sin(1.6 * t - 0.7), 0.97 * Math.cos(0.9 * t + 1)]);
-        var O2 = $V([1.8 * Math.sin(t + 1), 0.94 * Math.cos(0.6 * t + 2)]);
+        var O1 = $V([1.96 * Math.sin(1.6 * t - 0.7), 0.97 * Math.cos(0.9 * t + 1)]);
+        var O2 = $V([2.4 * Math.sin(t + 1), 0.94 * Math.cos(0.6 * t + 2)]);
         var V1 = $V([1.5, 0.7]);
         var V2 = $V([1.5, 0.7]);
 
