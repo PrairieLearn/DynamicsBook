@@ -18,4 +18,21 @@ td {
     padding-left: 50px;
 }
 
+table.sched tr:nth-child(2n + 1) td {
+    background: #eef;
+}
+
+table.sched tr:nth-child(2n + 1) th {
+    background: #eef;
+}
+
+table.sched tr:first-child th {
+    border-bottom: 1px solid #444;
+    background: #fff;
+}
+
+table.sched tr th:first-child {
+    border-right: 1px solid #444;
+}
+
 /*****************************************************************************/
