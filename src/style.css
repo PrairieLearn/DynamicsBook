@@ -451,17 +451,13 @@ canvas.drawable {
 }
 
 button.envShowHide {
-    display: block;
+    display: inline-block;
     padding: 0px;
-    width: 1.9em;
-    height: 1.9em;
+    width: 2em;
+    height: 2em;
     border: 1px solid #dedede;
     border-top: 1px solid #eee;
     border-left: 1px solid #eee;
-}
-
-button.envShowHide {
-    float: left;
     margin: 0px 5px 0px 0px;
 }
 

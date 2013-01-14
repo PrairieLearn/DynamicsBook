@@ -67,7 +67,7 @@ $(document).ready(function() {
 
     // Container show/hide
     var hideableContainerDivs = $("div.envContainer").not(".equation")
-    hideableContainerDivs.children("p.envHeader").append('<button class="envShowHide">-</button>');
+    hideableContainerDivs.children("p.envHeader").prepend('<button class="envShowHide">-</button>');
     var divsToHide = hideableContainerDivs.not(linkedElem);
     divsToHide.children("div.envBody").hide();
     divsToHide.find("button.envShowHide").text("+");
