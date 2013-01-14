@@ -666,9 +666,9 @@ $(document).ready(function() {
             this.arrow(ai.add(bv), ai.add(bv).add(aj));
             this.arrow(ai.add(bv).add(aj), c);
             this.labelLine(O, ai, $V([0, -1.2]), "TEX:$3 \\hat\\imath$");
-            this.labelLine(ai, ai.add(bv), $V([0, -1.2]), "TEX:-2.8 $\\hat{v}$");
+            this.labelLine(ai, ai.add(bv), $V([0, -1.2]), "TEX:$-2.8 \\hat{v}$");
             this.labelLine(ai.add(bv), ai.add(bv).add(aj), $V([0, -1.2]), "TEX:$2 \\hat\\jmath$");
-            this.labelLine(ai.add(bv).add(aj), c, $V([0, -1.2]), "TEX:1.4 $\\hat{u}$");
+            this.labelLine(ai.add(bv).add(aj), c, $V([0, -1.2]), "TEX:$1.4 \\hat{u}$");
         }
 
         this.translate(a);
@@ -683,8 +683,8 @@ $(document).ready(function() {
         if (this.getOption("showBasis") === "uv" || this.getOption("showBasis") === "mixed") {
             this.arrow(O, bu);
             this.arrow(bu, b);
-            this.labelLine(O, bu, $V([0.5, 1.5]), "TEX:1.4 $\\hat{u}$");
-            this.labelLine(bu, b, $V([0, 1.2]), "TEX:-2.8 $\\hat{v}$");
+            this.labelLine(O, bu, $V([0.5, 1.5]), "TEX:$1.4 \\hat{u}$");
+            this.labelLine(bu, b, $V([0, 1.2]), "TEX:$-2.8 \\hat{v}$");
         }
         this.restore();
 
@@ -754,8 +754,8 @@ $(document).ready(function() {
         if (this.getOption("showBasis") === "uv") {
             this.arrow(O, bv);
             this.arrow(bv, b);
-            this.labelLine(O, bv, $V([0, -1.2]), "TEX:1.4 $\\hat{u}$");
-            this.labelLine(bv, b, $V([0, -1.2]), "TEX:-2.8 $\\hat{v}$");
+            this.labelLine(O, bv, $V([0, -1.2]), "TEX:$1.4 \\hat{u}$");
+            this.labelLine(bv, b, $V([0, -1.2]), "TEX:$-2.8 \\hat{v}$");
         }
 
         this.text(O, $V([-3, -0.5]), "TEX:$\\theta$");
