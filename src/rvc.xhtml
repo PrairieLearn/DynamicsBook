@@ -34,43 +34,60 @@
         <p>
           Time-dependent vectors can be differentiated in exactly
           the same way that we differentiate scalar functions. For
-          a time-dependent vector \(\boldsymbol{v}(t)\), the
-          derivative \(\dot{\boldsymbol{v}}(t)\) is
+          a time-dependent vector \(\boldsymbol{a}(t)\), the
+          derivative \(\dot{\boldsymbol{a}}(t)\) is
         </p>
         <div class="envContainer equation" id="rvc-ed">
           <p class="envHeader">Vector derivative definition</p>
           <div class="envBody">
             <p>
-              \[\begin{aligned} \dot{\boldsymbol{v}}(t)
-              &amp;= \frac{d}{dt} \boldsymbol{v}(t) = \lim_{\Delta t
-              \to 0} \frac{\boldsymbol{v}(t + \Delta t) -
-              \boldsymbol{v}(t)}{\Delta t}\end{aligned}\]
+              \[\begin{aligned} \dot{\boldsymbol{a}}(t)
+              &amp;= \frac{d}{dt} \boldsymbol{a}(t) = \lim_{\Delta t
+              \to 0} \frac{\boldsymbol{a}(t + \Delta t) -
+              \boldsymbol{a}(t)}{\Delta t}\end{aligned}\]
             </p>
           </div>
         </div>
+        <div class="figureContainer width400" id="rvc-fd">
+          <canvas id="rvc-fd-c" width="400" height="200" class="figureImage">
+          </canvas>
+          <p class="controls">
+            <button class="anim-toggle:rvv-fc-c">animate</button>
+            <button class="reset:rvv-fc-c">reset</button>
+            Change:
+            <button class="option-toggle:rvv-fc-c:otherLength">length</button>
+            <button class="option-toggle:rvv-fc-c:otherDir">direction</button>
+          </p>
+          <p class="figureCaption">
+            Two vectors, which may or may not be the same
+            vector. Moving a vector around does not change it: it is
+            still the same vector.
+          </p>
+        </div>
+
+
         <div class="envContainer example" id="rvc-xd">
           <p class="envHeader">
             Example: Vector derivatives.
           </p>
           <div class="envBody">
             <p>
-              Show a vector \(\boldsymbol{v}(t)\) with a fixed
+              Show a vector \(\boldsymbol{a}(t)\) with a fixed
               origin and the end tracing out a curved path (path is
-              shown as a dotted line). Show \(\boldsymbol{v}(t)\)
-              animated. Then show \(\boldsymbol{v}(t + \Delta t)\)
+              shown as a dotted line). Show \(\boldsymbol{a}(t)\)
+              animated. Then show \(\boldsymbol{a}(t + \Delta t)\)
               and the construction for the derivative, resulting in
               the derivative vector.
             </p>
           </div>
         </div>
         <p>
-          <strong>Notation:</strong> We will use either the dot
-          notation \(\dot{\boldsymbol{v}}(t)\) or the full
-          derivative notation \(\frac{d\boldsymbol{v}(t)}{dt}\),
-          depending on which is clearer and more convenient. We
-          will often not write the time dependency explicitly, so
-          we might write just \(\dot{\boldsymbol{v}}\) or
-          \(\frac{d\boldsymbol{v}}{dt}\).
+          We will use either the dot notation
+          \(\dot{\boldsymbol{a}}(t)\) or the full derivative notation
+          \(\frac{d\boldsymbol{a}(t)}{dt}\), depending on which is
+          clearer and more convenient. We will often not write the
+          time dependency explicitly, so we might write just
+          \(\dot{\boldsymbol{a}}\) or \(\frac{d\boldsymbol{a}}{dt}\).
         </p>
         <p>
           In a fixed basis we differentiate a vector by
@@ -80,31 +97,31 @@
           <p class="envHeader">Vector derivative in components</p>
           <div class="envBody">
             <p>
-              \[\dot{\boldsymbol{v}}(t) = \dot{v}_1(t)
-              \,\hat{\imath} + \dot{v}_2(t)
-              \,\hat{\jmath} + \dot{v}_3(t) \,\hat{k}\]
+              \[\dot{\boldsymbol{a}}(t) = \dot{a}_1(t)
+              \,\hat{\imath} + \dot{a}_2(t)
+              \,\hat{\jmath} + \dot{a}_3(t) \,\hat{k}\]
             </p>
           </div>
         </div>
         <div class="envContainer derivation">
           <div class="envBody">
             <p>
-              \[\begin{aligned} \boldsymbol{v}(t) &amp;= v_1(t)
-              \,\hat{\imath} + v_2(t) \,\hat{\jmath} \\
-              \dot{\boldsymbol{v}}(t) &amp;= \lim_{\Delta t \to 0}
-              \frac{\boldsymbol{v}(t + \Delta t) -
-              \boldsymbol{v}(t)}{\Delta t} \\ &amp;= \lim_{\Delta t
-              \to 0} \frac{(v_1(t + \Delta t) \,\hat{\imath} +
-              v_2(t + \Delta t) \,\hat{\jmath}) - (v_1(t)
-              \,\hat{\imath} + v_2(t) \,\hat{\jmath})}{\Delta t} \\
-              &amp;= \lim_{\Delta t \to 0} \frac{(v_1(t + \Delta t)
-              - v_1(t)) \,\hat{\imath} + (v_2(t + \Delta t) -
-              v_2(t)) \,\hat{\jmath}}{\Delta t} \\ &amp;=
-              \left(\lim_{\Delta t \to 0} \frac{v_1(t + \Delta t) -
-              v_1(t)}{\Delta t} \right) \,\hat{\imath} +
-              \left(\lim_{\Delta t \to 0} \frac{v_2(t + \Delta t) -
-              v_2(t) }{\Delta t}\right) \,\hat{\jmath} \\ &amp;=
-              \dot{v}_1(t) \,\hat{\imath} + \dot{v}_2(t)
+              \[\begin{aligned} \boldsymbol{a}(t) &amp;= a_1(t)
+              \,\hat{\imath} + a_2(t) \,\hat{\jmath} \\
+              \dot{\boldsymbol{a}}(t) &amp;= \lim_{\Delta t \to 0}
+              \frac{\boldsymbol{a}(t + \Delta t) -
+              \boldsymbol{a}(t)}{\Delta t} \\ &amp;= \lim_{\Delta t
+              \to 0} \frac{(a_1(t + \Delta t) \,\hat{\imath} +
+              a_2(t + \Delta t) \,\hat{\jmath}) - (a_1(t)
+              \,\hat{\imath} + a_2(t) \,\hat{\jmath})}{\Delta t} \\
+              &amp;= \lim_{\Delta t \to 0} \frac{(a_1(t + \Delta t)
+              - a_1(t)) \,\hat{\imath} + (a_2(t + \Delta t) -
+              a_2(t)) \,\hat{\jmath}}{\Delta t} \\ &amp;=
+              \left(\lim_{\Delta t \to 0} \frac{a_1(t + \Delta t) -
+              a_1(t)}{\Delta t} \right) \,\hat{\imath} +
+              \left(\lim_{\Delta t \to 0} \frac{a_2(t + \Delta t) -
+              a_2(t) }{\Delta t}\right) \,\hat{\jmath} \\ &amp;=
+              \dot{a}_1(t) \,\hat{\imath} + \dot{a}_2(t)
               \,\hat{\jmath}\end{aligned}\]
             </p>
           </div>
@@ -117,7 +134,7 @@
           <div class="envBody">
             <p>
               Show the sample example as above, but now show the
-              \(v_1\) and \(v_2\) components of \(\boldsymbol{v}\).
+              \(a_1\) and \(a_2\) components of \(\boldsymbol{a}\).
               Turn on derivatives of each component and show how
               they sum to give the vector derivative.
             </p>
@@ -129,13 +146,13 @@
           multiplication, so the <em>product rule</em> applies:
         </p>
         <p>
-          \[\begin{aligned} \frac{d}{dt}(\boldsymbol{v} \cdot
-          \boldsymbol{u}) &amp;= \dot{\boldsymbol{v}} \cdot
-          \boldsymbol{u} + \boldsymbol{v} \cdot
-          \dot{\boldsymbol{u}} \\ \frac{d}{dt}(\boldsymbol{v}
-          \times \boldsymbol{u}) &amp;= \dot{\boldsymbol{v}} \times
-          \boldsymbol{u} + \boldsymbol{v} \times
-          \dot{\boldsymbol{u}}\end{aligned}\]
+          \[\begin{aligned} \frac{d}{dt}(\boldsymbol{a} \cdot
+          \boldsymbol{b}) &amp;= \dot{\boldsymbol{a}} \cdot
+          \boldsymbol{b} + \boldsymbol{a} \cdot
+          \dot{\boldsymbol{b}} \\ \frac{d}{dt}(\boldsymbol{a}
+          \times \boldsymbol{b}) &amp;= \dot{\boldsymbol{a}} \times
+          \boldsymbol{b} + \boldsymbol{a} \times
+          \dot{\boldsymbol{b}}\end{aligned}\]
         </p>
         <div class="envContainer example" id="rvc-ex">
           <p class="envHeader">
@@ -144,23 +161,23 @@
           </p>
           <div class="envBody">
             <p>
-              What is \(\frac{d}{dt} \big( \boldsymbol{u} \cdot
-              (\boldsymbol{v} + \boldsymbol{v} \times
-              \boldsymbol{w}) \big)\)?
+              What is \(\frac{d}{dt} \big( \boldsymbol{b} \cdot
+              (\boldsymbol{a} + \boldsymbol{a} \times
+              \boldsymbol{c}) \big)\)?
             </p>
             <p>
-              \[\begin{aligned} \frac{d}{dt} \big( \boldsymbol{u}
-              \cdot (\boldsymbol{v} + \boldsymbol{v} \times
-              \boldsymbol{w}) \big) &amp;= \dot{\boldsymbol{u}}
-              \cdot (\boldsymbol{v} + \boldsymbol{v} \times
-              \boldsymbol{w}) + \boldsymbol{u} \cdot \frac{d}{dt}
-              (\boldsymbol{v} + \boldsymbol{v} \times
-              \boldsymbol{w}) \\ &amp;= \dot{\boldsymbol{u}} \cdot
-              (\boldsymbol{v} + \boldsymbol{v} \times
-              \boldsymbol{w}) + \boldsymbol{u} \cdot
-              (\dot{\boldsymbol{v}} + \dot{\boldsymbol{v}} \times
-              \boldsymbol{w} + \boldsymbol{v} \times
-              \dot{\boldsymbol{w}})\end{aligned}\]
+              \[\begin{aligned} \frac{d}{dt} \big( \boldsymbol{b}
+              \cdot (\boldsymbol{a} + \boldsymbol{a} \times
+              \boldsymbol{c}) \big) &amp;= \dot{\boldsymbol{b}}
+              \cdot (\boldsymbol{a} + \boldsymbol{a} \times
+              \boldsymbol{c}) + \boldsymbol{b} \cdot \frac{d}{dt}
+              (\boldsymbol{a} + \boldsymbol{a} \times
+              \boldsymbol{c}) \\ &amp;= \dot{\boldsymbol{b}} \cdot
+              (\boldsymbol{a} + \boldsymbol{a} \times
+              \boldsymbol{c}) + \boldsymbol{b} \cdot
+              (\dot{\boldsymbol{a}} + \dot{\boldsymbol{a}} \times
+              \boldsymbol{c} + \boldsymbol{a} \times
+              \dot{\boldsymbol{c}})\end{aligned}\]
             </p>
           </div>
         </div>
@@ -169,31 +186,31 @@
           length and the change in direction:
         </p>
         <p>
-          \[\begin{aligned} \boldsymbol{v} &amp;= v \hat{v} \\
-          \dot{\boldsymbol{v}} &amp;= \dot{v} \hat{v} + v
-          \dot{\hat{v}}\end{aligned}\]
+          \[\begin{aligned} \boldsymbol{a} &amp;= a \hat{a} \\
+          \dot{\boldsymbol{a}} &amp;= \dot{a} \hat{a} + a
+          \dot{\hat{a}}\end{aligned}\]
         </p>
         <p>
           To compute the derivative of length and direction we can
           use:
         </p>
         <p>
-          \[\begin{aligned} \dot{v} &amp;= \dot{\boldsymbol{v}}
-          \cdot \hat{v} \\ \hat{v} &amp;= \frac{1}{v}
-          \operatorname{Comp}(\dot{\boldsymbol{v}},
-          \hat{v})\end{aligned}\]
+          \[\begin{aligned} \dot{a} &amp;= \dot{\boldsymbol{a}}
+          \cdot \hat{a} \\ \hat{a} &amp;= \frac{1}{a}
+          \operatorname{Comp}(\dot{\boldsymbol{a}},
+          \hat{a})\end{aligned}\]
         </p>
         <p>
           This means that
         </p>
         <p>
-          \[\begin{aligned} \dot{v} \hat{v} &amp;=
-          (\dot{\boldsymbol{v}} \cdot \hat{v}) \hat{v} =
-          \operatorname{Proj}(\dot{\boldsymbol{v}}, \boldsymbol{v})
-          \\ v \dot{\hat{v}} &amp;= v \frac{1}{v}
-          \operatorname{Comp}(\dot{\boldsymbol{v}}, \hat{v}) =
-          \operatorname{Comp}(\dot{\boldsymbol{v}},
-          \hat{v})\end{aligned}\]
+          \[\begin{aligned} \dot{a} \hat{a} &amp;=
+          (\dot{\boldsymbol{a}} \cdot \hat{a}) \hat{a} =
+          \operatorname{Proj}(\dot{\boldsymbol{a}}, \boldsymbol{a})
+          \\ a \dot{\hat{a}} &amp;= a \frac{1}{a}
+          \operatorname{Comp}(\dot{\boldsymbol{a}}, \hat{a}) =
+          \operatorname{Comp}(\dot{\boldsymbol{a}},
+          \hat{a})\end{aligned}\]
         </p>
         <p>
           So the decomposition is
@@ -202,12 +219,12 @@
           <p class="envHeader">Vector derivative decomposition</p>
           <div class="envBody">
             <p>
-              \[\begin{aligned} \dot{\boldsymbol{v}} &amp;=
-              \underbrace{\dot{v}
-              \hat{v}}_{\operatorname{Proj}(\dot{\boldsymbol{v}},
-              \boldsymbol{v})} + \underbrace{v
-              \dot{\hat{v}}}_{\operatorname{Comp}(\dot{\boldsymbol{v}},
-              \hat{v})}\end{aligned}\]
+              \[\begin{aligned} \dot{\boldsymbol{a}} &amp;=
+              \underbrace{\dot{a}
+              \hat{a}}_{\operatorname{Proj}(\dot{\boldsymbol{a}},
+              \boldsymbol{a})} + \underbrace{a
+              \dot{\hat{a}}}_{\operatorname{Comp}(\dot{\boldsymbol{a}},
+              \hat{a})}\end{aligned}\]
             </p>
           </div>
         </div>
@@ -217,34 +234,34 @@
               For length:
             </p>
             <p>
-              \[\begin{aligned} v &amp;= \sqrt{\boldsymbol{v} \cdot
-              \boldsymbol{v}} \\ \frac{d}{dt} v &amp;= \frac{d}{dt}
-              \big( (\boldsymbol{v} \cdot \boldsymbol{v})^{1/2}
-              \big) \\ \dot{v} &amp;= \frac{1}{2} (\boldsymbol{v}
-              \cdot \boldsymbol{v})^{-1/2} (\dot{\boldsymbol{v}}
-              \cdot \boldsymbol{v} + \boldsymbol{v} \cdot
-              \dot{\boldsymbol{v}}) \\ &amp;= \frac{1}{2\sqrt{v^2}}
-              (2 \dot{\boldsymbol{v}} \cdot \boldsymbol{v}) \\
-              &amp;= \dot{\boldsymbol{v}} \cdot
-              \hat{v}\end{aligned}\]
+              \[\begin{aligned} a &amp;= \sqrt{\boldsymbol{a} \cdot
+              \boldsymbol{a}} \\ \frac{d}{dt} a &amp;= \frac{d}{dt}
+              \big( (\boldsymbol{a} \cdot \boldsymbol{a})^{1/2}
+              \big) \\ \dot{a} &amp;= \frac{1}{2} (\boldsymbol{a}
+              \cdot \boldsymbol{a})^{-1/2} (\dot{\boldsymbol{a}}
+              \cdot \boldsymbol{a} + \boldsymbol{a} \cdot
+              \dot{\boldsymbol{a}}) \\ &amp;= \frac{1}{2\sqrt{a^2}}
+              (2 \dot{\boldsymbol{a}} \cdot \boldsymbol{a}) \\
+              &amp;= \dot{\boldsymbol{a}} \cdot
+              \hat{a}\end{aligned}\]
             </p>
             <p>
               For direction:
             </p>
             <p>
-              \[\begin{aligned} \hat{v} &amp;=
-              \frac{\boldsymbol{v}}{v} \\ \frac{d}{dt} \hat{v}
+              \[\begin{aligned} \hat{a} &amp;=
+              \frac{\boldsymbol{a}}{a} \\ \frac{d}{dt} \hat{a}
               &amp;=
-              \frac{d}{dt}\left(\frac{\boldsymbol{v}}{v}\right) \\
-              \dot{\hat{v}} &amp;= \frac{\dot{\boldsymbol{v}} v -
-              \boldsymbol{v} \dot{v}}{v^2} \\ &amp;=
-              \frac{\dot{\boldsymbol{v}}}{v} -
-              \frac{\dot{\boldsymbol{v}} \cdot \hat{v}}{v^2}
-              \boldsymbol{v} \\ &amp;= \frac{1}{v} \big(
-              \dot{\boldsymbol{v}} - (\dot{\boldsymbol{v}} \cdot
-              \hat{v}) \hat{v} \big)\\ &amp;= \frac{1}{v}
-              \operatorname{Comp}(\dot{\boldsymbol{v}},
-              \hat{v})\end{aligned}\]
+              \frac{d}{dt}\left(\frac{\boldsymbol{a}}{a}\right) \\
+              \dot{\hat{a}} &amp;= \frac{\dot{\boldsymbol{a}} a -
+              \boldsymbol{a} \dot{a}}{a^2} \\ &amp;=
+              \frac{\dot{\boldsymbol{a}}}{a} -
+              \frac{\dot{\boldsymbol{a}} \cdot \hat{a}}{a^2}
+              \boldsymbol{a} \\ &amp;= \frac{1}{a} \big(
+              \dot{\boldsymbol{a}} - (\dot{\boldsymbol{a}} \cdot
+              \hat{a}) \hat{a} \big)\\ &amp;= \frac{1}{a}
+              \operatorname{Comp}(\dot{\boldsymbol{a}},
+              \hat{a})\end{aligned}\]
             </p>
           </div>
         </div>
@@ -255,8 +272,8 @@
           <div class="envBody">
             <p>
               Show the same vector derivative example as before,
-              but decompose the derivative into \(\hat{v}\) and
-              \(\dot{\hat{v}}\) components. Show the projections.
+              but decompose the derivative into \(\hat{a}\) and
+              \(\dot{\hat{a}}\) components. Show the projections.
             </p>
           </div>
         </div>
