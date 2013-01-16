@@ -171,14 +171,25 @@
         </div>
       </div>
       <div class="infoCol">
-        <div class="infoBox factBox">
+        <div class="infoBox notationBox" id="rvv-ic">
+          <p>
+            Just <a href="rvp.xhtml#rvp-ic">as for position
+            coordinates</a>, we can write the vector components
+            $3\hat\imath + 2\hat\jmath$ as the ordered list $(3, 2)$
+            if we know which basis we are using. Because we often will
+            be using several bases simultaneously, we will generally
+            write the components explicitly in the $3\hat\imath +
+            2\hat\jmath$ form.
+          </p>
+        </div>
+        <div class="infoBox factBox" id="rvv-ii">
           <p>
             The use of the letter $i,j,k$ for basis vectors is due to
             <a
             href="http://en.wikipedia.org/wiki/William_Rowan_Hamilton">William
             Hamilton</a>, who was motivated by thinking of basis
-            vectors as extensions of complex numbers. This notation
-            was popularized by the book <a
+            vectors as extensions of the complex number $i$. This
+            notation was popularized by the book <a
             href="http://en.wikipedia.org/wiki/Vector_Analysis_(Gibbs/Wilson)"><i>Vector
             Analysis: A Text Book for the Use of Students of
             Mathematics and Physics Founded upon the Lectures of
@@ -391,6 +402,56 @@
         </div>
       </div>
       <div class="infoCol">
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="rvv-sn" class="contentCol">
+        <h2>
+          Vectors and units
+        </h2>
+        <p>
+          When using vectors to describe physical quantities we need
+          to have the correct units associated with them, just <a
+          href="rvp.xhtml#rvp-su">as for position
+          coordinates</a>. Basis vectors such as
+          $\hat\imath,\hat\jmath,\hat{k}$ have no units (they are also
+          dimensionless), so the components must have units. For
+          example, a velocity vector $\vec{v} = (4\hat\imath +
+          3\hat\jmath){\rm\ m/s}$ has components $v_1 = 4{\rm\ m/s}$
+          and $v_2 = 3{\rm\ m/s}$, which then multiply the
+          dimensionless (and unit-less) basis vectors $\hat\imath$ and
+          $\hat\jmath$. For convenience, when all components of a
+          vector have the same units, we will often write the units
+          just once at the end, so that all of the following
+          expressions are equivalent:
+
+          \[\begin{aligned}
+          \vec{v} &amp;= (4{\rm\ m/s})\,\hat\imath + (3{\rm\ m/s})\,\hat\jmath \\
+          &amp;= (4\hat\imath + 3\hat\jmath){\rm\ m/s} \\
+          &amp;= 4\hat\imath + 3\hat\jmath {\rm\ m/s}.
+          \end{aligned}\]
+        </p>
+        <p>
+          When a vector is expressed as $\vec{a} = a \hat{a}$,
+          decomposed into a length and direction, the length $a$ has
+          units but the direction unit vector $\hat{a}$ has no
+          units. The terminology here is slightly confusing, as unit
+          vectors have no units. For example, if we calculate the
+          length of $\vec{v}$ above we obtain:
+
+          \[
+          v = \sqrt{v_1^2 + v_2^2} = \sqrt{(4{\rm\ m/s})^2 + (3{\rm\ m/s})^2}
+          = \sqrt{25{\rm\ m^2/s^2}} = 5{\rm\ m/s}.
+          \]
+          
+          Then the unit vector is
+
+          \[
+          \hat{v} = \frac{\vec{v}}{v}
+          = \frac{(4{\rm\ m/s})\,\hat\imath + (3{\rm\ m/s})\,\hat\jmath}{5{\rm\ m/s}}
+          = 0.8\,\hat\imath + 0.6\,\hat\jmath.
+          \]
+        </p>
       </div>
     </div>
     <div class="contentBlock">

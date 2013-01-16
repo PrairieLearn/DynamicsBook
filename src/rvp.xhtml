@@ -157,7 +157,8 @@
             Writing them as a list assumes that we know which
             coordinate system we are using, and which order the
             coordinates are in. We will typically write the coordinate
-            values explicitly to avoid confusion.
+            values explicitly to avoid confusion. This also applies to
+            <a href="rvv.xhtml#rvv-ic">vector components</a>.
           </p>
         </div>
         <div class="infoBox factBox" id="rvp-id">
@@ -281,6 +282,72 @@
             function, which takes $x$ and $y$ as separate arguments
             and correctly handles the conversion to $\theta$ in any
             quadrant.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="rvp-su" class="contentCol">
+        <h2>
+          Coordinates and units
+        </h2>
+        <p>
+          When using coordinates to describe the location of physical
+          positions in the real world, we must always have appropriate
+          units of length for the coordinates. For example, the
+          following coordinates all specify the same position:
+
+          \[\begin{aligned}
+          x &amp;= 2{\rm\ m} &amp; x &amp;= 6.56{\rm\ ft}
+          &amp; r &amp;= 6.32{\rm\ m} &amp; r &amp;= 249{\rm\ in} \\
+          y &amp;= -6{\rm\ m} &amp; y &amp;= -6 \times 10^6{\rm\ \mu m}
+          &amp; \theta &amp;= 1.25{\rm\ rad} &amp; \theta &amp;= 71.6^\circ.
+          \end{aligned}\]
+        </p>
+        <p>
+          It is important to distinguish between <em>units</em> and
+          <em>dimensions</em>. The base dimensions include mass (M),
+          length (L), and time (T), and can be combined to produce
+          dimensions such as L/T or L T$^{-1}$ for velocity. Each
+          physical quantity such as velocity has just one set of
+          dimensions, and there is no choice in this.
+        </p>
+        <p>
+          Units are particular ways of measuring dimensional
+          quantities, and include the SI units kilogram (kg), meter
+          (m), and second (s), as well as the customary U.S. units
+          pound (lb) and foot (ft). A given physical quantity can be
+          written in terms of many different units, although all of
+          these must conform to the dimensions of the quantity. For
+          example, velocity has dimension L/T and so it can be
+          written in terms of the units m/s, ft/s, km/h, or many other
+          choices.
+        </p>
+        <p>
+          Angles are an example of a <em>dimensionless</em> quantity
+          (having dimension 1), but they still have units, typically
+          either radians (rad) or degrees (°).
+        </p>
+      </div>
+      <div class="infoCol">
+        <div class="infoBox factBox" id="rvp-iu">
+          <p>
+            The <a
+            href="http://en.wikipedia.org/wiki/International_System_of_Units">SI
+            unit system</a> is the definitive system of measurement
+            used in science and engineering. Other systems, such as <a
+            href="http://en.wikipedia.org/wiki/U.S._customary_unit">U.S. customary
+            units</a> are defined in terms of SI units, so that an
+            inch is defined to be exactly 2.54 cm, for example.
+          </p>
+          <p>
+            The National Institute of Standards and Technology (NIST)
+            maintains an excellent <a
+            href="http://physics.nist.gov/cuu/Units/index.html">reference
+            guide</a> to SI units, including precise <a
+            href="http://physics.nist.gov/cuu/Units/checklist.html">rules
+            and style conventions</a> for writing units in scientific
+            and engineering work.
           </p>
         </div>
       </div>
