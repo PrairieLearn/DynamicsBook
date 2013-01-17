@@ -21,8 +21,8 @@ $(document).ready(function() {
 
         this.save();
         this.setProp("shapeStrokeWidthPx", 1);
-        for (i = 0; i < world_coastline.length; i++) {
-            this.polyLine(this.pairsToVectors(world_coastline[i]));
+        for (i = 0; i < worldCoastline.length; i++) {
+            this.polyLine(this.pairsToVectors(worldCoastline[i]));
         }
         this.restore();
 
@@ -422,8 +422,8 @@ $(document).ready(function() {
 
         this.save();
         this.setProp("shapeStrokeWidthPx", 1);
-        for (i = 0; i < world_coastline.length; i++) {
-            this.polyLine(world_coastline[i].map(projFunc));
+        for (i = 0; i < worldCoastline.length; i++) {
+            this.polyLine(worldCoastline[i].map(projFunc));
         }
         this.restore();
     });

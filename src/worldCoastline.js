@@ -1,4 +1,4 @@
-world_coastline = [
+worldCoastline = [
     [
         [0.19244, 5.669954],
         [-0.114995, 5.515063],
