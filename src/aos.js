@@ -104,8 +104,8 @@ $(document).ready(function() {
         console.log("];")
     }
 
-    var compressedWorldCoastline = compressMap(worldCoastline);
-    logMap("worldCoastline", compressedWorldCoastline, 1);
+    //var compressedWorldCoastline = compressMap(worldCoastline);
+    //logMap("worldCoastline", compressedWorldCoastline, 1);
 
     var aos_fm_c = new PrairieDraw("aos-fm-c", function() {
         this.setUnits(360, 180);
