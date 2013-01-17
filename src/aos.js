@@ -32,10 +32,10 @@ $(document).ready(function() {
         var cityColor1 = "rgb(255, 0, 0)";
         var cityColor2 = "rgb(0, 0, 255)";
 
-        var aLat = 40.109665; // Urbana
-        var aLong = -88.204247;
-        var bLat = 28.61; // Delhi
-        var bLong = 77.23;
+        var aLat = 40 + 6 / 60 + 35 / 3600;       // Urbana
+        var aLong = -(88 + 12 / 60 + 15 / 3600);
+        var bLat = 28 + 36 / 60 + 36 / 3600;      // Delhi
+        var bLong = 77 + 13 / 60 + 48 / 3600;
 
         var aP = $V([aLong, aLat]);
         var bP = $V([bLong, bLat]);
@@ -97,6 +97,38 @@ $(document).ready(function() {
         this.text(bP, $V([-1.2, 0]), "TEX:Delhi", true);
         this.point(bP);
         this.restore();
+
+        if (false) {
+            // solutions to worksheet
+            aR = aR.x(earthRad);
+            bR = bR.x(earthRad);
+            aS = $V([earthRad, aS.e(2), aS.e(3)]);
+            bS = $V([earthRad, bS.e(2), bS.e(3)]);
+            console.log("**************************************************");
+            console.log("Urbana", aR.inspect());
+            console.log("Delhi", bR.inspect());
+            console.log("straight line distance", aR.subtract(bR).modulus());
+            var theta = Math.acos(aR.dot(bR) / (aR.modulus() * bR.modulus()));
+            console.log("great circle distance", earthRad * theta);
+            var norm = aR.cross(bR);
+            console.log("max latitude (deg)", this.radToDeg(norm.angleFrom(Vector.k)));
+            var abHat = bR.subtract(aR).toUnitVector();
+            console.log("unit vector U->D", abHat.inspect());
+            var tang = this.orthComp(abHat, aR);
+            console.log("tangent", tang.inspect());
+            var sBasis = this.sphericalBasis(aS);
+            var eR = sBasis[0];
+            var eTheta = sBasis[1];
+            var ePhi = sBasis[2];
+            console.log("eR", eR.inspect());
+            console.log("eTheta", eTheta.inspect());
+            console.log("ePhi", ePhi.inspect());
+            console.log("tang bearing deg", this.radToDeg(tang.angleFrom(ePhi)));
+            // Mercator projection
+            aM = $V([aS.e(2), Math.log(Math.tan(Math.PI / 4 + aS.e(3) / 2))]);
+            bM = $V([bS.e(2), Math.log(Math.tan(Math.PI / 4 + bS.e(3) / 2))]);
+            console.log("mercator bearing deg", this.radToDeg(bM.subtract(aM).angleFrom($V([0, 1]))));
+        }
     });
 
     var aos_fd_c = new PrairieDraw("aos-fd-c", function() {

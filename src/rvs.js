@@ -106,11 +106,11 @@ $(document).ready(function() {
         }
 
         if (this.getOption("showBasis")) {
-            var eR = this.sphericalToRect($V([1, theta, phi]));
-            var eTheta = $V([-Math.sin(theta), Math.cos(theta), 0]);
-            var ePhi = $V([-Math.cos(theta) * Math.sin(phi),
-                           -Math.sin(theta) * Math.sin(phi),
-                           Math.cos(phi)]);
+            var sBasis = this.sphericalBasis($V([r, theta, phi]));
+
+            var eR = sBasis[0];
+            var eTheta = sBasis[1];
+            var ePhi = sBasis[2];
             this.arrow(p, p.add(eR));
             this.arrow(p, p.add(eTheta));
             this.arrow(p, p.add(ePhi));

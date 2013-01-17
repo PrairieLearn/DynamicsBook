@@ -283,7 +283,7 @@ PrairieDraw.prototype.intersectAngleRanges = function(r1, r2) {
     @param {Vector} pP Polar coordinates (r, theta).
     @return {Vector} The position in rectangular coordinates (x, y).
 */
-PrairieDraw.prototype.sphericalToRect = function(pP) {
+PrairieDraw.prototype.polarToRect = function(pP) {
     var pR = $V([pP.e(1) * Math.cos(pP.e(2)),
                  pP.e(1) * Math.sin(pP.e(2))
                 ]);
@@ -332,6 +332,22 @@ PrairieDraw.prototype.rectToSpherical = function(pR) {
     var pS = $V([r, theta, phi]);
     return pS;
 };
+
+/** Find the spherical basis vectors at a given point.
+
+    @param {Vector} pS Spherical coordinates (r, theta, phi) of the point.
+    @return {Array} The basis vectors [eR, eTheta, ePhi] at pS.
+*/
+PrairieDraw.prototype.sphericalBasis = function(pS) {
+    var theta = pS.e(2);
+    var phi = pS.e(3);
+    var eR = this.sphericalToRect($V([1, theta, phi]));
+    var eTheta = $V([-Math.sin(theta), Math.cos(theta), 0]);
+    var ePhi = $V([-Math.cos(theta) * Math.sin(phi),
+                   -Math.sin(theta) * Math.sin(phi),
+                   Math.cos(phi)]);
+    return [eR, eTheta, ePhi];
+}
 
 /** Convert cylindrical to rectangular coordintes.
 
