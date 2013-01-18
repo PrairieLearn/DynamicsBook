@@ -258,10 +258,10 @@ $(document).ready(function() {
         this.labelLine(O, a, $V([0, 1.4]), "TEX:$a = \\sqrt{4^2 + 3^2} = 5$");
 
         this.arrow(O, ei.x(a.e(1)));
-        this.labelLine(O, ei.x(a.e(1)), $V([0, -1]), "TEX:$3\\hat\\imath$");
+        this.labelLine(O, ei.x(a.e(1)), $V([0, -1]), "TEX:$4\\hat\\imath$");
 
         this.arrow(ei.x(a.e(1)), a);
-        this.labelLine(ei.x(a.e(1)), a, $V([0, -1]), "TEX:$2\\hat\\jmath$");
+        this.labelLine(ei.x(a.e(1)), a, $V([0, -1]), "TEX:$3\\hat\\jmath$");
     });
 
     rvv_ft_c = new PrairieDraw("rvv-ft-c", function() {
