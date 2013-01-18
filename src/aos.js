@@ -105,8 +105,10 @@ $(document).ready(function() {
             aS = $V([earthRad, aS.e(2), aS.e(3)]);
             bS = $V([earthRad, bS.e(2), bS.e(3)]);
             console.log("**************************************************");
-            console.log("Urbana", aR.inspect());
-            console.log("Delhi", bR.inspect());
+            console.log("Urbana spherical", aS.inspect());
+            console.log("Delhi spherical", bS.inspect());
+            console.log("Urbana rect", aR.inspect());
+            console.log("Delhi rect", bR.inspect());
             console.log("straight line distance", aR.subtract(bR).modulus());
             var theta = Math.acos(aR.dot(bR) / (aR.modulus() * bR.modulus()));
             console.log("great circle distance", earthRad * theta);
