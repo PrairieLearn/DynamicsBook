@@ -76,12 +76,12 @@
             </tr>
             <tr>
               <td>Time:</td>
-              <td><input type="range" min="0" max="10" value="0" step="0.1" class="data-input:rvc-fd-c:t" /></td>
+              <td><input type="range" min="0" max="10" value="0" step="0.01" class="data-input:rvc-fd-c:t" /></td>
               <td>$t = $ <span class="data-option:rvc-fd-c:t"></span> s</td>
             </tr>
             <tr>
               <td>Increment:</td>
-              <td><input type="range" min="0" max="4" value="0" step="0.1" class="data-input:rvc-fd-c:dt" /></td>
+              <td><input type="range" min="0" max="4" value="0" step="0.01" class="data-input:rvc-fd-c:dt" /></td>
               <td>$\Delta t = $ <span class="data-option:rvc-fd-c:dt"></span> s</td>
             </tr>
           </table>
@@ -102,6 +102,13 @@
           time dependency explicitly, so we might write just
           \(\dot{\vec{a}}\) or \(\frac{d\vec{a}}{dt}\).
         </p>
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="rvc-sc" class="contentCol">
+        <h2>
+          Derivatives and vector “positions”
+        </h2>
       </div>
     </div>
     <div class="contentBlock">
@@ -146,12 +153,40 @@
             </p>
           </div>
         </div>
+        <div class="envContainer warning" id="rvc-wc">
+          <p class="envHeader">
+            Warning: Differentiating each component is only valid if the basis is fixed.
+          </p>
+          <div class="envBody">
+            <p>
+              When we differentiate a vector by differentiating each
+              component and leaving the basis vectors unchanged, we
+              are assuming that the basis vectors themselves are not
+              changing with time. If they are, then we need to <a
+              href="rkv.xhtml#rkv-sb">take this into account</a> as
+              well.
+            </p>
+          </div>
+        </div>
         <div class="figureContainer width600" id="rvc-fc">
-          <canvas id="rvc-fc-c" width="600" height="200" class="figureImage">
+          <canvas id="rvc-fc-c" width="600" height="400" class="figureImage">
           </canvas>
+          <p class="controls">
+            <button class="reset:rvc-fc-c">reset</button>
+          </p>
           <p class="controls">
             Show:
             <button class="option-toggle:rvc-fc-c:showLabels">labels</button>
+            <button class="option-toggle:rvc-fc-c:showComponent1">first component</button>
+            <button class="option-toggle:rvc-fc-c:showComponent2">second component</button>
+            <button class="option-toggle:rvc-fc-c:showVelocity">velocity</button>
+          </p>
+          <p class="controls">
+            Basis:
+            <input type="radio" name="rvc-fc-c-basis" value="ij" class="data-input:rvc-fc-c:basis" />
+            $\hat\imath,\hat\jmath$
+            <input type="radio" name="rvc-fc-c-basis" value="uv" class="data-input:rvc-fc-c:basis" />
+            $\hat{u},\hat{v}$
           </p>
           <table>
             <tr>
@@ -160,12 +195,16 @@
             </tr>
             <tr>
               <td>Time:</td>
-              <td><input type="range" min="0" max="10" value="0" step="0.1" class="data-input:rvc-fc-c:t" /></td>
+              <td><input type="range" min="0" max="10" value="0" step="0.01" class="data-input:rvc-fc-c:t" /></td>
               <td>$t = $ <span class="data-option:rvc-fc-c:t"></span> s</td>
             </tr>
           </table>
           <p class="figureCaption">
-            Vector derivatives in components.
+            The vector derivative decomposed into components. This
+            demonstrates graphically that each component of a vector
+            in a particular basis is simply a scalar function, and the
+            corresponding velocity component is the regular scalar
+            derivative.
           </p>
         </div>
       </div>
@@ -329,30 +368,6 @@
       </div>
     </div>
     <div class="contentBlock">
-      <div id="rvc-sb" class="contentCol">
-        <h2>
-          Coordinate system basis vectors
-        </h2>
-        <p>
-          polar coordinates:
-        </p>
-        <p>
-          \[\begin{aligned} \,\hat{r} &amp;= \cos\theta
-          \,\hat{\imath} + \sin\theta \,\hat{\jmath} \\
-          \,\hat{\theta} &amp;= - \sin\theta \,\hat{\imath} +
-          \cos\theta \,\hat{\jmath}\end{aligned}\]
-        </p>
-      </div>
-      <div class="infoCol">
-        <div class="infoBox">
-          <p>
-            <span class="infoHead">Related:</span> <a href=
-            "rvy.xhtml">#rvy: Cylindrical coordinates</a> <a
-            href="rvs.xhtml">#rvs: Spherical coordinates</a>
-          </p>
-        </div>
-      </div>
-    <div class="contentBlock">
       <div id="rvc-si" class="contentCol">
         <h2>
           Integrating vector functions
@@ -360,7 +375,6 @@
         <p>
         </p>
       </div>
-    </div>
     </div>
     </div>
       <div class="footer">
