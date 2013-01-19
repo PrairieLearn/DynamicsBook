@@ -884,12 +884,12 @@
           <div class="envBody">
             <p>
               \[\begin{aligned}
-              a_i &amp;= u_i a_u + v_i a_v + w_i a_w
-              &amp; a_u &amp;= i_u a_i + i_u a_j + i_u a_k \\
-              a_j &amp;= u_j a_u + v_j a_v + w_j a_w
-              &amp; a_v &amp;= i_v a_i + i_v a_j + i_v a_k \\
-              a_k &amp;= u_k a_u + v_k a_v + w_k a_w
-              &amp; a_w &amp;= i_w a_i + i_w a_j + i_w a_k
+              a_i &amp;= a_u u_i + a_v v_i + a_w w_i
+              &amp; a_u &amp;= a_i i_u + a_j j_u + a_k k_u \\
+              a_j &amp;= a_u u_j + a_v v_j + a_w w_j
+              &amp; a_v &amp;= a_i i_v + a_j j_v + a_k k_v \\
+              a_k &amp;= a_u u_k + a_v v_k + a_w w_k
+              &amp; a_w &amp;= a_i i_w + a_j j_w + a_k k_w
               \end{aligned}\]
             </p>
           </div>
@@ -897,7 +897,7 @@
         <div class="envContainer derivation">
           <div class="envBody">
             <p>
-              We will derive the second set of equations (the first
+              We will derive the first set of equations (the second
               set are derived similarly). The vector $\vec{a}$ can be
               written in both the $\hat\imath,\hat\jmath,\hat{k}$ and
               $\hat{u},\hat{v},\hat{w}$ bases:
