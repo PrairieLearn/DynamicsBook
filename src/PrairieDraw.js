@@ -1341,6 +1341,30 @@ PrairieDraw.prototype.linearInterp = function(x0, x1, alpha) {
     return (1 - alpha) * x0 + alpha * x1;
 }
 
+/** Linearly de-interpolate between two numbers.
+
+    @param {number} x0 The first number.
+    @param {number} x1 The second number.
+    @param {number} x The value to be de-interpolated.
+    @return {number} The value alpha so that x = linearInterp(x0, x1, alpha).
+*/
+PrairieDraw.prototype.linearDeinterp = function(x0, x1, x) {
+    return (x - x0) / (x1 - x0);
+}
+
+/** Linearly map based on two points.
+
+    @param {number} x0 The first number.
+    @param {number} x1 The second number.
+    @param {number} y0 The image of x0.
+    @param {number} y1 The image of y1.
+    @param {number} x The value to be mapped.
+    @param {number} The value y that x maps to.
+*/
+PrairieDraw.prototype.linearMap = function(x0, x1, y0, y1, x) {
+    return this.linearInterp(y0, y1, this.linearDeinterp(x0, x1, x));
+}
+
 /** Linearly interpolate between two vectors.
 
     @param {Vector} x0 The first vector.
@@ -3664,18 +3688,41 @@ PrairieDraw.prototype.solveFourBar = function(g, f, a, b, alpha, flipped) {
     @param {string} drawPoint (Optional) Whether to draw the last point (default: false).
     @param {string} pointLabel (Optional) Label for the last point (default: undefined).
     @param {string} pointAnchor (Optional) Anchor for the last point label (default: $V([0, -1])).
+    @param {Object} options (Optional) Plotting options:
+                    horizAxisPos: "bottom", "top", or a numerical value in data coordinates (default: "bottom")
+                    vertAxisPos: "left", "right", or a numerical value in data coordinates (default: "left")
 */
-PrairieDraw.prototype.plot = function(data, originDw, sizeDw, originData, sizeData, xLabel, yLabel, type, drawAxes, drawPoint, pointLabel, pointAnchor) {
+PrairieDraw.prototype.plot = function(data, originDw, sizeDw, originData, sizeData, xLabel, yLabel, type, drawAxes, drawPoint, pointLabel, pointAnchor, options) {
+    drawAxes = (drawAxes === undefined) ? true : drawAxes;
+    drawPoint = (drawPoint === undefined) ? true : drawPoint;
+    options = (options === undefined) ? {} : options;
+    var horizAxisPos = (options.horizAxisPos === undefined) ? "bottom" : options.horizAxisPos;
+    var vertAxisPos = (options.vertAxisPos === undefined) ? "left" : options.vertAxisPos;
     this.save();
     this.translate(originDw);
-    if (drawAxes === undefined || drawAxes === true) {
+    var axisX, axisY;
+    if (vertAxisPos === "left") {
+        axisX = 0;
+    } else if (vertAxisPos === "right") {
+        axisX = sizeDw.e(1);
+    } else {
+        axisX = this.linearMap(originData.e(1), originData.e(1) + sizeData.e(1), 0, sizeDw.e(1), vertAxisPos);
+    }
+    if (horizAxisPos === "bottom") {
+        axisY = 0;
+    } else if (horizAxisPos === "top") {
+        axisY = sizeDw.e(2);
+    } else {
+        axisY = this.linearMap(originData.e(2), originData.e(2) + sizeData.e(2), 0, sizeDw.e(2), horizAxisPos);
+    }
+    if (drawAxes) {
         this.save();
         this.setProp("arrowLineWidthPx", 1);
         this.setProp("arrowheadLengthRatio", 11);
-        this.arrow($V([0, 0]), $V([sizeDw.e(1), 0]));
-        this.arrow($V([0, 0]), $V([0, sizeDw.e(2)]));
-        this.text($V([sizeDw.e(1), 0]), $V([1, 1.5]), xLabel);
-        this.text($V([0, sizeDw.e(2)]), $V([1.5, 1]), yLabel);
+        this.arrow($V([0, axisY]), $V([sizeDw.e(1), axisY]));
+        this.arrow($V([axisX, 0]), $V([axisX, sizeDw.e(2)]));
+        this.text($V([sizeDw.e(1), axisY]), $V([1, 1.5]), xLabel);
+        this.text($V([axisX, sizeDw.e(2)]), $V([1.5, 1]), yLabel);
         this.restore();
     }
     var col = this._getColorProp(type);
@@ -3694,7 +3741,7 @@ PrairieDraw.prototype.plot = function(data, originDw, sizeDw, originData, sizeDa
     this._ctx.clip();
     this.polyLine(data, false);
     this.restore();
-    if (drawPoint !== undefined && drawPoint === true) {
+    if (drawPoint) {
         this.point(data[data.length - 1]);
         if (pointLabel !== undefined) {
             if (pointAnchor === undefined) {
