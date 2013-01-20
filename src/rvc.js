@@ -69,6 +69,159 @@ $(document).ready(function() {
         
     });
 
+    var rvc_fp_c = new PrairieDrawAnim("rvc-fp-c", function(t) {
+        this.setUnits(12, 8);
+
+        this.addOption("showVelocity0", false);
+        this.addOption("showVelocity", false);
+        this.addOption("showFixedBase", false);
+        this.addOption("movement", "rotate");
+
+        var O = $V([0, 0]);
+
+        var aSign, vSign;
+        var f;
+        if (this.getOption("movement") === "rotate") {
+            f = function(t) {
+                var m = 2;
+                var a = $V([-m * Math.sin(t), -m * Math.cos(t)]);
+                return {
+                    aSign: 1,
+                    vSign: 1,
+                    a: a,
+                    base: a};
+            }.bind(this);
+        } else if (this.getOption("movement") === "vertical") {
+            f = function(t) {
+                var m = 2;
+                var a = $V([m, this.intervalMod(m * t, -m, m)]);
+                return {
+                    aSign: 1,
+                    vSign: 1,
+                    a: a,
+                    base: a};
+            }.bind(this);
+        } else if (this.getOption("movement") === "bounce") {
+            f = function(t) {
+                var m = 2;
+                return {
+                    aSign: 1,
+                    vSign: 1,
+                    a: $V([m, m / 2]),
+                    base: $V([m / 2 + m / 2 * Math.sin(2 * t), m / 4 + m * Math.sin(t)])};
+            }.bind(this);
+        } else if (this.getOption("movement") === "stretch") {
+            f = function(t) {
+                var m = 2;
+                return {
+                    aSign: this.sign(Math.sin(t + Math.PI / 4)),
+                    vSign: this.sign(Math.cos(t + Math.PI / 4)),
+                    a: $V([m, m / 4]).x(Math.sin(t + Math.PI / 4)),
+                    base: $V([m * Math.cos(t), m * Math.sin(t)])};
+            }.bind(this);
+        } else if (this.getOption("movement") === "circle") {
+            f = function(t) {
+                var m = 2;
+                return {
+                    aSign: 1,
+                    vSign: 1,
+                    a: $V([-m * Math.sin(t), m * Math.cos(t)]),
+                    base: $V([-m * Math.cos(t), -m * Math.sin(t)])};
+            }.bind(this);
+        } else if (this.getOption("movement") === "twist") {
+            f = function(t) {
+                var m = 2;
+                return {
+                    aSign: 1,
+                    vSign: 1,
+                    a: $V([m * Math.sin(t), m * Math.cos(t)]),
+                    base: $V([m / 4 * Math.cos(t), m / 4 * Math.sin(t)])};
+            }.bind(this);
+        } else if (this.getOption("movement") === "slider") {
+            f = function(t) {
+                var m = 2;
+                var a = $V([m * (1 + Math.sin(t)) / 2, m * (1 - Math.cos(t)) / 2]);
+                return {
+                    aSign: 1,
+                    vSign: 1,
+                    a: a,
+                    base: a};
+            }.bind(this);
+        } else if (this.getOption("movement") === "fly") {
+            f = function(t) {
+                var m = 2;
+                var length = m * (2 + Math.sin(2 * t)) / 3;
+                var angle = t + Math.sin(t);
+                var baseLength = m * Math.sin(2 * t);
+                var baseAngle = -t;
+                return {
+                    aSign: 1,
+                    vSign: 1,
+                    a: this.polarToRect($V([length, angle])),
+                    base: this.polarToRect($V([baseLength, baseAngle]))};
+            }.bind(this);
+        }
+
+        var val0 = this.numDiff(f, 0);
+        var val = this.numDiff(f, t);
+
+        var a0 = val0.a;
+        var a = val.a;
+        var v0 = val0.diff.a;
+        var v = val.diff.a;
+        var base0 = val0.base;
+        var base = val.base;
+        var aSign = val.aSign;
+        var vSign = val.vSign;
+
+        this.save();
+        this.translate($V([-3, 0]));
+        this.save();
+        this.translate(base0.x(-1));
+        this.arrow(O, a0, "position");
+        this.labelLine(O, a0, $V([0, -1]), "TEX:$\\vec{a}(0)$");
+        if (this.getOption("showVelocity0")) {
+            this.arrow(a0, a0.add(v0), "velocity");
+            this.labelLine(a0, a0.add(v0), $V([0, 1]), "TEX:$\\dot{\\vec{a}}(0)$");
+        }
+        this.restore();
+        this.save();
+        this.translate(base.x(-1));
+        this.arrow(O, a, "position");
+        this.labelLine(O, a, $V([0, aSign]), "TEX:$\\vec{a}(t)$");
+        if (this.getOption("showVelocity")) {
+            this.arrow(a, a.add(v), "velocity");
+            this.labelLine(a, a.add(v), $V([0, -vSign]), "TEX:$\\dot{\\vec{a}}(t)$");
+        }
+        this.restore();
+        this.restore();
+
+        if (this.getOption("showFixedBase")) {
+            this.save();
+            this.translate($V([3, 0]));
+            this.arrow(O, a0, "position");
+            this.labelLine(O, a0, $V([0, -1]), "TEX:$\\vec{a}(0)$");
+            if (this.getOption("showVelocity0")) {
+                this.arrow(a0, a0.add(v0), "velocity");
+                this.labelLine(a0, a0.add(v0), $V([0, 1]), "TEX:$\\dot{\\vec{a}}(0)$");
+            }
+            this.arrow(O, a, "position");
+            this.labelLine(O, a, $V([0, aSign]), "TEX:$\\vec{a}(t)$");
+            if (this.getOption("showVelocity")) {
+                this.arrow(a, a.add(v), "velocity");
+                this.labelLine(a, a.add(v), $V([0, -vSign]), "TEX:$\\dot{\\vec{a}}(t)$");
+            }
+            this.restore();
+        }
+    });
+
+    rvc_fp_c.registerOptionCallback("movement", function (value) {
+        rvc_fp_c.resetTime(false);
+        rvc_fp_c.resetOptionValue("showVelocity0");
+        rvc_fp_c.resetOptionValue("showVelocity");
+        rvc_fp_c.resetOptionValue("showFixedBase");
+    });
+
     var rvc_fc_c = new PrairieDraw("rvc-fc-c", function() {
         this.setUnits(12, 8);
 
