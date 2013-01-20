@@ -207,6 +207,17 @@ PrairieDraw.prototype.fixedMod = function(value, modulus) {
     return ((value % modulus) + modulus) % modulus;
 };
 
+/** Interval modulus function.
+
+    @param {number} x The number to convert.
+    @param {number} a Lower interval end.
+    @param {number} b Upper interval end.
+    @return {number} The value modded to within [a,b].
+*/
+PrairieDraw.prototype.intervalMod = function(x, a, b) {
+    return this.fixedMod(x - a, b - a) + a;
+};
+
 /** Clip a value x to the given interval [a, b].
 
     @param {number} x Value to clip.
