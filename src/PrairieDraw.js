@@ -315,6 +315,32 @@ PrairieDraw.prototype.rectToPolar = function(pR) {
     return pP;
 };
 
+/** Find the polar basis vectors at a given point.
+
+    @param {Vector} pP Polar coordinates (r, theta) of the point.
+    @return {Array} The basis vectors [eR, eTheta] at pP.
+*/
+PrairieDraw.prototype.polarBasis = function(pP) {
+    var theta = pP.e(2);
+    var eR = $V([Math.cos(theta), Math.sin(theta)]);
+    var eTheta = $V([-Math.sin(theta), Math.cos(theta)]);
+    return [eR, eTheta];
+};
+
+/** Convert a vector in a polar basis to a rectangular basis.
+
+    @param {Vector} vP Vector in polar basis (eR, eTheta).
+    @param {Vector} pP Position to convert at (r, theta).
+    @return {Vector} The vector vR in rectangular coordinates.
+*/
+PrairieDraw.prototype.vecPolarToRect = function(vP, pP) {
+    var basis = this.polarBasis(pP);
+    var eR = basis[0];
+    var eTheta = basis[1];
+    var vR = eR.x(vP.e(1)).add(eTheta.x(vP.e(2)));
+    return vR;
+};
+
 /** Convert spherical to rectangular coordintes.
 
     @param {Vector} pS Spherical coordinates (r, theta, phi).
@@ -358,7 +384,7 @@ PrairieDraw.prototype.sphericalBasis = function(pS) {
                    -Math.sin(theta) * Math.sin(phi),
                    Math.cos(phi)]);
     return [eR, eTheta, ePhi];
-}
+};
 
 /** Convert cylindrical to rectangular coordintes.
 
