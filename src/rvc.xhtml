@@ -173,8 +173,14 @@
         <div class="envContainer derivation">
           <div class="envBody">
             <p>
-              \[\begin{aligned} \vec{a}(t) &amp;= a_1(t)
-              \,\hat{\imath} + a_2(t) \,\hat{\jmath} \\
+              Writing a time-dependent vector expression in a fixed basis gives:
+
+              \[\vec{a}(t) = a_1(t)\,\hat{\imath} + a_2(t) \,\hat{\jmath}\]
+
+              Using the definition <a href="#rvc-ed">#rvc-ed</a> of
+              the vector derivative gives:
+
+              \[\begin{aligned}
               \dot{\vec{a}}(t) &amp;= \lim_{\Delta t \to 0}
               \frac{\vec{a}(t + \Delta t) -
               \vec{a}(t)}{\Delta t} \\ &amp;= \lim_{\Delta t
@@ -189,7 +195,12 @@
               \left(\lim_{\Delta t \to 0} \frac{a_2(t + \Delta t) -
               a_2(t) }{\Delta t}\right) \,\hat{\jmath} \\ &amp;=
               \dot{a}_1(t) \,\hat{\imath} + \dot{a}_2(t)
-              \,\hat{\jmath}\end{aligned}\]
+              \,\hat{\jmath}
+              \end{aligned}\]
+
+              The second-to-last line above is simply the definition
+              of the scalar derivative, giving the scalar derivatives
+              of the component functions $a_1(t)$ and $a_2(t)$.
             </p>
           </div>
         </div>
@@ -249,9 +260,9 @@
           Differentiating vector expressions
         </h2>
         <p>
-          We can also differentiate vector expressions, such as dot
-          products and cross products. These act like
-          multiplication, so the <em>product rule</em> applies:
+          We can also differentiate complex vector expressions, using
+          the sum and product rules. For vectors, the product rule
+          applies to both the dot and cross products:
         </p>
         <p>
           \[\begin{aligned} \frac{d}{dt}(\vec{a} \cdot
@@ -287,6 +298,78 @@
               \vec{c} + \vec{a} \times
               \dot{\vec{c}})\end{aligned}\]
             </p>
+          </div>
+        </div>
+      </div>
+      <div class="infoCol">
+        <div class="infoBox factBox" id="rvc-il">
+          <p>
+            <a
+            href="http://en.wikipedia.org/wiki/Gottfried_Wilhelm_Leibniz">Gottfried
+            Leibniz</a>, one of the inventors of calculus, got the
+            product rule wrong when he first differentiated more
+            complicated expressions [Child, 1920, page 100; Cirillo,
+            2007]. In modern notation he computed the example
+
+            \[\frac{d}{dx}(x^2 + bx)(cx + d) = (2x + b)c\]
+
+            and he remarked that in general it was obvious that
+
+            \[\frac{d}{dx} (f g) = \frac{df}{dx} \frac{dg}{dx}.\]
+
+            He later realized his error and corrected it [Cupillari,
+            2004], but at least we know that product rules are tricky
+            and not obvious, even for someone smart enough to invent
+            calculus.
+          </p>
+          <div class="imageBox width250">
+            <img src="rvc_Gottfried_Wilhelm_von_Leibniz_250.jpg" alt="Gottfried Leibniz."></img>
+            <p class="caption">
+              Gottfried Wilhelm von Leibniz (1646–1716).  Image
+              credit: <a
+              href="http://commons.wikimedia.org/wiki/File:Gottfried_Wilhelm_von_Leibniz.jpg">Wikimedia
+              Commons</a> (<a
+              href="http://creativecommons.org/licenses/publicdomain/">public
+              domain</a>) (<a
+              href="rvc_Gottfried_Wilhelm_von_Leibniz.jpg">full-sized
+              image</a>).
+            </p>
+          </div>
+          <p>
+            Leibniz had a very bitter and long-running <a
+            href="http://en.wikipedia.org/wiki/Leibniz%E2%80%93Newton_calculus_controversy">famous
+            dispute</a> with <a
+            href="http://en.wikipedia.org/wiki/Isaac_Newton">Isaac
+            Newton</a> over who was the first to invent calculus. It
+            is now generally accepted that they were independent
+            co-inventors, but the debate raged for over 100 years and
+            led to a major split between continental mathematicians
+            (favoring the German Leibniz) and English-speaking
+            scholars (supporting Newton).
+          </p>
+          <div class="references">
+            <h3>References</h3>
+            <ul class="references">
+              <li>
+                M. Cirillo.
+                Humanizing Calculus.
+                <i>The Mathematics Teacher</i>, 101(1):23–27, 2007.
+                (<a href="http://www.nctm.org/uploadedFiles/Articles_and_Journals/Mathematics_Teacher/Humanizing%20Calculus.pdf">NCTM version</a>,
+                <a href="rvc_Humanizing_Calculus.pdf">local copy</a>)
+              </li>
+              <li>
+                J. M. Child.
+                The Early Mathematical Manuscripts of Leibniz.
+                Open Court Publishing, 1920.
+                (<a href="rvc_Child_1920.pdf">local copy</a>).
+              </li>
+              <li>
+                A. Cupillari.
+                Another look at the rules of differentiation.
+                Primus: Problems, Resources, and Issues in Mathematics Undergraduate Studies, 14(3):193–200, 2004.
+                DOI: <a href="http://dx.doi.org/10.1080/10511970408984087">10.1080/10511970408984087</a>.
+              </li>
+            </ul>
           </div>
         </div>
       </div>
