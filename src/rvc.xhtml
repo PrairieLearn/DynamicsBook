@@ -264,40 +264,116 @@
           the sum and product rules. For vectors, the product rule
           applies to both the dot and cross products:
         </p>
-        <p>
-          \[\begin{aligned} \frac{d}{dt}(\vec{a} \cdot
-          \vec{b}) &amp;= \dot{\vec{a}} \cdot
-          \vec{b} + \vec{a} \cdot
-          \dot{\vec{b}} \\ \frac{d}{dt}(\vec{a}
-          \times \vec{b}) &amp;= \dot{\vec{a}} \times
-          \vec{b} + \vec{a} \times
-          \dot{\vec{b}}\end{aligned}\]
-        </p>
-        <div class="envContainer example" id="rvc-ex">
+        <div class="envContainer equation" id="rvc-ep">
+          <p class="envHeader">Product rule for dot-product derivatives.</p>
+          <div class="envBody">
+            <p>
+              \[\frac{d}{dt}(\vec{a} \cdot \vec{b}) = \dot{\vec{a}}
+              \cdot \vec{b} + \vec{a} \cdot \dot{\vec{b}}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer equation" id="rvc-ex">
+          <p class="envHeader">Product rule for cross-product derivatives.</p>
+          <div class="envBody">
+            <p>
+              \[\frac{d}{dt}(\vec{a} \times \vec{b}) = \dot{\vec{a}}
+              \times \vec{b} + \vec{a} \times \dot{\vec{b}}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer exampleProblem" id="rvc-ex">
           <p class="envHeader">
-            Example: Differentiating complex vector
+            Example Problem: Differentiating vector product
             expressions.
           </p>
           <div class="envBody">
+            <div class="question">
+              <p>
+                What is $\displaystyle \frac{d}{dt} \left( \frac{\vec{b}}{\ell}
+                \cdot (\vec{a} + \vec{a} \times \vec{c}) \right)$?
+              </p>
+            </div>
+            <div class="envContainer solution">
+              <div class="envBody">
+                <p>
+                  \[\begin{aligned}
+                  \frac{d}{dt} \left( \frac{\vec{b}}{\ell} \cdot
+                  (\vec{a} + \vec{a} \times \vec{c}) \right)
+                  &amp;= \left(\frac{d}{dt}
+                  \frac{\vec{b}}{\ell}\right) \cdot (\vec{a} + \vec{a}
+                  \times \vec{c}) + \vec{b} \cdot \frac{d}{dt}
+                  (\vec{a} + \vec{a} \times \vec{c}) \\
+                  &amp;= \left(\frac{\ell \dot{\vec{b}} -
+                  \dot{\ell}\vec{b}}{\ell^2}\right) \cdot (\vec{a} +
+                  \vec{a} \times \vec{c}) + \vec{b} \cdot
+                  (\dot{\vec{a}} + \dot{\vec{a}} \times \vec{c} +
+                  \vec{a} \times \dot{\vec{c}})
+                  \end{aligned}\]
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p>
+          The chain rule also applies to vector functions. This is
+          helpful for parameterizing vectors in terms of arc-length
+          $s$ or other quantities different than time $t$.
+        </p>
+        <div class="envContainer equation" id="rvc-er">
+          <p class="envHeader">Chain rule for vectors.</p>
+          <div class="envBody">
             <p>
-              What is \(\frac{d}{dt} \big( \vec{b} \cdot
-              (\vec{a} + \vec{a} \times
-              \vec{c}) \big)\)?
+              \[\frac{d}{dt} \vec{a} (s(t)) = \frac{d\vec{a}}{ds}
+              (s(t)) \frac{ds}{dt}(t) = \frac{d\vec{a}}{ds} \dot{s}\]
             </p>
-            <p>
-              \[\begin{aligned} \frac{d}{dt} \big( \vec{b}
-              \cdot (\vec{a} + \vec{a} \times
-              \vec{c}) \big) &amp;= \dot{\vec{b}}
-              \cdot (\vec{a} + \vec{a} \times
-              \vec{c}) + \vec{b} \cdot \frac{d}{dt}
-              (\vec{a} + \vec{a} \times
-              \vec{c}) \\ &amp;= \dot{\vec{b}} \cdot
-              (\vec{a} + \vec{a} \times
-              \vec{c}) + \vec{b} \cdot
-              (\dot{\vec{a}} + \dot{\vec{a}} \times
-              \vec{c} + \vec{a} \times
-              \dot{\vec{c}})\end{aligned}\]
-            </p>
+          </div>
+        </div>
+        <div class="envContainer exampleProblem" id="rvc-er">
+          <p class="envHeader">
+            Example Problem: Chain rule.
+          </p>
+          <div class="envBody">
+            <div class="question">
+              <p>
+                A vector is defined in terms of an angle $\theta$ by
+                $\vec{r}(\theta) = \cos\theta\,\hat\imath +
+                \sin\theta\,\hat\jmath$. If the angle is given by
+                $\theta(t) = t^3$, what is $\dot{\vec{r}}$?
+              </p>
+            </div>
+            <div class="envContainer solution">
+              <div class="envBody">
+                <p>
+                  We can use the chain rule to compute:
+
+                  \[\begin{aligned}
+                  \frac{d}{dt} \vec{r}
+                  &amp;= \frac{d}{d\theta} \vec{r} \frac{d}{dt} \theta \\
+                  &amp;= \frac{d}{d\theta}\Big( \cos\theta\,\hat\imath
+                  + \sin\theta\,\hat\jmath \Big) \frac{d}{dt} (t^3) \\
+                  &amp;= \Big( -\sin\theta\,\hat\imath +
+                  \cos\theta\,\hat\jmath \Big) (3 t^2) \\
+                  &amp;= -3 t^2 \sin(t^3)\,\hat\imath + 3 t^2
+                  \cos(t^3)\,\hat\jmath.
+                  \end{aligned}\]
+                </p>
+                <p>
+                  Alternatively, we can evaluate $\vec{r}$ as a
+                  function of $t$ first and then differentiate it with
+                  respect to time, using the scalar chain rule for
+                  each component:
+
+                  \[\begin{aligned}
+                  \frac{d}{dt} \vec{r}
+                  &amp;= \frac{d}{dt} \Big( \cos(t^3)\,\hat\imath +
+                  \sin(t^3)\,\hat\jmath \Big) \\
+                  &amp;= -3 t^2 \sin(t^3)\,\hat\imath + 3 t^2
+                  \cos(t^3)\,\hat\jmath.
+                  \end{aligned}\]
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -307,10 +383,10 @@
             <a
             href="http://en.wikipedia.org/wiki/Gottfried_Wilhelm_Leibniz">Gottfried
             Leibniz</a>, one of the inventors of calculus, got the
-            product rule wrong when he differentiated more complicated
-            expressions [Child, 1920, page 100; Cirillo, 2007; <a
-            href="http://books.google.com/books?id=bOIGAAAAYAAJ&amp;pg=PA100#v=onepage">direct
-            page link</a>]. In modern notation he computed the example
+            product rule wrong [<a
+            href="http://books.google.com/books?id=bOIGAAAAYAAJ&amp;pg=PA100#v=onepage">Child,
+            1920, page 100</a>; Cirillo, 2007]. In modern notation he
+            computed the example
 
             \[\frac{d}{dx}(x^2 + bx)(cx + d) = (2x + b)c\]
 
@@ -352,68 +428,28 @@
       </div>
     </div>
     <div class="contentBlock">
-      <div id="rvc-sr" class="contentCol">
-        <h2>
-          Chain rule
-        </h2>
-      </div>
-    </div>
-    <div class="contentBlock">
       <div id="rvc-sd" class="contentCol">
         <h2>
           Changing lengths and directions
         </h2>
         <p>
-          We can break a vector derivative down into the change in
-          length and the change in direction:
+          Two useful derivatives are the rates of change of a vector's
+          length and direction:
         </p>
-        <p>
-          \[\begin{aligned} \vec{a} &amp;= a \hat{a} \\
-          \dot{\vec{a}} &amp;= \dot{a} \hat{a} + a
-          \dot{\hat{a}}\end{aligned}\]
-        </p>
-        <p>
-          To compute the derivative of length and direction we can
-          use:
-        </p>
-        <p>
-          \[\begin{aligned} \dot{a} &amp;= \dot{\vec{a}}
-          \cdot \hat{a} \\ \hat{a} &amp;= \frac{1}{a}
-          \operatorname{Comp}(\dot{\vec{a}},
-          \hat{a})\end{aligned}\]
-        </p>
-        <p>
-          This means that
-        </p>
-        <p>
-          \[\begin{aligned} \dot{a} \hat{a} &amp;=
-          (\dot{\vec{a}} \cdot \hat{a}) \hat{a} =
-          \operatorname{Proj}(\dot{\vec{a}}, \vec{a})
-          \\ a \dot{\hat{a}} &amp;= a \frac{1}{a}
-          \operatorname{Comp}(\dot{\vec{a}}, \hat{a}) =
-          \operatorname{Comp}(\dot{\vec{a}},
-          \hat{a})\end{aligned}\]
-        </p>
-        <p>
-          So the decomposition is
-        </p>
-        <div class="envContainer equation" id="rvc-ep">
-          <p class="envHeader">Vector derivative decomposition</p>
+        <div class="envContainer equation" id="rvc-el">
+          <p class="envHeader">Derivative of vector length.</p>
           <div class="envBody">
             <p>
-              \[\begin{aligned} \dot{\vec{a}} &amp;=
-              \underbrace{\dot{a}
-              \hat{a}}_{\operatorname{Proj}(\dot{\vec{a}},
-              \vec{a})} + \underbrace{a
-              \dot{\hat{a}}}_{\operatorname{Comp}(\dot{\vec{a}},
-              \hat{a})}\end{aligned}\]
+              \[\dot{a} = \dot{\vec{a}} \cdot \hat{a}\]
             </p>
           </div>
         </div>
         <div class="envContainer derivation">
           <div class="envBody">
             <p>
-              For length:
+              We start with the dot product expression <a
+              href="rvv.xhtml#rvv-ed">#rvv-ed</a> for length and
+              differentiate it:
             </p>
             <p>
               \[\begin{aligned} a &amp;= \sqrt{\vec{a} \cdot
@@ -425,10 +461,25 @@
               \dot{\vec{a}}) \\ &amp;= \frac{1}{2\sqrt{a^2}}
               (2 \dot{\vec{a}} \cdot \vec{a}) \\
               &amp;= \dot{\vec{a}} \cdot
-              \hat{a}\end{aligned}\]
+              \hat{a}.\end{aligned}\]
             </p>
+          </div>
+        </div>
+        <div class="envContainer equation" id="rvc-eu">
+          <p class="envHeader">Derivative of vector direction.</p>
+          <div class="envBody">
             <p>
-              For direction:
+              \[\dot{\hat{a}} = \frac{1}{a}
+              \operatorname{Comp}(\dot{\vec{a}}, \vec{a})\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
+              We take the definition <a
+              href="rvv.xhtml#rvv-eu">#rvv-eu</a> for the unit vector
+              and differentiate it:
             </p>
             <p>
               \[\begin{aligned} \hat{a} &amp;=
@@ -443,21 +494,97 @@
               \dot{\vec{a}} - (\dot{\vec{a}} \cdot
               \hat{a}) \hat{a} \big)\\ &amp;= \frac{1}{a}
               \operatorname{Comp}(\dot{\vec{a}},
-              \hat{a})\end{aligned}\]
+              \vec{a}).\end{aligned}\]
+
+              Here we observed at the end that we had the expression
+              <a href="rvv.xhtml#rvv-em">#rvv-em</a> for the
+              complementary projection of the derivative
+              $\dot{\vec{a}}$ with respect to $\vec{a}$ itself.
             </p>
           </div>
         </div>
-        <div class="envContainer example" id="rvc-xl">
-          <p class="envHeader">
-            Example: Changing length and direction.
-          </p>
+        <p>
+          An immediate consequence of the derivative of direction
+          formula is that the derivative of a unit vector is always
+          orthogonal to the unit vector:
+        </p>
+        <div class="envContainer equation" id="rvc-eu">
+          <p class="envHeader">Derivative of unit vector is orthogonal.</p>
           <div class="envBody">
             <p>
-              Show the same vector derivative example as before,
-              but decompose the derivative into \(\hat{a}\) and
-              \(\dot{\hat{a}}\) components. Show the projections.
+              \[\dot{\hat{a}} \cdot \hat{a} = 0\]
             </p>
           </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
+              From <a href="#rvc-eu">#rvc-eu</a> we know that
+              $\dot{\hat{a}}$ is in the direction of
+              $\operatorname{Comp}(\dot{\vec{a}}, \vec{a})$, and from
+              <a href="rvv.xhtml#rvv-er">#rvv-er</a> we know that this
+              is orthogonal to $\vec{a}$ (and also $\hat{a}$).
+            </p>
+          </div>
+        </div>
+        <p>
+          Recall that we can always write a vector as the <a
+          href="rvv.xhtml#rvv-ei">product of its length and
+          direction</a>, so $\vec{a} = a \hat{a}$. This gives the
+          following decomposition of the derivative of $\vec{a}$.
+        </p>
+        <div class="envContainer equation" id="rvc-em">
+          <p class="envHeader">Vector derivative decomposition.</p>
+          <div class="envBody">
+            <p>
+              \[\begin{aligned} \dot{\vec{a}} &amp;=
+              \underbrace{\dot{a}
+              \hat{a}}_{\operatorname{Proj}(\dot{\vec{a}},
+              \vec{a})} + \underbrace{a
+              \dot{\hat{a}}}_{\operatorname{Comp}(\dot{\vec{a}},
+              \vec{a})}\end{aligned}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
+              Differentiating $\vec{a} = a \hat{a}$ and substituting
+              in <a href="#rvv-el">#rvv-el</a> and <a
+              href="#rvv-eu">#rvv-eu</a> gives
+
+              \[\begin{aligned}
+              \dot{\vec{a}}
+              &amp;= \dot{a} \hat{a} + a \dot{\hat{a}} \\
+              &amp;= ( \dot{\vec{a}} \cdot \hat{a} ) \hat{a} + a
+              \frac{1}{a} \operatorname{Comp}(\dot{\vec{a}}, \hat{a}) \\
+              &amp;= \operatorname{Proj}(\dot{\vec{a}}, \vec{a})
+              + \operatorname{Comp}(\dot{\vec{a}}, \vec{a}).
+              \end{aligned}\]
+            </p>
+          </div>
+        </div>
+        <p>
+        </p>
+        <div class="figureContainer width600" id="rvc-fm">
+          <canvas id="rvc-fm-c" width="600" height="300" class="figureImage">
+          </canvas>
+          <p class="controls">
+            <button class="anim-toggle:rvc-fm-c">animate</button>
+            <button class="reset:rvc-fm-c">reset</button>
+          </p>
+          <p class="controls">
+            Show:
+            <button class="option-toggle:rvc-fm-c:showLabels">labels</button>
+            <button class="option-toggle:rvc-fm-c:showVelocity">derivative $\dot{\vec{a}}$</button>
+            <button class="option-toggle:rvc-fm-c:showVelocityDecomp">derivative decomposition</button>
+          </p>
+          <p class="figureCaption">
+            Vector derivatives can be decomposed into length changes
+            (projection onto $\vec{a}$) and direction changes
+            (complementary projection). Compare to Figure <a
+            href="rvv.xhtml#rvv-fu">#rvv-fu</a>.
+          </p>
         </div>
       </div>
     </div>

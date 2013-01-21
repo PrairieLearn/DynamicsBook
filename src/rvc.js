@@ -79,7 +79,6 @@ $(document).ready(function() {
 
         var O = $V([0, 0]);
 
-        var aSign, vSign;
         var f;
         if (this.getOption("movement") === "rotate") {
             f = function(t) {
@@ -384,6 +383,97 @@ $(document).ready(function() {
         this.labelLine(O, e1, $V([1, -1]), labelE1);
         this.labelLine(O, e2, $V([1, 1]), labelE2);
         this.restore();
+    });
+
+    var rvc_fm_c = new PrairieDrawAnim("rvc-fm-c", function(t) {
+        this.setUnits(12, 6);
+
+        this.addOption("showLabels", true);
+        this.addOption("showVelocity", false);
+        this.addOption("showVelocityDecomp", false);
+
+        var O = $V([0, 0]);
+
+        var f = function(t) {
+            var m = 2;
+            var length = m * (2 + Math.sin(1.3 * t)) / 3;
+            var angle = 0.3 * t + Math.sin(t);
+            return {
+                a: this.polarToRect($V([length, angle])),
+            };
+        }.bind(this);
+
+        var val = this.numDiff(f, t);
+
+        var a = val.a;
+        var v = val.diff.a;
+
+        var aLen = a.modulus();
+        var vLen = v.modulus();
+
+        var aHat = a.toUnitVector();
+        var vProj = this.orthProj(v, a);
+        var vComp = this.orthComp(v, a);
+        var aLenDot = v.dot(aHat);
+        var aHatDot = vComp.x(1 / aLen);
+
+        var direction = this.sign(aHatDot.to3D().cross(aHat.to3D()).dot(Vector.k));
+
+        this.save();
+        this.translate($V([-2.5, 0]));
+        this.arrow(O, a, "position");
+        if (this.getOption("showLabels")) {
+            this.labelLine(O, a, $V([0, 1]), "TEX:$\\vec{a}$");
+        }
+        if (this.getOption("showVelocity")) {
+            this.arrow(a, a.add(v), "velocity");
+            if (this.getOption("showLabels")) {
+                this.labelLine(a, a.add(v), $V([1, 0]), "TEX:$\\dot{\\vec{a}}$");
+            }
+        }
+        if (this.getOption("showVelocityDecomp")) {
+            this.arrow(a, a.add(vProj), "velocity");
+            if (this.getOption("showLabels")) {
+                this.labelLine(a, a.add(vProj), $V([0, -this.sign(aLenDot)]), "TEX:$\\dot{a}\\hat{a}$");
+            }
+            this.arrow(a, a.add(vComp), "velocity");
+            if (this.getOption("showLabels")) {
+                this.labelLine(a, a.add(vComp), $V([0, -direction]), "TEX:$a\\dot{\\hat{a}}$");
+            }
+        }
+        this.restore();
+
+        this.save();
+        this.translate($V([1, 0]));
+        var d = 0.1;
+        this.line(O, $V([0, aLen]), "position");
+        if (this.getOption("showLabels")) {
+            this.labelLine(O, $V([0, aLen]), $V([0, 1]), "TEX:$a$");
+        }
+        if (this.getOption("showVelocityDecomp")) {
+            this.line($V([d, aLen]), $V([d, aLen + aLenDot]), "velocity");
+            if (this.getOption("showLabels")) {
+                this.labelLine($V([d, aLen]), $V([d, aLen + aLenDot]), $V([0, -this.sign(aLenDot)]), "TEX:$\\dot{a}$");
+            }
+        }
+        this.restore();
+
+        this.save();
+        this.translate($V([4, 0]));
+        this.arrow(O, aHat, "position");
+        if (this.getOption("showLabels")) {
+            this.labelLine(O, aHat, $V([0, 1]), "TEX:$\\hat{a}$");
+        }
+        if (this.getOption("showVelocityDecomp")) {
+            this.arrow(aHat, aHat.add(aHatDot), "velocity");
+            if (this.getOption("showLabels")) {
+                this.labelLine(aHat, aHat.add(aHatDot), $V([0, direction]), "TEX:$\\dot{\\hat{a}}$");
+            }
+        }
+        this.restore();
+
+        this.text($V([1, -2.7]), $V([0, -1]),
+                  "TEX:vector\\qquad\\qquad$=$\\qquad\\qquad length\\qquad\\quad$\\times$\\quad\\qquad direction");
     });
 
 }); // end of document.ready()
