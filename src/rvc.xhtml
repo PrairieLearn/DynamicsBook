@@ -37,7 +37,7 @@
           Time-dependent vectors can be differentiated in exactly
           the same way that we differentiate scalar functions. For
           a time-dependent vector \(\vec{a}(t)\), the
-          derivative \(\dot{\vec{a}}(t)\) is
+          derivative \(\dot{\vec{a}}(t)\) is:
         </p>
         <div class="envContainer equation" id="rvc-ed">
           <p class="envHeader">Vector derivative definition.</p>
@@ -181,7 +181,7 @@
             <p>
               Writing a time-dependent vector expression in a fixed basis gives:
 
-              \[\vec{a}(t) = a_1(t)\,\hat{\imath} + a_2(t) \,\hat{\jmath}\]
+              \[\vec{a}(t) = a_1(t)\,\hat{\imath} + a_2(t) \,\hat{\jmath}.\]
 
               Using the definition <a href="#rvc-ed">#rvc-ed</a> of
               the vector derivative gives:
@@ -296,7 +296,7 @@
             </p>
           </div>
         </div>
-        <div class="envContainer exampleProblem" id="rvc-ex">
+        <div class="envContainer exampleProblem" id="rvc-xe">
           <p class="envHeader">
             Example Problem: Differentiating vector product
             expressions.
@@ -404,7 +404,7 @@
 
             \[\frac{d}{dx}(x^2 + bx)(cx + d) = (2x + b)c\]
 
-            and he remarked that in general it was obvious that
+            and he stated that in general it was obvious that
 
             \[\frac{d}{dx} (f g) = \frac{df}{dx} \frac{dg}{dx}.\]
 
@@ -608,7 +608,7 @@
           Integrating vector functions
         </h2>
         <p>
-          Definition of integral (Riemann sum) is:
+          The Riemann-sum definition of the vector integral is:
         </p>
         <div class="envContainer equation" id="rvc-ei">
           <p class="envHeader">Vector integral.</p>
@@ -623,6 +623,11 @@
             </p>
           </div>
         </div>
+        <p>
+          In the above definition $\vec{S}_N$ is the sum with $N$
+          intervals, written here using the left-hand edge $\tau_i$ in
+          each interval.
+        </p>
         <div class="figureContainer width600" id="rvc-fi">
           <canvas id="rvc-fi-c" width="600" height="400" class="figureImage">
           </canvas>
@@ -655,7 +660,148 @@
             </tr>
           </table>
           <p class="figureCaption">
+            Integral of a vector function $\vec{a}(t)$, together with
+            the approximation using a Riemann sum.
           </p>
+        </div>
+        <p>
+          Just like vector derivatives, vector integrals only use the
+          geometric concepts of scaling and addition, and do not rely
+          on using a basis. If we do write a vector function in terms
+          of a fixed basis, then we can integrate each component:
+        </p>
+        <div class="envContainer equation" id="rvc-et">
+          <p class="envHeader">Vector integral in components.</p>
+          <div class="envBody">
+            <p>
+              \[
+              \int_0^t \vec{a}(\tau) \, d\tau
+              = \left( \int_0^t a_1(\tau) \, d\tau \right) \,\hat\imath
+              + \left( \int_0^t a_2(\tau) \, d\tau \right) \,\hat\jmath
+              + \left( \int_0^t a_3(\tau) \, d\tau \right) \,\hat{k}
+              \]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
+              Consider a time-dependent vector $\vec{a}(t)$ written in
+              components with a fixed basis:
+
+              \[\vec{a}(t) = a_1(t) \,\hat\imath + a_2(t) \,\hat\jmath.\]
+
+              Using the definition <a href="#rvc-ei">#rvc-ei</a> of
+              the vector integral gives:
+
+              \[\begin{aligned}
+              \int_0^t \vec{a}(\tau) \, d\tau
+              &amp;= \lim_{N \to \infty} \sum_{i=1}^N
+              \vec{a}(\tau_i) \Delta\tau \\
+              &amp;= \lim_{N \to \infty} \sum_{i=1}^N
+              \left( a_1(\tau_i) \,\hat\imath
+              + a_2(\tau_j) \,\hat\jmath \right) \Delta\tau \\
+              &amp;= \lim_{N \to \infty} \left( \sum_{i=1}^N
+              a_1(\tau_i) \Delta\tau \,\hat\imath
+              + \sum_{i=1}^N a_2(\tau_j) \Delta\tau \,\hat\jmath \right) \\
+              &amp;= \left( \lim_{N \to \infty} \sum_{i=1}^N
+              a_1(\tau_i) \Delta\tau \right) \,\hat\imath
+              + \left( \lim_{N \to \infty}
+              \sum_{i=1}^N a_2(\tau_j) \Delta\tau \right) \,\hat\jmath \\
+              &amp;= \left( \int_0^t a_1(\tau) \, d\tau \right) \,\hat\imath
+              + \left( \int_0^t a_2(\tau) \, d\tau \right) \,\hat\jmath.
+              \end{aligned}\]
+
+              The second-to-last line used the Riemann-sum definition
+              of regular scalar integrals of $a_1(t)$ and $a_2(t)$.
+            </p>
+          </div>
+        </div>
+        <div class="envContainer warning" id="rvc-wi">
+          <p class="envHeader">
+            Warning: Integrating each component is only valid if the basis is fixed.
+          </p>
+          <div class="envBody">
+            <p>
+              Integrating a vector function by integrating each
+              component separately is only valid if the basis vectors
+              are not changing with time. If the basis vectors are
+              changing then we must either transform to a fixed basis
+              or otherwise take this change into account.
+            </p>
+          </div>
+        </div>
+        <div class="envContainer exampleProblem" id="rvc-xi">
+          <p class="envHeader">
+            Example Problem: Integrating a vector function.
+          </p>
+          <div class="envBody">
+            <div class="question">
+              <p>
+                The vector $\vec{a}(t)$ is given by
+
+                \[
+                \vec{a}(t) = 
+                \Big(2 \sin(t + 1) + t^2 \Big) \,\hat\imath
+                + \Big(3 - 3 \cos(2t)\Big) \,\hat\jmath.
+                \]
+
+                What is $\int_0^t \vec{a}(\tau) \, d\tau$?
+              </p>
+            </div>
+            <div class="envContainer solution">
+              <div class="envBody">
+                <p>
+                  \[\begin{aligned}
+                  \int_0^t \vec{a}(\tau) \,d\tau
+                  &amp;= 
+                  \left(\int_0^t \Big(2 \sin(\tau + 1) + \tau^2 \Big)
+                  \,d\tau\right) \,\hat\imath
+                  + \left(\int_0^t \Big(3 - 3 \cos(2\tau)\Big)
+                  \,d\tau\right) \,\hat\jmath \\
+                  &amp;=
+                  \left(-2 \cos(\tau + 1) + \frac{\tau^3}{3}
+                  \right) \,\hat\imath
+                  + \left(3 t - \frac{3}{2} \sin(2\tau)
+                  \right) \,\hat\jmath. \\
+                  \end{aligned}\]
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="envContainer warning" id="rvc-wd">
+          <p class="envHeader">
+            Warning: The dummy variable of integration must be different to the limit variable.
+          </p>
+          <div class="envBody">
+            <p>
+              In the coordinate integral expression <a
+              href="#rvc-ei">#rvc-ei</a>, it is important that the
+              component expressions $a_1(t)$, $a_2(t)$ are re-written
+              with a different dummy variable such as $\tau$ when
+              integrating. If we used $\tau$ for integration but kept
+              $a_1(t)$ then we would obtain
+
+              \[
+              \int_0^t a_1(t) \,d\tau
+              = \left[a_1(t) \, \tau\right]_{\tau = 0}^{\tau = t}
+              = a_1(t) \, t,
+              \]
+
+              which is not what we mean by the integral.
+
+              Alternatively, if we leave everything as $t$ then we
+              would obtain
+
+              \[
+              \int_0^t a_1(t) \,dt
+              \]
+
+              which is a meaningless expression, as dummy variables
+              must only appear inside an integral.
+            </p>
+          </div>
         </div>
       </div>
     </div>

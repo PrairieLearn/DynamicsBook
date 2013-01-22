@@ -498,14 +498,14 @@ $(document).ready(function() {
 
         var f = function(t) {
             return $V([
-                2 * Math.sin(t / tMax * 3 / 2 * Math.PI + Math.PI / 2) - 2 + 6 * Math.sin(t / tMax / 2 * Math.PI) + t * t / 20,
-                3 * (1 - Math.cos(t / tMax * 3 / 2 * Math.PI))
+                2 * Math.cos(t / tMax * 3 / 2 * Math.PI) - 2 + 6 * Math.sin(t / tMax / 2 * Math.PI) + t * t / 20,
+                3 - 3 * Math.cos(t / tMax * 3 / 2 * Math.PI)
             ]);
         }.bind(this);
 
         var df = function(t) {
             return $V([
-                2 * Math.cos(t / tMax * 3 / 2 * Math.PI + Math.PI / 2) * 1 / tMax * 3 / 2 * Math.PI
+                -2 * Math.sin(t / tMax * 3 / 2 * Math.PI) * 1 / tMax * 3 / 2 * Math.PI
                     + 6 * Math.cos(t / tMax / 2 * Math.PI) * 1 / tMax / 2 * Math.PI + 2 * t / 20,
                 3 * Math.sin(t / tMax * 3 / 2 * Math.PI) * 1 / tMax * 3 / 2 * Math.PI
             ]);
