@@ -594,7 +594,49 @@
           Integrating vector functions
         </h2>
         <p>
+          Definition of integral (Riemann sum) is:
         </p>
+        <div class="envContainer equation" id="rvc-ei">
+          <p class="envHeader">Vector integral.</p>
+          <div class="envBody">
+            <p>
+              \[
+              \int_0^t \vec{a}(\tau) \, d\tau
+              = \lim_{N \to \infty} \underbrace{\sum_{i=1}^N \vec{a}(\tau_i) \Delta\tau}_{\vec{S}_N}
+              \qquad \tau_i = \frac{i - 1}{N}
+              \qquad \Delta \tau = \frac{1}{N}
+              \]
+            </p>
+          </div>
+        </div>
+        <div class="figureContainer width600" id="rvc-fi">
+          <canvas id="rvc-fi-c" width="600" height="400" class="figureImage">
+          </canvas>
+          <p class="controls">
+            <button class="reset:rvc-fi-c">reset</button>
+          </p>
+          <p class="controls">
+            Show:
+            <button class="option-toggle:rvc-fi-c:showLabels">labels</button>
+            <button class="option-toggle:rvc-fi-c:showAnchoredVelocity">anchored $\vec{a}(t)$</button>
+            <button class="option-toggle:rvc-fi-c:showExact">integral of $\vec{a}(t)$</button>
+            <button class="option-toggle:rvc-fi-c:showApprox">approximate integral</button>
+          </p>
+          <table>
+            <tr>
+              <td>Time:</td>
+              <td><input type="range" min="0" max="10" value="0" step="0.01" class="data-input:rvc-fi-c:t" /></td>
+              <td>$t = $ <span class="data-option:rvc-fi-c:t"></span> s</td>
+            </tr>
+            <tr>
+              <td>Segments:</td>
+              <td><input type="range" min="0" max="4.61" value="0" step="0.01" class="data-input:rvc-fi-c:logN" /></td>
+              <td>$N = $ <span class="data-option:rvc-fi-c:N"></span></td>
+            </tr>
+          </table>
+          <p class="figureCaption">
+          </p>
+        </div>
       </div>
     </div>
     </div>

@@ -5,11 +5,7 @@
     margin-bottom: 0px;
 }
 
-#rvc-fd input[type="range"] {
-    width: 300px;
-}
-
-#rvc-fc input[type="range"] {
+input[type="range"] {
     width: 300px;
 }
 
