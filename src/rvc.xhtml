@@ -61,24 +61,30 @@
           </canvas>
           <p class="controls">
             <button class="reset:rvc-fd-c">reset</button>
-          </p>
-          <p class="controls">
-            Show:
             <button class="option-toggle:rvc-fd-c:showLabels">labels</button>
-            <button class="option-toggle:rvc-fd-c:showIncrement">vector increment $\Delta\vec{a}$</button>
-            <button class="option-toggle:rvc-fd-c:showApproxDeriv">approximate derivative $\Delta\vec{a} / \Delta t$</button>
-            <button class="option-toggle:rvc-fd-c:showExactDeriv">exact derivative $\dot{\vec{a}}$</button>
           </p>
           <table>
             <tr>
-              <td>Time:</td>
-              <td><input type="range" min="0" max="10" value="0" step="0.01" class="data-input:rvc-fd-c:t" /></td>
-              <td>$t = $ <span class="data-option:rvc-fd-c:t"></span> s</td>
+              <td>Show:</td>
+              <td>
+                <button class="option-toggle:rvc-fd-c:showIncrement">vector increment $\Delta\vec{a}$</button>
+                <button class="option-toggle:rvc-fd-c:showApproxDeriv">approximate derivative $\Delta\vec{a} / \Delta t$</button>
+                <button class="option-toggle:rvc-fd-c:showExactDeriv">exact derivative $\dot{\vec{a}}$</button>
+              </td>
             </tr>
             <tr>
               <td>Increment:</td>
-              <td><input type="range" min="0" max="4" value="0" step="0.01" class="data-input:rvc-fd-c:dt" /></td>
-              <td>$\Delta t = $ <span class="data-option:rvc-fd-c:dt"></span> s</td>
+              <td>
+                <input type="range" min="0" max="4" value="0" step="0.01" class="data-input:rvc-fd-c:dt" />
+                $\Delta t = $ <span class="data-option:rvc-fd-c:dt"></span> s
+              </td>
+            </tr>
+            <tr>
+              <td>Time:</td>
+              <td>
+                <input type="range" min="0" max="10" value="0" step="0.01" class="data-input:rvc-fd-c:t" />
+                $t = $ <span class="data-option:rvc-fd-c:t"></span> s
+              </td>
             </tr>
           </table>
           <p class="figureCaption">
@@ -120,6 +126,12 @@
             <button class="reset:rvc-fp-c">reset</button>
           </p>
           <p class="controls">
+            Show:
+            <button class="option-toggle:rvc-fp-c:showVelocity0">derivative at $t = 0$</button>
+            <button class="option-toggle:rvc-fp-c:showFixedBase">$\vec{a}(t)$ with fixed base</button>
+            <button class="option-toggle:rvc-fp-c:showVelocity">derivative at current $t$</button>
+          </p>
+          <p class="controls">
             Movement:
             <input type="radio" name="rvc-fp-c-movement" value="rotate" class="data-input:rvc-fp-c:movement" />
             rotate
@@ -137,12 +149,6 @@
             slider
             <input type="radio" name="rvc-fp-c-movement" value="fly" class="data-input:rvc-fp-c:movement" />
             fly
-          </p>
-          <p class="controls">
-            Show:
-            <button class="option-toggle:rvc-fp-c:showVelocity0">derivative at $t = 0$</button>
-            <button class="option-toggle:rvc-fp-c:showVelocity">derivative at current $t$</button>
-            <button class="option-toggle:rvc-fp-c:showFixedBase">$\vec{a}(t)$ with fixed base</button>
           </p>
           <p class="figureCaption">
             Vector derivatives for moving vectors. Vector movement is
@@ -224,31 +230,39 @@
           </canvas>
           <p class="controls">
             <button class="reset:rvc-fc-c">reset</button>
-          </p>
-          <p class="controls">
-            Show:
             <button class="option-toggle:rvc-fc-c:showLabels">labels</button>
-            <button class="option-toggle:rvc-fc-c:showComponent1">first component</button>
-            <button class="option-toggle:rvc-fc-c:showComponent2">second component</button>
-            <button class="option-toggle:rvc-fc-c:showVelocity">velocity</button>
           </p>
-          <p class="controls">
-            Basis:
-            <input type="radio" name="rvc-fc-c-basis" value="ij" class="data-input:rvc-fc-c:basis" />
-            $\hat\imath,\hat\jmath$
-            <input type="radio" name="rvc-fc-c-basis" value="uv" class="data-input:rvc-fc-c:basis" />
-            $\hat{u},\hat{v}$
-          </p>
-          <p>
-            Time:
-            <input type="range" min="0" max="10" value="0" step="0.01" class="data-input:rvc-fc-c:t" />
-            $t = $ <span class="data-option:rvc-fc-c:t"></span> s
-          </p>
+          <table>
+            <tr>
+              <td>Time:</td>
+              <td>
+                <input type="range" min="0" max="10" value="0" step="0.01" class="data-input:rvc-fc-c:t" />
+                $t = $ <span class="data-option:rvc-fc-c:t"></span> s
+              </td>
+            </tr>
+            <tr>
+              <td>Show:</td>
+              <td>
+                <button class="option-toggle:rvc-fc-c:showVelocity">derivative</button>
+                <button class="option-toggle:rvc-fc-c:showComponent1">first component</button>
+                <button class="option-toggle:rvc-fc-c:showComponent2">second component</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Basis:</td>
+              <td>
+                <input type="radio" name="rvc-fc-c-basis" value="ij" class="data-input:rvc-fc-c:basis" />
+                $\hat\imath,\hat\jmath$
+                <input type="radio" name="rvc-fc-c-basis" value="uv" class="data-input:rvc-fc-c:basis" />
+                $\hat{u},\hat{v}$
+              </td>
+            </tr>
+          </table>
           <p class="figureCaption">
             The vector derivative decomposed into components. This
             demonstrates graphically that each component of a vector
             in a particular basis is simply a scalar function, and the
-            corresponding velocity component is the regular scalar
+            corresponding derivative component is the regular scalar
             derivative.
           </p>
         </div>
@@ -572,10 +586,10 @@
           <p class="controls">
             <button class="anim-toggle:rvc-fm-c">animate</button>
             <button class="reset:rvc-fm-c">reset</button>
+            <button class="option-toggle:rvc-fm-c:showLabels">labels</button>
           </p>
           <p class="controls">
             Show:
-            <button class="option-toggle:rvc-fm-c:showLabels">labels</button>
             <button class="option-toggle:rvc-fm-c:showVelocity">derivative $\dot{\vec{a}}$</button>
             <button class="option-toggle:rvc-fm-c:showVelocityDecomp">derivative decomposition</button>
           </p>
@@ -614,24 +628,30 @@
           </canvas>
           <p class="controls">
             <button class="reset:rvc-fi-c">reset</button>
-          </p>
-          <p class="controls">
-            Show:
             <button class="option-toggle:rvc-fi-c:showLabels">labels</button>
-            <button class="option-toggle:rvc-fi-c:showAnchoredVelocity">anchored $\vec{a}(t)$</button>
-            <button class="option-toggle:rvc-fi-c:showExact">integral of $\vec{a}(t)$</button>
-            <button class="option-toggle:rvc-fi-c:showApprox">approximate integral</button>
           </p>
           <table>
             <tr>
               <td>Time:</td>
-              <td><input type="range" min="0" max="10" value="0" step="0.01" class="data-input:rvc-fi-c:t" /></td>
-              <td>$t = $ <span class="data-option:rvc-fi-c:t"></span> s</td>
+              <td>
+                <input type="range" min="0" max="10" value="0" step="0.01" class="data-input:rvc-fi-c:t" />
+                $t = $ <span class="data-option:rvc-fi-c:t"></span> s
+              </td>
+            </tr>
+            <tr>
+              <td>Show:</td>
+              <td>
+                <button class="option-toggle:rvc-fi-c:showAnchoredVelocity">anchored $\vec{a}(t)$</button>
+                <button class="option-toggle:rvc-fi-c:showExact">integral of $\vec{a}(t)$</button>
+                <button class="option-toggle:rvc-fi-c:showApprox">approximate integral</button>
+              </td>
             </tr>
             <tr>
               <td>Segments:</td>
-              <td><input type="range" min="0" max="4.61" value="0" step="0.01" class="data-input:rvc-fi-c:logN" /></td>
-              <td>$N = $ <span class="data-option:rvc-fi-c:N"></span></td>
+              <td>
+                <input type="range" min="0" max="4.61" value="0" step="0.01" class="data-input:rvc-fi-c:logN" />
+                $N = $ <span class="data-option:rvc-fi-c:N"></span>
+              </td>
             </tr>
           </table>
           <p class="figureCaption">
