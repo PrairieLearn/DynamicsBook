@@ -1,6 +1,112 @@
 
 $(document).ready(function() {
 
+    var compressMap = function(data) {
+        var smoothTol = 1; // degrees
+        var patchTol = 1; // degrees
+
+        var mapSize = function(d) {
+            var n = 0;
+            for (var i = 0; i < d.length; i++) {
+                n += d[i].length;
+            }
+            return n;
+        }
+
+        var dist = function(p1, p2) {
+            return $V(p1).subtract($V(p2)).modulus();
+        };
+
+        var compressLine = function(points) {
+            if (points.length < 1) {
+                return points;
+            }
+            var newPoints = [points[0]];
+            for (var i = 1; i < points.length - 1; i++) {
+                if (dist(newPoints[newPoints.length - 1], points[i + 1]) > smoothTol) {
+                    newPoints.push(points[i]);
+                }
+            }
+            newPoints.push(points[points.length - 1]);
+            return newPoints;
+        };
+
+        var compressAllLines = function(d) {
+            var newD = [];
+            for (var i = 0; i < d.length; i++) {
+                newD.push(compressLine(d[i]));
+            }
+            return newD;
+        };
+
+        var joinSegments = function(d) {
+            if (d.length < 1) {
+                return d;
+            }
+            var newD = [d[0]];
+            for (var i = 1; i < d.length; i++) {
+                var found = false;
+                var addLine = d[i];
+                var joinedLine;
+                for (var j = 0; j < newD.length; j++) {
+                    var oldLine = newD[j];
+                    if (dist(oldLine[0], addLine[0]) < patchTol) {
+                        addLine.reverse();
+                        joinedLine = addLine.concat(oldLine);
+                        found = true;
+                    } else if (dist(oldLine[0], addLine[addLine.length - 1]) < patchTol) {
+                        joinedLine = addLine.concat(oldLine);
+                        found = true;
+                    } else if (dist(oldLine[oldLine.length - 1], addLine[0]) < patchTol) {
+                        joinedLine = oldLine.concat(addLine);
+                        found = true;
+                    } else if (dist(oldLine[oldLine.length - 1], addLine[addLine.length - 1]) < patchTol) {
+                        addLine.reverse();
+                        joinedLine = oldLine.concat(addLine);
+                        found = true;
+                    }
+                    if (found) {
+                        break;
+                    }
+                }
+                if (found) {
+                    newD.splice(j, 1, joinedLine);
+                } else {
+                    newD.push(addLine);
+                }
+            }
+            return newD;
+        };
+
+        console.log("original number of segments", data.length);
+        console.log("original size", mapSize(data));
+
+        var data2 = joinSegments(data);
+        console.log("new number of segments", data2.length);
+
+        var data3 = compressAllLines(data2);
+        console.log("new size", mapSize(data3));
+
+        return data3;
+    };
+
+    var logMap = function(name, data, prec) {
+        console.log(name + " = [");
+        for (var i = 0; i < data.length; i++) {
+            console.log("    [");
+            for (var j = 0; j < data[i].length; j++) {
+                console.log("        ["
+                            + data[i][j][0].toFixed(prec) + ", "
+                            + data[i][j][1].toFixed(prec) + "],");
+            }
+            console.log("    ],");
+        }
+        console.log("];")
+    }
+
+    //var compressedWorldCoastline = compressMap(worldCoastline);
+    //logMap("worldCoastline", compressedWorldCoastline, 1);
+
     var aos_fm_c = new PrairieDraw("aos-fm-c", function() {
         this.setUnits(360, 180);
 
@@ -21,8 +127,8 @@ $(document).ready(function() {
 
         this.save();
         this.setProp("shapeStrokeWidthPx", 1);
-        for (i = 0; i < world_coastline.length; i++) {
-            this.polyLine(this.pairsToVectors(world_coastline[i]));
+        for (i = 0; i < worldCoastline.length; i++) {
+            this.polyLine(this.pairsToVectors(worldCoastline[i]));
         }
         this.restore();
 
@@ -456,8 +562,8 @@ $(document).ready(function() {
 
         this.save();
         this.setProp("shapeStrokeWidthPx", 1);
-        for (i = 0; i < world_coastline.length; i++) {
-            this.polyLine(world_coastline[i].map(projFunc));
+        for (i = 0; i < worldCoastline.length; i++) {
+            this.polyLine(worldCoastline[i].map(projFunc));
         }
         this.restore();
     });

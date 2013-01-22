@@ -16,6 +16,19 @@
     <script src="PrairieDraw.js" type="text/javascript"></script>
     <script src="rvy.js" type="text/javascript"></script>
     <script src="pageControl.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-37625161-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
   </head>
   <body>
     <div class="container">
@@ -32,7 +45,7 @@
       <div id="rvy" class="contentCol">
         <h1>Cylindrical coordinates</h1>
         <p>
-          The spherical coordinate system extends polar coordinates
+          The cylindrical coordinate system extends polar coordinates
           into 3D by using the standard vertical coordinate $z$. This
           gives coordinates $(r, \theta, z)$ consisting of:
         </p>
@@ -128,7 +141,8 @@
         <p>
           Cylindrical coordinates are defined with respect to a set of
           Cartesian coordinates, and can be converted to and from
-          these coordinates as follows.
+          these coordinates using the <a
+          href="rvp.xhtml#rvp-it">atan2</a> function as follows.
         </p>
         <div class="envContainer equation" id="rvy-ec">
           <p class="envHeader">
@@ -157,7 +171,8 @@
             </p>
             <p>
               To convert from Cartesian coordinates, we use the <a
-              href="">atan2</a> function with the same triangle.
+              href="rvp.xhtml#rvp-it">atan2</a> function with the same
+              triangle.
             </p>
           </div>
         </div>
@@ -194,9 +209,9 @@
             <p>
               We write the position vector $\vec{\rho} = r \cos\theta
               \, \hat{\imath} + r \sin\theta \, \hat{\jmath} + z \,
-              \hat{k}$ and then use the <a href="">definition of
-              coordinate basis vectors</a> to find the non-normalized
-              spherical basis vectors:
+              \hat{k}$ and then use the definition of coordinate basis
+              vectors to find the non-normalized cylindrical basis
+              vectors:
             </p>
             <p>
               \[\begin{aligned}
@@ -271,9 +286,8 @@
             <p>
               We can either directly differentiate the <a
               href="#rvy-eb">basis vector expressions</a>, or we can
-              <a href="">recall</a> that $\dot{\hat{e}} = \vec{\omega}
-              \times \hat{e}$ for any basis vector $\hat{e}$. This
-              gives:
+              recall that $\dot{\hat{e}} = \vec{\omega} \times
+              \hat{e}$ for any basis vector $\hat{e}$. This gives:
             </p>
             <p>
               \[\begin{aligned}
@@ -291,15 +305,16 @@
             <p>
               where we used the fact that $\hat{e}_r, \hat{e}_\theta,
               \hat{e}_z$ form a right-handed orthonormal basis to <a
-              href="">evaluate the cross products</a>.
+              href="rvv.xhtml#rvv-sc">evaluate the cross products</a>.
             </p>
           </div>
         </div>
         <p>
           A point $P$ at a time-varying position $(r,\theta,z)$ has
           position vector $\vec{\rho}$, velocity $\vec{v} =
-          \dot{\vec{\rho}}$, and acceleration $\vec{a} = \ddot{\vec{r}}$
-          given by the following expressions in cylindrical components.
+          \dot{\vec{\rho}}$, and acceleration $\vec{a} =
+          \ddot{\vec{\rho}}$ given by the following expressions in
+          cylindrical components.
         </p>
         <div class="envContainer equation" id="rvy-ep">
           <p class="envHeader">

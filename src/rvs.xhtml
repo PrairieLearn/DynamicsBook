@@ -16,6 +16,19 @@
     <script src="PrairieDraw.js" type="text/javascript"></script>
     <script src="rvs.js" type="text/javascript"></script>
     <script src="pageControl.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-37625161-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
   </head>
   <body>
     <div class="container">
@@ -129,7 +142,8 @@
         <p>
           Spherical coordinates are defined with respect to a set of
           Cartesian coordinates, and can be converted to and from
-          these coordinates as follows.
+          these coordinates using the <a
+          href="rvp.xhtml#rvp-it">atan2</a> function as follows.
         </p>
         <div class="envContainer equation" id="rvs-ec">
           <p class="envHeader">
@@ -140,7 +154,7 @@
               \[\begin{aligned}
               x &amp;= r \cos\theta \cos\phi &amp; r &amp;= \sqrt{x^2 + y^2 + z^2} \\
               y &amp;= r \sin\theta \cos\phi &amp; \theta &amp;= \operatorname{atan2}(y, x) \\
-              z &amp;= r \sin\phi &amp; \phi &amp;= \operatorname{asin}(z / r)
+              z &amp;= r \sin\phi &amp; \phi &amp;= \operatorname{arcsin}(z / r)
               \end{aligned}\]
             </p>
           </div>
@@ -160,8 +174,8 @@
               To convert from Cartesian coordinates, we use the same
               projection and read off the expressions for the
               spherical coordinates. This uses the <a
-              href="">atan2</a> function to handle the different
-              quadrants for $\theta$.
+              href="rvp.xhtml#rvp-it">atan2</a> function to handle the
+              different quadrants for $\theta$.
             </p>
           </div>
         </div>
@@ -199,7 +213,7 @@
               We write the position vector $\vec{r} = r \cos\theta
               \cos\phi \, \hat{\imath} + r \sin\theta \cos\phi \,
               \hat{\jmath} + r \sin\phi \, \hat{k}$ and then use the
-              <a href="">definition of coordinate basis vectors</a> to find the
+              definition of coordinate basis vectors to find the
               non-normalized spherical basis vectors:
             </p>
             <p>
@@ -292,8 +306,8 @@
               Changing $r$ does not cause a rotation of the basis
               while changing $\theta$ rotates about the vertical axis
               $\hat{k}$ and changing $\phi$ rotates about
-              $-\hat{e}_\theta$. <a href="">Combining these angular
-              velocities</a> gives the expression for $\vec{\omega}$.
+              $-\hat{e}_\theta$. Combining these angular
+              velocities gives the expression for $\vec{\omega}$.
             </p>
           </div>
         </div>
@@ -324,7 +338,7 @@
             <p>
               We can either directly differentiate the <a
               href="#rvs-eb">basis vector expressions</a>, or we can
-              <a href="">recall</a> that $\dot{\hat{e}} = \vec{\omega}
+              recall that $\dot{\hat{e}} = \vec{\omega}
               \times \hat{e}$ for any basis vector $\hat{e}$. This
               gives:
             </p>
@@ -347,7 +361,7 @@
             <p>
               Now we use the fact that $\hat{e}_r, \hat{e}_\theta,
               \hat{e}_\phi$ form a right-handed orthonormal basis to <a
-              href="">evaluate the cross products</a>.
+              href="rvv.xhtml#rvv-sc">evaluate the cross products</a>.
             </p>
           </div>
         </div>
@@ -432,10 +446,10 @@
             but to reverse the symbol convention so that $\phi$ is the
             azimuth and $\theta$ is the inclination. Many different
             names for the coordinates are also used, with the
-            inclination being called the <i>zenith angle</i>, <i>polar
-            angle</i>, or <i>normal angle</i>. In geographic
+            inclination also being called the <i>zenith angle</i>,
+            <i>polar angle</i>, or <i>normal angle</i>. In geographic
             coordinates the azimuth is the <i>longitude</i> $\lambda$
-            and the elevation is the <i>latitude</i>, while in
+            and the elevation is the <i>latitude</i> $\phi$, while in
             celestial coordinates the azimuth is the <i>right
             ascension</i> $\alpha$ and the elevation is the
             <i>declination</i> $\delta$.

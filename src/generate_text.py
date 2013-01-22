@@ -50,7 +50,6 @@ for filename in sys.argv[1:]:
                 print(hash + " " + text)
                 tex_filename = hash + ".tex"
                 pdf_filename = hash + ".pdf"
-                tmp_filename = hash + "_tmp.png"
                 img_filename = hash + ".png"
                 tex_full_filename = os.path.join(TEXT_DIR, tex_filename)
                 img_full_filename = os.path.join(TEXT_DIR, img_filename)
@@ -69,3 +68,11 @@ for filename in sys.argv[1:]:
                     subprocess.check_call(["convert", "-density", "96",
                                            pdf_filename, "-trim", "+repage",
                                            img_filename], cwd=TEXT_DIR)
+
+print("Deleting intermediate files from %s" % TEXT_DIR)
+filenames = os.listdir(TEXT_DIR)
+for filename in filenames:
+    (root, ext) = os.path.splitext(filename)
+    if ext.lower() in [".pdf", ".tex", ".aux", ".log"]:
+        full_filename = os.path.join(TEXT_DIR, filename)
+        os.unlink(full_filename)
