@@ -104,6 +104,7 @@ $(document).ready(function() {
             f = function(t) {
                 var m = 2;
                 return {
+                    zeroDerivative: true,
                     aSign: 1,
                     vSign: 1,
                     a: $V([m, m / 2]),
@@ -172,6 +173,8 @@ $(document).ready(function() {
         var base = val.base;
         var aSign = val.aSign;
         var vSign = val.vSign;
+        var zeroDerivative0 = (val0.zeroDerivative === undefined) ? false : val0.zeroDerivative;
+        var zeroDerivative = (val.zeroDerivative === undefined) ? false : val.zeroDerivative;
 
         this.save();
         this.translate($V([-3, 0]));
@@ -180,8 +183,12 @@ $(document).ready(function() {
         this.arrow(O, a0, "position");
         this.labelLine(O, a0, $V([0, -1]), "TEX:$\\vec{a}(0)$");
         if (this.getOption("showVelocity0")) {
-            this.arrow(a0, a0.add(v0), "velocity");
-            this.labelLine(a0, a0.add(v0), $V([0, 1]), "TEX:$\\dot{\\vec{a}}(0)$");
+            if (zeroDerivative0) {
+                this.labelLine(O, a0, $V([1, 0]), "TEX:$\\dot{\\vec{a}}(0) = 0$");
+            } else {
+                this.arrow(a0, a0.add(v0), "velocity");
+                this.labelLine(a0, a0.add(v0), $V([0, 1]), "TEX:$\\dot{\\vec{a}}(0)$");
+            }
         }
         this.restore();
         this.save();
@@ -189,8 +196,12 @@ $(document).ready(function() {
         this.arrow(O, a, "position");
         this.labelLine(O, a, $V([0, aSign]), "TEX:$\\vec{a}(t)$");
         if (this.getOption("showVelocity")) {
-            this.arrow(a, a.add(v), "velocity");
-            this.labelLine(a, a.add(v), $V([0, -vSign]), "TEX:$\\dot{\\vec{a}}(t)$");
+            if (zeroDerivative) {
+                this.labelLine(O, a, $V([1, 0]), "TEX:$\\dot{\\vec{a}}(t) = 0$");
+            } else {
+                this.arrow(a, a.add(v), "velocity");
+                this.labelLine(a, a.add(v), $V([0, -vSign]), "TEX:$\\dot{\\vec{a}}(t)$");
+            }
         }
         this.restore();
         this.restore();
@@ -201,14 +212,18 @@ $(document).ready(function() {
             this.arrow(O, a0, "position");
             this.labelLine(O, a0, $V([0, -1]), "TEX:$\\vec{a}(0)$");
             if (this.getOption("showVelocity0")) {
-                this.arrow(a0, a0.add(v0), "velocity");
-                this.labelLine(a0, a0.add(v0), $V([0, 1]), "TEX:$\\dot{\\vec{a}}(0)$");
+                if (!zeroDerivative0) {
+                    this.arrow(a0, a0.add(v0), "velocity");
+                    this.labelLine(a0, a0.add(v0), $V([0, 1]), "TEX:$\\dot{\\vec{a}}(0)$");
+                }
             }
             this.arrow(O, a, "position");
             this.labelLine(O, a, $V([0, aSign]), "TEX:$\\vec{a}(t)$");
             if (this.getOption("showVelocity")) {
-                this.arrow(a, a.add(v), "velocity");
-                this.labelLine(a, a.add(v), $V([0, -vSign]), "TEX:$\\dot{\\vec{a}}(t)$");
+                if (!zeroDerivative) {
+                    this.arrow(a, a.add(v), "velocity");
+                    this.labelLine(a, a.add(v), $V([0, -vSign]), "TEX:$\\dot{\\vec{a}}(t)$");
+                }
             }
             this.restore();
         }
