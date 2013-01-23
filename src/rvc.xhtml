@@ -329,11 +329,11 @@
                   (\vec{a} + \vec{a} \times \vec{c}) \right)
                   &amp;= \left(\frac{d}{dt}
                   \frac{\vec{b}}{\ell}\right) \cdot (\vec{a} + \vec{a}
-                  \times \vec{c}) + \vec{b} \cdot \frac{d}{dt}
+                  \times \vec{c}) + \frac{\vec{b}}{\ell} \cdot \frac{d}{dt}
                   (\vec{a} + \vec{a} \times \vec{c}) \\
                   &amp;= \left(\frac{\ell \dot{\vec{b}} -
                   \dot{\ell}\vec{b}}{\ell^2}\right) \cdot (\vec{a} +
-                  \vec{a} \times \vec{c}) + \vec{b} \cdot
+                  \vec{a} \times \vec{c}) + \frac{\vec{b}}{\ell} \cdot
                   (\dot{\vec{a}} + \dot{\vec{a}} \times \vec{c} +
                   \vec{a} \times \dot{\vec{c}})
                   \end{aligned}\]
@@ -773,10 +773,14 @@
                   + \left(\int_0^t \Big(3 - 3 \cos(2\tau)\Big)
                   \,d\tau\right) \,\hat\jmath \\
                   &amp;=
-                  \left(-2 \cos(\tau + 1) + \frac{\tau^3}{3}
-                  \right) \,\hat\imath
-                  + \left(3 t - \frac{3}{2} \sin(2\tau)
-                  \right) \,\hat\jmath. \\
+                  \left[-2 \cos(\tau + 1) + \frac{\tau^3}{3}
+                  \right]_{\tau=0}^{\tau=t} \,\hat\imath
+                  + \left[3 \tau - \frac{3}{2} \sin(2\tau)
+                  \right]_{\tau=0}^{\tau=t} \,\hat\jmath \\
+                  &amp;= \left( -2\cos(t + 1) + 2 \cos(1)
+                  + \frac{t^3}{3}\right)\,\hat\imath
+                  + \left(3t - \frac{3}{2} \sin(2t)\right)
+                  \,\hat\jmath.
                   \end{aligned}\]
                 </p>
               </div>
