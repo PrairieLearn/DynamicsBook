@@ -2100,11 +2100,11 @@ PrairieDraw.prototype.polyLine = function(pointsDw, closed, filled) {
     this._ctx.fillStyle = this._props.shapeInsideColor;
 
     this._ctx.beginPath();
-    var pDw = pointsDw[0];
+    var pDw = this.pos3To2(pointsDw[0]);
     var pPx = this.pos2Px(pDw);
     this._ctx.moveTo(pPx.e(1), pPx.e(2));
     for (var i = 1; i < pointsDw.length; i++) {
-        pDw = pointsDw[i];
+        pDw = this.pos3To2(pointsDw[i]);
         pPx = this.pos2Px(pDw);
         this._ctx.lineTo(pPx.e(1), pPx.e(2));
     }
