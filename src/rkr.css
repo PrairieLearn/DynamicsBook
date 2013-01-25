@@ -31,4 +31,13 @@
     padding-left: 0px;
 }
 
+#rkr-fc p input {
+    display: inline-block;
+    margin-left: 40px;
+}
+
+#rkr-fc p input:first-child {
+    margin-left: 5px;
+}
+
 /*****************************************************************************/

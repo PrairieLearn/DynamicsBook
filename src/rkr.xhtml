@@ -9,20 +9,13 @@
     <link href="rkr.css" type="text/css" rel="stylesheet" />
     <link href="icomoon.css" type="text/css" rel="stylesheet" />
 
-    <script src=
-            "mathjax/MathJax.js?config=default"
-            type="text/javascript">
-            </script>
-            <script src="jquery-1.7.2.min.js" type="text/javascript">
-            </script>
-            <script src="pageControl.js" type="text/javascript">
-            </script>
-            <script src="sylvester.js" type="text/javascript">
-            </script>
-            <script src="sha1.js" type="text/javascript">
-            </script>
-            <script src="PrairieDraw.js" type="text/javascript">
-            </script>
+    <script src="mathjax/MathJax.js?config=default" type="text/javascript"></script>
+    <script src="jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script src="sylvester.js" type="text/javascript"></script>
+    <script src="sha1.js" type="text/javascript"></script>
+    <script src="PrairieDraw.js" type="text/javascript"></script>
+    <script src="rkr.js" type="text/javascript"></script>
+    <script src="pageControl.js" type="text/javascript"></script>
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
@@ -59,62 +52,34 @@
           rotation consists of a <em>rotation axis</em> and a
           <em>rotation rate</em>. By taking the rotation axis as a
           direction and the rotation rate as a length, we can write
-          the rotation as a vector, known as the <em>angular
-          velocity vector</em> \(\vec{\omega}\). We use the
-          <em>right-hand-rule</em> to describe the direction of
-          rotation.
+          the rotation as a vector, known as the <em>angular velocity
+          vector</em> \(\vec{\omega}\). We use the
+          <em>right-hand rule</em> to describe the direction of
+          rotation. The units of $\vec\omega$ are $\rm rad/s$ or
+          ${}^\circ/s$.
         </p>
-        <div class="envContainer example" id="rkr-xr">
-          <p class="envHeader">
-            Example: Rotating vectors.
+        <div class="figureContainer width600" id="rkr-fc">
+          <canvas id="rkr-fc-c" width="600" height="400" class="figureImage">
+          </canvas>
+          <p class="controls">
+            <button class="anim-toggle:rkr-fc-c">animate</button>
+            <button class="reset:rkr-fc-c">reset</button>
           </p>
-          <div class="envBody">
-            <p>
-              Show a cloud of vectors rotating in 3D around an angular
-              velocity vector. Maybe have the angular velocity vector
-              change in length, showing the rotation slowing down and
-              speeding up. Maybe also have it change in direction,
-              showing the rotation axis change.
-            </p>
-          </div>
-        </div>
-        <p>
-          In 2D the angular velocity can be thought of as a scalar
-          (positive for counter-clockwise, negative for clockwise).
-          This scalar is just the out-of-plane component of the
-          full angular velocity vector. We can draw the angular
-          velocity as either a vector pointing out of the plane, or
-          as a circle-arrow in the plane, which is simpler for 2D
-          diagrams.
-        </p>
-        <div class="envContainer example" id="rkr-xp">
-          <p class="envHeader">
-            Example: Comparing angular velocity representations.
+          <p class="controls">
+            Rotation axis:
+            <input type="radio" name="rkr-fc-c-axis" value="i" class="data-input:rkr-fc-c:axis" /> $\hat\imath$
+            <input type="radio" name="rkr-fc-c-axis" value="j" class="data-input:rkr-fc-c:axis" /> $\hat\jmath$
+            <input type="radio" name="rkr-fc-c-axis" value="k" class="data-input:rkr-fc-c:axis" /> $\hat{k}$
+            <input type="radio" name="rkr-fc-c-axis" value="ij" class="data-input:rkr-fc-c:axis" /> $\hat\imath + \hat\jmath$
+            <input type="radio" name="rkr-fc-c-axis" value="ijk" class="data-input:rkr-fc-c:axis" /> $\hat\imath + \hat\jmath + \hat{k}$
           </p>
-          <div class="envBody">
-            <p>
-              Show a set of 2D vectors rotating in the plane, with the
-              angular velocity shown as an out-of-plane vector and an
-              in-plane circle-arrow.
-            </p>
-          </div>
+          <p class="figureCaption">
+            Angular velocity vector $\vec\omega$. The direction of
+            $\vec\omega$ is the axis of rotation, while the magnitude
+            is the speed of rotation (positive direction given by the
+            right-hand rule).
+          </p>
         </div>
-        <p>
-          If a vector \(\vec{a}\) is rotating with angular
-          velocity vector \(\vec{\omega}\), the rate of
-          change of \(\vec{a}\) is
-        </p>
-        <div class="envContainer equation" id="rkr-ew">
-          <p class="envHeader">Rate of change of a rotating vector</p>
-          <div class="envBody">
-            <p>
-              \[\dot{\vec{a}} = \vec{\omega} \times \vec{a}\]
-            </p>
-          </div>
-        </div>
-        <p>
-          We will see below that this is correct.
-        </p>
       </div>
       <div class="infoCol">
         <div class="infoBox factBox" id="rkr-ig">
@@ -197,142 +162,285 @@
       </div>
     </div>
     <div class="contentBlock">
-      <div id="rkr-sp" class="section level3 contentCol">
+      <div id="rkr-sd" class="contentCol">
         <h2>
-          Properties of rotations
+          Vector derivatives and rotations
         </h2>
-        <ul>
-          <li>
-            <p>
-              Vector derivatives due to rotation are orthogonal to
-              the vector:
-            </p>
-            <p>
-              \[\begin{aligned} \dot{\vec{a}} \cdot
-              \vec{a} = 0 \end{aligned}\]
-            </p>
-            <p>
-              Derivation: Using the scalar triple product formula:
-            </p>
-            <p>
-              \[\begin{aligned} \vec{a} \cdot
-              \dot{\vec{a}} &amp;= \vec{a} \cdot
-              \big( \vec{\omega} \times \vec{a} \big)
-              &amp;= \vec{\omega} \cdot \big( \vec{a}
-              \times \vec{a} \big) &amp;= 0 \end{aligned}\]
-            </p>
-          </li>
-          <li>
-            <p>
-              If we have two vectors \(\vec{b}\) and
-              \(\vec{a}\) both rotating with an angular
-              velocity \(\vec{\omega}\), then
-              \(\vec{b} \cdot \vec{a}\) is constant:
-            </p>
-            <p>
-              \[\begin{aligned} \frac{d}{dt} \big( \vec{b}
-              \cdot \vec{a} \big) = 0 \end{aligned}\]
-            </p>
-            <p>
-              Derivation: Using the scalar triple product formula:
-            </p>
-            <p>
-              \[\begin{aligned} \frac{d}{dt} \big( \vec{b}
-              \cdot \vec{a} \big) &amp;=
-              \dot{\vec{b}} \cdot \vec{a} +
-              \vec{b} \cdot \dot{\vec{a}} \\ &amp;=
-              (\vec{\omega} \times \vec{b}) \cdot
-              \vec{a} + \vec{b} \cdot
-              (\vec{\omega} \times \vec{a}) \\ &amp;=
-              \vec{a} \cdot (\vec{\omega} \times
-              \vec{b}) + \vec{a} \cdot
-              (\vec{b} \times \vec{\omega}) \\ &amp;=
-              \vec{a} \cdot (\vec{\omega} \times
-              \vec{b}) - \vec{a} \cdot
-              (\vec{\omega} \times \vec{b}) \\ &amp;=
-              0 \end{aligned}\]
-            </p>
-          </li>
-          <li>
-            <p>
-              Lengths of vectors are preserved by rotation:
-            </p>
-            <p>
-              \[\begin{aligned} a = \sqrt{\vec{a} \cdot
-              \vec{a}} = \text{constant} \end{aligned}\]
-            </p>
-            <p>
-              Derivation: Use derivative of dot product formula.
-            </p>
-          </li>
-          <li>
-            <p>
-              Angles between vectors are preserved by rotation:
-            </p>
-            <p>
-              \[\begin{aligned} \theta =
-              \cos^{-1}\left(\frac{\vec{b} \cdot
-              \vec{a}}{b a}\right) = \text{constant}
-              \end{aligned}\]
-            </p>
-            <p>
-              Derivation: Use derivative of dot product formula.
-            </p>
-          </li>
-          <li>
-            <p>
-              If \(\vec{a}\) is parallel to
-              \(\vec{\omega}\) then \(\dot{\vec{a}} =
-              0\).
-            </p>
-          </li>
-        </ul>
         <p>
-          This shows that the rotation formula
-          \(\dot{\vec{a}} = \vec{\omega} \times
-          \vec{a}\) does indeed perform a rigid rotation
-          about \(\vec{\omega}\).
+          If a unit vector \(\hat{a}\) is rotating, then the angular
+          velocity vector \(\vec{\omega}\) is defined so that:
         </p>
-        <p>
-          The units of \(\vec{\omega}\) are \(\rm rad/s\).
-        </p>
-        <div class="envContainer example" id="rkr-xf">
-          <p class="envHeader">
-            Example: Angular velocity and angular frequency.
-          </p>
+        <div class="envContainer equation" id="rkr-ew">
+          <p class="envHeader">Derivative of unit vectors.</p>
           <div class="envBody">
             <p>
-              Show the relationship between \(\rm rad/s\), \(\rm Hz\),
-              and period \(T\). See <a href=
-              "https://en.wikipedia.org/wiki/Angular_frequency"><code class="url">
-              https://en.wikipedia.org/wiki/Angular_frequency</code></a>
-              for some nice examples.
+              \[\dot{\hat{a}} = \vec{\omega} \times \hat{a}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer equation" id="rkr-ed">
+          <p class="envHeader">Derivative of general vectors.</p>
+          <div class="envBody">
+            <p>
+              \[\begin{aligned}
+              \dot{\vec{a}} = \underbrace{\dot{a}
+              \hat{a}}_{\operatorname{Proj}(\dot{\vec{a}}, \vec{a})} +
+              \underbrace{\vec{\omega} \times
+              \vec{a}}_{\operatorname{Comp}(\dot{\vec{a}}, \vec{a})}
+              \end{aligned}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
+              Using the same approach as <a
+              href="rvc.xhtml#rvc-em">#rvc-em</a> we write $\vec{a} =
+              a\hat{a}$ and differentiate this and use <a
+              href="#rkr-ew">rkr-ew</a> to find:
+
+              \[\begin{aligned}
+              \dot{\vec{a}} &amp;= \frac{d}{dt} \big( a \hat{a} \big) \\
+              &amp;= \dot{a} \hat{a} + a \dot{\hat{a}} \\
+              &amp;= \dot{a} \hat{a} + a (\vec\omega \times \hat{a}) \\
+              &amp;= \dot{a} \hat{a} + \vec\omega \times (a \hat{a}) \\
+              &amp;= \dot{a} \hat{a} + \vec\omega \times \vec{a}.
+              \end{aligned}\]
+
+              Comparing this to <a href="rvc.xhtml#rvc-em">#rvc-em</a>
+              shows that the two components are the projection and the
+              complementary projection, respectively.
+            </p>
+          </div>
+        </div>
+        <div class="envContainer equation" id="rkr-el">
+          <p class="envHeader">Derivative of constant-length vectors.</p>
+          <div class="envBody">
+            <p>
+              \[\dot{\vec{a}} = \vec{\omega} \times \vec{a}
+              \qquad\text{if $\vec{a}$ is constant length}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
+              This can be seen from the fact that $\dot{a} = 0$ if $a$
+              is constant (a fixed length vector), substituted into <a
+              href="#rkr-ed">#rkr-ed</a>.
             </p>
           </div>
         </div>
       </div>
-      <div class="infoCol"></div>
     </div>
     <div class="contentBlock">
-      <div id="rkr-sd" class="section level3 contentCol">
+      <div id="rkr-s2" class="contentCol">
         <h2>
-          Decompositions of rotation rates
+          Rotations in 2D
         </h2>
         <p>
-          \[\begin{aligned} \vec{\omega} =
-          \frac{\dot{\vec{a}} \times \vec{a}}{a^2} =
-          \frac{\dot{\vec{a}} \times
-          \vec{a}}{\vec{a} \cdot
-          \vec{a}}\end{aligned}\]
+          In 2D the angular velocity can be thought of as a scalar
+          (positive for counter-clockwise, negative for clockwise).
+          This scalar is just the out-of-plane component of the
+          full angular velocity vector. We can draw the angular
+          velocity as either a vector pointing out of the plane, or
+          as a circle-arrow in the plane, which is simpler for 2D
+          diagrams.
         </p>
+        <div class="figureContainer width600" id="rkr-fe">
+          <canvas id="rkr-fe-c" width="600" height="400" class="figureImage">
+          </canvas>
+          <p class="controls">
+            <button class="anim-toggle:rkr-fe-c">animate</button>
+            <button class="reset:rkr-fe-c">reset</button>
+          </p>
+          <p class="figureCaption">
+            Comparison of the vector and scalar representations of
+            $\vec\omega$ for 2D rotations.
+          </p>
+        </div>
         <p>
-          \[\begin{aligned} \frac{d}{dt} \,\hat{a} &amp;=
-          \vec{\omega} \times \,\hat{a} \\ \frac{d}{dt}
-          \vec{a} &amp;= \vec{\omega} \times
-          \vec{a} \\ \frac{d}{dt} \vec{a} &amp;=
-          \dot{a} \,\hat{a} + \vec{\omega} \times
-          \vec{a}\end{aligned}\]
+          In 2D the angular velocity scalar $\omega$ is simply the
+          derivative of the rotation angle $\theta$ in the plane:
         </p>
+        <div class="envContainer equation" id="rkr-e2">
+          <p class="envHeader">Magnitude $\omega$ is derivative of angle $\theta$ in 2D.</p>
+          <div class="envBody">
+            <p>
+              \[\omega = \dot\theta\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
+              Take $\hat{a}$ to be a unit vector rotating in the 2D
+              $\hat\imath$–$\hat\jmath$ plane, making an angle of
+              $\theta$ with the $x$-axis, as in Figure <a
+              href="#rkr-f2">#rkr-f2</a>. Then:
+
+              \[\hat{a} = \cos\theta \,\hat\imath
+              + \sin\theta \,\hat\jmath.\]
+
+              Differentiating this expression gives:
+
+              \[\dot{\hat{a}} = -\sin\theta \, \dot\theta \,\hat\imath
+              + \cos\theta \,\dot\theta \,\hat\jmath.\]
+
+              We now consider an angular velocity vector
+              $\vec\omega$. Because the rotation is in the
+              $\hat\imath$–$\hat\jmath$ plane, the angular velocity
+              vector must be in the $\hat{k}$ direction. Thus
+              $\vec\omega = \omega \hat{k}$. Now we can compute the
+              derivative of $\hat{a}$ using <a
+              href="#rkr-ew">#rkr-ew</a>, giving:
+
+              \[\begin{aligned}
+              \dot{\hat{a}} &amp;= \vec\omega \times \hat{a} \\
+              &amp;= \omega\hat{k} \times \big( \cos\theta \,\hat\imath
+              + \sin\theta \,\hat\jmath \big) \\
+              &amp;= \omega \cos\theta \,(\hat{k} \times \hat\imath)
+              + \omega \sin\theta \,(\hat{k} \times \hat\jmath) \\
+              &amp;= \omega \cos\theta \,\hat\jmath
+              + \omega \sin\theta \,(-\hat\imath) \\
+              &amp;= - \omega \sin\theta \,\hat\imath
+              + \omega \cos\theta \,\hat\jmath.
+              \end{aligned}\]
+
+              Comparing this expression to the earlier one for
+              $\dot{\hat{a}}$ we see that $\omega = \dot\theta$.
+            </p>
+          </div>
+        </div>
+        <p>
+          The right-hand rule convention for angular velocities means
+          that counter-clockwise rotations are positive, just like the
+          usual angle direction convention.
+        </p>
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="rkr-sp" class="contentCol">
+        <h2>
+          Rotations and vector “positions”
+        </h2>
+        <p>
+          The fact that vectors <a href="rvv.xhtml#rvv-fc">don't have
+          positions</a> means that vector rotations are independent of
+          where vectors are drawn, just like <a
+          href="rvc.xhtml#rvc-sp">for derivatives</a>.
+        </p>
+        <div class="figureContainer width600" id="rkr-fg">
+          <canvas id="rkr-fg-c" width="600" height="400" class="figureImage">
+          </canvas>
+          <p class="controls">
+            <button class="anim-toggle:rkr-fg-c">animate</button>
+            <button class="reset:rkr-fg-c">reset</button>
+          </p>
+          <p class="controls">
+            Show:
+            <button class="option-toggle:rkr-fg-c:showRigid">rigid arrangement</button>
+            <button class="option-toggle:rkr-fg-c:showFixed">fixed origins</button>
+            <button class="option-toggle:rkr-fg-c:showDerivatives">derivatives</button>
+          </p>
+          <p class="figureCaption">
+            Rotational motion of vectors which are drawn moving
+            about. Note that the drawn position does not affect the
+            angular velocity $\omega$ or the derivative vectors.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="rkr-so" class="contentCol">
+        <h2>
+          Properties of rotations
+        </h2>
+        <p>
+          Rotations are <em>rigid transformations</em>, meaning that
+          they keep constant all vector lengths and all relative
+          vector angles. These facts are reflected in the following
+          results, which all consider two vectors $\vec{a}$ and
+          $\vec{b}$ that are rotating with angular velocity
+          $\vec\omega$.
+        </p>
+        <div class="envContainer equation" id="rkr-e2">
+          <p class="envHeader">Derivative of rotating vector is orthogonal.</p>
+          <div class="envBody">
+            <p>
+              \[\dot{\vec{a}} \cdot \vec{a} = 0\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
+              Using <a href="#rkr-el">#rkr-el</a> and the scalar
+              triple product formula <a
+              href="rvi.xhtml#rvi-es">#rvi-es</a> gives:
+
+              \[\begin{aligned}
+              \vec{a} \cdot \dot{\vec{a}}
+              &amp;= \vec{a} \cdot \big( \vec{\omega} \times \vec{a} \big) \\
+              &amp;= \vec{\omega} \cdot \big( \vec{a} \times \vec{a} \big) \\
+              &amp;= 0.
+              \end{aligned}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer equation" id="rkr-e2">
+          <p class="envHeader">Angle $\theta$ between rotating vectors is constant.</p>
+          <div class="envBody">
+            <p>
+              \[\theta = \cos^{-1}\left(\frac{\vec{b} \cdot
+              \vec{a}}{b a}\right) = \text{constant}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
+              We first consider the dot product $\vec{a} \cdot
+              \vec{b}$ and show that this is not changing with
+              time. We do this by using the scalar triple product
+              formula <a href="rvi.xhtml#rvi-es">#rvi-es</a> to find:
+
+              \[\begin{aligned}
+              \frac{d}{dt} \big( \vec{a} \cdot \vec{b} \big)
+              &amp;= \dot{\vec{a}} \cdot \vec{b} + \vec{a} \cdot \dot{\vec{b}} \\
+              &amp;= (\vec{\omega} \times \vec{a}) \cdot \vec{b} + \vec{a} \cdot (\vec{\omega} \times \vec{b}) \\
+              &amp;= \vec{b} \cdot (\vec{\omega} \times \vec{a}) + \vec{b} \cdot (\vec{a} \times \vec{\omega}) \\
+              &amp;= \vec{b} \cdot (\vec{\omega} \times \vec{a}) - \vec{b} \cdot (\vec{\omega} \times \vec{a}) \\
+              &amp;= 0.
+              \end{aligned}\]
+
+              Now $\vec{a} \cdot \vec{b}$ is constant and the lengths
+              $a$ and $b$ are constant, so the angle $\theta$ between
+              the vectors must be constant.
+            </p>
+          </div>
+        </div>
+        <div class="envContainer equation" id="rkr-e2">
+          <p class="envHeader">Rotating vectors parallel to $\vec\omega$ are constant.</p>
+          <div class="envBody">
+            <p>
+              \[\dot{\vec{a}} = 0 \qquad \text{if $\vec{a}$ is rotating and parallel to $\vec\omega$}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
+              From <a href="#rkr-el">#rkr-el</a> we know that the
+              derivative is
+              
+              \[\dot{\vec{a}} = \vec\omega \times \vec{a},\]
+
+              but the cross product is zero for parallel vectors, so
+              this the derivative is zero.
+            </p>
+          </div>
+        </div>
       </div>
       <div class="infoCol"></div>
     </div>
@@ -342,16 +450,17 @@
           Rodrigues’ rotation formula
         </h2>
         <p>
-          Rodrigues’ rotation formula: \(\vec{a}\) is
-          rotated by angle \(\theta\) about \(\hat{b}\) to give:
+          Rodrigues’ rotation formula gives and explicit formula for a
+          vector rotated by an angle about a given axis.
         </p>
         <div class="envContainer equation" id="rkr-er">
           <p class="envHeader">
-            Rodrigues’ rotation formula
+            Rodrigues’ rotation formula for $\vec{a}$ rotated by
+            $\theta$ about $\hat{b}$.
           </p>
           <div class="envBody">
             <p>
-              \[\operatorname{Rot}_{\theta,\hat{b}}(\vec{a}) =
+              \[\operatorname{Rot}(\vec{a}; \theta, \hat{b}) =
               \vec{a} \cos\theta + (\hat{b} \times
               \vec{a}) \sin\theta + \hat{b} (\hat{b} \cdot
               \vec{a}) (1 - \cos\theta)\]
@@ -362,43 +471,43 @@
           <div class="envBody">
             <p>
               Assume \(\vec{a}\) is not parallel to
-              \(\hat{b}\). Then let \(\vec{b} = \hat{b} \times
-              \vec{a}\) and \(\vec{a} = \vec{b}
-              \times \vec{b}\), so \(\hat{a}, \hat{b}, \hat{b}\)
-              is a right-handed orthonormal basis (see PV.CC). Take
+              \(\hat{b}\). Then let \(\vec{v} = \hat{b} \times
+              \vec{a}\) and \(\vec{u} = \vec{v}
+              \times \vec{b}\), so \(\hat{u}, \hat{v}, \hat{b}\)
+              is a right-handed orthonormal basis. Take
               \(\phi\) to be the angle between \(\vec{a}\) and
               \(\hat{b}\). Then we do a rotation by \(\theta\) in
-              the \(\hat{a}\)-\(\hat{b}\) plane:
+              the \(\hat{u}\)-\(\hat{v}\) plane:
             </p>
             <p>
               \[\begin{aligned} \vec{a} &amp;= a \sin\phi
-              \,\hat{a} + a \cos\phi \,\hat{b} \\
-              \operatorname{Rot}_{\theta,\hat{b}}(\vec{a}) &amp;= a
-              \cos\theta \sin\phi \,\hat{a} + a \sin\theta \sin\phi
-              \,\hat{b} + a \cos\phi \,\hat{b}\end{aligned}\]
+              \,\hat{u} + a \cos\phi \,\hat{b} \\
+              \operatorname{Rot}(\vec{a};\theta,\hat{b}) &amp;= a
+              \cos\theta \sin\phi \,\hat{u} + a \sin\theta \sin\phi
+              \,\hat{v} + a \cos\phi \,\hat{b}.\end{aligned}\]
             </p>
             <p>
               Now we want to convert from the
-              \(\hat{a},\hat{b},\hat{b}\) basis to write the rotated
+              \(\hat{u},\hat{v},\hat{b}\) basis to write the rotated
               result in terms of \(\vec{a}, (\hat{b} \times
               \vec{a}), \hat{b}\). To do this, we need to work
-              out what \(\hat{a},\hat{b},\hat{b}\) are in terms of
+              out what \(\hat{u},\hat{v},\hat{b}\) are in terms of
               these other vectors.
             </p>
             <p>
-              \[\begin{aligned} \hat{b} &amp;= \frac{\hat{b} \times
+              \[\begin{aligned} \hat{v} &amp;= \frac{\hat{b} \times
               \vec{a}}{\|\hat{b} \times \vec{a}\|} =
               \frac{\hat{b} \times \vec{a}}{a \sin\phi} \\
-              \hat{a} &amp;= \frac{\vec{b} \times
-              \hat{b}}{\|\vec{b} \times \vec{b}\|} =
-              \frac{\vec{b} \times \hat{b}}{a \sin\phi} =
+              \hat{u} &amp;= \frac{\vec{v} \times
+              \hat{b}}{\|\vec{v} \times \vec{b}\|} =
+              \frac{\vec{v} \times \hat{b}}{a \sin\phi} =
               \frac{(\hat{b} \times \vec{a}) \times \hat{b}}{a
               \sin\phi} = \frac{\hat{b} \times (\vec{a} \times
               \hat{b})}{a \sin\phi} \\
               &amp;= \frac{\vec{a} - (\hat{b}
               \cdot \vec{a}) \hat{b}}{a \sin\phi} = \frac{1}{a
               \sin\phi} \vec{a} - \frac{\hat{b} \cdot
-              \vec{a}}{a \sin\phi} \hat{b}\end{aligned}\]
+              \vec{a}}{a \sin\phi} \hat{b}.\end{aligned}\]
             </p>
             <p>
               Substituting these into the rotated vector expression
@@ -406,10 +515,11 @@
             </p>
             <p>
               \[\begin{aligned}
-              \operatorname{Rot}_{\theta,\hat{b}}(\vec{a}) &amp;= a
-              \cos\theta \sin\phi \left( \frac{1}{a \sin\phi}
+              \operatorname{Rot}(\vec{a};\theta,\hat{b}) &amp;= a
+              \cos\theta \sin\phi \, \left( \frac{1}{a \sin\phi}
               \vec{a} - \frac{\hat{b} \cdot \vec{a}}{a
-              \sin\phi} \hat{b} \right) \\ &amp;\qquad+ a \sin\theta \sin\phi \left(
+              \sin\phi} \hat{b} \right) \\
+              &amp; \qquad + a \sin\theta \sin\phi \, \left(
               \frac{\hat{b} \times \vec{a}}{a \sin\phi} \right)
               + a \cos\phi \,\hat{b} \\ &amp;= \cos\theta
               \,\vec{a} - \cos\theta \,(\hat{b} \cdot
@@ -417,22 +527,7 @@
               \vec{a}) + a\cos\theta \,\hat{b} \\ &amp;=
               \cos\theta \,\vec{a} + (1 - \cos\theta) (\hat{b}
               \cdot \vec{a}) \,\hat{b} + \sin\theta \,(\hat{b}
-              \times \vec{a})\end{aligned}\]
-            </p>
-          </div>
-        </div>
-        <div class="envContainer example" id="rkr-xn">
-          <p class="envHeader">
-            Example: Rotations are not vectors.
-          </p>
-          <div class="envBody">
-            <p>
-              Rotations are not vectors. We could write a rotation
-              about the direction \(\hat{b}\) by angle \(\theta\) as
-              the vector \(\vec{a} = \theta \hat{b}\). But this
-              would be dangerous, as adding rotation vectors would not
-              correspond to composing the rotations (as rotations do
-              not commute). See p. 89 in GCP.
+              \times \vec{a}).\end{aligned}\]
             </p>
           </div>
         </div>
