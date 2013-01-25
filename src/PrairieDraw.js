@@ -1838,7 +1838,7 @@ PrairieDraw.prototype.arc3D = function(posDw, radDw, normDw, refDw, startAngleDw
     @param {string} type (Optional) The type of the line.
     @param {Object} options (Optional) Various options.
 */
-PrairieDraw.prototype.circleArrow3D = function(posDw, radDw, normDw, refDw, startAngleDw, endAngleDw, options) {
+PrairieDraw.prototype.circleArrow3D = function(posDw, radDw, normDw, refDw, startAngleDw, endAngleDw, type, options) {
     posDw = this.pos2To3(posDw);
     normDw = normDw || Vector.k;
     refDw = refDw || Vector.i;
@@ -1860,7 +1860,7 @@ PrairieDraw.prototype.circleArrow3D = function(posDw, radDw, normDw, refDw, star
         p = posDw.add(uDw.x(radDw * Math.cos(theta))).add(vDw.x(radDw * Math.sin(theta)));
         points.push(this.pos3To2(p));
     }
-    this.polyLineArrow(points);
+    this.polyLineArrow(points, type);
 }
 
 /** Label a circle line in 3D.
