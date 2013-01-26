@@ -97,4 +97,97 @@ $(document).ready(function() {
         this.restore();
     });
 
+    var rkv_fa_c = new PrairieDrawAnim("rkv-fa-c", function(t) {
+        this.setUnits(12, 8);
+
+        this.addOption("movement", "arc");
+        this.addOption("showLabels", false);
+        this.addOption("showPath", false);
+        this.addOption("showVelocity", false);
+        this.addOption("showAcceleration", false);
+        this.addOption("showAnchoredVelocity", false);
+        this.addOption("showDecompositions", false);
+
+        var O = $V([0, 0]);
+        var f;
+        if (this.getOption("movement") === "arc") {
+            f = function(t) {return {
+                "period": 2 * Math.PI / 0.5,
+                "P": $V([3 * Math.cos(0.5 * t), -2 * Math.cos(0.5 * 2 * t)])
+            };};
+        } else if (this.getOption("movement") === "circle") {
+            f = function(t) {return {
+                "period": 2 * Math.PI / 0.5,
+                "P": $V([3 * Math.cos(0.5 * t), 3 * Math.sin(0.5 * t)])
+            };};
+        } else if (this.getOption("movement") === "varCircle") {
+            f = function(t) {return {
+                "period": 2 * Math.PI / 0.5,
+                "P": this.polarToRect($V([3, 0.5 * t + 0.2 * Math.sin(t)]))
+            };};
+        } else if (this.getOption("movement") === "eight") {
+            f = function(t) {return {
+                "period": 2 * Math.PI / 0.5,
+                "P": $V([3 * Math.cos(0.5 * t), 2 * Math.sin(t)])
+            };};
+        } else if (this.getOption("movement") === "pendulum") {
+            f = function(t) {return {
+                "period": 2 * Math.PI / 0.5,
+                "P": this.polarToRect($V([3, -Math.PI / 2 + Math.cos(0.5 * t)]))
+            };};
+        }
+        f = f.bind(this);
+
+        var val = this.numDiff(f, t);
+        var period = val.period;
+        var r = val.P;
+        var v = val.diff.P;
+        var a = val.ddiff.P;
+
+        this.save();
+        this.translate($V([-2, 0]));
+        if (this.getOption("showPath")) {
+            var n = 200;
+            var path = [], s;
+            for (var i = 0; i < n; i++) {
+                s = i / n * period;
+                path.push(f(s).P);
+            }
+            this.polyLine(path, true);
+        }
+        this.point(O);
+        this.text(O, $V([1, 1]), "TEX:$O$");
+        this.point(r);
+        this.labelIntersection(r, [O, r.add(v)], "TEX:$P$");
+        this.arrow(O, r, "position");
+        this.labelLine(O, r, $V([0, 1]), "TEX:$\\vec{r}$");
+        this.arrow(r, r.add(v), "velocity");
+        this.labelLine(r, r.add(v), $V([0, -1]), "TEX:$\\vec{v}$");
+        this.arrow(r.add(v), r.add(v).add(a), "acceleration");
+        this.labelLine(r.add(v), r.add(v).add(a), $V([1, 0]), "TEX:$\\vec{a}$");
+        this.restore();
+
+        if (this.getOption("showAnchoredVelocity")) {
+            this.save();
+            this.translate($V([4, 0]));
+            if (this.getOption("showPath")) {
+                var n = 200;
+                var path = [], s;
+                for (var i = 0; i < n; i++) {
+                    s = i / n * period;
+                    path.push(this.numDiff(f, s).diff.P);
+                }
+                this.save();
+                this.setProp("shapeOutlineColor", this.getProp("velocityColor"));
+                this.polyLine(path, true);
+                this.restore();
+            }
+            this.arrow(O, v, "velocity");
+            this.labelLine(O, v, $V([0, -1]), "TEX:$\\vec{v}$");
+            this.arrow(v, v.add(a), "acceleration");
+            this.labelLine(v, v.add(a), $V([1, 0]), "TEX:$\\vec{a}$");
+            this.restore();
+        }
+    });
+
 }); // end of document.ready()
