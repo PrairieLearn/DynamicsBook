@@ -158,7 +158,7 @@
       </div>
     </div>
     <div class="contentBlock">
-      <div id="rkv-st" class="contentCol">
+      <div id="rkv-sv" class="contentCol">
         <h2>
           Velocity and acceleration vectors
         </h2>
@@ -258,44 +258,99 @@
       </div>
     </div>
     <div class="contentBlock">
-      <div id="rkv-sb" class="contentCol">
+      <div id="rkv-sr" class="contentCol">
         <h2>
-          Coordinate system basis vectors
-        </h2>
-      </div>
-    </div>
-    <div class="contentBlock">
-      <div id="rkv-sb" class="contentCol">
-        <h2>
-          Polar coordinate basis vectors
+          Velocity and acceleration in Cartesian basis
         </h2>
         <p>
-          polar coordinates:
+          Differentiating in a fixed Cartesian basis can be done by
+          differentiating each component.
         </p>
-        <p>
-          \[\begin{aligned} \,\hat{r} &amp;= \cos\theta
-          \,\hat{\imath} + \sin\theta \,\hat{\jmath} \\
-          \,\hat{\theta} &amp;= - \sin\theta \,\hat{\imath} +
-          \cos\theta \,\hat{\jmath}\end{aligned}\]
-        </p>
-      </div>
-      <div class="infoCol">
-        <div class="infoBox">
-          <p>
-            <span class="infoHead">Related:</span> <a href=
-            "rvy.xhtml">#rvy: Cylindrical coordinates</a> <a
-            href="rvs.xhtml">#rvs: Spherical coordinates</a>
+        <div class="envContainer equation" id="rkv-er">
+          <p class="envHeader">
+            Velocity and acceleration in Cartesian basis.
           </p>
+          <div class="envBody">
+            <p>
+              \[\begin{aligned}
+              \vec{r} &amp;= r_1 \,\hat\imath + r_2 \,\hat\jmath + r_3 \,\hat{k} \\
+              \vec{v} &amp;= \dot{r}_1 \,\hat\imath + \dot{r}_2 \,\hat\jmath + \dot{r}_3 \,\hat{k} \\
+              \vec{a} &amp;= \ddot{r}_1 \,\hat\imath + \ddot{r}_2 \,\hat\jmath + \ddot{r}_3 \,\hat{k}
+              \end{aligned}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
+              Assuming $\hat\imath,\hat\jmath,\hat{k}$ are all fixed
+              vectors, we can differentiate twice using <a
+              href="rvc.xhtml#rvc-ec">#rvc-ec</a>.
+            </p>
+          </div>
         </div>
       </div>
     </div>
     <div class="contentBlock">
-      <div id="rkv-sb" class="contentCol">
+      <div id="rkv-sl" class="contentCol">
         <h2>
           Velocity and acceleration in polar basis
         </h2>
         <p>
-          polar coordinates:
+          Computing velocity and acceleration in a polar basis must
+          take account of the fact that the basis vectors are not
+          constant.
+        </p>
+        <div class="envContainer equation" id="rkv-ep">
+          <p class="envHeader">
+            Velocity and acceleration in polar basis.
+          </p>
+          <div class="envBody">
+            <p>
+              \[\begin{aligned}
+              \vec{r} &amp;= r \,\hat{e}_r \\
+              \vec{v} &amp;= \dot{r} \,\hat{e}_r
+              + r \dot\theta \,\hat{e}_\theta \\
+              \vec{a} &amp;= (\ddot{r} - r\dot\theta^2) \,\hat{e}_r
+              + (r \ddot\theta + 2 \dot{r} \dot\theta) \,\hat{e}_\theta
+              \end{aligned}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
+              Starting from the position vector $\vec{r} =
+              r\,\hat{e}_r$, we differentiate and use the basis vector
+              derivatives $\dot{\hat{e}}_r = \dot\theta
+              \,\hat{e}_\theta$ and $\dot{\hat{e}}_\theta =
+              -\dot\theta \,\hat{e}_r$, giving:
+
+              \[\begin{aligned}
+              \vec{r} &amp;= r \,\hat{e}_r \\
+              \vec{v} &amp;= \dot{\vec{r}} \\
+              &amp;= \dot{r} \,\hat{e}_r + r \,\dot{\hat{e}}_r \\
+              &amp;= \dot{r} \,\hat{e}_r + r \dot\theta \, \hat{e}_\theta \\
+              \vec{a} &amp;= \dot{\vec{v}} \\
+              &amp;= \ddot{r} \,\hat{e}_r + \dot{r} \,\dot{\hat{e}}_r
+              + \dot{r} \dot\theta \,\hat{e}_\theta
+              + r \ddot\theta \,\hat{e}_\theta
+              + r \dot\theta \,\dot{\hat{e}}_\theta \\
+              &amp;= \ddot{r} \,\hat{e}_r + \dot{r} \dot\theta \,\hat{e}_\theta
+              + \dot{r} \dot\theta \,\hat{e}_\theta
+              + r \ddot\theta \,\hat{e}_\theta
+              - r \dot\theta \dot\theta \,\hat{e}_r \\
+              &amp;= (\ddot{r} - r\dot\theta^2) \,\hat{e}_r
+              + (r \ddot\theta + 2 \dot{r} \dot\theta) \,\hat{e}_\theta.
+              \end{aligned}\]
+            </p>
+          </div>
+        </div>
+        <p>
+          The acceleration term $-r\dot\theta^2\,\hat{e}_r$ is called
+          the <em>centripetal</em> (center-seeking) acceleration,
+          while the $2\dot{r}\dot\theta \,\hat{e}_\theta$ term is
+          called the <em>Coriolis</em> acceleration.
         </p>
       </div>
     </div>
