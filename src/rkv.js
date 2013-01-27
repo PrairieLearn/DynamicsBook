@@ -369,8 +369,8 @@ $(document).ready(function() {
         this.addOption("showAcceleration", false);
         this.addOption("showVelDecomp", false);
         this.addOption("showAccDecomp", false);
+        this.addOption("origin", "O1");
 
-        var O = $V([0, 0]);
         var f;
         if (this.getOption("movement") === "arc") {
             f = function(t) {
@@ -441,11 +441,21 @@ $(document).ready(function() {
                 t -= 1.5;
                 return {
                     "period": 2 * Math.PI / 0.6,
-                    "P": this.polarToRect($V([3, -Math.PI / 2 + Math.cos(0.6 * t)]))
+                    "P": this.polarToRect($V([2.5, -Math.PI / 2 + Math.cos(0.6 * t)]))
                 };
             };
         }
         f = f.bind(this);
+
+        var O1 = $V([0, 0]);
+        var O2 = $V([-3, -2]);
+
+        var O;
+        if (this.getOption("origin") === "O1") {
+            O = O1;
+        } else {
+            O = O2;
+        }
 
         var val = this.numDiff(f, t);
         var period = val.period;
@@ -453,12 +463,11 @@ $(document).ready(function() {
         var v = val.diff.P;
         var a = val.ddiff.P;
 
-        var O = $V([0, 0]);
         var ei = $V([1, 0]);
         var ej = $V([0, 1]);
 
-        var er = r.toUnitVector();
-        var et = er.rotate(Math.PI / 2, O);
+        var er = r.subtract(O).toUnitVector();
+        var et = er.rotate(Math.PI / 2, $V([0, 0]));
 
         var vr = this.orthProj(v, er);
         var vt = this.orthProj(v, et);
@@ -476,8 +485,10 @@ $(document).ready(function() {
             }
             this.polyLine(path, true, false);
         }
-        this.point(O);
-        this.text(O, $V([1, 1]), label && "TEX:$O$");
+        this.point(O1);
+        this.text(O1, $V([1, 1]), label && "TEX:$O_1$");
+        this.point(O2);
+        this.text(O2, $V([1, 1]), label && "TEX:$O_2$");
         this.point(r);
         this.labelIntersection(r, [O, r.add(er), r.add(et)], label && "TEX:$P$");
         this.arrow(O, r, "position");
