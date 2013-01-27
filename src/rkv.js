@@ -243,8 +243,8 @@ $(document).ready(function() {
                     rLabel = "TEX:$\\vec{r}(0)$";
                     vLabel = "TEX:$\\vec{v}(0)$";
                     aLabel = "TEX:$\\vec{a}(0)$";
-                    vProjLabel = "TEX:$\\dot{v}_\\text{proj}(0)$";
-                    vCompLabel = "TEX:$\\dot{v}_\\text{comp}(0)$";
+                    vProjLabel = "TEX:$\\vec{v}_\\text{proj}(0)$";
+                    vCompLabel = "TEX:$\\vec{v}_\\text{comp}(0)$";
                     aProjLabel = "TEX:$\\vec{a}_\\text{proj}(0)$";
                     aCompLabel = "TEX:$\\vec{a}_\\text{comp}(0)$";
                 } else {
@@ -253,8 +253,8 @@ $(document).ready(function() {
                     rLabel = "TEX:$\\vec{r}$";
                     vLabel = "TEX:$\\vec{v}$";
                     aLabel = "TEX:$\\vec{a}$";
-                    vProjLabel = "TEX:$\\dot{v}_\\text{proj}$";
-                    vCompLabel = "TEX:$\\dot{v}_\\text{comp}$";
+                    vProjLabel = "TEX:$\\vec{v}_\\text{proj}$";
+                    vCompLabel = "TEX:$\\vec{v}_\\text{comp}$";
                     aProjLabel = "TEX:$\\vec{a}_\\text{proj}$";
                     aCompLabel = "TEX:$\\vec{a}_\\text{comp}$";
                 }
@@ -272,44 +272,30 @@ $(document).ready(function() {
                 this.polyLine(path, true, false);
             }
             this.point(O);
-            if (this.getOption("showLabels")) {
-                this.text(O, $V([1, 1]), OLabel);
-            }
+            this.text(O, $V([1, 1]), OLabel);
             this.point(r);
-            if (this.getOption("showLabels")) {
-                this.labelIntersection(r, [O, r.add(v)], PLabel);
-            }
+            this.labelIntersection(r, [O, r.add(v)], PLabel);
             this.arrow(O, r, "position");
-            if (this.getOption("showLabels")) {
-                this.labelLine(O, r, $V([0, 1]), rLabel);
-            }
+            this.labelLine(O, r, $V([0, 1]), rLabel);
             if (this.getOption("showVelocity")) {
                 this.arrow(r, r.add(v), "velocity");
-                if (this.getOption("showLabels")) {
-                    this.labelLine(r, r.add(v), $V([0, -1]), vLabel);
-                }
+                this.labelLine(r, r.add(v), $V([0, -1]), vLabel);
             }
             if (this.getOption("showAcceleration")) {
                 this.arrow(r.add(v), r.add(v).add(a), "acceleration");
-                if (this.getOption("showLabels")) {
-                    this.labelLine(r.add(v), r.add(v).add(a), $V([1, 0]), aLabel);
-                }
+                this.labelLine(r.add(v), r.add(v).add(a), $V([1, 0]), aLabel);
             }
             if (this.getOption("showVelDecomp")) {
                 this.arrow(r, r.add(vp), "velocity");
                 this.arrow(r, r.add(vc), "velocity");
-                if (this.getOption("showLabels")) {
-                    this.labelLine(r, r.add(vp), $V([1, 1]), vProjLabel);
-                    this.labelLine(r, r.add(vc), $V([1, 1]), vCompLabel);
-                }
+                this.labelLine(r, r.add(vp), $V([1, 1]), vProjLabel);
+                this.labelLine(r, r.add(vc), $V([1, 1]), vCompLabel);
             }
             if (this.getOption("showAccDecomp")) {
                 this.arrow(r.add(v), r.add(v).add(ap), "acceleration");
                 this.arrow(r.add(v), r.add(v).add(ac), "acceleration");
-                if (this.getOption("showLabels")) {
-                    this.labelLine(r.add(v), r.add(v).add(ap), $V([1, 1]), aProjLabel);
-                    this.labelLine(r.add(v), r.add(v).add(ac), $V([1, 1]), aCompLabel);
-                }
+                this.labelLine(r.add(v), r.add(v).add(ap), $V([1, 1]), aProjLabel);
+                this.labelLine(r.add(v), r.add(v).add(ac), $V([1, 1]), aCompLabel);
             }
             this.restore();
 
@@ -329,22 +315,16 @@ $(document).ready(function() {
                     this.restore();
                 }
                 this.arrow(O, v, "velocity");
-                if (this.getOption("showLabels")) {
-                    this.labelLine(O, v, $V([0, -1]), vLabel);
-                }
+                this.labelLine(O, v, $V([0, -1]), vLabel);
                 if (this.getOption("showAcceleration")) {
                     this.arrow(v, v.add(a), "acceleration");
-                    if (this.getOption("showLabels")) {
-                        this.labelLine(v, v.add(a), $V([1, 0]), aLabel);
-                    }
+                    this.labelLine(v, v.add(a), $V([1, 0]), aLabel);
                 }
                 if (this.getOption("showAccDecomp")) {
                     this.arrow(v, v.add(ap), "acceleration");
                     this.arrow(v, v.add(ac), "acceleration");
-                    if (this.getOption("showLabels")) {
-                        this.labelLine(v, v.add(ap), $V([1, 1]), aProjLabel);
-                        this.labelLine(v, v.add(ac), $V([1, 1]), aCompLabel);
-                    }
+                    this.labelLine(v, v.add(ap), $V([1, 1]), aProjLabel);
+                    this.labelLine(v, v.add(ac), $V([1, 1]), aCompLabel);
                 }
                 this.restore();
             }
