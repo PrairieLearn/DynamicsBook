@@ -354,6 +354,50 @@
           while the $2\dot{r}\dot\theta \,\hat{e}_\theta$ term is
           called the <em>Coriolis</em> acceleration.
         </p>
+        <div class="figureContainer width600" id="rkv-fr">
+          <canvas id="rkv-fr-c" width="600" height="400" class="figureImage">
+          </canvas>
+          <p class="controls">
+            <button class="anim-toggle:rkv-fr-c">animate</button>
+            <button class="reset:rkv-fr-c">reset</button>
+            <button class="option-toggle:rkv-fr-c:showLabels">show labels</button>
+          </p>
+          <table class="alignTop">
+            <tr>
+              <td>Movement:</td>
+              <td><input type="radio" name="rkv-fr-c-movement" value="circle" class="data-input:rkv-fr-c:movement" /> circle</td>
+              <td><input type="radio" name="rkv-fr-c-movement" value="varCircle" class="data-input:rkv-fr-c:movement" /> var-circle</td>
+              <td><input type="radio" name="rkv-fr-c-movement" value="ellipse" class="data-input:rkv-fr-c:movement" /> ellipse</td>
+              <td><input type="radio" name="rkv-fr-c-movement" value="arc" class="data-input:rkv-fr-c:movement" /> arc</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td><input type="radio" name="rkv-fr-c-movement" value="trefoil" class="data-input:rkv-fr-c:movement" /> trefoil</td>
+              <td><input type="radio" name="rkv-fr-c-movement" value="eight" class="data-input:rkv-fr-c:movement" /> eight</td>
+              <td><input type="radio" name="rkv-fr-c-movement" value="comet" class="data-input:rkv-fr-c:movement" /> comet</td>
+              <td><input type="radio" name="rkv-fr-c-movement" value="pendulum" class="data-input:rkv-fr-c:movement" /> pendulum</td>
+            </tr>
+            <tr>
+              <td>Show:</td>
+              <td colspan="4">
+                <button class="option-toggle:rkv-fr-c:showVelocity">velocity</button>
+                <button class="option-toggle:rkv-fr-c:showAcceleration">acceleration</button>
+                <button class="option-toggle:rkv-fr-c:showPath">path</button>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td colspan="4">
+                <button class="option-toggle:rkv-fr-c:showVelDecomp">velocity decomposition</button>
+                <button class="option-toggle:rkv-fr-c:showAccDecomp">acceleration decomposition</button>
+              </td>
+            </tr>
+          </table>
+          <p class="figureCaption">
+            Velocity and acceleration in the polar basis. Compare to
+            Figure <a href="#rkv-fa">#rkv-fa</a>.
+          </p>
+        </div>
       </div>
     </div>
       </div>
