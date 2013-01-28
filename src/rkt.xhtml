@@ -1,0 +1,232 @@
+<?xml version="1.0"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+  <head>
+    <title>Tangential/normal basis</title>
+    <link href="style.css" type="text/css" rel="stylesheet" />
+    <link href="icomoon.css" type="text/css" rel="stylesheet" />
+
+    <script src="mathjax/MathJax.js?config=default" type="text/javascript"></script>
+    <script src="jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script src="sylvester.js" type="text/javascript"></script>
+    <script src="sha1.js" type="text/javascript"></script>
+    <script src="PrairieDraw.js" type="text/javascript"></script>
+    <script src="rkt.js" type="text/javascript"></script>
+    <script src="pageControl.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-37625161-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header"><h1>TAM 212: Introductory Dynamics</h1></div>
+      <div class="navbar">
+        <ul><li><a href="index.xhtml" id="navHome">Home</a></li><li><a href="info.xhtml" id="navInfo">Info</a></li><li><a href="people.xhtml" id="navPeople">People</a></li><li><a href="sched.xhtml" id="navSched">Schedule</a></li><li><a href="ref.xhtml" id="navRef">Reference</a></li><li><a href="apps.xhtml" id="navApps">Applications</a></li></ul>
+      </div>
+      <div class="browserWarning">
+        <strong>Warning:</strong>
+        This website has only been tested on Chrome version 24 and higher. Your browser may not be fully supported.
+      </div>
+      <div class="mainBlock">
+    <div class="contentBlock">
+      <div id="rkt" class="contentCol">
+        <h1>
+          Tangential/normal basis
+        </h1>
+        <p>
+          Consider a particle moving with position vector $\vec{r}$
+          and corresponding velocity $\vec{v}$ and acceleration
+          $\vec{a}$. The distance along the path is $s$, which can be
+          found by integrating the speed.
+        </p>
+        <div class="envContainer equation" id="rkt-es">
+          <p class="envHeader">
+            Path length $s$ and speed $v$.
+          </p>
+          <div class="envBody">
+            <p>
+              \[\begin{aligned}
+              v &amp;= \dot{s} \\
+              s &amp;= \int_0^t v \,dt
+              \end{aligned}\]
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="rkt-sb" class="contentCol">
+        <h2>
+          Basis vectors
+        </h2>
+        <div class="envContainer equation" id="rkt-eb">
+          <p class="envHeader">
+            Tangential/normal basis vectors.
+          </p>
+          <div class="envBody">
+            <p>
+              \[\begin{aligned}
+              \hat{e}_t &amp;= \hat{v} \\
+              \hat{e}_n &amp;= \frac{\dot{\hat{e}}_t}{\|\dot{\hat{e}}_t\|} \\
+              \hat{e}_b &amp;= \hat{e}_t \times \hat{e}_n
+              \end{aligned}\]
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="rkt-sk" class="contentCol">
+        <h2>
+          Kinematic relations
+        </h2>
+        <div class="envContainer equation" id="rkt-ew">
+          <p class="envHeader">
+            Angular velocity.
+          </p>
+          <div class="envBody">
+            <p>
+              \[\begin{aligned}
+              \vec{\omega} &amp;=
+              \end{aligned}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer equation" id="rkt-ed">
+          <p class="envHeader">
+            Basis vector derivatives.
+          </p>
+          <div class="envBody">
+            <p>
+              \[\begin{aligned}
+              \dot{\hat{e}}_t &amp;= \\
+              \dot{\hat{e}}_n &amp;= \\
+              \dot{\hat{e}}_b &amp;=
+              \end{aligned}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer equation" id="rkt-ev">
+          <p class="envHeader">
+            Velocity and acceleration in tangential/normal basis.
+          </p>
+          <div class="envBody">
+            <p>
+              \[\begin{aligned}
+              \vec{v} &amp;= \dot{s} \, \hat{e}_t \\
+              \vec{a} &amp;= \ddot{s} \, \hat{e}_t + \frac{v^2}{\rho} \hat{e}_n
+              \end{aligned}\]
+            </p>
+          </div>
+        </div>
+        <p>
+        </p>
+        <div class="figureContainer width600" id="rkt-ft">
+          <canvas id="rkt-ft-c" width="600" height="400" class="figureImage">
+          </canvas>
+          <p class="controls">
+            <button class="anim-toggle:rkt-ft-c">animate</button>
+            <button class="reset:rkt-ft-c">reset</button>
+            <button class="option-toggle:rkt-ft-c:showLabels">show labels</button>
+          </p>
+          <table class="alignTop">
+            <tr>
+              <td>Movement:</td>
+              <td><input type="radio" name="rkt-ft-c-movement" value="circle" class="data-input:rkt-ft-c:movement" /> circle</td>
+              <td><input type="radio" name="rkt-ft-c-movement" value="varCircle" class="data-input:rkt-ft-c:movement" /> var-circle</td>
+              <td><input type="radio" name="rkt-ft-c-movement" value="ellipse" class="data-input:rkt-ft-c:movement" /> ellipse</td>
+              <td><input type="radio" name="rkt-ft-c-movement" value="arc" class="data-input:rkt-ft-c:movement" /> arc</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td><input type="radio" name="rkt-ft-c-movement" value="trefoil" class="data-input:rkt-ft-c:movement" /> trefoil</td>
+              <td><input type="radio" name="rkt-ft-c-movement" value="eight" class="data-input:rkt-ft-c:movement" /> eight</td>
+              <td><input type="radio" name="rkt-ft-c-movement" value="comet" class="data-input:rkt-ft-c:movement" /> comet</td>
+              <td><input type="radio" name="rkt-ft-c-movement" value="pendulum" class="data-input:rkt-ft-c:movement" /> pendulum</td>
+            </tr>
+            <tr>
+              <td>Show:</td>
+              <td colspan="4">
+                <button class="option-toggle:rkt-ft-c:showPosition">position vector</button>
+                <button class="option-toggle:rkt-ft-c:showVelocity">velocity</button>
+                <button class="option-toggle:rkt-ft-c:showAcceleration">acceleration</button>
+                <button class="option-toggle:rkt-ft-c:showPath">path</button>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td colspan="4">
+                <button class="option-toggle:rkt-ft-c:showAccDecomp">acceleration decomposition</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Origin:</td>
+              <td><input type="radio" name="rkt-ft-c-origin" value="O1" class="data-input:rkt-ft-c:origin" /> $O_1$</td>
+              <td><input type="radio" name="rkt-ft-c-origin" value="O2" class="data-input:rkt-ft-c:origin" /> $O_2$</td>
+              <td></td>
+              <td></td>
+            </tr>
+          </table>
+          <p class="figureCaption">
+            Velocity and acceleration in the tangential/normal
+            basis. Note that the tangential/normal basis does not
+            depend on the choice of origin or the position vector, in
+            contrast to the polar basis.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="rkt-sc" class="contentCol">
+        <h2>
+          Curves and curvature
+        </h2>
+        <div class="envContainer equation" id="rkt-ek">
+          <p class="envHeader">
+            Curvature.
+          </p>
+          <div class="envBody">
+            <p>
+              \[\kappa = \frac{1}{\rho}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer equation" id="rkt-ec">
+          <p class="envHeader">
+            Curvature of parametric curve $\vec{r}(a)$.
+          </p>
+          <div class="envBody">
+            <p>
+              \[\kappa = \frac{\|\vec{r}' \times \vec{r}''\|}{\|\vec{r}'\|^3}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer equation" id="rkt-e2">
+          <p class="envHeader">
+            Curvature of parametric curve $(x(a),y(a))$ in 2D.
+          </p>
+          <div class="envBody">
+            <p>
+              \[\kappa = \frac{|x'y'' - y'x''|}{(x'^2 + y'^2)^{3/2}}\]
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+      <div class="footer">
+        <p class="copyright">Copyright (C) 2012-2013 Matthew West</p>
+      </div>
+    </div>
+  </body>
+</html>
