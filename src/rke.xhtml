@@ -42,6 +42,12 @@
         <h1>
           Elementary motions
         </h1>
+        <p>
+          Two of the most common motions are straight-line and
+          circular kinematics. While the general kinematic formulas
+          apply to these situations, we can write simpler formulas
+          just for these special cases.
+        </p>
       </div>
     </div>
     <div class="contentBlock">
@@ -49,13 +55,25 @@
         <h2>
           Rectilinear motion
         </h2>
-        <p>Constant acceleration:</p>
         <p>
-          \[\begin{aligned}
-          v &amp;= v_0 + a_0 t \\
-          x &amp;= x_0 + v_0 t + a_0 t^2
-          \end{aligned}\]
+          Rectilinear motion is motion in a straight line. In the
+          particular case that acceleration is constant, the velocity
+          and position can be found by explicit integration.
         </p>
+        <div class="envContainer equation" id="rke-er">
+          <p class="envHeader">
+            Constant linear acceleration.
+          </p>
+          <div class="envBody">
+            <p>
+              \[\begin{aligned}
+              a &amp;= a_0 = \text{constant} \\
+              v &amp;= v_0 + a_0 t \\
+              x &amp;= x_0 + v_0 t + a_0 t^2
+              \end{aligned}\]
+            </p>
+          </div>
+        </div>
       </div>
     </div>
     <div class="contentBlock">
@@ -64,49 +82,37 @@
           Circular motion
         </h2>
         <p>
-          Constant angular acceleration:
-
-          \[\begin{aligned}
-          v &amp;= \omega r \\
-          \vec{a} &amp;= \alpha \,\hat{e}_\theta - r \omega^2 \,\hat{e}_r
-          \end{aligned}\]
+          
         </p>
-      </div>
-    </div>
-    <div class="contentBlock">
-      <div id="rke-sr" class="contentCol">
-        <h2>
-          Questions
-        </h2>
-        <p>
-          Question: You walking from one end of an airport to the
-          other, with several moving walkways that you will use. You
-          want to stop for a brief time to get your phone out of your
-          bag.  To minimize your total walking time, should you stop
-          when on a moving walkway or when stationary, or doesn't it
-          matter?
-        </p>
-        <p>
-          Question: You are riding your bike from home to the store
-          and back, and there is a constant wind blowing, so that on
-          the way there you have a headwind, but on the way back you
-          have a corresponding tailwind. Assume that the wind adds a
-          constant offset to your speed. Are you slower, faster, or
-          the same compared to if there was no wind at all?
-        </p>
-        <p>
-          Question: What if the wind doubles your speed when it is a
-          tailwind, but halves it when it's a headwind. Are you faster
-          or slower or the same?
-        </p>
-        <p>
-          Question: Two runners are competing in a (slightly short) 40
-          km long marathon. Fred runs the first 20 km at 20 km/h and
-          the second 20 km at 10 km/h. Bill runs for exactly half his
-          total time at 20 km/h and for the second half of his total
-          time at 10 km/h. Who wins? Who has an average speed of 15
-          km/h?
-        </p>
+        <div class="envContainer equation" id="rke-ec">
+          <p class="envHeader">
+            Circular motion (constant $r$).
+          </p>
+          <div class="envBody">
+            <p>
+              \[\begin{aligned}
+              r &amp;= \text{constant} \\
+              \vec{v} &amp;= \omega r \,\hat{e}_\theta \\
+              \vec{a} &amp;= \alpha \,\hat{e}_\theta - r \omega^2 \,\hat{e}_r
+              \end{aligned}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer equation" id="rke-ea">
+          <p class="envHeader">
+            Constant angular acceleration.
+          </p>
+          <div class="envBody">
+            <p>
+              \[\begin{aligned}
+              r &amp;= r_0 = \text{constant} \\
+              \alpha &amp;= \alpha_0 = \text{constant} \\
+              \omega &amp;= \omega_0 + \alpha_0 t \\
+              \theta &amp;= \theta_0 + \omega_0 t + \frac{1}{2} \alpha_0 t^2
+              \end{aligned}\]
+            </p>
+          </div>
+        </div>
       </div>
     </div>
     </div>
