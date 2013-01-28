@@ -7,6 +7,8 @@ $(document).ready(function() {
         this.addOption("movement", "circle");
         this.addOption("showLabels", true);
         this.addOption("showPath", false);
+        this.addOption("showCenter", false);
+        this.addOption("showCircle", false);
         this.addOption("showPosition", true);
         this.addOption("showVelocity", false);
         this.addOption("showAcceleration", false);
@@ -118,6 +120,9 @@ $(document).ready(function() {
 
         var label = this.getOption("showLabels") ? true : undefined;
 
+        var rho = Math.pow(v.modulus(), 2) / an.modulus();
+        var C = r.add(en.x(rho));
+
         if (this.getOption("showPath")) {
             var n = 200;
             var path = [], s;
@@ -133,6 +138,21 @@ $(document).ready(function() {
         this.text(O2, $V([1, 1]), label && "TEX:$O_2$");
         this.point(r);
         this.labelIntersection(r, [O, r.add(et), r.add(en)], label && "TEX:$P$");
+        if (this.getOption("showCircle")) {
+            this.save();
+            this.setProp("shapeOutlineColor", "rgb(150, 150, 150)");
+            this.arc(C, rho);
+            this.restore();
+        }
+        if (this.getOption("showCenter")) {
+            this.save();
+            this.setProp("shapeOutlineColor", "rgb(150, 150, 150)");
+            this.line(C, r);
+            this.labelLine(C, r, $V([0, 1]), label && "TEX:$\\rho$");
+            this.point(C);
+            this.labelIntersection(C, [r], label && "TEX:$C$");
+            this.restore();
+        }
         if (this.getOption("showPosition")) {
             this.arrow(O, r, "position");
             this.labelLine(O, r, $V([0, 1]), label && "TEX:$\\vec{r}$");
@@ -166,6 +186,8 @@ $(document).ready(function() {
         rkt_ft_c.resetOptionValue("showVelocity");
         rkt_ft_c.resetOptionValue("showAcceleration");
         rkt_ft_c.resetOptionValue("showAccDecomp");
+        rkt_ft_c.resetOptionValue("showCenter");
+        rkt_ft_c.resetOptionValue("showCircle");
     });
 
     rkt_ft_c.registerOptionCallback("origin", function (value) {
