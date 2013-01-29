@@ -62,6 +62,12 @@
             </p>
           </div>
         </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
     <div class="contentBlock">
@@ -77,8 +83,32 @@
             <p>
               \[\begin{aligned}
               \hat{e}_t &amp;= \hat{v} \\
-              \hat{e}_n &amp;= \frac{\dot{\hat{e}}_t}{\|\dot{\hat{e}}_t\|} \\
+              \hat{e}_n &amp;= \frac{\dot{\hat{e}}_t}{\|\dot{\hat{e}}_t\|}
+              = \frac{\rho}{\dot{s}} \dot{\hat{e}}_t \\
               \hat{e}_b &amp;= \hat{e}_t \times \hat{e}_n
+              \end{aligned}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
+            </p>
+          </div>
+        </div>
+        <div class="envContainer equation" id="rkt-eb">
+          <p class="envHeader">
+            Curvature and torsion.
+          </p>
+          <div class="envBody">
+            <p>
+              \[\begin{aligned}
+              \kappa &amp;= \frac{d\hat{e}_t}{ds} \cdot \hat{e}_n
+              = \frac{1}{\dot{s}} \dot{\hat{e}}_t \cdot \hat{e}_n &amp; &amp;\text{curvature} \\
+              \rho &amp;= \frac{1}{\kappa}  &amp; &amp;\text{radius of curvature} \\
+              \tau &amp;= -\frac{d\hat{e}_b}{ds} \cdot \hat{e}_n
+              = -\frac{1}{\dot{s}} \dot{\hat{e}}_b \cdot \hat{e}_n  &amp; &amp;\text{torsion} \\
+              \sigma &amp;= \frac{1}{\tau}  &amp; &amp;\text{radius of torsion}
               \end{aligned}\]
             </p>
           </div>
@@ -90,6 +120,16 @@
         <h2>
           Kinematic relations
         </h2>
+        <p>
+          Define $\rho$ by $\hat{e}_n = \rho \frac{d\hat{e}_t}{ds}$,
+          or equivalently $\kappa = 1/\rho$ by $\frac{d\hat{e}_t}{ds}
+          = \kappa \, \hat{e}_n$. Thus $\kappa = \frac{d\hat{e}_t}{ds}
+          \cdot \hat{e}_n$. Then define $\hat{e}_b = \hat{e}_t \times
+          \hat{e}_n$. The torsion is $\tau$ satisfying
+          $\frac{\hat{e}_b}{ds} = -\tau \,\hat{e}_n$, so $\tau = -
+          \hat{e}_n \cdot \frac{d\hat{e}_b}{ds}$. The radius of
+          torsion is $\sigma = 1/\tau$.
+        </p>
         <div class="envContainer equation" id="rkt-ew">
           <p class="envHeader">
             Angular velocity.
@@ -97,8 +137,14 @@
           <div class="envBody">
             <p>
               \[\begin{aligned}
-              \vec{\omega} &amp;=
+              \vec{\omega} &amp;= \omega_t \,\hat{e}_t + \frac{\dot{s}}{\rho} \,\hat{e}_b
               \end{aligned}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
             </p>
           </div>
         </div>
@@ -116,6 +162,19 @@
             </p>
           </div>
         </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
+              \[\begin{aligned}
+              \dot{\hat{e}}_t &amp;= \dot{\hat{v}} \\
+              &amp;= \vec{\omega} \times \hat{e}_t \\
+              &amp;= (\omega_t \,\hat{e}_t + \omega_b \,\hat{e}_b) \times \hat{e}_t \\
+              &amp;= \omega_b \,\hat{e}_n \\
+              &amp;= \frac{\dot{s}}{\rho} \hat{e}_n
+              \end{aligned}\]
+            </p>
+          </div>
+        </div>
         <div class="envContainer equation" id="rkt-ev">
           <p class="envHeader">
             Velocity and acceleration in tangential/normal basis.
@@ -124,8 +183,14 @@
             <p>
               \[\begin{aligned}
               \vec{v} &amp;= \dot{s} \, \hat{e}_t \\
-              \vec{a} &amp;= \ddot{s} \, \hat{e}_t + \frac{v^2}{\rho} \hat{e}_n
+              \vec{a} &amp;= \ddot{s} \, \hat{e}_t + \frac{\dot{s}^2}{\rho} \hat{e}_n
               \end{aligned}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
             </p>
           </div>
         </div>
@@ -213,6 +278,12 @@
             </p>
           </div>
         </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
+            </p>
+          </div>
+        </div>
         <div class="envContainer equation" id="rkt-e2">
           <p class="envHeader">
             Curvature of parametric curve $(x(a),y(a))$ in 2D.
@@ -220,6 +291,12 @@
           <div class="envBody">
             <p>
               \[\kappa = \frac{|x'y'' - y'x''|}{(x'^2 + y'^2)^{3/2}}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
             </p>
           </div>
         </div>
