@@ -175,6 +175,7 @@ $(document).ready(function() {
         this.setUnits(4.5, 3);
 
         this.addOption("showLabels", true);
+        this.addOption("showVelocity", false);
 
         var O = $V([0, 0, 0]);
         var rX = $V([1, 0, 0]);
@@ -185,8 +186,9 @@ $(document).ready(function() {
         var theta = 1.2 * Math.sin(t);
         var omega = 1.2 * Math.cos(t);
         var omegaVec = $V([0, 0, omega]);
-        
+
         var p = $V([1.2, 0, 0]).rotate(theta, $L(O, Vector.k));
+        var v = omegaVec.cross(p);
 
         if (omegaVec.e(3) < 0) {
             this.arrow(O, omegaVec, "angVel");
@@ -222,6 +224,11 @@ $(document).ready(function() {
 
         this.arrow(O, p, "position");
         this.labelLine(O, p, $V([1, 0]), "TEX:$\\hat{a}$");
+
+        if (this.getOption("showVelocity")) {
+            this.arrow(p, p.add(v), "velocity");
+            this.labelLine(p, p.add(v), $V([1, 0]), "TEX:$\\dot{\\hat{a}}$");
+        }
 
         this.circleArrow3D(O, 0.7, Vector.k, Vector.i, -omega / 2, omega / 2, "angVel");
         var omegaText = (omega >= 0) ? "TEX:$\\omega$" : "TEX:$-\\omega$";
