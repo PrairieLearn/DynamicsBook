@@ -233,7 +233,7 @@
     <div class="contentBlock">
       <div id="rkt-sc" class="contentCol">
         <h2>
-          Curvature, torsion, and osculating circles
+          Curvature and torsion
         </h2>
         <div class="envContainer equation" id="rkt-ek">
           <p class="envHeader">
@@ -263,37 +263,12 @@
             </p>
           </div>
         </div>
-        <p>
-          The osculating circle is the equivalent circular path. That
-          is, a particle traveling on the osculating circle at the
-          same location and speed as our particle would have matching
-          velocity and acceleration vectors.
-        </p>
-        <div class="envContainer equation" id="rkt-eo">
-          <p class="envHeader">
-            Osculating circle.
-          </p>
-          <div class="envBody">
-            <p>
-              \[\text{center $C = \vec{r} + \rho \hat{e}_n$,}
-              \qquad \text{radius $\rho$,}
-              \qquad \text{normal $\hat{e}_b$}\]
-            </p>
-          </div>
-        </div>
-        <div class="envContainer derivation">
-          <div class="envBody">
-            <p>
-              Prove that this matches $\vec{v}$ and $\vec{a}$.
-            </p>
-          </div>
-        </div>
       </div>
     </div>
     <div class="contentBlock">
-      <div id="rkt-sk" class="contentCol">
+      <div id="rkt-sd" class="contentCol">
         <h2>
-          Kinematic relations
+          Basis derivatives and angular velocity
         </h2>
         <p>
         </p>
@@ -394,6 +369,48 @@
             </p>
           </div>
         </div>
+      </div>
+      <div class="infoCol">
+        <div class="infoBox notationBox">
+          <p>
+            The tangential/normal basis is also called the
+            Frenet–Serret frame after <a
+            href="http://en.wikipedia.org/wiki/Jean_Fr%C3%A9d%C3%A9ric_Frenet">Jean
+            Frédéric Frenet</a> and <a
+            href="http://en.wikipedia.org/wiki/Joseph_Alfred_Serret">Joseph
+            Alfred Serret</a>, who discovered it independently around
+            1850. The equations <a href="#rkt-ed">#rkt-ed</a> for the
+            basis derivatives are often called the <a
+            href="http://en.wikipedia.org/wiki/Frenet%E2%80%93Serret_formulas">Frenet-Serret
+            formulas</a>, typically written in terms of $s$ derivatives:
+
+            \[\begin{aligned}
+            \frac{d\hat{e}_t}{ds} &amp;= \phantom{-\kappa\,\hat{e}_t - } \kappa\,\hat{e}_n \\
+            \frac{d\hat{e}_n}{ds} &amp;= -\kappa\,\hat{e}_t \phantom{ - \kappa\,\hat{e}_n + } + \tau\,\hat{e}_b \\
+            \frac{d\hat{e}_b}{ds} &amp;=\phantom{-\kappa\,\hat{e}_t } - \tau\,\hat{e}_n.
+            \end{aligned}\]
+          </p>
+          <p>
+            If we divide the angular velocity vector <a
+            href="#rkt-ew">#rkt-ew</a> by $v$ then we obtain the
+            vector
+
+            \[\frac{1}{v} \vec{\omega} = \tau\,\hat{e}_t + \kappa\,\hat{e}_b,\]
+
+            which is known as the <a
+            href="http://en.wikipedia.org/wiki/Darboux_vector">Darboux
+            vector</a> after its discoverer, <a
+            href="http://en.wikipedia.org/wiki/Gaston_Darboux">Jean
+            Gaston Darboux</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="rkt-sk" class="contentCol">
+        <h2>
+          Kinematic relations
+        </h2>
         <div class="envContainer equation" id="rkt-ev">
           <p class="envHeader">
             Velocity and acceleration in tangential/normal basis.
@@ -474,6 +491,85 @@
           </div>
         </div>
         <p>
+          The osculating circle is the instantaneous equivalent
+          circular path. That is, a particle traveling on the
+          osculating circle with the same location $P$, speed
+          $\dot{s}$, and tangential acceleration $\ddot{s}$ as our
+          particle would have matching velocity and acceleration
+          vectors.
+        </p>
+        <div class="envContainer equation" id="rkt-eo">
+          <p class="envHeader">
+            Osculating circle.
+          </p>
+          <div class="envBody">
+            <p>
+              \[\text{center $C = \vec{r} + \rho \hat{e}_n$,}
+              \qquad \text{radius $\rho$,}
+              \qquad \text{normal $\hat{e}_b$}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
+              Consider a particle $P$ with position vector $\vec{r}_P$
+              moving with velocity $\vec{v}_P$ and acceleration
+              $\vec{a}_P$, and let $\hat{e}_t,\hat{e}_n,\hat{e}_b$ be
+              the associated tangential/normal basis and $\rho_P$ be
+              the radius of curvature. Set $\dot{s}_P = v_P$ and
+              $\ddot{s}_P = \vec{a}_P \cdot \hat{e}_t$ to be the speed
+              and tangential acceleration of $P$.
+            </p>
+            <p>
+              Next define the osculating circle as above with center
+              $C = \vec{r}_P + \rho_P$, radius $\rho_P$, and normal
+              vector $\hat{e}_b$.
+            </p>
+            <p>
+              Now take a second particle $Q$ moving on the osculating
+              circle so that its instantaneous position matches $P$
+              and it has the same speed $\dot{s}_Q = \dot{s}_P$ and
+              tangential acceleration $\ddot{s}_Q = \ddot{s}_P$. This
+              means that the radius of the circle $r_Q$ for $Q$ is
+              simply the osculating circle radius $\rho_P$.
+            </p>
+            <p>
+              We want to prove that $\vec{v}_Q = \vec{v}_P$ and
+              $\vec{a}_Q = \vec{a}_P$.
+            </p>
+            <p>
+              We will use a polar coordinate system for $Q$, centered
+              at $C$ and in the plane with normal vector
+              $\hat{e}_b$. At the current instant when the particles
+              are at the same position, this means that $\hat{e}_r =
+              -\hat{e}_n$ and $\hat{e}_\theta = \hat{e}_t$. Using the
+              circular motion expressions <a
+              href="rke.xhtml#rke-ep">#rke-ec</a> we have that the
+              velocity and acceleration of $Q$ are:
+
+              \[\begin{aligned}
+              \vec{v}_Q &amp;= v_Q \,\hat{e}_\theta
+              = \dot{s}_Q \,\hat{e}_\theta
+              = \dot{s}_P \,\hat{e}_t = \vec{v}_P \\
+              \vec{a}_Q &amp;= -\frac{v_Q^2}{\rho_Q} \,\hat{e}_r
+              + \rho_Q \alpha_Q \,\hat{e}_\theta
+              = -\frac{\dot{s}_Q^2}{\rho_Q} \,\hat{e}_r
+              + \ddot{s}_Q \,\hat{e}_\theta
+              = \frac{\dot{s}_P^2}{\rho_P} \,\hat{e}_n
+              + \ddot{s}_Q \,\hat{e}_t
+              = \vec{a}_Q.
+              \end{aligned}\]
+            </p>
+          </div>
+        </div>
+        <table class="basic">
+          <tr><th>match</th><th>geometric object</th><th>name</th></tr>
+          <tr><td>$\vec{r}$</td><td>point</td><td>position</td></tr>
+          <tr><td>$\vec{r},\vec{v}$</td><td>line</td><td>tangent line</td></tr>
+          <tr><td>$\vec{r},\vec{v},\vec{a}$</td><td>circle</td><td>osculating circle</td></tr>
+        </table>
+        <p>
         </p>
         <div class="figureContainer width600" id="rkt-ft">
           <canvas id="rkt-ft-c" width="600" height="400" class="figureImage">
@@ -529,41 +625,6 @@
             basis. Note that the tangential/normal basis does not
             depend on the choice of origin or the position vector, in
             contrast to the polar basis.
-          </p>
-        </div>
-      </div>
-      <div class="infoCol">
-        <div class="infoBox notationBox">
-          <p>
-            The tangential/normal basis is also called the
-            Frenet–Serret frame after <a
-            href="http://en.wikipedia.org/wiki/Jean_Fr%C3%A9d%C3%A9ric_Frenet">Jean
-            Frédéric Frenet</a> and <a
-            href="http://en.wikipedia.org/wiki/Joseph_Alfred_Serret">Joseph
-            Alfred Serret</a>, who discovered it independently around
-            1850. The equations <a href="#rkt-ed">#rkt-ed</a> for the
-            basis derivatives are often called the <a
-            href="http://en.wikipedia.org/wiki/Frenet%E2%80%93Serret_formulas">Frenet-Serret
-            formulas</a>, typically written in terms of $s$ derivatives:
-
-            \[\begin{aligned}
-            \frac{d\hat{e}_t}{ds} &amp;= \phantom{-\kappa\,\hat{e}_t - } \kappa\,\hat{e}_n \\
-            \frac{d\hat{e}_n}{ds} &amp;= -\kappa\,\hat{e}_t \phantom{ - \kappa\,\hat{e}_n + } + \tau\,\hat{e}_b \\
-            \frac{d\hat{e}_b}{ds} &amp;=\phantom{-\kappa\,\hat{e}_t } - \tau\,\hat{e}_n.
-            \end{aligned}\]
-          </p>
-          <p>
-            If we divide the angular velocity vector <a
-            href="#rkt-ew">#rkt-ew</a> by $v$ then we obtain the
-            vector
-
-            \[\frac{1}{v} \vec{\omega} = \tau\,\hat{e}_t + \kappa\,\hat{e}_b,\]
-
-            which is known as the <a
-            href="http://en.wikipedia.org/wiki/Darboux_vector">Darboux
-            vector</a> after its discoverer, <a
-            href="http://en.wikipedia.org/wiki/Gaston_Darboux">Jean
-            Gaston Darboux</a>.
           </p>
         </div>
       </div>
