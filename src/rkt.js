@@ -516,7 +516,8 @@ $(document).ready(function() {
 
         var label = this.getOption("showLabels") ? true : undefined;
 
-        var valMatch = this.numDiff(f, this.getOption("matchPhasePercent") / 100 * period);
+        var tMatch = this.getOption("matchPhasePercent") / 100 * period;
+        var valMatch = this.numDiff(f, tMatch);
         var rM = valMatch.P;
         var vM = valMatch.diff.P;
         var aM = valMatch.ddiff.P;
@@ -532,9 +533,37 @@ $(document).ready(function() {
         var rhoM = Math.pow(vM.modulus(), 2) / anM.modulus();
         var CM = rM.add(enM.x(rhoM));
 
-        var fCircle = function(t) {
-            
+        // interpolate [0,1] -> [0,1] with first derivative d1 and second derivative d2 at {0,1}
+        var zoInterp = function(u, d1, d2) {
+            var u2 = u * u;
+            var u3 = u * u2;
+            var u4 = u * u3;
+            return u * (20 * u2 - 30 * u3 + 12 * u4) / 2
+                + d1 * u * (2 - 20 * u2 + 30 * u3 - 12 * u4) / 2
+                + d2 * u * (u - 2 * u2 + u3) / 2;
         };
+
+        var fCircle = function(t) {
+            var d1 = vtM.modulus() * period / (2 * Math.PI * rhoM);
+            var d2 = atM.modulus() * period * period / (2 * Math.PI * rhoM);
+            var theta = 2 * Math.PI * zoInterp(this.fixedMod(t - tMatch, period) / period, d1, d2);
+            var theta0 = this.angleOf(enM.x(-1));
+            return {P: CM.add(this.vector2DAtAngle(theta0 + theta).x(rhoM))};
+        }.bind(this);
+
+        var valCircle = this.numDiff(fCircle, t);
+        console.log(valCircle);
+        var rQ = valCircle.P;
+        var vQ = valCircle.diff.P;
+        var aQ = valCircle.ddiff.P;
+
+        var etQ = vQ.toUnitVector();
+        var enQ = this.orthComp(aQ, vQ).toUnitVector();
+
+        var vtQ = this.orthProj(vQ, etQ);
+        var vnQ = this.orthProj(vQ, enQ);
+        var atQ = this.orthProj(aQ, etQ);
+        var anQ = this.orthProj(aQ, enQ);
 
         if (this.getOption("showPath")) {
             var n = 200;
@@ -553,9 +582,16 @@ $(document).ready(function() {
             this.save();
             this.setProp("shapeOutlineColor", "rgb(150, 150, 150)");
             this.arc(CM, rhoM);
+            this.restore();
             this.point(CM);
             this.labelIntersection(CM, [rM], label && "TEX:$C$");
-            this.restore();
+            console.log(rQ);
+            this.point(rQ);
+            this.labelIntersection(rQ, [rQ.add(etQ), rQ.subtract(enQ), rQ.subtract(etQ)], label && "TEX:$Q$");
+            this.arrow(rQ, rQ.add(etQ));
+            this.arrow(rQ, rQ.subtract(enQ));
+            this.labelLine(rQ, rQ.add(etQ), $V([1, 1]), label && "TEX:$\\hat{e}_\\theta$");
+            this.labelLine(rQ, rQ.subtract(enQ), $V([1, 1]), label && "TEX:$\\hat{e}_r$");
         }
         if (this.getOption("showPosition")) {
             this.arrow(O, r, "position");
