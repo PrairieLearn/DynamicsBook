@@ -432,6 +432,47 @@
             </p>
           </div>
         </div>
+        <div class="envContainer equation" id="rkt-er">
+          <p class="envHeader">
+            Radius of curvature $\rho$ for velocity $\vec{v}$ and
+            acceleration $\vec{a}$ with angle $\theta$ between them.
+          </p>
+          <div class="envBody">
+            <p>
+              \[\rho = \frac{v^2}{a_n} = \frac{v^2}{a\sin\theta}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
+              From <a href="#rkt-ev">#rkt-ev</a> we known that the
+              normal component of the acceleration is given by $a_n =
+              \dot{s}^2/\rho$ and from the definition <a
+              href="#rkt-es">#rkt-es</a> of path length we have
+              $\dot{s} = v$, so this equation can be rearranged to
+              give $\rho = v^2 / a_n$.
+            </p>
+            <p>
+              Now because $\vec{a}$ only has $\hat{e}_t$ and
+              $\hat{e}_n$ components, the $\hat{e}_n$ component is
+              given by
+
+              \[\begin{aligned}
+              a_n &amp;= \|\operatorname{Comp}(\vec{a}, \hat{e}_t)\| \\
+              &amp;= \|\operatorname{Comp}(\vec{a}, \vec{v})\| \\
+              &amp;= a \sin\theta,
+              \end{aligned}\]
+
+              where we used the facts that $\vec{e}_t$ is in the
+              direction of $\vec{v}$, that
+              $\operatorname{Comp}(\vec{a},\vec{v})$ does not depend
+              on the magnitude of $\vec{v}$, and equation <a
+              href="rvv.xhtml#rvv-em">#rvv-em</a> for the magnitude of
+              the complementary projection.
+            </p>
+          </div>
+        </div>
         <p>
         </p>
         <div class="figureContainer width600" id="rkt-ft">
@@ -545,27 +586,62 @@
         <div class="envContainer derivation">
           <div class="envBody">
             <p>
+              Because the tangential/normal basis vectors <a
+              href="#rkt-eb">#rkt-eb</a> are all normalized, it does
+              not matter how fast the point moves along the line. We
+              can thus evaluate the parametric curve as a function of
+              time, giving $\vec{r}(t)$. Now:
+
               \[\begin{aligned}
-              \hat{e}_t &amp;= \hat{v} \\
-              \dot{\hat{e}}_t &amp;= \frac{1}{v} \operatorname{Comp}(\dot{\vec{v}}, \vec{v}) \\
-              &amp;= \frac{\dot{\vec{r}}}{\sqrt\dot{\vec{r}}\|} \\
+              \|\vec{r}'' \times \vec{r}'\| &amp;= \|\vec{a} \times \vec{v}\| \\
+              &amp;= a v \sin\theta \\
+              &amp;= \frac{v^3}{\rho},
+              \end{aligned}\]
+
+              where we used the cross product length formula <a
+              href="rvv.xhtml#rvv-el">#rvv-el</a> and equation <a
+              href="#rkt-er">#rkt-er</a> for the radius of curvature
+              $\rho$. By definition <a href="#rkt-ek">#rkt-ek</a> the
+              curvature is $\kappa = 1/\rho$, so
+
+              \[\begin{aligned}
+              \|\vec{r}'' \times \vec{r}'\|
+              &amp;= v^3 \kappa \\
+              \kappa &amp;= \frac{\|\vec{r}'' \times \vec{r}'\|}{\|\vec{r}'\|^3}.
               \end{aligned}\]
             </p>
           </div>
         </div>
         <div class="envContainer equation" id="rkt-e2">
           <p class="envHeader">
-            Curvature of parametric curve $(x(u),y(u))$ in 2D.
+            Curvature of parametric curve $x = x(u)$, $y = y(u)$ in 2D.
           </p>
           <div class="envBody">
             <p>
-              \[\kappa = \frac{|x'y'' - y'x''|}{(x'^2 + y'^2)^{3/2}}\]
+              \[\kappa = \frac{|x''y' - y''x'|}{(x'^2 + y'^2)^{3/2}}\]
             </p>
           </div>
         </div>
         <div class="envContainer derivation">
           <div class="envBody">
             <p>
+              This equation is just <a href="#rkt-ec">#rkt-ec</a>
+              written in explicit 2D coordinates. To see this, we
+              first take the position vector $\vec{r}(a)$ to be
+
+              \[\vec{r}(a) = x(a)\,\hat\imath + y(a)\,\hat\jmath.\]
+
+              Now $r'(a) = \sqrt{(x'(a))^2 + (y'(a))^2}$ and
+
+              \[\begin{aligned}
+              \vec{r}'' \times \vec{r}'
+              &amp;= (x''\,\hat\imath + y''\,\hat\jmath)
+              \times (x'\,\hat\imath + y'\,\hat\jmath) \\
+              &amp;= (x''y' - y''x')\,\hat{k},
+              \end{aligned}\]
+
+              so evaluating <a href="#rkt-ec">#rkt-ec</a> gives the
+              desired expression.
             </p>
           </div>
         </div>
