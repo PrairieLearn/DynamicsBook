@@ -552,7 +552,6 @@ $(document).ready(function() {
         }.bind(this);
 
         var valCircle = this.numDiff(fCircle, t);
-        console.log(valCircle);
         var rQ = valCircle.P;
         var vQ = valCircle.diff.P;
         var aQ = valCircle.ddiff.P;
@@ -585,13 +584,30 @@ $(document).ready(function() {
             this.restore();
             this.point(CM);
             this.labelIntersection(CM, [rM], label && "TEX:$C$");
-            console.log(rQ);
+            this.point(rM);
+            this.labelIntersection(rM, [rM.add(etM), rM.subtract(enM), rM.subtract(etM)], label && "TEX:$M$");
             this.point(rQ);
             this.labelIntersection(rQ, [rQ.add(etQ), rQ.subtract(enQ), rQ.subtract(etQ)], label && "TEX:$Q$");
             this.arrow(rQ, rQ.add(etQ));
             this.arrow(rQ, rQ.subtract(enQ));
             this.labelLine(rQ, rQ.add(etQ), $V([1, 1]), label && "TEX:$\\hat{e}_\\theta$");
             this.labelLine(rQ, rQ.subtract(enQ), $V([1, 1]), label && "TEX:$\\hat{e}_r$");
+            if (this.getOption("showVelocity")) {
+                this.arrow(rQ, rQ.add(vQ), "velocity");
+                this.labelLine(rQ, rQ.add(vQ), $V([0, -1]), label && "TEX:$\\vec{v}$");
+            }
+            if (this.getOption("showAcceleration")) {
+                this.arrow(rQ, rQ.add(aQ), "acceleration");
+                this.labelLine(rQ, rQ.add(aQ), $V([1, 0]), label && "TEX:$\\vec{a}$");
+            }
+            if (this.getOption("showAccDecomp") && at.modulus() > 1e-3) {
+                this.arrow(rQ, rQ.add(atQ), "acceleration");
+                this.labelLine(rQ, rQ.add(atQ), $V([1, 1]), label && "TEX:$\\vec{a}_\\theta$");
+            }
+            if (this.getOption("showAccDecomp") && an.modulus() > 1e-3) {
+                this.arrow(rQ, rQ.add(anQ), "acceleration");
+                this.labelLine(rQ, rQ.add(anQ), $V([1, 1]), label && "TEX:$\\vec{a}_r$");
+            }
         }
         if (this.getOption("showPosition")) {
             this.arrow(O, r, "position");
