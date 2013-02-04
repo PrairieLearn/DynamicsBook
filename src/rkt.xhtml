@@ -4,6 +4,7 @@
   <head>
     <title>Tangential/normal basis</title>
     <link href="style.css" type="text/css" rel="stylesheet" />
+    <link href="rkt.css" type="text/css" rel="stylesheet" />
     <link href="icomoon.css" type="text/css" rel="stylesheet" />
 
     <script src="mathjax/MathJax.js?config=default" type="text/javascript"></script>
@@ -231,13 +232,20 @@
       </div>
     </div>
     <div class="contentBlock">
-      <div id="rkt-sc" class="contentCol">
+      <div id="rkt-sk" class="contentCol">
         <h2>
           Curvature and torsion
         </h2>
         <div class="envContainer equation" id="rkt-ek">
           <p class="envHeader">
             Curvature and torsion.
+          </p>
+          <p>
+            To better understand the geometry of the tangential/normal
+            basis, we can use the <em>curvature</em> $\kappa$ to
+            describe the curving of the path, and the <em>torsion</em>
+            $\tau$ to describe the rotation of the basis about the
+            path. These quantities are defined by:
           </p>
           <div class="envBody">
             <p>
@@ -263,6 +271,11 @@
             </p>
           </div>
         </div>
+        <p>
+          The <em>radius of curvature</em> $\rho$ is the radius of
+          equivalent circular motion, as described below in Section <a
+          href="#rkt-so">#rkt-so</a>.
+        </p>
       </div>
     </div>
     <div class="contentBlock">
@@ -271,6 +284,9 @@
           Basis derivatives and angular velocity
         </h2>
         <p>
+          As the point $P$ moves along its path, the associated
+          tangential/normal basis rotates with an angular velocity
+          vector $\omega$ given by:
         </p>
         <div class="envContainer equation" id="rkt-ew">
           <p class="envHeader">
@@ -333,6 +349,11 @@
             </p>
           </div>
         </div>
+        <p>
+          Knowing the angular velocity vector of the tangential/normal
+          basis allows us to easily compute the time derivatives of
+          each tangential/normal basis vector, as follows:
+        </p>
         <div class="envContainer equation" id="rkt-ed">
           <p class="envHeader">
             Tangential/normal basis vector derivatives.
@@ -411,6 +432,12 @@
         <h2>
           Kinematic relations
         </h2>
+        <p>
+          While the motion of a point $P$ along a path defines the
+          tangential/normal basis, we can also use this basis to
+          express the kinematics of $P$ itself, giving the following
+          expressions for velocity and acceleration.
+        </p>
         <div class="envContainer equation" id="rkt-ev">
           <p class="envHeader">
             Velocity and acceleration in tangential/normal basis.
@@ -424,6 +451,12 @@
             </p>
           </div>
         </div>
+        <p>
+          The above formula shows that the normal acceleration
+          component $a_n$ is determined by the radius of curvature. We
+          can therefore also find the radius of curvature from knowing
+          the normal acceleration:
+        </p>
         <div class="envContainer derivation">
           <div class="envBody">
             <p>
@@ -551,20 +584,26 @@
       </div>
     </div>
     <div class="contentBlock">
-      <div id="rkt-sc" class="contentCol">
+      <div id="rkt-so" class="contentCol">
         <h2>
           Tangent lines and osculating circles
         </h2>
-        <table class="basic">
+        <p>
+          Given a point $P$ moving along a complex path, at a given
+          instant of time we can match different components of the
+          point's motion with successively more complex geometric
+          shapes:
+        </p>
+        <table class="basic" id="rkt-tm">
           <tr><th>match</th><th>geometric object</th><th>name</th></tr>
           <tr><td>$\vec{r}$</td><td>point</td><td>position</td></tr>
           <tr><td>$\vec{r},\vec{v}$</td><td>line</td><td>tangent line</td></tr>
           <tr><td>$\vec{r},\vec{v},\vec{a}$</td><td>circle</td><td>osculating circle</td></tr>
         </table>
         <p>
-          The osculating circle is the instantaneous equivalent
-          circular path. That is, a particle traveling on the
-          osculating circle with the same location $P$, speed
+          The <em>osculating circle</em> is the instantaneous
+          equivalent circular path. That is, a particle traveling on
+          the osculating circle with the same location $P$, speed
           $\dot{s}$, and tangential acceleration $\ddot{s}$ as our
           particle would have matching velocity and acceleration
           vectors.
@@ -656,6 +695,10 @@
         <h2>
           Curves and curvature
         </h2>
+        <p>
+          Given a parametric curve, its curvature can be directly
+          evaluated with:
+        </p>
         <div class="envContainer equation" id="rkt-ec">
           <p class="envHeader">
             Curvature of parametric curve $\vec{r}(u)$ in 3D.
@@ -695,6 +738,11 @@
             </p>
           </div>
         </div>
+        <a>
+          While the above formula can be used in 2D by taking the
+          third component to be zero, it can also be written in an
+          explicitly 2D form:
+        </a>
         <div class="envContainer equation" id="rkt-e2">
           <p class="envHeader">
             Curvature of parametric curve $x = x(u)$, $y = y(u)$ in 2D.
