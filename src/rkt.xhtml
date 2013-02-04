@@ -70,6 +70,24 @@
         <div class="envContainer derivation">
           <div class="envBody">
             <p>
+              These equations are definitions of the basis vectors, so
+              the only thing to derive is the alternative formula for
+              $\hat{e}_n$. Using the definition of $\hat{e}_t$ above
+              and <a href="rvc.xhtml#rvc-eu">#rvc-eu</a>, we see that
+
+              \[\dot{\hat{e}}_t = \dot{\hat{v}}
+              = \frac{1}{v} \operatorname{Comp}(\dot{\vec{v}}, \vec{v})
+              = \frac{1}{v} \operatorname{Comp}(\vec{a}, \vec{v}).\]
+
+              Normalizing both sides gives the desired expression:
+
+              \[\frac{\dot{\hat{e}}_t}{\|\dot{\hat{e}}_t\|}
+              = \frac{\frac{1}{v} \operatorname{Comp}(\vec{a}, \vec{v})}{
+              \left\|\frac{1}{v} \operatorname{Comp}(\vec{a}, \vec{v})\right\|}
+              = \frac{\frac{1}{v} \operatorname{Comp}(\vec{a}, \vec{v})}{
+              \frac{1}{v} \|\operatorname{Comp}(\vec{a}, \vec{v})\|}
+              = \frac{\operatorname{Comp}(\vec{a}, \vec{v})}{
+              \|\operatorname{Comp}(\vec{a}, \vec{v})\|}.\]
             </p>
           </div>
         </div>
@@ -146,13 +164,43 @@
         <div class="envContainer derivation">
           <div class="envBody">
             <p>
+              Either equation can serve as the definition of path
+              length, and then the other equation is obtained by the
+              <a
+              href="http://en.wikipedia.org/wiki/Fundamental_theorem_of_calculus">fundamental
+              theorem of calculus</a>, with the assumption that the
+              path length is measured from the position at time $t =
+              0$.
             </p>
           </div>
         </div>
         <p>
+        </p>
+        <div class="figureContainer width600" id="rkt-fs">
+          <canvas id="rkt-fs-c" width="600" height="400" class="figureImage">
+          </canvas>
+          <p class="controls">
+            <button class="anim-toggle:rkt-fs-c">animate</button>
+            <button class="reset:rkt-fs-c">reset</button>
+          </p>
+          <p class="controls">
+            Show:
+            <button class="option-toggle:rkt-fs-c:showVelocity">velocity and speed</button>
+          </p>
+          <p class="figureCaption">
+            Path length $s$ and speed $v$ shown for motion back and
+            forth along a curve. Observe that the path length is
+            always increasing, even when moving “backwards”, as speed
+            cannot be negative. For ease of visualization, this figure
+            resets the path length to zero when the particle returns
+            to the starting point.
+          </p>
+        </div>
+        <p>
           When differentiating geometric quantities related to paths,
           it is often convenient to differentiate with respect to path
-          length rather than time. These derivatives are related by:
+          length rather than with respect to time. These derivatives
+          are related by:
         </p>
         <div class="envContainer equation" id="rkt-ea">
           <p class="envHeader">
@@ -170,13 +218,13 @@
         <div class="envContainer derivation">
           <div class="envBody">
             <p>
-              This is a statement of the chain rule. For example, the
-              first equation is:
+              This is essentially a re-statement of the chain
+              rule. In particular, the first equation is:
 
               \[\frac{d}{dt} = \frac{ds}{dt} \frac{d}{dt} = \dot{s}
               \frac{d}{dt} = v \frac{d}{dt}.\]
 
-              The second equation is just a simple re-arrangement.
+              The second equation is a simple re-arrangement.
             </p>
           </div>
         </div>
@@ -201,6 +249,17 @@
               = -\frac{1}{v} \dot{\hat{e}}_b \cdot \hat{e}_n  &amp; &amp;\text{torsion} \\
               \sigma &amp;= \frac{1}{\tau}  &amp; &amp;\text{radius of torsion}
               \end{aligned}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
+              These equations are definitions, so we need only check
+              that the two expressions for each of $\kappa$ and $\tau$
+              are equivalent. This follows immediately, however, from
+              the chain-rule conversions <a href="#rkt-ea">#rkt-ea</a>
+              between $d/ds$ and $d/dt$.
             </p>
           </div>
         </div>
@@ -253,6 +312,49 @@
         <div class="envContainer derivation">
           <div class="envBody">
             <p>
+              We start by writing the angular velocity in the
+              tangential/normal basis, giving:
+
+              \[\vec{\omega} = \omega_t\,\hat{e}_t + \omega_n\,\hat{e}_n
+              + \omega_b\,\hat{e}_b.\]
+
+              Now the basis vector derivatives are given by the cross
+              product by $\vec{\omega}$ from <a
+              href="rkr.xhtml#rkr-ew">#rkr-ew</a>, so we can evaluate
+              the expressions <a href="#rkt-ek">#rkt-ek</a> for
+              curvature and torsion to give:
+
+              \[\begin{aligned}
+              \kappa &amp;= \frac{1}{v} \dot{\hat{e}}_t \cdot \hat{e}_n \\
+              &amp;= \frac{1}{v} (\vec{\omega} \times \hat{e}_t) \cdot \hat{e}_n \\
+              &amp;= \frac{1}{v} (\omega_b\,\hat{e}_n - \omega_n\,\hat{e}_b) \cdot \hat{e}_n \\
+              &amp;= \frac{1}{v} \omega_b
+              \end{aligned}\]
+
+              and
+
+              \[\begin{aligned}
+              \tau &amp;= -\frac{1}{v} \dot{\hat{e}}_b \cdot \hat{e}_n \\
+              &amp;= -\frac{1}{v} (\vec{\omega} \times \hat{e}_b) \cdot \hat{e}_n \\
+              &amp;= -\frac{1}{v} (\omega_n\,\hat{e}_t - \omega_t\,\hat{e}_n) \cdot \hat{e}_n \\
+              &amp;= \frac{1}{v} \omega_t.
+              \end{aligned}\]
+
+              Rearranging the final expressions in each case gives
+              $\omega_b = v\kappa$ and $\omega_t = v\tau$.
+
+              From the definition <a href="#rkt-eb">#rkt-eb</a> of
+              $\hat{e}_n$, we see that
+
+              \[\begin{aligned}
+              \hat{e}_n &amp;= \frac{\dot{\hat{e}}_t}{\|\dot{\hat{e}}_t\|} \\
+              \hat{e}_n \cdot \hat{e}_b &amp;= \frac{1}{\|\dot{\hat{e}}_t\|} (\vec{\omega} \times \hat{e}_t) \cdot \hat{e}_b \\
+              0 &amp;= \frac{1}{\|\dot{\hat{e}}_t\|} (\omega_b\,\hat{e}_n - \omega_n\,\hat{e}_b) \cdot \hat{e}_b \\
+              &amp;= - \frac{1}{\|\dot{\hat{e}}_t\|} \omega_n.
+              \end{aligned}\]
+
+              from which we conclude that $\omega_n = 0$, giving us
+              all three components of $\vec{\omega}$.
             </p>
           </div>
         </div>
@@ -263,9 +365,9 @@
           <div class="envBody">
             <p>
               \[\begin{aligned}
-              \dot{\hat{e}}_t &amp;= \phantom{-v\kappa\,\hat{e}_t + } v\kappa\,\hat{e}_n \\
-              \dot{\hat{e}}_n &amp;= -v\kappa\,\hat{e}_t \phantom{ + v\kappa\,\hat{e}_n + } + v\tau\,\hat{e}_b \\
-              \dot{\hat{e}}_b &amp;=\phantom{-v\kappa\,\hat{e}_t + } v\tau\,\hat{e}_n
+              \dot{\hat{e}}_t &amp;= \phantom{-v\kappa\,\hat{e}_t - } v\kappa\,\hat{e}_n \\
+              \dot{\hat{e}}_n &amp;= -v\kappa\,\hat{e}_t \phantom{ - v\kappa\,\hat{e}_n + } + v\tau\,\hat{e}_b \\
+              \dot{\hat{e}}_b &amp;=\phantom{-v\kappa\,\hat{e}_t } - v\tau\,\hat{e}_n
               \end{aligned}\]
             </p>
           </div>
@@ -273,12 +375,21 @@
         <div class="envContainer derivation">
           <div class="envBody">
             <p>
+              We can use the expression <a href="#rkt-ew">#rkt-ew</a>
+              for $\vec{\omega}$ together with <a
+              href="rkr.xhtml#rkr-ew">#rkr-ew</a> to find the basis
+              vector derivatives:
+
               \[\begin{aligned}
-              \dot{\hat{e}}_t &amp;= \dot{\hat{v}} \\
-              &amp;= \vec{\omega} \times \hat{e}_t \\
-              &amp;= (\omega_t \,\hat{e}_t + \omega_b \,\hat{e}_b) \times \hat{e}_t \\
-              &amp;= \omega_b \,\hat{e}_n \\
-              &amp;= \frac{v}{\rho} \hat{e}_n
+              \dot{\hat{e}}_t &amp;= \vec{\omega} \times \hat{e}_t
+              = (v\tau \,\hat{e}_t + v \kappa \,\hat{e}_b) \times \hat{e}_t
+              = v \kappa \,\hat{e}_n \\
+              \dot{\hat{e}}_n &amp;= \vec{\omega} \times \hat{e}_n
+              = (v\tau \,\hat{e}_t + v \kappa \,\hat{e}_b) \times \hat{e}_n
+              = - v \kappa \,\hat{e}_t + v \tau \,\hat{e}_b \\
+              \dot{\hat{e}}_b &amp;= \vec{\omega} \times \hat{e}_b
+              = (v\tau \,\hat{e}_t + v \kappa \,\hat{e}_b) \times \hat{e}_b
+              = -v \tau \,\hat{e}_n.
               \end{aligned}\]
             </p>
           </div>
@@ -299,6 +410,25 @@
         <div class="envContainer derivation">
           <div class="envBody">
             <p>
+              From the definition <a href="#rkt-eb">#rkt-eb</a> of
+              $\hat{e}_t$ we see that $v\,\hat{e}_t = v\hat{v} =
+              \vec{v}$, which is the first equation
+              above. Differentiating this and using $v = \dot{s}$ from
+              <a href="#rkt-es">#rkt-es</a> gives
+
+              \[\begin{aligned}
+              \vec{v} &amp;= \dot{s}\,\hat{e}_t \\
+              \vec{a} = \dot{\vec{v}}
+              &amp;= \ddot{s}\,\hat{e}_t + \dot{s}\,\dot{\hat{e}}_t \\
+              &amp;= \ddot{s}\,\hat{e}_t + \dot{s}(v \kappa \,\hat{e}_n) \\
+              &amp;= \ddot{s}\,\hat{e}_t + \frac{\dot{s}^2}{\rho} \,\hat{e}_n,
+              \end{aligned}\]
+
+              where we used the derivative <a
+              href="#rkt-ed">#rkt-ed</a> of $\hat{e}_t$ in terms of
+              the curvature $\kappa$, and the definition <a
+              href="#rkt-ek">#rkt-ek</a> of the radius of curvature to
+              give $\kappa = 1/\rho$.
             </p>
           </div>
         </div>
@@ -376,9 +506,9 @@
             formulas</a>, typically written in terms of $s$ derivatives:
 
             \[\begin{aligned}
-            \frac{d\hat{e}}{ds} &amp;= \phantom{-\kappa\,\hat{e}_t + } \kappa\,\hat{e}_n \\
-            \frac{d\hat{e}}{ds} &amp;= -\kappa\,\hat{e}_t \phantom{ + \kappa\,\hat{e}_n + } + \tau\,\hat{e}_b \\
-            \frac{d\hat{e}}{ds} &amp;=\phantom{-\kappa\,\hat{e}_t + } \tau\,\hat{e}_n.
+            \frac{d\hat{e}_t}{ds} &amp;= \phantom{-\kappa\,\hat{e}_t - } \kappa\,\hat{e}_n \\
+            \frac{d\hat{e}_n}{ds} &amp;= -\kappa\,\hat{e}_t \phantom{ - \kappa\,\hat{e}_n + } + \tau\,\hat{e}_b \\
+            \frac{d\hat{e}_b}{ds} &amp;=\phantom{-\kappa\,\hat{e}_t } - \tau\,\hat{e}_n.
             \end{aligned}\]
           </p>
           <p>
@@ -404,7 +534,7 @@
         </h2>
         <div class="envContainer equation" id="rkt-ec">
           <p class="envHeader">
-            Curvature of parametric curve $\vec{r}(a)$ in 3D.
+            Curvature of parametric curve $\vec{r}(u)$ in 3D.
           </p>
           <div class="envBody">
             <p>
@@ -415,12 +545,17 @@
         <div class="envContainer derivation">
           <div class="envBody">
             <p>
+              \[\begin{aligned}
+              \hat{e}_t &amp;= \hat{v} \\
+              \dot{\hat{e}}_t &amp;= \frac{1}{v} \operatorname{Comp}(\dot{\vec{v}}, \vec{v}) \\
+              &amp;= \frac{\dot{\vec{r}}}{\sqrt\dot{\vec{r}}\|} \\
+              \end{aligned}\]
             </p>
           </div>
         </div>
         <div class="envContainer equation" id="rkt-e2">
           <p class="envHeader">
-            Curvature of parametric curve $(x(a),y(a))$ in 2D.
+            Curvature of parametric curve $(x(u),y(u))$ in 2D.
           </p>
           <div class="envBody">
             <p>
