@@ -688,6 +688,50 @@
             </p>
           </div>
         </div>
+        <div class="figureContainer width600" id="rkt-fo">
+          <canvas id="rkt-fo-c" width="600" height="400" class="figureImage">
+          </canvas>
+          <p class="controls">
+            <button class="anim-toggle:rkt-fo-c">animate</button>
+            <button class="reset:rkt-fo-c">reset</button>
+            <button class="option-toggle:rkt-fo-c:showLabels">show labels</button>
+          </p>
+          <table class="alignTop">
+            <tr>
+              <td>Movement:</td>
+              <td><input type="radio" name="rkt-fo-c-movement" value="comet" class="data-input:rkt-fo-c:movement" /> comet</td>
+              <td><input type="radio" name="rkt-fo-c-movement" value="trefoil" class="data-input:rkt-fo-c:movement" /> trefoil</td>
+              <td><input type="radio" name="rkt-fo-c-movement" value="eight" class="data-input:rkt-fo-c:movement" /> eight</td>
+            </tr>
+            <tr>
+              <td>Show:</td>
+              <td colspan="4">
+                <button class="option-toggle:rkt-fo-c:showPosition">position vector</button>
+                <button class="option-toggle:rkt-fo-c:showVelocity">velocity</button>
+                <button class="option-toggle:rkt-fo-c:showAcceleration">acceleration</button>
+                <button class="option-toggle:rkt-fo-c:showAccDecomp">acceleration decomposition</button>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td colspan="4">
+                <button class="option-toggle:rkt-fo-c:showLine">tangent line</button>
+                <button class="option-toggle:rkt-fo-c:showCircle">osculating circle</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Match phase:</td>
+              <td><input type="range" min="0" max="100" value="0" step="1" class="data-input:rkt-fo-c:matchPhasePercent" />
+              <span class="data-option:rkt-fo-c:matchPhasePercent"></span>%</td>
+            </tr>
+          </table>
+          <p class="figureCaption">
+            Velocity and acceleration in the tangential/normal
+            basis. Note that the tangential/normal basis does not
+            depend on the choice of origin or the position vector, in
+            contrast to the polar basis.
+          </p>
+        </div>
       </div>
     </div>
     <div class="contentBlock">
