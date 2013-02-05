@@ -273,8 +273,9 @@
         </div>
         <p>
           The <em>radius of curvature</em> $\rho$ is the radius of
-          equivalent circular motion, as described below in Section <a
-          href="#rkt-so">#rkt-so</a>.
+          equivalent circular motion, and the <em>torsion</em>
+          determines the rate of rotation of the osculating plane, as
+          described below in Section <a href="#rkt-so">#rkt-so</a>.
         </p>
       </div>
     </div>
@@ -687,6 +688,51 @@
               instant for $Q$ will match that of $P$.
             </p>
           </div>
+        </div>
+        <p>
+          The osculating circle lies in the $\hat{e}_t,\hat{e}_n$
+          plane, which is thus called the <em>osculating
+          plane</em>. This plane has normal vector $\hat{e}_b$, and
+          rotates about $\hat{e}_t$ with a rotation rate determined by
+          the torsion $\tau$, as we see from the expression <a
+          href="#rkt-ed">#rkt-ed</a> for the derivative of
+          $\hat{e}_b$.
+        </p>
+        <div class="figureContainer width600" id="rkt-fo">
+          <canvas id="rkt-fo-c" width="600" height="400" class="figureImage">
+          </canvas>
+          <p class="controls">
+            <button class="anim-toggle:rkt-fo-c">animate</button>
+            <button class="reset:rkt-fo-c">reset</button>
+            <button class="option-toggle:rkt-fo-c:showLabels">show labels</button>
+          </p>
+          <table class="alignTop">
+            <tr>
+              <td>Show:</td>
+              <td colspan="4">
+                <button class="option-toggle:rkt-fo-c:showPosition">position vector</button>
+                <button class="option-toggle:rkt-fo-c:showVelocity">velocity</button>
+                <button class="option-toggle:rkt-fo-c:showAcceleration">acceleration</button>
+                <button class="option-toggle:rkt-fo-c:showAccDecomp">acceleration decomposition</button>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td colspan="4">
+                <button class="option-toggle:rkt-fo-c:showLine">tangent line</button>
+                <button class="option-toggle:rkt-fo-c:showCircle">osculating circle</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Match phase:</td>
+              <td><input type="range" min="0" max="100" value="0" step="1" class="data-input:rkt-fo-c:matchPhasePercent" />
+              <span class="data-option:rkt-fo-c:matchPhasePercent"></span>%</td>
+            </tr>
+          </table>
+          <p class="figureCaption">
+            Tangent lines and osculating circles, showing matching of
+            velocity or velocity and acceleration, respectively.
+          </p>
         </div>
       </div>
     </div>
