@@ -563,11 +563,11 @@ $(document).ready(function() {
             this.point(rM);
             this.labelIntersection(rM, [rM.add(etM), rM.subtract(enM), rM.subtract(etM)], label && "TEX:$M$");
             this.point(rQ);
-            this.labelIntersection(rQ, [rQ.add(etQ), rQ.subtract(enQ), rQ.subtract(etQ)], label && "TEX:$Q$");
+            this.labelIntersection(rQ, [rQ.add(etQ), rQ.add(enQ), rQ.subtract(etQ)], label && "TEX:$Q$");
             this.arrow(rQ, rQ.add(etQ));
-            this.arrow(rQ, rQ.subtract(enQ));
-            this.labelLine(rQ, rQ.add(etQ), $V([1, 1]), label && "TEX:$\\hat{e}_{Q,\\theta}$");
-            this.labelLine(rQ, rQ.subtract(enQ), $V([1, 1]), label && "TEX:$\\hat{e}_{Q,r}$");
+            this.arrow(rQ, rQ.add(enQ));
+            this.labelLine(rQ, rQ.add(etQ), $V([1, -1]), label && "TEX:$\\hat{e}_{Q,t}$");
+            this.labelLine(rQ, rQ.add(enQ), $V([1, 1]), label && "TEX:$\\hat{e}_{Q,n}$");
             if (this.getOption("showPosition")) {
                 this.arrow(CM, rQ, "position");
                 this.labelLine(CM, rQ, $V([0, 1]), label && "TEX:$\\vec{r}_{CQ}$");
@@ -595,7 +595,7 @@ $(document).ready(function() {
         }
         this.arrow(r, r.add(et));
         this.arrow(r, r.add(en));
-        this.labelLine(r, r.add(et), $V([1, 1]), label && "TEX:$\\hat{e}_{P,t}$");
+        this.labelLine(r, r.add(et), $V([1, -1]), label && "TEX:$\\hat{e}_{P,t}$");
         this.labelLine(r, r.add(en), $V([1, 1]), label && "TEX:$\\hat{e}_{P,n}$");
         if (this.getOption("showVelocity")) {
             this.arrow(r, r.add(v), "velocity");
