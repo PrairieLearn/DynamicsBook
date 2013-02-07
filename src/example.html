@@ -3,9 +3,11 @@
   <head>
     <meta charset="UTF-8">
     <title>Example page</title>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true}});</script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   </head>
   <body>
-    <h1>Example heading</h1>
+    <h1>Example page</h1>
     <p>Useful links:</p>
     <ul>
       <li>
@@ -36,6 +38,29 @@
       </li>
     </ul>
     <p>Look at the source code for this page with "View Source" within your web browser.</p>
+
+    <h2>Math</h2>
+
+    <p>This page uses <a href="http://www.mathjax.org/">MathJax</a> to
+    enable writing of equations like $y = x^2$. This allows you to
+    write the math
+    in <a href="http://en.wikipedia.org/wiki/LaTeX">LaTeX format</a>,
+    which is then translated to display correctly in the
+    webbrowser.</p>
+
+    <p>To enable MathJax on a webpage, you need to include the following code within the document head:</p>
+    <pre>
+    &lt;script type="text/x-mathjax-config"&gt;MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true}});&lt;/script&gt;
+    &lt;script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"&gt;&lt;/script&gt;
+    </pre>
+
+    <p>You can then write text like \$y = x^2\$ to generate $y = x^2$
+    or \$\$L = \int_0^t \sqrt{\dot{x}^2 + \dot{y}^2} dt\$\$ to
+    produce $$L = \int_0^t \sqrt{\dot{x}^2 + \dot{y}^2} dt$$</p>
+
+    <p>A good introduction to writing LaTeX math is Chapter 3 of
+    the <a href="http://tobi.oetiker.ch/lshort/lshort.pdf">The not so
+    short introduction to LaTeX 2e</a>.</p>
 
     <h2>Graphics</h2>
     <p>Below is a static graphics example.</p>
