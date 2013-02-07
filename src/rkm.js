@@ -1,161 +1,20 @@
 
 $(document).ready(function() {
 
-    var rkm_fb_c = new PrairieDrawAnim("rkm-fb-c", function(t) {
-        this.setUnits(6.6, 4.4);
-
-        this.addOption("showLabels", true);
-        this.addOption("showPosition", true);
-        this.addOption("showVelocity", false);
-        this.addOption("showAcceleration", false);
-        this.addOption("showAccDecomp", false);
-        this.addOption("showCenter", false);
-        this.addOption("showCircle", false);
-        this.addOption("showAngVel", false);
-        this.addOption("showAngVelDecomp", false);
-
-        var label = this.getOption("showLabels") ? true : undefined;
-
-        var O = $V([0, 0, 0]);
-        var rX = $V([1, 0, 0]);
-        var rY = $V([0, 1, 0]);
-        var rZ = $V([0, 0, 1]);
-        var gS = 2; // ground size
-
-        var groundBorder = [$V([-gS, -gS, 0]), $V([-gS, gS, 0]), $V([gS, gS, 0]), $V([gS, -gS, 0])];
-        var nGrid = 3;
-        for (var i = -nGrid; i <= nGrid; i++) {
-            this.line($V([i / nGrid * gS, -gS, 0]), $V([i / nGrid * gS, gS, 0]), "grid");
-            this.line($V([-gS, i / nGrid * gS, 0]), $V([gS, i / nGrid * gS, 0]), "grid");
-        }
-        this.polyLine(groundBorder, true, false);
-        this.arrow(O, rX);
-        this.arrow(O, rY);
-        this.arrow(O, rZ);
-        if (this.getOption("showLabels")) {
-            this.labelLine(O, rX, $V([1, -1]), "TEX:$x$");
-            this.labelLine(O, rY, $V([1, 1]), "TEX:$y$");
-            this.labelLine(O, rZ, $V([1, 1]), "TEX:$z$");
-        }
-
-        var f = function(t) {
-            return {
-                P: $V([1.8 * Math.cos(t / 2), 1.8 * Math.sin(t / 2), 1 - 0.9 * Math.cos(t)])
-            };
-        }
-
-        var basis = function(t) {
-            var val = this.numDiff(f, t);
-
-            var b = {};
-            b.r = val.P;
-            b.v = val.diff.P;
-            b.a = val.ddiff.P;
-
-            b.et = b.v.toUnitVector();
-            b.en = this.orthComp(b.a, b.v).toUnitVector();
-            b.eb = b.et.cross(b.en);
-            return b;
-        }.bind(this);
-
-        var b = this.numDiff(basis, t);
-        var r = b.r;
-        var v = b.v;
-        var a = b.a;
-        var et = b.et;
-        var en = b.en;
-        var eb = b.eb;
-
-        var at = this.orthProj(a, et);
-        var an = this.orthProj(a, en);
-
-        var rho = Math.pow(v.modulus(), 2) / an.modulus();
-        var kappa = 1 / rho;
-        var C = r.add(en.x(rho));
-
-        var ebDot = b.diff.eb;
-        var tau = -ebDot.dot(en) / v.modulus();
-        var omega = et.x(tau * v.modulus()).add(eb.x(kappa * v.modulus()));
-        var omegat = this.orthProj(omega, et);
-        var omegab = this.orthProj(omega, eb);
-
-        var path = [];
-        var nPoints = 100;
-        for (var i = 0; i < nPoints; i++) {
-            var tTemp = i / nPoints * 4 * Math.PI;
-            path.push(f(tTemp).P);
-        }
-        this.polyLine(path, true, false);
-
-        this.point(r);
-        this.arrow(r, r.add(et));
-        this.arrow(r, r.add(en));
-        this.arrow(r, r.add(eb));
-        this.labelLine(r, r.add(et), $V([1, 0]), label && "TEX:$\\hat{e}_t$");
-        this.labelLine(r, r.add(en), $V([1, 0]), label && "TEX:$\\hat{e}_n$");
-        this.labelLine(r, r.add(eb), $V([1, 0]), label && "TEX:$\\hat{e}_b$");
-        if (this.getOption("showCircle")) {
-            this.save();
-            this.setProp("shapeOutlineColor", "rgb(150, 0, 150)");
-            this.arc3D(C, rho, eb);
-            this.restore();
-        }
-        if (this.getOption("showCenter")) {
-            this.save();
-            this.setProp("shapeOutlineColor", "rgb(150, 0, 150)");
-            this.line(C, r);
-            this.labelLine(C, r, $V([0, 1]), label && "TEX:$\\rho$");
-            this.point(C);
-            this.labelIntersection(C, [r], label && "TEX:$C$");
-            this.restore();
-        }
-
-        if (this.getOption("showPosition")) {
-            this.arrow(O, r, "position");
-            this.labelLine(O, r, $V([0, 1]), label && "TEX:$\\vec{r}$");
-        }
-        if (this.getOption("showVelocity")) {
-            this.arrow(r, r.add(v), "velocity");
-            this.labelLine(r, r.add(v), $V([0, 1]), label && "TEX:$\\vec{v}$");
-        }
-        if (this.getOption("showAcceleration")) {
-            this.arrow(r, r.add(a), "acceleration");
-            this.labelLine(r, r.add(a), $V([0, 1]), label && "TEX:$\\vec{a}$");
-        }
-        if (this.getOption("showAccDecomp")) {
-            this.arrow(r, r.add(at), "acceleration");
-            this.arrow(r, r.add(an), "acceleration");
-            this.labelLine(r, r.add(at), $V([0, 1]), label && "TEX:$\\vec{a}_t$");
-            this.labelLine(r, r.add(an), $V([0, 1]), label && "TEX:$\\vec{a}_n$");
-        }
-        if (this.getOption("showAngVel")) {
-            this.arrow(r, r.add(omega), "angVel");
-            this.labelLine(r, r.add(omega), $V([0, 1]), label && "TEX:$\\vec\\omega$");
-        }
-        if (this.getOption("showAngVelDecomp")) {
-            this.arrow(r, r.add(omegat), "angVel");
-            this.arrow(r, r.add(omegab), "angVel");
-            this.labelLine(r, r.add(omegat), $V([0, 1]), label && "TEX:$\\vec\\omega_t$");
-            this.labelLine(r, r.add(omegab), $V([0, 1]), label && "TEX:$\\vec\\omega_b$");
-        }
-    });
-
-    rkm_fb_c.activate3DControl();
-
     var rkm_ft_c = new PrairieDrawAnim("rkm-ft-c", function(t) {
         this.setUnits(12, 8);
 
         this.addOption("movement", "circle");
         this.addOption("showLabels", true);
-        this.addOption("showPath", false);
-        this.addOption("showCenter", false);
-        this.addOption("showCircle", false);
+        this.addOption("showPath", true);
+        this.addOption("showBasisAtOrigin", false);
         this.addOption("showPosition", true);
         this.addOption("showVelocity", false);
+        this.addOption("showVelDecomp", false);
         this.addOption("showAcceleration", false);
         this.addOption("showAccDecomp", false);
-        this.addOption("showAngVel", false);
         this.addOption("origin", "O1");
+        this.addOption("basis", "rect");
 
         var f;
         if (this.getOption("movement") === "arc") {
@@ -249,24 +108,39 @@ $(document).ready(function() {
         var v = val.diff.P;
         var a = val.ddiff.P;
 
-        var ei = $V([1, 0]);
-        var ej = $V([0, 1]);
-
         var et = v.toUnitVector();
         var en = this.orthComp(a, v).toUnitVector();
 
-        var vt = this.orthProj(v, et);
-        var vn = this.orthProj(v, en);
-        var at = this.orthProj(a, et);
-        var an = this.orthProj(a, en);
+        var es = [], eLabels, rLabels, vLabels, aLabels;
+        if (this.getOption("basis") === "rect") {
+            es = [$V([1, 0]), $V([0, 1])];
+            eLabels = ["TEX:$\\hat\\imath$", "TEX:$\\hat\\jmath$"];
+            rLabels = ["TEX:$\\vec{r}_x$", "TEX:$\\vec{r}_y$"];
+            vLabels = ["TEX:$\\vec{v}_x$", "TEX:$\\vec{v}_y$"];
+            aLabels = ["TEX:$\\vec{a}_x$", "TEX:$\\vec{a}_y$"];
+        } else if (this.getOption("basis") === "polar") {
+            es[0] = r.subtract(O).toUnitVector();
+            es[1] = es[0].rotate(Math.PI / 2, $V([0, 0]));
+            eLabels = ["TEX:$\\hat{e}_r$", "TEX:$\\hat{e}_\\theta$"];
+            rLabels = ["TEX:$\\vec{r}_r$", "TEX:$\\vec{r}_\\theta$"];
+            vLabels = ["TEX:$\\vec{v}_r$", "TEX:$\\vec{v}_\\theta$"];
+            aLabels = ["TEX:$\\vec{a}_r$", "TEX:$\\vec{a}_\\theta$"];
+        } else if (this.getOption("basis") === "tangNorm") {
+            es = [et, en];
+            eLabels = ["TEX:$\\hat{e}_t$", "TEX:$\\hat{e}_n$"];
+            rLabels = ["TEX:$\\vec{r}_t$", "TEX:$\\vec{r}_n$"];
+            vLabels = ["TEX:$\\vec{v}_t$", "TEX:$\\vec{v}_n$"];
+            aLabels = ["TEX:$\\vec{a}_t$", "TEX:$\\vec{a}_n$"];
+        }
+
+        var rc = [], vc = [], ac = [];
+        for (var i = 0; i < 2; i++) {
+            rc[i] = this.orthProj(r, es[i]);
+            vc[i] = this.orthProj(v, es[i]);
+            ac[i] = this.orthProj(a, es[i]);
+        }
 
         var label = this.getOption("showLabels") ? true : undefined;
-
-        var rho = Math.pow(v.modulus(), 2) / an.modulus();
-        var C = r.add(en.x(rho));
-
-        var kappa = 1 / rho;
-        var omega = v.modulus() * kappa;
 
         if (this.getOption("showPath")) {
             var n = 200;
@@ -282,69 +156,186 @@ $(document).ready(function() {
         this.point(O2);
         this.text(O2, $V([1, 1]), label && "TEX:$O_2$");
         this.point(r);
-        this.labelIntersection(r, [O, r.add(et), r.add(en)], label && "TEX:$P$");
-        if (this.getOption("showCircle")) {
-            this.save();
-            this.setProp("shapeOutlineColor", "rgb(150, 0, 150)");
-            this.arc(C, rho);
-            this.restore();
+        var others = [O, r.add(es[0]), r.add(es[1])];
+        if (this.getOption("showPosition")) {
+            others.push(O);
         }
-        if (this.getOption("showCenter")) {
-            this.save();
-            this.setProp("shapeOutlineColor", "rgb(150, 0, 150)");
-            this.line(C, r);
-            this.labelLine(C, r, $V([0, 1]), label && "TEX:$\\rho$");
-            this.point(C);
-            this.labelIntersection(C, [r], label && "TEX:$C$");
-            this.restore();
+        if (this.getOption("showPath")) {
+            others.push(r.add(et));
+            others.push(r.add(et.x(-1)));
         }
+        this.labelIntersection(r, others, label && "TEX:$P$");
         if (this.getOption("showPosition")) {
             this.arrow(O, r, "position");
             this.labelLine(O, r, $V([0, 1]), label && "TEX:$\\vec{r}$");
         }
-        this.arrow(r, r.add(et));
-        this.arrow(r, r.add(en));
-        this.labelLine(r, r.add(et), $V([1, 1]), label && "TEX:$\\hat{e}_t$");
-        this.labelLine(r, r.add(en), $V([1, 1]), label && "TEX:$\\hat{e}_n$");
+        for (var i = 0; i < 2; i++) {
+            this.arrow(r, r.add(es[i]));
+            this.labelLine(r, r.add(es[i]), $V([1, -1]), label && eLabels[i]);
+        }
+        if (this.getOption("showBasisAtOrigin")) {
+            this.arrow(O, O.add(es[0]));
+            this.arrow(O, O.add(es[1]));
+            this.labelLine(O, O.add(es[0]), $V([1, -1]), label && eLabels[0]);
+            this.labelLine(O, O.add(es[1]), $V([1, 1]), label && eLabels[1]);
+        }
         if (this.getOption("showVelocity")) {
             this.arrow(r, r.add(v), "velocity");
             this.labelLine(r, r.add(v), $V([0, -1]), label && "TEX:$\\vec{v}$");
+        }
+        for (var i = 0; i < 2; i++) {
+            if (this.getOption("showVelDecomp") && vc[i].modulus() > 1e-3) {
+                this.arrow(r, r.add(vc[i]), "velocity");
+                this.labelLine(r, r.add(vc[i]), $V([1, 1]), label && vLabels[i]);
+            }
         }
         if (this.getOption("showAcceleration")) {
             this.arrow(r, r.add(a), "acceleration");
             this.labelLine(r, r.add(a), $V([1, 0]), label && "TEX:$\\vec{a}$");
         }
-        if (this.getOption("showAccDecomp") && at.modulus() > 1e-3) {
-            this.arrow(r, r.add(at), "acceleration");
-            this.labelLine(r, r.add(at), $V([1, 1]), label && "TEX:$\\vec{a}_t$");
-        }
-        if (this.getOption("showAccDecomp") && an.modulus() > 1e-3) {
-            this.arrow(r, r.add(an), "acceleration");
-            this.labelLine(r, r.add(an), $V([1, 1]), label && "TEX:$\\vec{a}_n$");
-        }
-        if (this.getOption("showAngVel") && Math.abs(omega) > 1e-3) {
-            var ebSign = et.to3D().cross(en.to3D()).dot(Vector.k);
-            var avOffset = (this.getOption("showPath") || this.getOption("showCircle")) ? Math.PI / 2 : 3 * Math.PI / 4;
-            var a0 = this.angleOf(et) - ebSign * omega - ebSign * avOffset;
-            var a1 = this.angleOf(et) + ebSign * omega - ebSign * avOffset;
-            var omegaLabel = (ebSign > 0) ? "TEX:$\\omega$" : "TEX:$-\\omega$";
-            this.circleArrow(r, 0.6, a0, a1, "angVel");
-            this.labelCircleLine(r, 0.6, a0, a1, $V([0, 1]), label && omegaLabel);
+        for (var i = 0; i < 2; i++) {
+            if (this.getOption("showAccDecomp") && ac[i].modulus() > 1e-3) {
+                this.arrow(r, r.add(ac[i]), "acceleration");
+                this.labelLine(r, r.add(ac[i]), $V([1, 1]), label && aLabels[i]);
+            }
         }
     });
 
-    rkm_ft_c.registerOptionCallback("movement", function (value) {
-        rkm_ft_c.resetTime(false);
-        rkm_ft_c.resetOptionValue("showPath");
-        rkm_ft_c.resetOptionValue("showVelocity");
-        rkm_ft_c.resetOptionValue("showAcceleration");
-        rkm_ft_c.resetOptionValue("showAccDecomp");
-        rkm_ft_c.resetOptionValue("showCenter");
-        rkm_ft_c.resetOptionValue("showCircle");
+    var rkm_fb_c = new PrairieDrawAnim("rkm-fb-c", function(t) {
+        this.setUnits(6.6, 4.4);
+
+        this.addOption("showLabels", true);
+        this.addOption("showPosition", true);
+        this.addOption("showVelocity", false);
+        this.addOption("showVelDecomp", false);
+        this.addOption("showAcceleration", false);
+        this.addOption("showAccDecomp", false);
+        this.addOption("origin", "O1");
+        this.addOption("basis", "rect");
+        this.addOption("showBasisAtOrigin", false);
+
+        var label = this.getOption("showLabels") ? true : undefined;
+
+        var O = $V([0, 0, 0]);
+        var rX = $V([1, 0, 0]);
+        var rY = $V([0, 1, 0]);
+        var rZ = $V([0, 0, 1]);
+        var gS = 2; // ground size
+
+        var groundBorder = [$V([-gS, -gS, 0]), $V([-gS, gS, 0]), $V([gS, gS, 0]), $V([gS, -gS, 0])];
+        var nGrid = 3;
+        for (var i = -nGrid; i <= nGrid; i++) {
+            this.line($V([i / nGrid * gS, -gS, 0]), $V([i / nGrid * gS, gS, 0]), "grid");
+            this.line($V([-gS, i / nGrid * gS, 0]), $V([gS, i / nGrid * gS, 0]), "grid");
+        }
+        this.polyLine(groundBorder, true, false);
+        this.arrow(O, rX);
+        this.arrow(O, rY);
+        this.arrow(O, rZ);
+        if (this.getOption("showLabels")) {
+            this.labelLine(O, rX, $V([1, -1]), "TEX:$x$");
+            this.labelLine(O, rY, $V([1, 1]), "TEX:$y$");
+            this.labelLine(O, rZ, $V([1, 1]), "TEX:$z$");
+        }
+
+        var f = function(t) {
+            return {
+                P: $V([1.8 * Math.cos(t / 2), 1.8 * Math.sin(t / 2), 1 - 0.9 * Math.cos(t)])
+            };
+        }
+
+        var val = this.numDiff(f, t);
+        var P = val.P;
+        var r = val.P.subtract(O);
+        var v = val.diff.P;
+        var a = val.ddiff.P;
+
+        var es = [], eLabels, rLabels, vLabels, aLabels;
+        if (this.getOption("basis") === "rect") {
+            es = [$V([1, 0, 0]), $V([0, 1, 0]), $V([0, 0, 1])];
+            eLabels = ["TEX:$\\hat\\imath$", "TEX:$\\hat\\jmath$", "TEX:$\\hat{k}$"];
+            rLabels = ["TEX:$\\vec{r}_x$", "TEX:$\\vec{r}_y$", "TEX:$\\vec{r}_z$"];
+            vLabels = ["TEX:$\\vec{v}_x$", "TEX:$\\vec{v}_y$", "TEX:$\\vec{v}_z$"];
+            aLabels = ["TEX:$\\vec{a}_x$", "TEX:$\\vec{a}_y$", "TEX:$\\vec{a}_z$"];
+        } else if (this.getOption("basis") === "cylindrical") {
+            var rC = this.rectToCylindrical(r);
+            var theta = rC.e(2);
+            es[0] = this.cylindricalToRect($V([1, theta, 0]));
+            es[1] = $V([-Math.sin(theta), Math.cos(theta), 0]);
+            es[2] = $V([0, 0, 1]);
+            eLabels = ["TEX:$\\hat{e}_r$", "TEX:$\\hat{e}_\\theta$", "TEX:$\\hat{e}_z$"];
+            rLabels = ["TEX:$\\vec{r}_r$", "TEX:$\\vec{r}_\\theta$", "TEX:$\\vec{r}_z$"];
+            vLabels = ["TEX:$\\vec{v}_r$", "TEX:$\\vec{v}_\\theta$", "TEX:$\\vec{v}_z$"];
+            aLabels = ["TEX:$\\vec{a}_r$", "TEX:$\\vec{a}_\\theta$", "TEX:$\\vec{a}_z$"];
+        } else if (this.getOption("basis") === "spherical") {
+            var rS = this.rectToSpherical(r);
+            es = this.sphericalBasis(rS);
+            eLabels = ["TEX:$\\hat{e}_r$", "TEX:$\\hat{e}_\\theta$", "TEX:$\\hat{e}_\\phi$"];
+            rLabels = ["TEX:$\\vec{r}_r$", "TEX:$\\vec{r}_\\theta$", "TEX:$\\vec{r}_\\phi$"];
+            vLabels = ["TEX:$\\vec{v}_r$", "TEX:$\\vec{v}_\\theta$", "TEX:$\\vec{v}_\\phi$"];
+            aLabels = ["TEX:$\\vec{a}_r$", "TEX:$\\vec{a}_\\theta$", "TEX:$\\vec{a}_\\phi$"];
+        } else if (this.getOption("basis") === "tangNorm") {
+            es[0] = v.toUnitVector();
+            es[1] = this.orthComp(a, v).toUnitVector();
+            es[2] = e1.cross(e2);
+            eLabels = ["TEX:$\\hat{e}_t$", "TEX:$\\hat{e}_n$", "TEX:$\\hat{e}_b$"];
+            rLabels = ["TEX:$\\vec{r}_t$", "TEX:$\\vec{r}_n$", "TEX:$\\vec{r}_b$"];
+            vLabels = ["TEX:$\\vec{v}_t$", "TEX:$\\vec{v}_n$", "TEX:$\\vec{v}_b$"];
+            aLabels = ["TEX:$\\vec{a}_t$", "TEX:$\\vec{a}_n$", "TEX:$\\vec{a}_b$"];
+        }
+
+        var rc = [], vc = [], ac = [];
+        for (var i = 0; i < 3; i++) {
+            rc[i] = this.orthProj(r, es[i]);
+            vc[i] = this.orthProj(v, es[i]);
+            ac[i] = this.orthProj(a, es[i]);
+        }
+
+        var path = [];
+        var nPoints = 100;
+        for (var i = 0; i < nPoints; i++) {
+            var tTemp = i / nPoints * 4 * Math.PI;
+            path.push(f(tTemp).P);
+        }
+        this.polyLine(path, true, false);
+
+        this.point(P);
+        for (var i = 0; i < 3; i++) {
+            this.arrow(P, P.add(es[i]));
+            this.labelLine(P, P.add(es[i]), $V([1, 0]), label && eLabels[0]);
+        }
+        if (this.getOption("showPosition")) {
+            this.arrow(O, P, "position");
+            this.labelLine(O, P, $V([0, 1]), label && "TEX:$\\vec{r}$");
+        }
+        if (this.getOption("showBasisAtOrigin")) {
+            this.arrow(O, O.add(e1));
+            this.arrow(O, O.add(e2));
+            this.labelLine(O, O.add(e1), $V([1, -1]), label && e1Label);
+            this.labelLine(O, O.add(e2), $V([1, 1]), label && e2Label);
+        }
+        if (this.getOption("showVelocity")) {
+            this.arrow(P, P.add(v), "velocity");
+            this.labelLine(P, P.add(v), $V([0, -1]), label && "TEX:$\\vec{v}$");
+        }
+        for (var i = 0; i < 3; i++) {
+            if (this.getOption("showVelDecomp") && vc[i].modulus() > 1e-3) {
+                this.arrow(P, P.add(vc[i]), "velocity");
+                this.labelLine(P, P.add(vc[i]), $V([1, 1]), label && vLabels[i]);
+            }
+        }
+        if (this.getOption("showAcceleration")) {
+            this.arrow(P, P.add(a), "acceleration");
+            this.labelLine(P, P.add(a), $V([1, 0]), label && "TEX:$\\vec{a}$");
+        }
+        for (var i = 0; i < 3; i++) {
+            if (this.getOption("showAccDecomp") && ac[i].modulus() > 1e-3) {
+                this.arrow(P, P.add(ac[i]), "acceleration");
+                this.labelLine(P, P.add(ac[i]), $V([1, 1]), label && aLabels[i]);
+            }
+        }
     });
 
-    rkm_ft_c.registerOptionCallback("origin", function (value) {
-        rkm_ft_c.setOption("showPosition", true);
-    });
+    rkm_fb_c.activate3DControl();
 
 }); // end of document.ready()

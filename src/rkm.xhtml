@@ -44,48 +44,80 @@
         <h1>
           Coordinate system comparison
         </h1>
+        <table class="basic">
+          <tr><th>Name</th><th>Basis</th><th>Pros</th><th>Cons</th></tr>
+          <tr>
+            <td>Cartesian</td>
+            <td>$\hat\imath,\hat\jmath,\hat{k}$</td>
+            <td>
+              <ul>
+                <li>No singularities or discontinuities</li>
+                <li>Fixed for all time</li>
+                <li>Easy for differentiation</li>
+                <li>Independent of origin choice</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>No connection to dynamics</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td>Cylindrical/<br />polar</td>
+            <td>$\hat{e}_r,\hat{e}_\theta,\hat{e}_z$</td>
+            <td>
+              <ul>
+                <li>Ideal for circular and helical movement</li>
+                <li>Gives insight into centripetal and coriolis acceleration</li>
+                <li>Good if there is a clear motion center with 2D rotation</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Singularity when $r = 0$</li>
+                <li>Dependent on choice of origin</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td>Spherical</td>
+            <td>$\hat{e}_r,\hat{e}_\theta,\hat{e}_\phi$</td>
+            <td>
+              <ul>
+                <li>Ideal for rotations in 3D</li>
+                <li>Good if there is a clear motion center with 3D rotation</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Singularity when $r = 0$ or $\phi = \pm \pi/2$</li>
+                <li>Dependent on choice of origin</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td>Tang/norm</td>
+            <td>$\hat{e}_t,\hat{e}_n,\hat{e}_b$</td>
+            <td>
+              <ul>
+                <li>Gives much insight into local movement</li>
+                <li>Independent of origin choice and orientation</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Discontinuous when curve direction changes</li>
+                <li>Not uniquely defined when $\vec{a} \parallel \vec{v}$</li>
+                <li>Complex differentiation</li>
+              </ul>
+            </td>
+          </tr>
+        </table>
       </div>
     </div>
     <div class="contentBlock">
-      <div id="rkm-sk" class="contentCol">
-        <h2>
-          3D Motion
-        </h2>
-        <div class="figureContainer width600" id="rkm-fb">
-          <canvas id="rkm-fb-c" width="600" height="400" class="figureImage">
-          </canvas>
-          <p class="controls">
-            <button class="anim-toggle:rkm-fb-c">animate</button>
-            <button class="reset:rkm-fb-c">reset</button>
-            <button class="option-toggle:rkm-fb-c:showLabels">show labels</button>
-          </p>
-          <table class="alignTop">
-            <tr>
-              <td>Show:</td>
-              <td>
-                <button class="option-toggle:rkm-fb-c:showPosition">position vector</button>
-                <button class="option-toggle:rkm-fb-c:showVelocity">velocity</button>
-                <button class="option-toggle:rkm-fb-c:showAcceleration">acceleration</button>
-                <button class="option-toggle:rkm-fb-c:showAccDecomp">acceleration decomposition</button>
-              </td>
-            </tr>
-            <tr>
-              <td></td>
-              <td>
-                <button class="option-toggle:rkm-fb-c:showCenter">center of curvature</button>
-                <button class="option-toggle:rkm-fb-c:showCircle">osculating circle</button>
-                <button class="option-toggle:rkm-fb-c:showAngVel">ang. vel.</button>
-                <button class="option-toggle:rkm-fb-c:showAngVelDecomp">ang. vel. decomposition</button>
-              </td>
-            </tr>
-          </table>
-          <p class="figureCaption">
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="contentBlock">
-      <div id="rkm-sk" class="contentCol">
+      <div id="rkm-s2" class="contentCol">
         <h2>
           2D Motion
         </h2>
@@ -116,19 +148,29 @@
               <td>Show:</td>
               <td colspan="4">
                 <button class="option-toggle:rkm-ft-c:showPosition">position vector</button>
-                <button class="option-toggle:rkm-ft-c:showVelocity">velocity</button>
-                <button class="option-toggle:rkm-ft-c:showAcceleration">acceleration</button>
-                <button class="option-toggle:rkm-ft-c:showAccDecomp">acceleration decomposition</button>
+                <button class="option-toggle:rkm-ft-c:showPath">path</button>
+                <button class="option-toggle:rkm-ft-c:showBasisAtOrigin">basis at origin</button>
               </td>
             </tr>
             <tr>
               <td></td>
               <td colspan="4">
-                <button class="option-toggle:rkm-ft-c:showPath">path</button>
-                <button class="option-toggle:rkm-ft-c:showCenter">center of curvature</button>
-                <button class="option-toggle:rkm-ft-c:showCircle">osculating circle</button>
-                <button class="option-toggle:rkm-ft-c:showAngVel">angular velocity</button>
+                <button class="option-toggle:rkm-ft-c:showVelocity">velocity</button>
+                <button class="option-toggle:rkm-ft-c:showVelDecomp">velocity decomposition</button>
               </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td colspan="4">
+                <button class="option-toggle:rkm-ft-c:showAcceleration">acceleration</button>
+                <button class="option-toggle:rkm-ft-c:showAccDecomp">acceleration decomposition</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Basis:</td>
+              <td><input type="radio" name="rkm-ft-c-basis" value="rect" class="data-input:rkm-ft-c:basis" /> Cartesian</td>
+              <td><input type="radio" name="rkm-ft-c-basis" value="polar" class="data-input:rkm-ft-c:basis" /> polar</td>
+              <td><input type="radio" name="rkm-ft-c-basis" value="tangNorm" class="data-input:rkm-ft-c:basis" /> tangential/normal</td>
             </tr>
             <tr>
               <td>Origin:</td>
@@ -136,6 +178,40 @@
               <td><input type="radio" name="rkm-ft-c-origin" value="O2" class="data-input:rkm-ft-c:origin" /> $O_2$</td>
               <td></td>
               <td></td>
+            </tr>
+          </table>
+          <p class="figureCaption">
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="rkm-s3" class="contentCol">
+        <h2>
+          3D Motion
+        </h2>
+        <div class="figureContainer width600" id="rkm-fb">
+          <canvas id="rkm-fb-c" width="600" height="400" class="figureImage">
+          </canvas>
+          <p class="controls">
+            <button class="anim-toggle:rkm-fb-c">animate</button>
+            <button class="reset:rkm-fb-c">reset</button>
+            <button class="option-toggle:rkm-fb-c:showLabels">show labels</button>
+          </p>
+          <table class="alignTop">
+            <tr>
+              <td>Show:</td>
+              <td>
+                <button class="option-toggle:rkm-fb-c:showPosition">position vector</button>
+                <button class="option-toggle:rkm-fb-c:showVelocity">velocity</button>
+                <button class="option-toggle:rkm-fb-c:showAcceleration">acceleration</button>
+                <button class="option-toggle:rkm-fb-c:showAccDecomp">acceleration decomposition</button>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>
+              </td>
             </tr>
           </table>
           <p class="figureCaption">
