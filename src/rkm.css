@@ -1,0 +1,20 @@
+
+/*****************************************************************************/
+
+#rkm-tm th {
+    border-bottom: 1px solid #444;
+}
+
+#rkm-tm tr td:first-child {
+    padding-right: 30px;
+}
+
+#rkm-tm tr th:first-child {
+    padding-right: 30px;
+}
+
+#rkm-fo input[type="range"] {
+    width: 300px;
+}
+
+/*****************************************************************************/
