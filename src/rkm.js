@@ -9,12 +9,14 @@ $(document).ready(function() {
         this.addOption("showPath", true);
         this.addOption("showBasisAtOrigin", false);
         this.addOption("showPosition", true);
+        this.addOption("showPosDecomp", false);
         this.addOption("showVelocity", false);
         this.addOption("showVelDecomp", false);
         this.addOption("showAcceleration", false);
         this.addOption("showAccDecomp", false);
         this.addOption("origin", "O1");
-        this.addOption("basis", "rect");
+        this.addOption("basis", "none");
+        this.addOption("coords", "none");
 
         var f;
         if (this.getOption("movement") === "arc") {
@@ -93,7 +95,7 @@ $(document).ready(function() {
         f = f.bind(this);
 
         var O1 = $V([0, 0]);
-        var O2 = $V([-3, -2]);
+        var O2 = $V([-4, -2.8]);
 
         var O;
         if (this.getOption("origin") === "O1") {
@@ -104,12 +106,16 @@ $(document).ready(function() {
 
         var val = this.numDiff(f, t);
         var period = val.period;
-        var r = val.P;
+        var P = val.P;
+        var r = P.subtract(O);
         var v = val.diff.P;
         var a = val.ddiff.P;
 
         var et = v.toUnitVector();
         var en = this.orthComp(a, v).toUnitVector();
+
+        var rP = this.rectToPolar(r);
+        var theta = this.fixedMod(rP.e(2), 2 * Math.PI);
 
         var es = [], eLabels, rLabels, vLabels, aLabels;
         if (this.getOption("basis") === "rect") {
@@ -119,7 +125,7 @@ $(document).ready(function() {
             vLabels = ["TEX:$\\vec{v}_x$", "TEX:$\\vec{v}_y$"];
             aLabels = ["TEX:$\\vec{a}_x$", "TEX:$\\vec{a}_y$"];
         } else if (this.getOption("basis") === "polar") {
-            es[0] = r.subtract(O).toUnitVector();
+            es[0] = r.toUnitVector();
             es[1] = es[0].rotate(Math.PI / 2, $V([0, 0]));
             eLabels = ["TEX:$\\hat{e}_r$", "TEX:$\\hat{e}_\\theta$"];
             rLabels = ["TEX:$\\vec{r}_r$", "TEX:$\\vec{r}_\\theta$"];
@@ -131,6 +137,8 @@ $(document).ready(function() {
             rLabels = ["TEX:$\\vec{r}_t$", "TEX:$\\vec{r}_n$"];
             vLabels = ["TEX:$\\vec{v}_t$", "TEX:$\\vec{v}_n$"];
             aLabels = ["TEX:$\\vec{a}_t$", "TEX:$\\vec{a}_n$"];
+        } else {
+            es = [$V([1, 0]), $V([0, 1])];
         }
 
         var rc = [], vc = [], ac = [];
@@ -155,48 +163,85 @@ $(document).ready(function() {
         this.text(O1, $V([1, 1]), label && "TEX:$O_1$");
         this.point(O2);
         this.text(O2, $V([1, 1]), label && "TEX:$O_2$");
-        this.point(r);
-        var others = [O, r.add(es[0]), r.add(es[1])];
+        if (this.getOption("coords") === "rect") {
+            var rx = $V([P.e(1), O.e(2)]);
+            this.line(O, rx, "position");
+            this.line(rx, P, "position");
+            this.labelLine(O, rx, $V([0, -1]), "TEX:$x$");
+            this.labelLine(rx, P, $V([0, -1]), "TEX:$y$");
+        } else if (this.getOption("coords") === "polar") {
+            if (!this.getOption("showPosition")) {
+                this.line(O, P, "position");
+            }
+            this.labelLine(O, P, $V([0, -1]), "TEX:$r$");
+            this.circleArrow(O, 0.8, 0, theta, "position", true);
+            this.labelCircleLine(O, 0.8, 0, theta, $V([0, 1]), "TEX:$\\theta$", true);
+        }
+        this.point(P);
+        var others = [];
         if (this.getOption("showPosition")) {
             others.push(O);
         }
+        if (this.getOption("basis") !== "none") {
+            others.push(P.add(es[0]));
+            others.push(P.add(es[1]));
+        }
         if (this.getOption("showPath")) {
-            others.push(r.add(et));
-            others.push(r.add(et.x(-1)));
+            others.push(P.add(et));
+            others.push(P.add(et.x(-1)));
         }
-        this.labelIntersection(r, others, label && "TEX:$P$");
+        if (this.getOption("basis") !== "none") {
+            for (var i = 0; i < 2; i++) {
+                this.arrow(P, P.add(es[i]));
+                this.labelLine(P, P.add(es[i]), $V([1, -1]), label && eLabels[i]);
+            }
+            if (this.getOption("showBasisAtOrigin")) {
+                this.arrow(O, O.add(es[0]));
+                this.arrow(O, O.add(es[1]));
+                this.labelLine(O, O.add(es[0]), $V([1, -1]), label && eLabels[0]);
+                this.labelLine(O, O.add(es[1]), $V([1, 1]), label && eLabels[1]);
+            }
+        }
+        this.labelIntersection(P, others, label && "TEX:$P$");
         if (this.getOption("showPosition")) {
-            this.arrow(O, r, "position");
-            this.labelLine(O, r, $V([0, 1]), label && "TEX:$\\vec{r}$");
+            this.arrow(O, P, "position");
+            this.labelLine(O, P, $V([0, 1]), label && "TEX:$\\vec{r}$");
         }
-        for (var i = 0; i < 2; i++) {
-            this.arrow(r, r.add(es[i]));
-            this.labelLine(r, r.add(es[i]), $V([1, -1]), label && eLabels[i]);
-        }
-        if (this.getOption("showBasisAtOrigin")) {
-            this.arrow(O, O.add(es[0]));
-            this.arrow(O, O.add(es[1]));
-            this.labelLine(O, O.add(es[0]), $V([1, -1]), label && eLabels[0]);
-            this.labelLine(O, O.add(es[1]), $V([1, 1]), label && eLabels[1]);
+        if (this.getOption("showPosDecomp")) {
+            if (this.getOption("basis") === "polar") {
+                if (!this.getOption("showPosition")) {
+                    this.arrow(O, P, "position");
+                }
+                this.labelLine(O, P, $V([0.5, 1]), label && rLabels[0]);
+            } else if (this.getOption("basis") !== "none") {
+                this.arrow(O, O.add(rc[0]), "position");
+                this.arrow(O.add(rc[0]), P, "position");
+                this.labelLine(O, O.add(rc[0]), $V([0.5, 1]), label && rLabels[0]);
+                this.labelLine(O.add(rc[0]), P, $V([0.5, 1]), label && rLabels[1]);
+            }
         }
         if (this.getOption("showVelocity")) {
-            this.arrow(r, r.add(v), "velocity");
-            this.labelLine(r, r.add(v), $V([0, -1]), label && "TEX:$\\vec{v}$");
+            this.arrow(P, P.add(v), "velocity");
+            this.labelLine(P, P.add(v), $V([0, -1]), label && "TEX:$\\vec{v}$");
         }
-        for (var i = 0; i < 2; i++) {
-            if (this.getOption("showVelDecomp") && vc[i].modulus() > 1e-3) {
-                this.arrow(r, r.add(vc[i]), "velocity");
-                this.labelLine(r, r.add(vc[i]), $V([1, 1]), label && vLabels[i]);
+        if (this.getOption("basis") !== "none") {
+            for (var i = 0; i < 2; i++) {
+                if (this.getOption("showVelDecomp") && vc[i].modulus() > 1e-3) {
+                    this.arrow(P, P.add(vc[i]), "velocity");
+                    this.labelLine(P, P.add(vc[i]), $V([1, 1]), label && vLabels[i]);
+                }
             }
         }
         if (this.getOption("showAcceleration")) {
-            this.arrow(r, r.add(a), "acceleration");
-            this.labelLine(r, r.add(a), $V([1, 0]), label && "TEX:$\\vec{a}$");
+            this.arrow(P, P.add(a), "acceleration");
+            this.labelLine(P, P.add(a), $V([1, 0]), label && "TEX:$\\vec{a}$");
         }
-        for (var i = 0; i < 2; i++) {
-            if (this.getOption("showAccDecomp") && ac[i].modulus() > 1e-3) {
-                this.arrow(r, r.add(ac[i]), "acceleration");
-                this.labelLine(r, r.add(ac[i]), $V([1, 1]), label && aLabels[i]);
+        if (this.getOption("basis") !== "none") {
+            for (var i = 0; i < 2; i++) {
+                if (this.getOption("showAccDecomp") && ac[i].modulus() > 1e-3) {
+                    this.arrow(P, P.add(ac[i]), "acceleration");
+                    this.labelLine(P, P.add(ac[i]), $V([1, 1]), label && aLabels[i]);
+                }
             }
         }
     });
