@@ -398,6 +398,21 @@ PrairieDraw.prototype.cylindricalToRect = function(pC) {
     return pR;
 };
 
+/** Convert rectangular to cylindrical coordintes.
+
+    @param {Vector} pR Rectangular coordinates (x, y, z).
+    @return {Vector} Cylindrical coordinates (r, theta, z).
+*/
+PrairieDraw.prototype.rectToCylindrical = function(pR) {
+    var x = pR.e(1);
+    var y = pR.e(2);
+    var z = pR.e(3);
+    var r = Math.sqrt(x*x + y*y);
+    var theta = Math.atan2(y, x);
+    var pC = $V([r, theta, z]);
+    return pC;
+};
+
 /** Perpendicular vector in 2D.
 
     @param {Vector} v A 2D vector.
