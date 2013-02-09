@@ -213,36 +213,82 @@ $(document).ready(function() {
         this.addOption("origin", "O1");
         this.addOption("basis", "rect");
         this.addOption("showBasisAtOrigin", false);
+        this.addOption("showPath", true);
+        this.addOption("movement", "saddle");
 
         var label = this.getOption("showLabels") ? true : undefined;
 
         var O = $V([0, 0, 0]);
-        var rX = $V([1, 0, 0]);
-        var rY = $V([0, 1, 0]);
-        var rZ = $V([0, 0, 1]);
+        var rX = $V([2/3, 0, 0]);
+        var rY = $V([0, 2/3, 0]);
+        var rZ = $V([0, 0, 2/3]);
         var gS = 2; // ground size
 
-        var groundBorder = [$V([-gS, -gS, 0]), $V([-gS, gS, 0]), $V([gS, gS, 0]), $V([gS, -gS, 0])];
-        var nGrid = 3;
-        for (var i = -nGrid; i <= nGrid; i++) {
-            this.line($V([i / nGrid * gS, -gS, 0]), $V([i / nGrid * gS, gS, 0]), "grid");
-            this.line($V([-gS, i / nGrid * gS, 0]), $V([gS, i / nGrid * gS, 0]), "grid");
-        }
-        this.polyLine(groundBorder, true, false);
-        this.arrow(O, rX);
-        this.arrow(O, rY);
-        this.arrow(O, rZ);
-        if (this.getOption("showLabels")) {
-            this.labelLine(O, rX, $V([1, -1]), "TEX:$x$");
-            this.labelLine(O, rY, $V([1, 1]), "TEX:$y$");
-            this.labelLine(O, rZ, $V([1, 1]), "TEX:$z$");
+        var O1 = $V([0, 0, 0]);
+        var O2 = $V([4/3, -4/3, 0]);
+        var O;
+        if (this.getOption("origin") === "O1") {
+            O = O1;
+        } else {
+            O = O2;
         }
 
-        var f = function(t) {
-            return {
-                P: $V([1.8 * Math.cos(t / 2), 1.8 * Math.sin(t / 2), 1 - 0.9 * Math.cos(t)])
-            };
+        var f;
+        if (this.getOption("movement") === "saddle") {
+            f = function(t) {
+                return {
+                    P: $V([1.8 * Math.cos(t / 2), 1.8 * Math.sin(t / 2), 1 - 0.9 * Math.cos(t)])
+                };
+            }
+        } else if (this.getOption("movement") === "viviani") {
+            f = function(t) {
+                return {
+                    P: $V([0.9 * Math.sin(t), 1.8 * Math.sin(t / 2), 1 + 0.9 * Math.cos(t)])
+                };
+            }
+        } else if (this.getOption("movement") === "eight") {
+            f = function(t) {
+                var tau = t / 2 + 0.9 * Math.sin(t / 2);
+                return {
+                    P: this.cylindricalToRect($V([1.8 * Math.cos(tau), -Math.sin(tau) + Math.PI / 2, 1 - 0.9 * Math.sin(tau)]))
+                };
+            }
+        } else if (this.getOption("movement") === "clover") {
+            f = function(t) {
+                return {
+                    P: this.cylindricalToRect($V([1.8 * Math.cos(t), t / 2 + Math.PI / 4, 1 - 0.9 * Math.sin(t)]))
+                };
+            }
+        } else if (this.getOption("movement") === "inflection") {
+            f = function(t) {
+                return {
+                    P: $V([Math.sin(3 * t / 2), Math.sin(t), 1 - Math.sin(t / 2)])
+                };
+            }
+        } else if (this.getOption("movement") === "deltoid") {
+            f = function(t) {
+                var r = 0.6;
+                return {
+                    P: $V([
+                        -r * (2 * Math.sin(t / 2) - Math.sin(t)),
+                        r * (2 * Math.cos(t / 2) + Math.cos(t)),
+                        1 + 0.9 * 4/5 * (Math.cos(t / 2) + Math.sin(t / 2) * Math.sin(3 * t / 2) / 3)
+                    ])
+                };
+            }
+        } else if (this.getOption("movement") === "cusp") {
+            f = function(t) {
+                var r = 0.7;
+                return {
+                    P: $V([
+                        r * (1.5 * Math.sin(t) - Math.sin(1.5 * t)),
+                        r * (1.5 * Math.cos(t) + Math.cos(1.5 * t)),
+                        1 + 0.9 * 4/5 * (Math.cos(t / 2) + Math.sin(t / 2) * Math.sin(2.5 * t) / 5)
+                    ])
+                };
+            }
         }
+        f = f.bind(this);
 
         var val = this.numDiff(f, t);
         var P = val.P;
@@ -277,7 +323,7 @@ $(document).ready(function() {
         } else if (this.getOption("basis") === "tangNorm") {
             es[0] = v.toUnitVector();
             es[1] = this.orthComp(a, v).toUnitVector();
-            es[2] = e1.cross(e2);
+            es[2] = es[0].cross(es[1]);
             eLabels = ["TEX:$\\hat{e}_t$", "TEX:$\\hat{e}_n$", "TEX:$\\hat{e}_b$"];
             rLabels = ["TEX:$\\vec{r}_t$", "TEX:$\\vec{r}_n$", "TEX:$\\vec{r}_b$"];
             vLabels = ["TEX:$\\vec{v}_t$", "TEX:$\\vec{v}_n$", "TEX:$\\vec{v}_b$"];
@@ -291,28 +337,65 @@ $(document).ready(function() {
             ac[i] = this.orthProj(a, es[i]);
         }
 
-        var path = [];
-        var nPoints = 100;
-        for (var i = 0; i < nPoints; i++) {
-            var tTemp = i / nPoints * 4 * Math.PI;
-            path.push(f(tTemp).P);
+        if (this.getOption("showBasisAtOrigin")) {
+            for (var i = 0; i < 3; i++) {
+                if (es[i].e(3) < 0) {
+                    this.arrow(O, O.add(es[i]));
+                    this.labelLine(O, O.add(es[i]), $V([1, 0]), label && eLabels[i]);
+                }
+            }
         }
-        this.polyLine(path, true, false);
 
+        var groundBorder = [$V([-gS, -gS, 0]), $V([-gS, gS, 0]), $V([gS, gS, 0]), $V([gS, -gS, 0])];
+        var groundAlpha = 0.8;
+        this.save();
+        this.setProp("shapeInsideColor", "rgba(255, 255, 255, " + groundAlpha + ")");
+        this.polyLine(groundBorder, true, true);
+        this.restore();
+        var nGrid = 3;
+        for (var i = -nGrid; i <= nGrid; i++) {
+            this.line($V([i / nGrid * gS, -gS, 0]), $V([i / nGrid * gS, gS, 0]), "grid");
+            this.line($V([-gS, i / nGrid * gS, 0]), $V([gS, i / nGrid * gS, 0]), "grid");
+        }
+        this.polyLine(groundBorder, true, false);
+        this.arrow(O1, rX);
+        this.arrow(O1, rY);
+        this.arrow(O1, rZ);
+        this.labelLine(O1, rX, $V([1, -1]), label && "TEX:$x$");
+        this.labelLine(O1, rY, $V([1, 1]), label && "TEX:$y$");
+        this.labelLine(O1, rZ, $V([1, 1]), label && "TEX:$z$");
+
+        this.point(O1);
+        this.labelIntersection(O1, [O1.add(rX), O1.add(rY), O1.add(rZ)], label && "TEX:$O_1$");
+        this.point(O2);
+        this.text(O2, $V([1, 1]), label && "TEX:$O_2$");
+
+        if (this.getOption("showPath")) {
+            var path = [];
+            var nPoints = 200;
+            for (var i = 0; i < nPoints; i++) {
+                var tTemp = i / nPoints * 4 * Math.PI;
+                path.push(f(tTemp).P);
+            }
+            this.polyLine(path, true, false);
+        }
+
+        if (this.getOption("showBasisAtOrigin")) {
+            for (var i = 0; i < 3; i++) {
+                if (es[i].e(3) >= 0) {
+                    this.arrow(O, O.add(es[i]));
+                    this.labelLine(O, O.add(es[i]), $V([1, 0]), label && eLabels[i]);
+                }
+            }
+        }
         this.point(P);
         for (var i = 0; i < 3; i++) {
             this.arrow(P, P.add(es[i]));
-            this.labelLine(P, P.add(es[i]), $V([1, 0]), label && eLabels[0]);
+            this.labelLine(P, P.add(es[i]), $V([1, 0]), label && eLabels[i]);
         }
         if (this.getOption("showPosition")) {
             this.arrow(O, P, "position");
             this.labelLine(O, P, $V([0, 1]), label && "TEX:$\\vec{r}$");
-        }
-        if (this.getOption("showBasisAtOrigin")) {
-            this.arrow(O, O.add(e1));
-            this.arrow(O, O.add(e2));
-            this.labelLine(O, O.add(e1), $V([1, -1]), label && e1Label);
-            this.labelLine(O, O.add(e2), $V([1, 1]), label && e2Label);
         }
         if (this.getOption("showVelocity")) {
             this.arrow(P, P.add(v), "velocity");

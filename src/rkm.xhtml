@@ -64,13 +64,13 @@
             </td>
           </tr>
           <tr>
-            <td>Cylindrical/<br />polar</td>
+            <td>Cylindrical<br />or polar</td>
             <td>$\hat{e}_r,\hat{e}_\theta,\hat{e}_z$</td>
             <td>
               <ul>
                 <li>Ideal for circular and helical movement</li>
                 <li>Gives insight into centripetal and coriolis acceleration</li>
-                <li>Good if there is a clear motion center with 2D rotation</li>
+                <li>Good if there is a clear motion center with 2D (single-axis) rotation</li>
               </ul>
             </td>
             <td>
@@ -86,7 +86,7 @@
             <td>
               <ul>
                 <li>Ideal for rotations in 3D</li>
-                <li>Good if there is a clear motion center with 3D rotation</li>
+                <li>Good if there is a clear motion center with 3D (multi-axis) rotation</li>
               </ul>
             </td>
             <td>
@@ -101,7 +101,7 @@
             <td>$\hat{e}_t,\hat{e}_n,\hat{e}_b$</td>
             <td>
               <ul>
-                <li>Gives much insight into local movement</li>
+                <li>Gives good insight into local movement</li>
                 <li>Independent of origin choice and orientation</li>
               </ul>
             </td>
@@ -200,18 +200,53 @@
           </p>
           <table class="alignTop">
             <tr>
+              <td>Movement:</td>
+              <td><input type="radio" name="rkm-fb-c-movement" value="saddle" class="data-input:rkm-fb-c:movement" /> saddle</td>
+              <td><input type="radio" name="rkm-fb-c-movement" value="viviani" class="data-input:rkm-fb-c:movement" /> <a href="http://en.wikipedia.org/wiki/Viviani%27s_curve">Viviani</a></td>
+              <td><input type="radio" name="rkm-fb-c-movement" value="eight" class="data-input:rkm-fb-c:movement" /> eight</td>
+              <td><input type="radio" name="rkm-fb-c-movement" value="clover" class="data-input:rkm-fb-c:movement" /> clover</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td><input type="radio" name="rkm-fb-c-movement" value="inflection" class="data-input:rkm-fb-c:movement" /> inflection</td>
+              <td><input type="radio" name="rkm-fb-c-movement" value="deltoid" class="data-input:rkm-fb-c:movement" /> <a href="http://en.wikipedia.org/wiki/Deltoid_curve">deltoid</a></td>
+              <td><input type="radio" name="rkm-fb-c-movement" value="cusp" class="data-input:rkm-fb-c:movement" /> cusp</td>
+            </tr>
+            <tr>
               <td>Show:</td>
-              <td>
+              <td colspan="4">
                 <button class="option-toggle:rkm-fb-c:showPosition">position vector</button>
+                <button class="option-toggle:rkm-fb-c:showPath">path</button>
+                <button class="option-toggle:rkm-fb-c:showBasisAtOrigin">basis at origin</button>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td colspan="4">
                 <button class="option-toggle:rkm-fb-c:showVelocity">velocity</button>
+                <button class="option-toggle:rkm-fb-c:showVelDecomp">velocity decomposition</button>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td colspan="4">
                 <button class="option-toggle:rkm-fb-c:showAcceleration">acceleration</button>
                 <button class="option-toggle:rkm-fb-c:showAccDecomp">acceleration decomposition</button>
               </td>
             </tr>
             <tr>
+              <td>Basis:</td>
+              <td><input type="radio" name="rkm-fb-c-basis" value="rect" class="data-input:rkm-fb-c:basis" /> Cartesian</td>
+              <td><input type="radio" name="rkm-fb-c-basis" value="cylindrical" class="data-input:rkm-fb-c:basis" /> cylindrical</td>
+              <td><input type="radio" name="rkm-fb-c-basis" value="spherical" class="data-input:rkm-fb-c:basis" /> spherical</td>
+              <td><input type="radio" name="rkm-fb-c-basis" value="tangNorm" class="data-input:rkm-fb-c:basis" /> tangential/normal</td>
+            </tr>
+            <tr>
+              <td>Origin:</td>
+              <td><input type="radio" name="rkm-fb-c-origin" value="O1" class="data-input:rkm-fb-c:origin" /> $O_1$</td>
+              <td><input type="radio" name="rkm-fb-c-origin" value="O2" class="data-input:rkm-fb-c:origin" /> $O_2$</td>
               <td></td>
-              <td>
-              </td>
+              <td></td>
             </tr>
           </table>
           <p class="figureCaption">
