@@ -1,7 +1,7 @@
 
 $(document).ready(function() {
 
-    var rkm_ft_c = new PrairieDrawAnim("rkm-ft-c", function(t) {
+    var rkm_f2_c = new PrairieDrawAnim("rkm-f2-c", function(t) {
         this.setUnits(12, 8);
 
         this.addOption("movement", "circle");
@@ -201,7 +201,7 @@ $(document).ready(function() {
         }
     });
 
-    var rkm_fb_c = new PrairieDrawAnim("rkm-fb-c", function(t) {
+    var rkm_f3_c = new PrairieDrawAnim("rkm-f3-c", function(t) {
         this.setUnits(6.6, 4.4);
 
         this.addOption("showLabels", true);
@@ -419,6 +419,6 @@ $(document).ready(function() {
         }
     });
 
-    rkm_fb_c.activate3DControl();
+    rkm_f3_c.activate3DControl();
 
 }); // end of document.ready()

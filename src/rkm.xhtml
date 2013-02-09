@@ -44,7 +44,14 @@
         <h1>
           Coordinate system comparison
         </h1>
-        <table class="basic">
+        <p>
+          The different coordinate systems and bases have different
+          strengths and weaknesses, and no single coordinate system or
+          basis is always best. Depending on the application, several
+          different coordinate systems or bases may be used
+          simultaneously for different purposes.
+        </p>
+        <table class="basic comparison">
           <tr><th>Name</th><th>Basis</th><th>Pros</th><th>Cons</th></tr>
           <tr>
             <td>Cartesian</td>
@@ -64,7 +71,7 @@
             </td>
           </tr>
           <tr>
-            <td>Cylindrical<br />or polar</td>
+            <td><a href="rvy.xhtml">Cylindrical</a><br />or polar</td>
             <td>$\hat{e}_r,\hat{e}_\theta,\hat{e}_z$</td>
             <td>
               <ul>
@@ -77,11 +84,12 @@
               <ul>
                 <li>Singularity when $r = 0$</li>
                 <li>Dependent on choice of origin</li>
+                <li>Complex differentiation</li>
               </ul>
             </td>
           </tr>
           <tr>
-            <td>Spherical</td>
+            <td><a href="rvs.xhtml">Spherical</a></td>
             <td>$\hat{e}_r,\hat{e}_\theta,\hat{e}_\phi$</td>
             <td>
               <ul>
@@ -93,27 +101,46 @@
               <ul>
                 <li>Singularity when $r = 0$ or $\phi = \pm \pi/2$</li>
                 <li>Dependent on choice of origin</li>
+                <li>Complex differentiation</li>
               </ul>
             </td>
           </tr>
           <tr>
-            <td>Tang/norm</td>
+            <td><a href="rkt.xhtml">Tangential/<br />normal</a></td>
             <td>$\hat{e}_t,\hat{e}_n,\hat{e}_b$</td>
             <td>
               <ul>
-                <li>Gives good insight into local movement</li>
+                <li>Gives insight into local movement</li>
+                <li>Allows computation of radius of curvature</li>
                 <li>Independent of origin choice and orientation</li>
               </ul>
             </td>
             <td>
               <ul>
                 <li>Discontinuous when curve direction changes</li>
-                <li>Not uniquely defined when $\vec{a} \parallel \vec{v}$</li>
+                <li>Not uniquely defined when $\vec{a}$ is parallel to $\vec{v}$</li>
                 <li>Complex differentiation</li>
               </ul>
             </td>
           </tr>
         </table>
+        <div class="envContainer warning" id="rkm-wc">
+          <p class="envHeader">
+            Warning: Coordinate systems and bases are different.
+          </p>
+          <div class="envBody">
+            <p>
+              Some coordinate systems (e.g., cylindrical, spherical)
+              also have corresponding bases. The tangential/normal
+              basis does not have any associated coordinate system,
+              however. We can mix and match coordinate systems and
+              basis. For example, we may track a point's location in
+              polar coordinates $(r,\theta)$, but express its velocity
+              and acceleration in a tangential/normal basis
+              $\hat{e}_t,\hat{e}_n$.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
     <div class="contentBlock">
@@ -121,66 +148,67 @@
         <h2>
           2D Motion
         </h2>
-        <div class="figureContainer width600" id="rkm-ft">
-          <canvas id="rkm-ft-c" width="600" height="400" class="figureImage">
+        <div class="figureContainer width600" id="rkm-f2">
+          <canvas id="rkm-f2-c" width="600" height="400" class="figureImage">
           </canvas>
           <p class="controls">
-            <button class="anim-toggle:rkm-ft-c">animate</button>
-            <button class="reset:rkm-ft-c">reset</button>
-            <button class="option-toggle:rkm-ft-c:showLabels">show labels</button>
+            <button class="anim-toggle:rkm-f2-c">animate</button>
+            <button class="reset:rkm-f2-c">reset</button>
+            <button class="option-toggle:rkm-f2-c:showLabels">show labels</button>
           </p>
           <table class="alignTop">
             <tr>
               <td>Movement:</td>
-              <td><input type="radio" name="rkm-ft-c-movement" value="circle" class="data-input:rkm-ft-c:movement" /> circle</td>
-              <td><input type="radio" name="rkm-ft-c-movement" value="varCircle" class="data-input:rkm-ft-c:movement" /> var-circle</td>
-              <td><input type="radio" name="rkm-ft-c-movement" value="ellipse" class="data-input:rkm-ft-c:movement" /> ellipse</td>
-              <td><input type="radio" name="rkm-ft-c-movement" value="arc" class="data-input:rkm-ft-c:movement" /> arc</td>
+              <td><input type="radio" name="rkm-f2-c-movement" value="circle" class="data-input:rkm-f2-c:movement" /> circle</td>
+              <td><input type="radio" name="rkm-f2-c-movement" value="varCircle" class="data-input:rkm-f2-c:movement" /> var-circle</td>
+              <td><input type="radio" name="rkm-f2-c-movement" value="ellipse" class="data-input:rkm-f2-c:movement" /> ellipse</td>
+              <td><input type="radio" name="rkm-f2-c-movement" value="arc" class="data-input:rkm-f2-c:movement" /> arc</td>
             </tr>
             <tr>
               <td></td>
-              <td><input type="radio" name="rkm-ft-c-movement" value="trefoil" class="data-input:rkm-ft-c:movement" /> trefoil</td>
-              <td><input type="radio" name="rkm-ft-c-movement" value="eight" class="data-input:rkm-ft-c:movement" /> eight</td>
-              <td><input type="radio" name="rkm-ft-c-movement" value="comet" class="data-input:rkm-ft-c:movement" /> comet</td>
-              <td><input type="radio" name="rkm-ft-c-movement" value="pendulum" class="data-input:rkm-ft-c:movement" /> pendulum</td>
+              <td><input type="radio" name="rkm-f2-c-movement" value="trefoil" class="data-input:rkm-f2-c:movement" /> trefoil</td>
+              <td><input type="radio" name="rkm-f2-c-movement" value="eight" class="data-input:rkm-f2-c:movement" /> eight</td>
+              <td><input type="radio" name="rkm-f2-c-movement" value="comet" class="data-input:rkm-f2-c:movement" /> comet</td>
+              <td><input type="radio" name="rkm-f2-c-movement" value="pendulum" class="data-input:rkm-f2-c:movement" /> pendulum</td>
             </tr>
             <tr>
               <td>Show:</td>
               <td colspan="4">
-                <button class="option-toggle:rkm-ft-c:showPosition">position vector</button>
-                <button class="option-toggle:rkm-ft-c:showPath">path</button>
-                <button class="option-toggle:rkm-ft-c:showBasisAtOrigin">basis at origin</button>
+                <button class="option-toggle:rkm-f2-c:showPosition">position vector</button>
+                <button class="option-toggle:rkm-f2-c:showPath">path</button>
+                <button class="option-toggle:rkm-f2-c:showBasisAtOrigin">basis at origin</button>
               </td>
             </tr>
             <tr>
               <td></td>
               <td colspan="4">
-                <button class="option-toggle:rkm-ft-c:showVelocity">velocity</button>
-                <button class="option-toggle:rkm-ft-c:showVelDecomp">velocity decomposition</button>
+                <button class="option-toggle:rkm-f2-c:showVelocity">velocity</button>
+                <button class="option-toggle:rkm-f2-c:showVelDecomp">velocity decomposition</button>
               </td>
             </tr>
             <tr>
               <td></td>
               <td colspan="4">
-                <button class="option-toggle:rkm-ft-c:showAcceleration">acceleration</button>
-                <button class="option-toggle:rkm-ft-c:showAccDecomp">acceleration decomposition</button>
+                <button class="option-toggle:rkm-f2-c:showAcceleration">acceleration</button>
+                <button class="option-toggle:rkm-f2-c:showAccDecomp">acceleration decomposition</button>
               </td>
             </tr>
             <tr>
               <td>Basis:</td>
-              <td><input type="radio" name="rkm-ft-c-basis" value="rect" class="data-input:rkm-ft-c:basis" /> Cartesian</td>
-              <td><input type="radio" name="rkm-ft-c-basis" value="polar" class="data-input:rkm-ft-c:basis" /> polar</td>
-              <td><input type="radio" name="rkm-ft-c-basis" value="tangNorm" class="data-input:rkm-ft-c:basis" /> tangential/normal</td>
+              <td><input type="radio" name="rkm-f2-c-basis" value="rect" class="data-input:rkm-f2-c:basis" /> Cartesian</td>
+              <td><input type="radio" name="rkm-f2-c-basis" value="polar" class="data-input:rkm-f2-c:basis" /> polar</td>
+              <td><input type="radio" name="rkm-f2-c-basis" value="tangNorm" class="data-input:rkm-f2-c:basis" /> tangential/normal</td>
             </tr>
             <tr>
               <td>Origin:</td>
-              <td><input type="radio" name="rkm-ft-c-origin" value="O1" class="data-input:rkm-ft-c:origin" /> $O_1$</td>
-              <td><input type="radio" name="rkm-ft-c-origin" value="O2" class="data-input:rkm-ft-c:origin" /> $O_2$</td>
+              <td><input type="radio" name="rkm-f2-c-origin" value="O1" class="data-input:rkm-f2-c:origin" /> $O_1$</td>
+              <td><input type="radio" name="rkm-f2-c-origin" value="O2" class="data-input:rkm-f2-c:origin" /> $O_2$</td>
               <td></td>
               <td></td>
             </tr>
           </table>
           <p class="figureCaption">
+            Comparison of bases in 2D.
           </p>
         </div>
       </div>
@@ -190,66 +218,67 @@
         <h2>
           3D Motion
         </h2>
-        <div class="figureContainer width600" id="rkm-fb">
-          <canvas id="rkm-fb-c" width="600" height="400" class="figureImage">
+        <div class="figureContainer width600" id="rkm-f3">
+          <canvas id="rkm-f3-c" width="600" height="400" class="figureImage">
           </canvas>
           <p class="controls">
-            <button class="anim-toggle:rkm-fb-c">animate</button>
-            <button class="reset:rkm-fb-c">reset</button>
-            <button class="option-toggle:rkm-fb-c:showLabels">show labels</button>
+            <button class="anim-toggle:rkm-f3-c">animate</button>
+            <button class="reset:rkm-f3-c">reset</button>
+            <button class="option-toggle:rkm-f3-c:showLabels">show labels</button>
           </p>
           <table class="alignTop">
             <tr>
               <td>Movement:</td>
-              <td><input type="radio" name="rkm-fb-c-movement" value="saddle" class="data-input:rkm-fb-c:movement" /> saddle</td>
-              <td><input type="radio" name="rkm-fb-c-movement" value="viviani" class="data-input:rkm-fb-c:movement" /> <a href="http://en.wikipedia.org/wiki/Viviani%27s_curve">Viviani</a></td>
-              <td><input type="radio" name="rkm-fb-c-movement" value="eight" class="data-input:rkm-fb-c:movement" /> eight</td>
-              <td><input type="radio" name="rkm-fb-c-movement" value="clover" class="data-input:rkm-fb-c:movement" /> clover</td>
+              <td><input type="radio" name="rkm-f3-c-movement" value="saddle" class="data-input:rkm-f3-c:movement" /> saddle</td>
+              <td><input type="radio" name="rkm-f3-c-movement" value="viviani" class="data-input:rkm-f3-c:movement" /> <a href="http://en.wikipedia.org/wiki/Viviani%27s_curve">Viviani</a></td>
+              <td><input type="radio" name="rkm-f3-c-movement" value="eight" class="data-input:rkm-f3-c:movement" /> eight</td>
+              <td><input type="radio" name="rkm-f3-c-movement" value="clover" class="data-input:rkm-f3-c:movement" /> clover</td>
             </tr>
             <tr>
               <td></td>
-              <td><input type="radio" name="rkm-fb-c-movement" value="inflection" class="data-input:rkm-fb-c:movement" /> inflection</td>
-              <td><input type="radio" name="rkm-fb-c-movement" value="deltoid" class="data-input:rkm-fb-c:movement" /> <a href="http://en.wikipedia.org/wiki/Deltoid_curve">deltoid</a></td>
-              <td><input type="radio" name="rkm-fb-c-movement" value="cusp" class="data-input:rkm-fb-c:movement" /> cusp</td>
+              <td><input type="radio" name="rkm-f3-c-movement" value="inflection" class="data-input:rkm-f3-c:movement" /> inflection</td>
+              <td><input type="radio" name="rkm-f3-c-movement" value="deltoid" class="data-input:rkm-f3-c:movement" /> <a href="http://en.wikipedia.org/wiki/Deltoid_curve">deltoid</a></td>
+              <td><input type="radio" name="rkm-f3-c-movement" value="cusp" class="data-input:rkm-f3-c:movement" /> cusp</td>
             </tr>
             <tr>
               <td>Show:</td>
               <td colspan="4">
-                <button class="option-toggle:rkm-fb-c:showPosition">position vector</button>
-                <button class="option-toggle:rkm-fb-c:showPath">path</button>
-                <button class="option-toggle:rkm-fb-c:showBasisAtOrigin">basis at origin</button>
+                <button class="option-toggle:rkm-f3-c:showPosition">position vector</button>
+                <button class="option-toggle:rkm-f3-c:showPath">path</button>
+                <button class="option-toggle:rkm-f3-c:showBasisAtOrigin">basis at origin</button>
               </td>
             </tr>
             <tr>
               <td></td>
               <td colspan="4">
-                <button class="option-toggle:rkm-fb-c:showVelocity">velocity</button>
-                <button class="option-toggle:rkm-fb-c:showVelDecomp">velocity decomposition</button>
+                <button class="option-toggle:rkm-f3-c:showVelocity">velocity</button>
+                <button class="option-toggle:rkm-f3-c:showVelDecomp">velocity decomposition</button>
               </td>
             </tr>
             <tr>
               <td></td>
               <td colspan="4">
-                <button class="option-toggle:rkm-fb-c:showAcceleration">acceleration</button>
-                <button class="option-toggle:rkm-fb-c:showAccDecomp">acceleration decomposition</button>
+                <button class="option-toggle:rkm-f3-c:showAcceleration">acceleration</button>
+                <button class="option-toggle:rkm-f3-c:showAccDecomp">acceleration decomposition</button>
               </td>
             </tr>
             <tr>
               <td>Basis:</td>
-              <td><input type="radio" name="rkm-fb-c-basis" value="rect" class="data-input:rkm-fb-c:basis" /> Cartesian</td>
-              <td><input type="radio" name="rkm-fb-c-basis" value="cylindrical" class="data-input:rkm-fb-c:basis" /> cylindrical</td>
-              <td><input type="radio" name="rkm-fb-c-basis" value="spherical" class="data-input:rkm-fb-c:basis" /> spherical</td>
-              <td><input type="radio" name="rkm-fb-c-basis" value="tangNorm" class="data-input:rkm-fb-c:basis" /> tangential/normal</td>
+              <td><input type="radio" name="rkm-f3-c-basis" value="rect" class="data-input:rkm-f3-c:basis" /> Cartesian</td>
+              <td><input type="radio" name="rkm-f3-c-basis" value="cylindrical" class="data-input:rkm-f3-c:basis" /> cylindrical</td>
+              <td><input type="radio" name="rkm-f3-c-basis" value="spherical" class="data-input:rkm-f3-c:basis" /> spherical</td>
+              <td><input type="radio" name="rkm-f3-c-basis" value="tangNorm" class="data-input:rkm-f3-c:basis" /> tangential/normal</td>
             </tr>
             <tr>
               <td>Origin:</td>
-              <td><input type="radio" name="rkm-fb-c-origin" value="O1" class="data-input:rkm-fb-c:origin" /> $O_1$</td>
-              <td><input type="radio" name="rkm-fb-c-origin" value="O2" class="data-input:rkm-fb-c:origin" /> $O_2$</td>
+              <td><input type="radio" name="rkm-f3-c-origin" value="O1" class="data-input:rkm-f3-c:origin" /> $O_1$</td>
+              <td><input type="radio" name="rkm-f3-c-origin" value="O2" class="data-input:rkm-f3-c:origin" /> $O_2$</td>
               <td></td>
               <td></td>
             </tr>
           </table>
           <p class="figureCaption">
+            Comparison of bases in 3D.
           </p>
         </div>
       </div>
