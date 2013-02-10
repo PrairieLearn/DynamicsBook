@@ -187,13 +187,6 @@
               <td><input type="radio" name="rkm-f2-c-coords" value="polar" class="data-input:rkm-f2-c:coords" /> polar</td>
             </tr>
             <tr>
-              <td>Origin:</td>
-              <td><input type="radio" name="rkm-f2-c-origin" value="O1" class="data-input:rkm-f2-c:origin" /> $O_1$</td>
-              <td><input type="radio" name="rkm-f2-c-origin" value="O2" class="data-input:rkm-f2-c:origin" /> $O_2$</td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
               <td>Basis:</td>
               <td><input type="radio" name="rkm-f2-c-basis" value="none" class="data-input:rkm-f2-c:basis" /> none</td>
               <td><input type="radio" name="rkm-f2-c-basis" value="rect" class="data-input:rkm-f2-c:basis" /> Cartesian</td>
@@ -201,17 +194,18 @@
               <td><input type="radio" name="rkm-f2-c-basis" value="tangNorm" class="data-input:rkm-f2-c:basis" /> tangential/normal</td>
             </tr>
             <tr>
+              <td>Origin:</td>
+              <td><input type="radio" name="rkm-f2-c-origin" value="O1" class="data-input:rkm-f2-c:origin" /> $O_1$</td>
+              <td><input type="radio" name="rkm-f2-c-origin" value="O2" class="data-input:rkm-f2-c:origin" /> $O_2$</td>
+              <td><button class="option-toggle:rkm-f2-c:showBasisAtOrigin">basis at origin</button></td>
               <td></td>
-              <td colspan="4">
-                <button class="option-toggle:rkm-f2-c:showBasisAtOrigin">basis at origin</button>
-              </td>
             </tr>
             <tr>
-              <td>Decompose:</td>
+              <td>Components:</td>
               <td colspan="4">
-                <button class="option-toggle:rkm-f2-c:showPosDecomp">position vector decomp.</button>
-                <button class="option-toggle:rkm-f2-c:showVelDecomp">velocity decomp.</button>
-                <button class="option-toggle:rkm-f2-c:showAccDecomp">acceleration decomp.</button>
+                <button class="option-toggle:rkm-f2-c:showPosDecomp">position vector comp.</button>
+                <button class="option-toggle:rkm-f2-c:showVelDecomp">velocity comp.</button>
+                <button class="option-toggle:rkm-f2-c:showAccDecomp">acceleration comp.</button>
               </td>
             </tr>
           </table>
@@ -251,38 +245,41 @@
             <tr>
               <td>Show:</td>
               <td colspan="4">
-                <button class="option-toggle:rkm-f3-c:showPosition">position vector</button>
                 <button class="option-toggle:rkm-f3-c:showPath">path</button>
-                <button class="option-toggle:rkm-f3-c:showBasisAtOrigin">basis at origin</button>
-              </td>
-            </tr>
-            <tr>
-              <td></td>
-              <td colspan="4">
+                <button class="option-toggle:rkm-f3-c:showPosition">position vector</button>
                 <button class="option-toggle:rkm-f3-c:showVelocity">velocity</button>
-                <button class="option-toggle:rkm-f3-c:showVelDecomp">velocity decomposition</button>
+                <button class="option-toggle:rkm-f3-c:showAcceleration">acceleration</button>
               </td>
             </tr>
             <tr>
-              <td></td>
-              <td colspan="4">
-                <button class="option-toggle:rkm-f3-c:showAcceleration">acceleration</button>
-                <button class="option-toggle:rkm-f3-c:showAccDecomp">acceleration decomposition</button>
-              </td>
+              <td>Coords:</td>
+              <td><input type="radio" name="rkm-f3-c-coords" value="none" class="data-input:rkm-f3-c:coords" /> none</td>
+              <td><input type="radio" name="rkm-f3-c-coords" value="rect" class="data-input:rkm-f3-c:coords" /> Cartesian</td>
+              <td><input type="radio" name="rkm-f3-c-coords" value="cylindrical" class="data-input:rkm-f3-c:coords" /> cylindrical</td>
+              <td><input type="radio" name="rkm-f3-c-coords" value="spherical" class="data-input:rkm-f3-c:coords" /> spherical</td>
             </tr>
             <tr>
               <td>Basis:</td>
+              <td><input type="radio" name="rkm-f3-c-basis" value="none" class="data-input:rkm-f3-c:basis" /> none</td>
               <td><input type="radio" name="rkm-f3-c-basis" value="rect" class="data-input:rkm-f3-c:basis" /> Cartesian</td>
               <td><input type="radio" name="rkm-f3-c-basis" value="cylindrical" class="data-input:rkm-f3-c:basis" /> cylindrical</td>
               <td><input type="radio" name="rkm-f3-c-basis" value="spherical" class="data-input:rkm-f3-c:basis" /> spherical</td>
-              <td><input type="radio" name="rkm-f3-c-basis" value="tangNorm" class="data-input:rkm-f3-c:basis" /> tangential/normal</td>
+              <td><input type="radio" name="rkm-f3-c-basis" value="tangNorm" class="data-input:rkm-f3-c:basis" /> tang./norm.</td>
             </tr>
             <tr>
               <td>Origin:</td>
               <td><input type="radio" name="rkm-f3-c-origin" value="O1" class="data-input:rkm-f3-c:origin" /> $O_1$</td>
               <td><input type="radio" name="rkm-f3-c-origin" value="O2" class="data-input:rkm-f3-c:origin" /> $O_2$</td>
+              <td><button class="option-toggle:rkm-f3-c:showBasisAtOrigin">basis at origin</button></td>
               <td></td>
-              <td></td>
+            </tr>
+            <tr>
+              <td>Components:</td>
+              <td colspan="4">
+                <button class="option-toggle:rkm-f3-c:showPosDecomp">position vector comp.</button>
+                <button class="option-toggle:rkm-f3-c:showVelDecomp">velocity comp.</button>
+                <button class="option-toggle:rkm-f3-c:showAccDecomp">acceleration comp.</button>
+              </td>
             </tr>
           </table>
           <p class="figureCaption">

@@ -251,12 +251,14 @@ $(document).ready(function() {
 
         this.addOption("showLabels", true);
         this.addOption("showPosition", true);
+        this.addOption("showPosDecomp", false);
         this.addOption("showVelocity", false);
         this.addOption("showVelDecomp", false);
         this.addOption("showAcceleration", false);
         this.addOption("showAccDecomp", false);
         this.addOption("origin", "O1");
-        this.addOption("basis", "rect");
+        this.addOption("basis", "none");
+        this.addOption("coords", "none");
         this.addOption("showBasisAtOrigin", false);
         this.addOption("showPath", true);
         this.addOption("movement", "saddle");
@@ -341,7 +343,8 @@ $(document).ready(function() {
         var v = val.diff.P;
         var a = val.ddiff.P;
 
-        var es = [], eLabels, rLabels, vLabels, aLabels;
+        var es = [$V([1, 0, 0]), $V([0, 1, 0]), $V([0, 0, 1])];
+        var eLabels, rLabels, vLabels, aLabels;
         if (this.getOption("basis") === "rect") {
             es = [$V([1, 0, 0]), $V([0, 1, 0]), $V([0, 0, 1])];
             eLabels = ["TEX:$\\hat\\imath$", "TEX:$\\hat\\jmath$", "TEX:$\\hat{k}$"];
@@ -425,18 +428,20 @@ $(document).ready(function() {
             this.polyLine(path, true, false);
         }
 
-        if (this.getOption("showBasisAtOrigin")) {
-            for (var i = 0; i < 3; i++) {
-                if (es[i].e(3) >= 0) {
-                    this.arrow(O, O.add(es[i]));
-                    this.labelLine(O, O.add(es[i]), $V([1, 0]), label && eLabels[i]);
+        this.point(P);
+        if (this.getOption("basis") !== "none") {
+            if (this.getOption("showBasisAtOrigin")) {
+                for (var i = 0; i < 3; i++) {
+                    if (es[i].e(3) >= 0) {
+                        this.arrow(O, O.add(es[i]));
+                        this.labelLine(O, O.add(es[i]), $V([1, 0]), label && eLabels[i]);
+                    }
                 }
             }
-        }
-        this.point(P);
-        for (var i = 0; i < 3; i++) {
-            this.arrow(P, P.add(es[i]));
-            this.labelLine(P, P.add(es[i]), $V([1, 0]), label && eLabels[i]);
+            for (var i = 0; i < 3; i++) {
+                this.arrow(P, P.add(es[i]));
+                this.labelLine(P, P.add(es[i]), $V([1, 0]), label && eLabels[i]);
+            }
         }
         if (this.getOption("showPosition")) {
             this.arrow(O, P, "position");
@@ -446,20 +451,24 @@ $(document).ready(function() {
             this.arrow(P, P.add(v), "velocity");
             this.labelLine(P, P.add(v), $V([0, -1]), label && "TEX:$\\vec{v}$");
         }
-        for (var i = 0; i < 3; i++) {
-            if (this.getOption("showVelDecomp") && vc[i].modulus() > 1e-3) {
-                this.arrow(P, P.add(vc[i]), "velocity");
-                this.labelLine(P, P.add(vc[i]), $V([1, 1]), label && vLabels[i]);
+        if (this.getOption("basis") !== "none") {
+            for (var i = 0; i < 3; i++) {
+                if (this.getOption("showVelDecomp") && vc[i].modulus() > 1e-3) {
+                    this.arrow(P, P.add(vc[i]), "velocity");
+                    this.labelLine(P, P.add(vc[i]), $V([1, 1]), label && vLabels[i]);
+                }
             }
         }
         if (this.getOption("showAcceleration")) {
             this.arrow(P, P.add(a), "acceleration");
             this.labelLine(P, P.add(a), $V([1, 0]), label && "TEX:$\\vec{a}$");
         }
-        for (var i = 0; i < 3; i++) {
-            if (this.getOption("showAccDecomp") && ac[i].modulus() > 1e-3) {
-                this.arrow(P, P.add(ac[i]), "acceleration");
-                this.labelLine(P, P.add(ac[i]), $V([1, 1]), label && aLabels[i]);
+        if (this.getOption("basis") !== "none") {
+            for (var i = 0; i < 3; i++) {
+                if (this.getOption("showAccDecomp") && ac[i].modulus() > 1e-3) {
+                    this.arrow(P, P.add(ac[i]), "acceleration");
+                    this.labelLine(P, P.add(ac[i]), $V([1, 1]), label && aLabels[i]);
+                }
             }
         }
     });
