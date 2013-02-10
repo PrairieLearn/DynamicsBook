@@ -52,27 +52,29 @@
           simultaneously for different purposes.
         </p>
         <table class="basic comparison">
-          <tr><th>Name</th><th>Basis</th><th>Pros</th><th>Cons</th></tr>
+          <tr><th>Name</th><th>Coords</th><th>Basis</th><th>Pros</th><th>Cons</th></tr>
           <tr>
             <td>Cartesian</td>
+            <td>$x,y,z$</td>
             <td>$\hat\imath,\hat\jmath,\hat{k}$</td>
             <td>
               <ul>
                 <li>No singularities or discontinuities</li>
                 <li>Fixed for all time</li>
-                <li>Easy for differentiation</li>
+                <li>Easy differentiation</li>
                 <li>Independent of origin choice</li>
               </ul>
             </td>
             <td>
               <ul>
-                <li>No connection to dynamics</li>
+                <li>No insight into dynamics</li>
               </ul>
             </td>
           </tr>
           <tr>
             <td><a href="rvy.xhtml">Cylindrical</a><br />or polar</td>
-            <td>$\hat{e}_r,\hat{e}_\theta,\hat{e}_z$</td>
+            <td>$R,\theta,z$<br />or $r,\theta$</td>
+            <td>$\hat{e}_R,\hat{e}_\theta,\hat{e}_z$<br />or $\hat{e}_r,\hat{e}_\theta$</td>
             <td>
               <ul>
                 <li>Ideal for circular and helical movement</li>
@@ -83,13 +85,14 @@
             <td>
               <ul>
                 <li>Singularity when $r = 0$</li>
-                <li>Dependent on choice of origin</li>
+                <li>Dependent on origin choice</li>
                 <li>Complex differentiation</li>
               </ul>
             </td>
           </tr>
           <tr>
             <td><a href="rvs.xhtml">Spherical</a></td>
+            <td>$r,\theta,\phi$</td>
             <td>$\hat{e}_r,\hat{e}_\theta,\hat{e}_\phi$</td>
             <td>
               <ul>
@@ -100,13 +103,14 @@
             <td>
               <ul>
                 <li>Singularity when $r = 0$ or $\phi = \pm \pi/2$</li>
-                <li>Dependent on choice of origin</li>
+                <li>Dependent on origin choice</li>
                 <li>Complex differentiation</li>
               </ul>
             </td>
           </tr>
           <tr>
             <td><a href="rkt.xhtml">Tangential/<br />normal</a></td>
+            <td>—</td>
             <td>$\hat{e}_t,\hat{e}_n,\hat{e}_b$</td>
             <td>
               <ul>
@@ -238,9 +242,9 @@
             </tr>
             <tr>
               <td></td>
-              <td><input type="radio" name="rkm-f3-c-movement" value="inflection" class="data-input:rkm-f3-c:movement" /> inflection</td>
+              <td><input type="radio" name="rkm-f3-c-movement" value="lissajous" class="data-input:rkm-f3-c:movement" /> <a href="http://en.wikipedia.org/wiki/Lissajous_curve">Lissajous</a></td>
               <td><input type="radio" name="rkm-f3-c-movement" value="deltoid" class="data-input:rkm-f3-c:movement" /> <a href="http://en.wikipedia.org/wiki/Deltoid_curve">deltoid</a></td>
-              <td><input type="radio" name="rkm-f3-c-movement" value="cusp" class="data-input:rkm-f3-c:movement" /> cusp</td>
+              <td><input type="radio" name="rkm-f3-c-movement" value="pentagram" class="data-input:rkm-f3-c:movement" /> pentagram</td>
             </tr>
             <tr>
               <td>Show:</td>
@@ -283,7 +287,7 @@
             </tr>
           </table>
           <p class="figureCaption">
-            Comparison of bases in 3D.
+            Comparison of coordinate systems and bases in 3D.
           </p>
         </div>
       </div>

@@ -1,8 +1,8 @@
 
 /*****************************************************************************/
 
-table.comparison tr td:nth-child(3),
-table.comparison tr td:nth-child(4) {
+table.comparison tr td:nth-child(4),
+table.comparison tr td:nth-child(5) {
     text-align: left;
     width: 40%;
 }

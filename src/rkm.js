@@ -164,11 +164,11 @@ $(document).ready(function() {
         this.point(O2);
         this.text(O2, $V([1, 1]), label && "TEX:$O_2$");
         if (this.getOption("coords") === "rect") {
-            var rx = $V([P.e(1), O.e(2)]);
-            this.line(O, rx, "position");
-            this.line(rx, P, "position");
-            this.labelLine(O, rx, $V([0, -1]), "TEX:$x$");
-            this.labelLine(rx, P, $V([0, -1]), "TEX:$y$");
+            var Px = $V([P.e(1), O.e(2)]);
+            this.line(O, Px, "position");
+            this.line(Px, P, "position");
+            this.labelLine(O, Px, $V([0, -1]), "TEX:$x$");
+            this.labelLine(Px, P, $V([0, -1]), "TEX:$y$");
         } else if (this.getOption("coords") === "polar") {
             if (!this.getOption("showPosition")) {
                 this.line(O, P, "position");
@@ -306,7 +306,7 @@ $(document).ready(function() {
                     P: this.cylindricalToRect($V([1.8 * Math.cos(t), t / 2 + Math.PI / 4, 1 - 0.9 * Math.sin(t)]))
                 };
             }
-        } else if (this.getOption("movement") === "inflection") {
+        } else if (this.getOption("movement") === "lissajous") {
             f = function(t) {
                 return {
                     P: $V([Math.sin(3 * t / 2), Math.sin(t), 1 - Math.sin(t / 2)])
@@ -323,7 +323,7 @@ $(document).ready(function() {
                     ])
                 };
             }
-        } else if (this.getOption("movement") === "cusp") {
+        } else if (this.getOption("movement") === "pentagram") {
             f = function(t) {
                 var r = 0.7;
                 return {
@@ -357,10 +357,10 @@ $(document).ready(function() {
             es[0] = this.cylindricalToRect($V([1, theta, 0]));
             es[1] = $V([-Math.sin(theta), Math.cos(theta), 0]);
             es[2] = $V([0, 0, 1]);
-            eLabels = ["TEX:$\\hat{e}_r$", "TEX:$\\hat{e}_\\theta$", "TEX:$\\hat{e}_z$"];
-            rLabels = ["TEX:$\\vec{r}_r$", "TEX:$\\vec{r}_\\theta$", "TEX:$\\vec{r}_z$"];
-            vLabels = ["TEX:$\\vec{v}_r$", "TEX:$\\vec{v}_\\theta$", "TEX:$\\vec{v}_z$"];
-            aLabels = ["TEX:$\\vec{a}_r$", "TEX:$\\vec{a}_\\theta$", "TEX:$\\vec{a}_z$"];
+            eLabels = ["TEX:$\\hat{e}_R$", "TEX:$\\hat{e}_\\theta$", "TEX:$\\hat{e}_z$"];
+            rLabels = ["TEX:$\\vec{r}_R$", "TEX:$\\vec{r}_\\theta$", "TEX:$\\vec{r}_z$"];
+            vLabels = ["TEX:$\\vec{v}_R$", "TEX:$\\vec{v}_\\theta$", "TEX:$\\vec{v}_z$"];
+            aLabels = ["TEX:$\\vec{a}_R$", "TEX:$\\vec{a}_\\theta$", "TEX:$\\vec{a}_z$"];
         } else if (this.getOption("basis") === "spherical") {
             var rS = this.rectToSpherical(r);
             es = this.sphericalBasis(rS);
@@ -385,11 +385,53 @@ $(document).ready(function() {
             ac[i] = this.orthProj(a, es[i]);
         }
 
+        var P1 = O.add(rc[0]);
+        var P12 = O.add(rc[0]).add(rc[1]);
+        var M12 = this.linearInterpVector(P1, P12, this.linearDeinterp(P1.e(3), P12.e(3), 0));
+        var M23 = this.linearInterpVector(P12, P, this.linearDeinterp(P12.e(3), P.e(3), 0));
+        var below1 = (P1.e(3) < 0);
+        var below12 = (P12.e(3) < 0);
+        console.log("**************************************");
+        console.log("rc[0]", rc[0].inspect());
+        console.log("rc[1]", rc[1].inspect());
+        console.log("rc[2]", rc[2].inspect());
+        console.log("O", O.inspect());
+        console.log("P1", P1.inspect());
+        console.log("P12", P12.inspect());
+        console.log("P", P.inspect());
+        console.log("M12", M12.inspect());
+        console.log("M23", M23.inspect());
+        console.log("below1", below1);
+        console.log("below12", below12);
+
         if (this.getOption("showBasisAtOrigin")) {
             for (var i = 0; i < 3; i++) {
                 if (es[i].e(3) < 0) {
                     this.arrow(O, O.add(es[i]));
                     this.labelLine(O, O.add(es[i]), $V([1, 0]), label && eLabels[i]);
+                }
+            }
+        }
+
+        if (this.getOption("showPosDecomp")) {
+            if (this.getOption("basis") === "tangNorm") {
+                if (below1) {
+                    this.arrow(O, P1, "position");
+                    this.labelLine(O, P1, $V([0.5, 1]), label && rLabels[0]);
+                }
+                if (below1 && below12) {
+                    this.arrow(P1, P12, "position");
+                    this.labelLine(P1, P12, $V([0.5, 1]), label && rLabels[1]);
+                }
+                if (below1 && !below12) {
+                    this.line(P1, M12, "position");
+                }
+                if (!below1 && below12) {
+                    this.arrow(M12, P12, "position");
+                    this.labelLine(P1, P12, $V([0.5, 1]), label && rLabels[1]);
+                }
+                if (below12) {
+                    this.line(P12, M23, "position");
                 }
             }
         }
@@ -428,6 +470,48 @@ $(document).ready(function() {
             this.polyLine(path, true, false);
         }
 
+        if (this.getOption("coords") === "rect") {
+            var Px = $V([P.e(1), O.e(2), O.e(3)]);
+            var Pxy = $V([P.e(1), P.e(2), O.e(3)]);
+            this.line(O, Px, "position");
+            this.line(Px, Pxy, "position");
+            this.line(Pxy, P, "position");
+            this.labelLine(O, Px, $V([0, -1]), "TEX:$x$");
+            this.labelLine(Px, Pxy, $V([0, -1]), "TEX:$y$");
+            this.labelLine(Pxy, P, $V([0, -1]), "TEX:$z$");
+        } else if (this.getOption("coords") === "cylindrical") {
+            var rC = this.rectToCylindrical(r);
+            var radCyl = rC.e(1);
+            var theta = this.fixedMod(rC.e(2), 2 * Math.PI);
+            var rxy = this.cylindricalToRect($V([radCyl, theta, 0]));
+            var rxyExt = this.cylindricalToRect($V([Math.max(1, radCyl), theta, 0]));
+            var Pxy = O.add(rxy);
+            var PxyExt = O.add(rxyExt);
+            this.line(O, PxyExt, "position");
+            this.line(Pxy, P, "position");
+            this.labelLine(O, Pxy, $V([0, 1]), "TEX:$R$");
+            this.labelLine(Pxy, P, $V([0, -1]), "TEX:$z$");
+            this.circleArrow3D(O, 0.8, Vector.k, Vector.i, 0, theta, "position", {fixedRad: true});
+            this.labelCircleLine3D("TEX:$\\theta$", $V([0, 1]), O, 0.8, Vector.k, Vector.i, 0, theta, {fixedRad: true});
+        } else if (this.getOption("coords") === "spherical") {
+            var rS = this.rectToSpherical(r);
+            var rad = rS.e(1);
+            var theta = this.fixedMod(rS.e(2), 2 * Math.PI);
+            var phi = rS.e(3);
+            var rxy = this.sphericalToRect($V([1, theta, 0]));
+            var Pxy = O.add(rxy);
+            var nxy = rxy.cross(Vector.k);
+            if (!this.getOption("showPosition")) {
+                this.line(O, P, "position");
+            }
+            this.line(O, Pxy, "position");
+            this.labelLine(O, P, $V([0, -1]), "TEX:$r$");
+            this.circleArrow3D(O, 0.8, Vector.k, Vector.i, 0, theta, "position", {fixedRad: true});
+            this.circleArrow3D(O, 0.8, nxy, rxy, 0, phi, "position", {fixedRad: true});
+            this.labelCircleLine3D("TEX:$\\theta$", $V([0, 1]), O, 0.8, Vector.k, Vector.i, 0, theta, {fixedRad: true});
+            var phiLabel = (phi >= 0) ? "TEX:$\\phi$" : "TEX:$-\\phi$";
+            this.labelCircleLine3D(phiLabel, $V([0, 1]), O, 0.8, nxy, rxy, 0, phi, {fixedRad: true});
+        }
         this.point(P);
         if (this.getOption("basis") !== "none") {
             if (this.getOption("showBasisAtOrigin")) {
@@ -446,6 +530,48 @@ $(document).ready(function() {
         if (this.getOption("showPosition")) {
             this.arrow(O, P, "position");
             this.labelLine(O, P, $V([0, 1]), label && "TEX:$\\vec{r}$");
+        }
+        if (this.getOption("showPosDecomp")) {
+            if (this.getOption("basis") === "rect") {
+                this.arrow(O, O.add(rc[0]), "position");
+                this.arrow(O.add(rc[0]), O.add(rc[0]).add(rc[1]), "position");
+                this.arrow(O.add(rc[0]).add(rc[1]), P, "position");
+                this.labelLine(O, O.add(rc[0]), $V([0.5, 1]), label && rLabels[0]);
+                this.labelLine(O.add(rc[0]), O.add(rc[0]).add(rc[1]), $V([0.5, 1]), label && rLabels[1]);
+                this.labelLine(O.add(rc[0]).add(rc[1]), P, $V([0.5, 1]), label && rLabels[2]);
+            } else if (this.getOption("basis") === "cylindrical") {
+                this.arrow(O, O.add(rc[0]), "position");
+                this.arrow(O.add(rc[0]), P, "position");
+                this.labelLine(O, O.add(rc[0]), $V([0.5, 1]), label && rLabels[0]);
+                this.labelLine(O.add(rc[0]), P, $V([0.5, 1]), label && rLabels[2]);
+            } else if (this.getOption("basis") === "spherical") {
+                if (!this.getOption("showPosition")) {
+                    this.arrow(O, P, "position");
+                }
+                this.labelLine(O, P, $V([0.5, 1]), label && rLabels[0]);
+            } else if (this.getOption("basis") === "tangNorm") {
+                if (!below1) {
+                    this.arrow(O, P1, "position");
+                    this.labelLine(O, P1, $V([0.5, 1]), label && rLabels[0]);
+                }
+                if (!below1 && !below12) {
+                    this.arrow(P1, P12, "position");
+                    this.labelLine(P1, P12, $V([0.5, 1]), label && rLabels[1]);
+                }
+                if (!below1 && below12) {
+                    this.line(P1, M12, "position");
+                }
+                if (below1 && !below12) {
+                    this.arrow(M12, P12, "position");
+                    this.labelLine(P1, P12, $V([0.5, 1]), label && rLabels[1]);
+                }
+                if (below12) {
+                    this.arrow(M23, P, "position");
+                } else {
+                    this.arrow(P12, P, "position");
+                }
+                this.labelLine(P12, P, $V([0.5, 1]), label && rLabels[2]);
+            }
         }
         if (this.getOption("showVelocity")) {
             this.arrow(P, P.add(v), "velocity");
