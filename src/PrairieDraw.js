@@ -2434,8 +2434,12 @@ PrairieDraw.prototype.square = function(baseDw, centerDw) {
 
     @param {number} widthDw The width of the rectangle.
     @param {number} heightDw The height of the rectangle.
+    @param {number} centerDw Optional: The center of the rectangle (default: the origin).
+    @param {number} angleDw Optional: The rotation angle of the rectangle (default: zero).
 */
-PrairieDraw.prototype.rectangle = function(widthDw, heightDw) {
+PrairieDraw.prototype.rectangle = function(widthDw, heightDw, centerDw, angleDw) {
+    centerDw = (centerDw === undefined) ? $V([0, 0]) : centerDw;
+    angleDw = (angleDw === undefined) ? 0 : angleDw;
     var pointsDw = [
         $V([-widthDw / 2, -heightDw / 2]),
         $V([ widthDw / 2, -heightDw / 2]),
@@ -2443,7 +2447,11 @@ PrairieDraw.prototype.rectangle = function(widthDw, heightDw) {
         $V([-widthDw / 2,  heightDw / 2])
     ];
     var closed = true;
+    this.save();
+    this.translate(centerDw);
+    this.rotate(angleDw);
     this.polyLine(pointsDw, closed);
+    this.restore();
 }
 
 /** Draw a rectangle with the given corners and height.
