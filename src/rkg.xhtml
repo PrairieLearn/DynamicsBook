@@ -309,7 +309,7 @@
           </p>
         </div>
         <div class="envContainer exampleProblem" id="rkg-xp">
-          <p class="envHeader">Example Problem: Points on a rigid body</p>
+          <p class="envHeader">Example Problem: Points on a rigid body.</p>
           <div class="envBody">
             <div class="question">
               <canvas id="rkg-xp-c" width="300" height="200" class="floatRight">
@@ -356,6 +356,84 @@
                   &amp;= -6\,\hat\jmath - 2\,\hat{k} \times (-4\,\hat\jmath) \\
                   &amp;= -8\,\hat\imath - 6\,\hat\jmath.
                   \end{aligned}\]
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="envContainer exampleProblem" id="rkg-xc">
+          <p class="envHeader">Example Problem: Coupled rigid bodies.</p>
+          <div class="envBody">
+            <div class="question">
+              <canvas id="rkg-xc-c" width="300" height="200" class="floatRight">
+              </canvas>
+              <p>
+                Three rigid bodies (two rods and a block) are coupled
+                by pins at $O$, $P$, and $Q$ as shown. Body
+                $\mathcal{B}_3$ cannot rotate and must slide
+                horizontally along the ground. The rod lengths are $OP
+                = 3\sqrt{2}\rm\ m$ and $PQ = 5\rm\ m$, and points $O$
+                and $Q$ are the same height above the ground.
+              </p>
+              <p>
+                At the instant shown, $\theta_1 = 45^\circ$, $\omega_1
+                = 4\rm\ rad/s$. What are $\omega_2$ and $\vec{v}_Q$ at
+                this instant?
+              </p>
+            </div>
+            <div class="envContainer solution">
+              <div class="envBody">
+                <p>
+                  Taking a regular $\hat\imath,\hat\jmath$ basis at
+                  $O$, we can use the rod lengths and angles to find
+                  the relative position vectors:
+
+                  \[\begin{aligned}
+                  \vec{r}_{OP} &amp;= 3\hat\imath + 3\hat\jmath\rm\ m \\
+                  \vec{r}_{PQ} &amp;= 4\hat\imath - 3\hat\jmath\rm\ m.
+                  \end{aligned}\]
+
+                  Using the vector angular velocities $\vec{\omega}_1
+                  = \omega_1\,\hat{k}$ and $\vec{\omega}_2 =
+                  \omega_2\,\hat{k}$, we can now use <a
+                  href="#rkg-er">#rkg-er</a> to find first $\vec{v}_P$
+                  and then $\vec{v}_Q$ in terms of the unknown angular
+                  velocity $\omega_2$:
+
+                  \[\begin{aligned}
+                  \vec{v}_{P} &amp;= \vec{v}_O + \vec{\omega}_1 \times \vec{r}_{OP} \\
+                  &amp;= 4\hat{k} \times (3\hat\imath + 3\hat\jmath) \\
+                  &amp;= -12\hat\imath + 12\hat\jmath{\rm\ m/s} \\
+                  \vec{v}_{Q} &amp;= \vec{v}_P + \vec{\omega}_2 \times \vec{r}_{PQ} \\
+                  &amp;= (-12\hat\imath + 12\hat\jmath{\rm\ m/s})
+                  + \omega_2\,\hat{k} \times (4\hat\imath - 3\hat\jmath) \\
+                  &amp;= (-12 + 3\omega_2)\,\hat\imath
+                  + (12 + 4\omega_2)\,\hat\jmath{\rm\ m/s}.
+                  \end{aligned}\]
+
+                  The last piece of information that we need to use is
+                  the constraint on the motion of $\mathcal{B}_3$,
+                  namely that it can only slide horizontally. This can
+                  be expressed by saying that the vertical component
+                  of $\vec{v}_Q$ is zero, or more generally that the
+                  component in the normal direction $\hat{e}_n =
+                  \hat\jmath$ is zero. That is:
+
+                  \[\begin{aligned}
+                  0 &amp;= \vec{v}_Q \cdot \hat{e}_n \\
+                  &amp;= \Big((-12 + 3\omega_2)\,\hat\imath
+                  + (12 + 4\omega_2)\,\hat\jmath\Big) \cdot \hat\jmath \\
+                  &amp;= 12 + 4\omega_2 \\
+                  \omega_2 &amp;= -3{\rm\ rad/s}.
+                  \end{aligned}\]
+
+                  Substituting this back into the expression above for
+                  $\vec{v}_Q$ gives:
+
+                  \[\vec{v}_Q = -21\hat\imath{\rm\ m/s},\]
+
+                  which does indeed have no vertical component, as
+                  expected.
                 </p>
               </div>
             </div>

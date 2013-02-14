@@ -205,4 +205,39 @@ $(document).ready(function() {
         this.labelLine(Qd, Q, $V([0, 1.2]), "TEX:$1\\rm\\ m$");
     });
 
+    var rkg_xc_c = new PrairieDraw("rkg-xc-c", function() {
+        this.setUnits(12, 6);
+
+        var O = $V([0, 0]);
+        var P = $V([3, 3]);
+        var Q = $V([7, 0]);
+        var G = $V([0, -1]);
+
+        this.translate($V([-4, -1]));
+        this.groundHashed(G, $V([0, 1]), 24);
+        this.rectangle(3, 2, Q);
+        this.rod(O, P, 1);
+        this.pivot(G, O, 0.5);
+        this.rod(P, Q, 0.5);
+        this.point(O);
+        this.point(P);
+        this.point(Q);
+        this.text(O, $V([-1.2, -1.2]), "TEX:$O$");
+        this.text(P, $V([1.2, 1.2]), "TEX:$P$");
+        this.text(Q, $V([-1.5, 0]), "TEX:$Q$");
+        this.labelLine(O, P, $V([-0.3, 2.3]), "TEX:$\\mathcal{B}_1$");
+        this.labelLine(P, Q, $V([0.2, 1.7]), "TEX:$\\mathcal{B}_2$");
+        this.text(Q.add($V([1.5, 0])), $V([-1, 0]), "TEX:$\\mathcal{B}_3$");
+        this.line(O.add($V([1, 0])), O.add($V([3, 0])));
+        this.circleArrow(O, 2, 0, Math.PI / 4, "angle", true);
+        this.labelCircleLine(O, 2, 0, Math.PI / 4, $V([-0.3, 1]), "TEX:$\\theta_1$", true);
+
+        var theta1 = Math.PI / 4;
+        var theta2 = this.angleOf(P.subtract(Q));
+        this.circleArrow(O, 3, theta1 - 0.5, theta1 + 0.5, "angVel", true);
+        this.circleArrow(Q, 3, theta2 - 0.5, theta2 + 0.5, "angVel", true);
+        this.labelCircleLine(O, 3, theta1 - 0.5, theta1 + 0.5, $V([1, 0]), "TEX:$\\omega_1$", true);
+        this.labelCircleLine(Q, 3, theta2 - 0.5, theta2 + 0.5, $V([-1, 0]), "TEX:$\\omega_2$", true);
+    });
+
 }); // end of document.ready()
