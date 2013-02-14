@@ -224,11 +224,14 @@ $(document).ready(function() {
         this.point(Q);
         this.text(O, $V([-1.2, -1.2]), "TEX:$O$");
         this.text(P, $V([1.2, 1.2]), "TEX:$P$");
-        this.text(Q, $V([-1.5, 0]), "TEX:$Q$");
+        this.text(Q, $V([-1.6, 0]), "TEX:$Q$");
         this.labelLine(O, P, $V([-0.3, 2.3]), "TEX:$\\mathcal{B}_1$");
         this.labelLine(P, Q, $V([0.2, 1.7]), "TEX:$\\mathcal{B}_2$");
         this.text(Q.add($V([1.5, 0])), $V([-1, 0]), "TEX:$\\mathcal{B}_3$");
+        this.save();
+        this.setProp("shapeStrokePattern", "dashed");
         this.line(O.add($V([1, 0])), O.add($V([3, 0])));
+        this.restore();
         this.circleArrow(O, 2, 0, Math.PI / 4, "angle", true);
         this.labelCircleLine(O, 2, 0, Math.PI / 4, $V([-0.3, 1]), "TEX:$\\theta_1$", true);
 
