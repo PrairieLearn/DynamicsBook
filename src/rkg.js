@@ -243,4 +243,33 @@ $(document).ready(function() {
         this.labelCircleLine(Q, 3, theta2 - 0.5, theta2 + 0.5, $V([-1, 0]), "TEX:$\\omega_2$", true);
     });
 
+    var rkg_fd_c = new PrairieDrawAnim("rkg-fd-c", function(t) {
+        this.setUnits(6, 4);
+        this.addOption("showVP", false);
+        this.addOption("showAngVel", false);
+        this.addOption("showVQP", false);
+        this.addOption("showVQOmega", false);
+        this.addOption("showVTotal", false);
+
+        var O = $V([0, 0]);
+
+        var theta = t - Math.sin(t);
+        var omega = 1 - Math.cos(t);
+        var alpha = Math.sin(t);
+
+        var x = Math.sin(t);
+        var xDot = Math.cos(t);
+        var xDDot = -Math.sin(t);
+
+        var C = $V([x, 0]);
+
+        var e1 = $V([1, 0]).rotate(theta, O);
+        var e2 = $V([0, 1]).rotate(theta, O);
+
+        var width = 2;
+        var height = 1;
+
+        this.rectangle(width, height, C, theta);
+    });
+
 }); // end of document.ready()
