@@ -5,27 +5,29 @@
     height: 200px;
 }
 
-#rkg-fd table {
+#rkg-tf {
     border-collapse: collapse;
     border-spacing: 0px;
 }
 
-#rkg-fd table td {
+#rkg-tf td {
     padding: 3px 7px 3px 7px;
+    border-right: 1px solid #666;
 }
 
-#rkg-fd table th {
+#rkg-tf th {
     padding: 3px 7px 3px 7px;
     font-family: 'NoticiaTextBold',Arial,Sans-serif;
     border-bottom: 1px solid #666;
-}
-
-#rkg-fd table tr td:first-child {
     border-right: 1px solid #666;
 }
 
-#rkg-fd table tr th:first-child {
-    border-right: 1px solid #666;
+#rkg-tf tr td:last-child {
+    border-right: none;
+}
+
+#rkg-tf tr th:last-child {
+    border-right: none;
 }
 
 /*****************************************************************************/

@@ -439,6 +439,27 @@
             </div>
           </div>
         </div>
+        <div class="envContainer warning" id="rkg-wa">
+          <p class="envHeader">Warning: Rigid body points may be accelerating even if $\vec{a}_P = 0$ and $\alpha = 0$.</p>
+          <div class="envBody">
+            <p>
+              If $\vec{\alpha} = 0$ and $\vec{a}_P = 0$ for a rigid
+              body then we would normally say that the body itself is
+              not accelerating. This does not mean, however, that the
+              points on the bodies are not accelerating. If the body
+              is rotating (so $\vec{\omega} \ne 0$) then the
+              centripetal acceleration means that in fact most points
+              on the body are accelerating at any time.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="rkg-s2" class="contentCol">
+        <h2>
+          Rigid bodies in 2D
+        </h2>
         <p>
           The <a href="#rkg-er">#rkg-er</a> equations above are valid
           in both 2D and 3D. If we know that we are in 2D then the
@@ -472,17 +493,33 @@
             </p>
           </div>
         </div>
-        <div class="envContainer warning" id="rkg-wa">
-          <p class="envHeader">Warning: Acceleration of rigid bodies</p>
+        <p>
+          If a point $M$ on a rigid body has zero velocity then it is
+          called the <em>instantaneous center of rotation</em>,
+          because the velocity of all points on the body will be given
+          by simple rotation about $M$ with the angular velocity
+          $\vec{\omega}$ of the body.
+        </p>
+        <div class="envContainer equation" id="rkg-ei">
+          <p class="envHeader">Instantaneous center of rotation $M$ in 2D</p>
           <div class="envBody">
             <p>
-              If $\vec{\alpha} = 0$ and $\vec{a}_P = 0$ for a rigid
-              body then we would normally say that it is not
-              accelerating. This does not mean, however, that the
-              points on the bodies are not accelerating. If the body
-              is rotating then the centripetal acceleration means that
-              in fact most points on the body are accelerating at any
-              time.
+              \[
+              \vec{r}_{PM} =
+              \frac{1}{\omega^2} \vec{\omega} \times \vec{v}_P
+              = \frac{1}{\omega} \vec{v}_P^\perp
+              \]
+            </p>
+            <p>
+              Point $P$ has velocity $\vec{v}_P$ and is attached to a
+              rigid body rotating with angular velocity
+              $\vec{\omega}$.
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
             </p>
           </div>
         </div>
@@ -492,45 +529,72 @@
           <p class="controls">
             <button class="anim-toggle:rkg-fd-c">animation</button>
             <button class="reset:rkg-fd-c">reset</button>
+            <button class="option-toggle:rkg-fd-c:showLabels">show labels</button>
           </p>
-          <p class="controls">
-            <button class="option-toggle:rkg-fd-c:showPVel">show $P$ velocity</button>
-            <button class="option-toggle:rkg-fd-c:showPAcc">show $P$ acceleration</button>
-          </p>
-          <table>
+          <table class="controls">
             <tr>
-              <th>Velocity field</th>
-              <th>Acceleration field</th>
+              <td>Movement:</td>
+              <td><input type="radio" name="rkg-fd-c-movement" value="translate" class="data-input:rkg-fd-c:movement" /> translation</td>
+              <td><input type="radio" name="rkg-fd-c-movement" value="varTranslate" class="data-input:rkg-fd-c:movement" /> var. translation</td>
+              <td><input type="radio" name="rkg-fd-c-movement" value="rotate" class="data-input:rkg-fd-c:movement" /> rotation</td>
+              <td><input type="radio" name="rkg-fd-c-movement" value="varRotate" class="data-input:rkg-fd-c:movement" /> var. rotation</td>
+              <td><input type="radio" name="rkg-fd-c-movement" value="slide" class="data-input:rkg-fd-c:movement" /> slide</td>
             </tr>
             <tr>
+              <td></td>
+              <td><input type="radio" name="rkg-fd-c-movement" value="hinge" class="data-input:rkg-fd-c:movement" /> hinge</td>
+              <td><input type="radio" name="rkg-fd-c-movement" value="circle" class="data-input:rkg-fd-c:movement" /> circle</td>
+              <td><input type="radio" name="rkg-fd-c-movement" value="spin" class="data-input:rkg-fd-c:movement" /> spin</td>
+              <td><input type="radio" name="rkg-fd-c-movement" value="reverse" class="data-input:rkg-fd-c:movement" /> reverse spin</td>
+              <td><input type="radio" name="rkg-fd-c-movement" value="osc" class="data-input:rkg-fd-c:movement" /> oscillation</td>
+            </tr>
+          </table>
+          <p class="controls">
+          </p>
+          <table id="rkg-tf">
+            <tr>
+              <th>Body</th>
+              <th>Point $P$</th>
+              <th>$Q$ Velocity</th>
+              <th>$Q$ Acceleration</th>
+            </tr>
+            <tr>
+              <td><button class="option-toggle:rkg-fd-c:showAngVel">ang. vel.</button></td>
+              <td><button class="option-toggle:rkg-fd-c:showPVel">$P$ velocity</button></td>
               <td><input type="radio" name="rkg-fd-c-velField" value="none" class="data-input:rkg-fd-c:velField" /> none</td>
               <td><input type="radio" name="rkg-fd-c-accField" value="none" class="data-input:rkg-fd-c:accField" /> none</td>
             </tr>
             <tr>
-              <td><input type="radio" name="rkg-fd-c-velField" value="base" class="data-input:rkg-fd-c:velField" /> $\vec{v}_P$ (translation)</td>
-              <td><input type="radio" name="rkg-fd-c-accField" value="base" class="data-input:rkg-fd-c:accField" /> $\vec{a}_P$ (translation)</td>
+              <td><button class="option-toggle:rkg-fd-c:showAngAcc">ang. acc.</button></td>
+              <td><button class="option-toggle:rkg-fd-c:showPAcc">$P$ acceleration</button></td>
+              <td><input type="radio" name="rkg-fd-c-velField" value="base" class="data-input:rkg-fd-c:velField" /> $\vec{v}_P$ (trans.)</td>
+              <td><input type="radio" name="rkg-fd-c-accField" value="base" class="data-input:rkg-fd-c:accField" /> $\vec{a}_P$ (trans.)</td>
             </tr>
             <tr>
-              <td><input type="radio" name="rkg-fd-c-velField" value="omega" class="data-input:rkg-fd-c:velField" /> $\vec{\omega} \times \vec{r}_{PQ}$ (rotation)</td>
-              <td><input type="radio" name="rkg-fd-c-accField" value="alpha" class="data-input:rkg-fd-c:accField" /> $\vec{\alpha} \times \vec{r}_{PQ}$ (angular)</td>
+              <td><button class="option-toggle:rkg-fd-c:showInstRot">inst. cent. $M$</button></td>
+              <td><button class="option-toggle:rkg-fd-c:showPAngVel">ang. vel. about $P$</button></td>
+              <td><input type="radio" name="rkg-fd-c-velField" value="omega" class="data-input:rkg-fd-c:velField" /> $\vec{\omega} \times \vec{r}_{PQ}$ (rot.)</td>
+              <td><input type="radio" name="rkg-fd-c-accField" value="alpha" class="data-input:rkg-fd-c:accField" /> $\vec{\alpha} \times \vec{r}_{PQ}$ (ang.)</td>
             </tr>
             <tr>
               <td></td>
-              <td><input type="radio" name="rkg-fd-c-accField" value="cent" class="data-input:rkg-fd-c:accField" /> $\vec{\omega} \times (\vec{\omega} \times \vec{r}_{PQ})$ (centripetal)</td>
+              <td><button class="option-toggle:rkg-fd-c:showPAngAcc">ang. acc. about $P$</button></td>
+              <td></td>
+              <td><input type="radio" name="rkg-fd-c-accField" value="cent" class="data-input:rkg-fd-c:accField" /> $\vec{\omega} \times (\vec{\omega} \times \vec{r}_{PQ})$ (cent.)</td>
             </tr>
             <tr>
+              <td></td>
+              <td><button class="option-toggle:rkg-fd-c:PAtCorner">$P$ at corner</button></td>
               <td><input type="radio" name="rkg-fd-c-velField" value="total" class="data-input:rkg-fd-c:velField" /> $\vec{v}_Q$ (total)</td>
               <td><input type="radio" name="rkg-fd-c-accField" value="total" class="data-input:rkg-fd-c:accField" /> $\vec{a}_Q$ (total)</td>
             </tr>
+            <tr>
+              <td><button class="option-toggle:rkg-fd-c:showQPath">$Q$ path</button></td>
+              <td><button class="option-toggle:rkg-fd-c:showPPath">$P$ path</button></td>
+              <td><button class="option-toggle:rkg-fd-c:showVelField">all points</button></td>
+              <td><button class="option-toggle:rkg-fd-c:showAccField">all points</button></td>
+            </tr>
           </table>
-          <p>
-            $P$ location:
-            <input type="radio" name="rkg-fd-c-PPos" value="center" class="data-input:rkg-fd-c:PPos" /> center
-            <input type="radio" name="rkg-fd-c-PPos" value="corner" class="data-input:rkg-fd-c:PPos" /> corner
-          </p>
-          <p class="controls">
-            <button class="option-toggle:rkg-fd-c:showInstRot">show instantaneous center of rotation $M$</button>
-          </p>
           <p class="figureCaption">
           </p>
         </div>
