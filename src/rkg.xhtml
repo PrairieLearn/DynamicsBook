@@ -493,11 +493,45 @@
             <button class="anim-toggle:rkg-fd-c">animation</button>
             <button class="reset:rkg-fd-c">reset</button>
           </p>
+          <p class="controls">
+            <button class="option-toggle:rkg-fd-c:showPVel">show $P$ velocity</button>
+            <button class="option-toggle:rkg-fd-c:showPAcc">show $P$ acceleration</button>
+          </p>
+          <table>
+            <tr>
+              <th>Velocity field</th>
+              <th>Acceleration field</th>
+            </tr>
+            <tr>
+              <td><input type="radio" name="rkg-fd-c-velField" value="none" class="data-input:rkg-fd-c:velField" /> none</td>
+              <td><input type="radio" name="rkg-fd-c-accField" value="none" class="data-input:rkg-fd-c:accField" /> none</td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="rkg-fd-c-velField" value="base" class="data-input:rkg-fd-c:velField" /> $\vec{v}_P$ (translation)</td>
+              <td><input type="radio" name="rkg-fd-c-accField" value="base" class="data-input:rkg-fd-c:accField" /> $\vec{a}_P$ (translation)</td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="rkg-fd-c-velField" value="omega" class="data-input:rkg-fd-c:velField" /> $\vec{\omega} \times \vec{r}_{PQ}$ (rotation)</td>
+              <td><input type="radio" name="rkg-fd-c-accField" value="alpha" class="data-input:rkg-fd-c:accField" /> $\vec{\alpha} \times \vec{r}_{PQ}$ (angular)</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td><input type="radio" name="rkg-fd-c-accField" value="cent" class="data-input:rkg-fd-c:accField" /> $\vec{\omega} \times (\vec{\omega} \times \vec{r}_{PQ})$ (centripetal)</td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="rkg-fd-c-velField" value="total" class="data-input:rkg-fd-c:velField" /> $\vec{v}_Q$ (total)</td>
+              <td><input type="radio" name="rkg-fd-c-accField" value="total" class="data-input:rkg-fd-c:accField" /> $\vec{a}_Q$ (total)</td>
+            </tr>
+          </table>
+          <p>
+            $P$ location:
+            <input type="radio" name="rkg-fd-c-PPos" value="center" class="data-input:rkg-fd-c:PPos" /> center
+            <input type="radio" name="rkg-fd-c-PPos" value="corner" class="data-input:rkg-fd-c:PPos" /> corner
+          </p>
+          <p class="controls">
+            <button class="option-toggle:rkg-fd-c:showInstRot">show instantaneous center of rotation $M$</button>
+          </p>
           <p class="figureCaption">
-            All points on a rigid body rotate at the same rate. Body
-            $\mathcal{B}_1$ is rotated by angle $\theta_1$, so its
-            angular velocity is $\omega_1 = \dot{\theta}_1$, and
-            similarly for the second body.
           </p>
         </div>
       </div>

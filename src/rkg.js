@@ -245,31 +245,126 @@ $(document).ready(function() {
 
     var rkg_fd_c = new PrairieDrawAnim("rkg-fd-c", function(t) {
         this.setUnits(6, 4);
-        this.addOption("showVP", false);
+
+        this.addOption("PPos", "center");
+        this.addOption("showPVel", false);
+        this.addOption("showPAcc", false);
         this.addOption("showAngVel", false);
-        this.addOption("showVQP", false);
-        this.addOption("showVQOmega", false);
-        this.addOption("showVTotal", false);
+        this.addOption("velField", "none");
+        this.addOption("accField", "none");
+        this.addOption("showInstRot", false);
 
         var O = $V([0, 0]);
 
-        var theta = t - Math.sin(t);
-        var omega = 1 - Math.cos(t);
-        var alpha = Math.sin(t);
+        var width = 2;
+        var height = 1;
+        var n1 = 7, n2 = 4;
+
+        var theta = 0.3 * t + 1 - Math.cos(0.6 * t);
+        var omega = 0.3 + 0.6 * Math.sin(0.6 * t);
+        var alpha = 0.6 * 0.6 * Math.cos(0.6 * t);
 
         var x = Math.sin(t);
         var xDot = Math.cos(t);
         var xDDot = -Math.sin(t);
 
-        var C = $V([x, 0]);
-
         var e1 = $V([1, 0]).rotate(theta, O);
         var e2 = $V([0, 1]).rotate(theta, O);
 
-        var width = 2;
-        var height = 1;
+        var C = $V([x, 0]);
+        var CV = $V([xDot, 0]);
+        var CA = $V([xDDot, 0]);
 
-        this.rectangle(width, height, C, theta);
+        var CM = this.cross2D(omega, CV).x(1 / (omega * omega));
+        var M = C.add(CM);
+
+        var PLoc;
+        if (this.getOption("PPos") === "center") {
+            PLoc = $V([0, 0]);
+        } else {
+            PLoc = $V([-width / 2, -height / 2]);
+        }
+
+        var P = C.add(e1.x(PLoc.e(1))).add(e2.x(PLoc.e(2)));
+        var CP = P.subtract(C);
+        var PV = CV.add(this.cross2D(omega, CP));
+        var PA = CA.add(this.cross2D(alpha, CP)).add(this.cross2D(omega, this.cross2D(omega, CP)));
+
+        if (this.getOption("showInstRot")) {
+            for (var i1 = 0; i1 < n1; i1++) {
+                for (var i2 = 0; i2 < n2; i2++) {
+                    var s1 = (i1 / (n1 - 1) - 0.5) * width;
+                    var s2 = (i2 / (n2 - 1) - 0.5) * height;
+                    var Q = C.add(e1.x(s1)).add(e2.x(s2));
+                    this.save();
+                    this.setProp("shapeOutlineColor", "rgb(255, 200, 255)");
+                    this.line(M, Q);
+                    this.restore();
+                }
+            }
+
+            if (this.getOption("velField") === "total") {
+                for (var i1 = 0; i1 < n1; i1++) {
+                    for (var i2 = 0; i2 < n2; i2++) {
+                        var s1 = (i1 / (n1 - 1) - 0.5) * width;
+                        var s2 = (i2 / (n2 - 1) - 0.5) * height;
+                        var Q = C.add(e1.x(s1)).add(e2.x(s2));
+                        var PQ = Q.subtract(P);
+                        var QVR = this.cross2D(omega, PQ);
+                        var QV = PV.add(QVR);
+                        this.rightAngle(Q, QV, M.subtract(Q));
+                    }
+                }
+            }
+
+            this.point(M);
+            this.labelIntersection(M, [C], "TEX:$M$");
+        }
+
+        this.rectangle(width, height, C, theta, false);
+
+        this.save();
+        this.setProp("pointRadiusPx", 3);
+        this.point(P);
+        this.restore();
+        this.labelIntersection(P, [P.add(e1), P.add(e2)], "TEX:$P$");
+        if (this.getOption("showPVel")) {
+            this.arrow(P, P.add(PV), "velocity");
+        }
+        if (this.getOption("showPAcc")) {
+            this.arrow(P, P.add(PA), "acceleration");
+        }
+
+        for (var i1 = 0; i1 < n1; i1++) {
+            for (var i2 = 0; i2 < n2; i2++) {
+                var s1 = (i1 / (n1 - 1) - 0.5) * width;
+                var s2 = (i2 / (n2 - 1) - 0.5) * height;
+                var Q = C.add(e1.x(s1)).add(e2.x(s2));
+                var PQ = Q.subtract(P);
+                var QVR = this.cross2D(omega, PQ);
+                var QV = PV.add(QVR);
+                var QAR = this.cross2D(alpha, PQ);
+                var QAC = this.cross2D(omega, QVR);
+                var QA = PA.add(QAR).add(QAC);
+                this.point(Q);
+                if (this.getOption("velField") === "base") {
+                    this.arrow(Q, Q.add(PV), "velocity");
+                } else if (this.getOption("velField") === "omega") {
+                    this.arrow(Q, Q.add(QVR), "velocity");
+                } else if (this.getOption("velField") === "total") {
+                    this.arrow(Q, Q.add(QV), "velocity");
+                }
+                if (this.getOption("accField") === "base") {
+                    this.arrow(Q, Q.add(PA), "acceleration");
+                } else if (this.getOption("accField") === "alpha") {
+                    this.arrow(Q, Q.add(QAR), "acceleration");
+                } else if (this.getOption("accField") === "cent") {
+                    this.arrow(Q, Q.add(QAC), "acceleration");
+                } else if (this.getOption("accField") === "total") {
+                    this.arrow(Q, Q.add(QA), "acceleration");
+                }
+            }
+        }
     });
 
 }); // end of document.ready()

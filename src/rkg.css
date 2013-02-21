@@ -5,4 +5,27 @@
     height: 200px;
 }
 
+#rkg-fd table {
+    border-collapse: collapse;
+    border-spacing: 0px;
+}
+
+#rkg-fd table td {
+    padding: 3px 7px 3px 7px;
+}
+
+#rkg-fd table th {
+    padding: 3px 7px 3px 7px;
+    font-family: 'NoticiaTextBold',Arial,Sans-serif;
+    border-bottom: 1px solid #666;
+}
+
+#rkg-fd table tr td:first-child {
+    border-right: 1px solid #666;
+}
+
+#rkg-fd table tr th:first-child {
+    border-right: 1px solid #666;
+}
+
 /*****************************************************************************/
