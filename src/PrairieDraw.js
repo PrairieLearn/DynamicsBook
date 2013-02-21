@@ -2657,7 +2657,11 @@ PrairieDraw.prototype.rightAngle = function(posDw, dirDw, normDw) {
     } else {
         posPx = this.pos2Px(posDw);
         dirPx = this.vec2Px(dirDw).toUnitVector().x(this._props.rightAngleSizePx);
-        normPx = dirPx.rotate(-Math.PI / 2, $V([0, 0]));
+        if (normDw !== undefined) {
+            normPx = this.vec2Px(normDw).toUnitVector().x(this._props.rightAngleSizePx);
+        } else {
+            normPx = dirPx.rotate(-Math.PI / 2, $V([0, 0]));
+        }
     }
 
     this._ctx.save();
