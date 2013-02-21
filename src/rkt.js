@@ -96,13 +96,13 @@ $(document).ready(function() {
         this.labelLine(r, r.add(eb), $V([1, 0]), label && "TEX:$\\hat{e}_b$");
         if (this.getOption("showCircle")) {
             this.save();
-            this.setProp("shapeOutlineColor", "rgb(150, 0, 150)");
+            this.setProp("shapeOutlineColor", this.getProp("rotationColor"));
             this.arc3D(C, rho, eb);
             this.restore();
         }
         if (this.getOption("showCenter")) {
             this.save();
-            this.setProp("shapeOutlineColor", "rgb(150, 0, 150)");
+            this.setProp("shapeOutlineColor", this.getProp("rotationColor"));
             this.line(C, r);
             this.labelLine(C, r, $V([0, 1]), label && "TEX:$\\rho$");
             this.point(C);
@@ -347,13 +347,13 @@ $(document).ready(function() {
         this.labelIntersection(r, [O, r.add(et), r.add(en)], label && "TEX:$P$");
         if (this.getOption("showCircle")) {
             this.save();
-            this.setProp("shapeOutlineColor", "rgb(150, 0, 150)");
+            this.setProp("shapeOutlineColor", this.getProp("rotationColor"));
             this.arc(C, rho);
             this.restore();
         }
         if (this.getOption("showCenter")) {
             this.save();
-            this.setProp("shapeOutlineColor", "rgb(150, 0, 150)");
+            this.setProp("shapeOutlineColor", this.getProp("rotationColor"));
             this.line(C, r);
             this.labelLine(C, r, $V([0, 1]), label && "TEX:$\\rho$");
             this.point(C);
@@ -555,7 +555,7 @@ $(document).ready(function() {
         }
         if (this.getOption("showCircle")) {
             this.save();
-            this.setProp("shapeOutlineColor", "rgb(150, 0, 150)");
+            this.setProp("shapeOutlineColor", this.getProp("rotationColor"));
             this.arc(CM, rhoM);
             this.restore();
             this.point(CM);
