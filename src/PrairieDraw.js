@@ -1301,11 +1301,21 @@ PrairieDraw.prototype.setUnits = function(xSize, ySize, canvasWidth, preserveCan
 
 /** Compute the sup-norm of a vector.
 
-    @param {Vector} The vector to find the norm of.
+    @param {Vector} vector The vector to find the norm of.
     @return {number} The sup-norm.
 */
 PrairieDraw.prototype.supNorm = function(vector) {
     return Math.abs(vector.max());
+};
+
+/** Take a cross product between an out-of-plane vector and a 2D vector.
+
+    @param {Number} v1k Out-of-plane component of the first vector.
+    @param {Vector} v2ij In-plane components of the second vector.
+    @return {Vector} A 2D vector given by v1 x v2.
+*/
+PrairieDraw.prototype.cross2D = function(v1k, v2ij) {
+    return $V([- v1k * v2ij.e(2), v1k * v2ij.e(1)]);
 };
 
 /** Create a 2D unit vector pointing at a given angle.
