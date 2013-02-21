@@ -2447,8 +2447,9 @@ PrairieDraw.prototype.square = function(baseDw, centerDw) {
     @param {number} heightDw The height of the rectangle.
     @param {number} centerDw Optional: The center of the rectangle (default: the origin).
     @param {number} angleDw Optional: The rotation angle of the rectangle (default: zero).
+    @param {bool} filled Optional: Whether to fill the rectangle (default: true).
 */
-PrairieDraw.prototype.rectangle = function(widthDw, heightDw, centerDw, angleDw) {
+PrairieDraw.prototype.rectangle = function(widthDw, heightDw, centerDw, angleDw, filled) {
     centerDw = (centerDw === undefined) ? $V([0, 0]) : centerDw;
     angleDw = (angleDw === undefined) ? 0 : angleDw;
     var pointsDw = [
@@ -2458,10 +2459,11 @@ PrairieDraw.prototype.rectangle = function(widthDw, heightDw, centerDw, angleDw)
         $V([-widthDw / 2,  heightDw / 2])
     ];
     var closed = true;
+    var filled = (filled === undefined) ? true : filled;
     this.save();
     this.translate(centerDw);
     this.rotate(angleDw);
-    this.polyLine(pointsDw, closed);
+    this.polyLine(pointsDw, closed, filled);
     this.restore();
 }
 
