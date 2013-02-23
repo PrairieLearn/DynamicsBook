@@ -413,6 +413,42 @@ $(document).ready(function() {
         }
     });
 
+    rvv_fn_c = new PrairieDrawAnim("rvv-fn-c", function(t) {
+        this.setUnits(8, 6);
+
+        this.addOption("showComponents", false);
+
+        var O = $V([0, 0]);
+        var ei = $V([1, 0]);
+        var ej = $V([0, 1]);
+        var theta = t / 2 + Math.PI / 8;
+
+        var a = $V([2.8, 0]).rotate(theta, O);
+        var aPerp = a.rotate(Math.PI / 2, O);
+        var aColor = "red";
+        var aPerpColor = "blue";
+
+        this.arrow(O, a, aColor);
+        this.labelLine(O, a, $V([0, 1]), "TEX:$\\vec{a}$");
+        if (this.getOption("showComponents")) {
+            this.arrow(O, ei.x(a.e(1)), aColor);
+            this.arrow(ei.x(a.e(1)), a, aColor);
+            this.labelLine(O, ei.x(a.e(1)), $V([0, -this.sign(a.e(1))]), "TEX:$a_1\\,\\hat\\imath$");
+            this.labelLine(ei.x(a.e(1)), a, $V([0, -this.sign(a.e(2))]), "TEX:$a_2\\,\\hat\\jmath$");
+        }
+
+        this.arrow(O, aPerp, aPerpColor);
+        this.labelLine(O, aPerp, $V([0, -1]), "TEX:$\\vec{a}^\\perp$");
+        if (this.getOption("showComponents")) {
+            this.arrow(O, ei.x(aPerp.e(1)), aPerpColor);
+            this.arrow(ei.x(aPerp.e(1)), aPerp, aPerpColor);
+            this.labelLine(O, ei.x(aPerp.e(1)), $V([0, -this.sign(aPerp.e(1))]), "TEX:$-a_2\\,\\hat\\imath$");
+            this.labelLine(ei.x(aPerp.e(1)), aPerp, $V([0, this.sign(aPerp.e(2))]), "TEX:$a_1\\,\\hat\\jmath$");
+        }
+
+        this.rightAngle(O, a);
+    });
+
     rvv_fx_c = new PrairieDraw("rvv-fx-c", function() {
         this.setUnits(8, 4);
 

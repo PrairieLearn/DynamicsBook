@@ -145,6 +145,7 @@ PrairieDraw.prototype._initProps = function() {
     this._props.velocityColor = "rgb(0, 200, 0)";
     this._props.angVelColor = "rgb(100, 180, 0)";
     this._props.accelerationColor = "rgb(255, 0, 255)";
+    this._props.rotationColor = "rgb(150, 0, 150)";
     this._props.angAccColor = "rgb(100, 0, 180)";
     this._props.angMomColor = "rgb(255, 0, 0)";
     this._props.forceColor = "rgb(210, 105, 30)";
@@ -1300,11 +1301,21 @@ PrairieDraw.prototype.setUnits = function(xSize, ySize, canvasWidth, preserveCan
 
 /** Compute the sup-norm of a vector.
 
-    @param {Vector} The vector to find the norm of.
+    @param {Vector} vector The vector to find the norm of.
     @return {number} The sup-norm.
 */
 PrairieDraw.prototype.supNorm = function(vector) {
     return Math.abs(vector.max());
+};
+
+/** Take a cross product between an out-of-plane vector and a 2D vector.
+
+    @param {Number} v1k Out-of-plane component of the first vector.
+    @param {Vector} v2ij In-plane components of the second vector.
+    @return {Vector} A 2D vector given by v1 x v2.
+*/
+PrairieDraw.prototype.cross2D = function(v1k, v2ij) {
+    return $V([- v1k * v2ij.e(2), v1k * v2ij.e(1)]);
 };
 
 /** Create a 2D unit vector pointing at a given angle.
@@ -2436,8 +2447,9 @@ PrairieDraw.prototype.square = function(baseDw, centerDw) {
     @param {number} heightDw The height of the rectangle.
     @param {number} centerDw Optional: The center of the rectangle (default: the origin).
     @param {number} angleDw Optional: The rotation angle of the rectangle (default: zero).
+    @param {bool} filled Optional: Whether to fill the rectangle (default: true).
 */
-PrairieDraw.prototype.rectangle = function(widthDw, heightDw, centerDw, angleDw) {
+PrairieDraw.prototype.rectangle = function(widthDw, heightDw, centerDw, angleDw, filled) {
     centerDw = (centerDw === undefined) ? $V([0, 0]) : centerDw;
     angleDw = (angleDw === undefined) ? 0 : angleDw;
     var pointsDw = [
@@ -2447,10 +2459,11 @@ PrairieDraw.prototype.rectangle = function(widthDw, heightDw, centerDw, angleDw)
         $V([-widthDw / 2,  heightDw / 2])
     ];
     var closed = true;
+    var filled = (filled === undefined) ? true : filled;
     this.save();
     this.translate(centerDw);
     this.rotate(angleDw);
-    this.polyLine(pointsDw, closed);
+    this.polyLine(pointsDw, closed, filled);
     this.restore();
 }
 
@@ -2644,7 +2657,11 @@ PrairieDraw.prototype.rightAngle = function(posDw, dirDw, normDw) {
     } else {
         posPx = this.pos2Px(posDw);
         dirPx = this.vec2Px(dirDw).toUnitVector().x(this._props.rightAngleSizePx);
-        normPx = dirPx.rotate(-Math.PI / 2, $V([0, 0]));
+        if (normDw !== undefined) {
+            normPx = this.vec2Px(normDw).toUnitVector().x(this._props.rightAngleSizePx);
+        } else {
+            normPx = dirPx.rotate(-Math.PI / 2, $V([0, 0]));
+        }
     }
 
     this._ctx.save();

@@ -570,6 +570,64 @@
             </p>
           </div>
         </div>
+        <p>
+          If two vectors have zero dot product $\vec{a} \cdot \vec{b}
+          = 0$ then they have an angle of $\theta = 90^\circ =
+          \frac{\pi}{2}\rm\ rad$ between them and we say that the
+          vectors are <em>perpendicular</em>, <em>orthogonal</em>, or
+          <em>normal</em> to each other.
+        </p>
+        <p>
+          In 2D we can easily find a perpendicular vector by rotating
+          $\vec{a}$ counterclockwise with the following equation.
+        </p>
+        <div class="envContainer equation" id="rvv-en">
+          <p class="envHeader">
+            Counterclockwise perpendicular vector in 2D.
+          </p>
+          <div class="envBody">
+            <p>
+              \[\vec{a}^\perp = -a_2\,\hat\imath + a_1\hat\jmath\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
+              It is easy to check that $\vec{a}^\perp$ is always
+              perpendicular to $\vec{a}$:
+
+              \[\vec{a} \cdot \vec{a}^\perp
+              = (a_1\,\hat\imath + a_2\,\hat\jmath) \cdot
+              (-a_2\,\hat\imath + a_1\hat\jmath)
+              = -a_1 a_2 + a_2 a_1 = 0.\]
+
+              The fact that $\vec{a}^\perp$ is a $+90^\circ$ rotation
+              of $\vec{a}$ is apparent from Figure <a
+              href="#rvv-fn">#rvv-fn</a>.
+            </p>
+          </div>
+        </div>
+        <p>
+          In 2D there are two perpendicular directions to a given
+          vector $\vec{a}$, given by $\vec{a}^\perp$ and
+          $-\vec{a}^\perp$. In 3D there is are many perpendicular
+          vectors, and there is no simple formula like <a
+          href="#rvv-en">#rvv-en</a> for 3D.
+        </p>
+        <div class="figureContainer width400" id="rvv-fn">
+          <canvas id="rvv-fn-c" width="400" height="300" class="figureImage">
+          </canvas>
+          <p class="controls">
+            <button class="anim-toggle:rvv-fn-c">animate</button>
+            <button class="reset:rvv-fn-c">reset</button>
+            <button class="option-toggle:rvv-fn-c:showComponents">show components</button>
+          </p>
+          <p class="figureCaption">
+            The perpendicular vector $\vec{a}^\perp$ is always a
+            $+90^\circ$ rotation of $\vec{a}$.
+          </p>
+        </div>
       </div>
       <div class="infoCol">
         <div class="infoBox applicationsBox">
@@ -736,6 +794,40 @@
             multiplied by the perpendicular height, which is also the
             magnitude of the cross product of the side vectors.
           </p>
+        </div>
+        <p>
+          A useful special case of the cross product occurs when
+          vector $\vec{a}$ is in the 2D $\hat\imath,\hat\jmath$ plane
+          and the other vector is in the orthogonal $\hat{k}$
+          direction. In this case the cross product rotates $\vec{a}$
+          by $90^\circ$ counterclockwise to give the perpendicular
+          vector $\vec{a}^\perp$, as follows.
+        </p>
+        <div class="envContainer equation" id="rvv-e9">
+          <p class="envHeader">
+            Cross product of out-of-plane vector $\hat{k}$ with 2D
+            vector $\vec{a} = a_1\,\hat\imath + a_2\,\hat\jmath$.
+          </p>
+          <div class="envBody">
+            <p>
+              \[\hat{k} \times \vec{a} = \vec{a}^\perp\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+          <p>
+            Using <a href="#rvv-eo">#rvv-eo</a> we can compute:
+
+            \[\begin{aligned}
+            \hat{k} \times \vec{a}
+            &amp;= \hat{k} \times (a_1\,\hat\imath + a_2\,\hat\jmath) \\
+            &amp; a_1 (\hat{k} \times \hat\imath) + a_2 (\hat{k} \times \hat\jmath) \\
+            &amp;= a_1\,\hat\jmath - a_2\,\hat\imath \\
+            &amp;= \vec{a}^\perp.
+            \end{aligned}\]
+          </p>
+          </div>
         </div>
       </div>
       <div class="infoCol">
