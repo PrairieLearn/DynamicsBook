@@ -211,7 +211,7 @@
           formulas for this are given below.
         </p>
         <div class="envContainer equation" id="rkg-er">
-          <p class="envHeader">Rigid body point relations</p>
+          <p class="envHeader">Rigid body point relations.</p>
           <div class="envBody">
             <p>
               \[\begin{aligned}
@@ -462,12 +462,15 @@
         </h2>
         <p>
           The <a href="#rkg-er">#rkg-er</a> equations above are valid
-          in both 2D and 3D. If we know that we are in 2D then the
-          angular velocity vector is orthogonal to the plane and the
-          equations simplify, as shown below.
+          in both 2D and 3D. If we know that we are in the 2D
+          $\hat\imath,\hat\jmath$ plane then the angular velocity
+          vector is orthogonal to the plane in the $\hat{k}$ direction
+          and the equations can be written in a simpler form with the
+          perpendicular vector notation <a
+          href="rvv.xhtml#rvv-en">#rvv-en</a>, as shown below.
         </p>
         <div class="envContainer equation" id="rkg-e2">
-          <p class="envHeader">Rigid body point relations in 2D</p>
+          <p class="envHeader">Rigid body point relations in 2D.</p>
           <div class="envBody">
             <p>
               \[\begin{aligned}
@@ -481,15 +484,63 @@
             </p>
             <p>
               Points $P$ and $Q$ are two locations on a rigid
-              body. Scalars $\omega$ and $\alpha$ are the angular
-              velocity and angular acceleration of the rigid body
-              (positive counter-clockwise).
+              body. Scalars $\omega$ and $\alpha$ are the scalar
+              angular velocity and angular acceleration of the rigid
+              body (positive counter-clockwise).
             </p>
           </div>
         </div>
         <div class="envContainer derivation">
           <div class="envBody">
             <p>
+              The position vectors $\vec{r}_P$ and $\vec{r}_Q$ lie in
+              the $\hat\imath,\hat\jmath$ plane, so $\vec{v}_P$,
+              $\vec{v}_Q$, and $\vec{r}_{PQ}$ are also in this
+              plane. The angular velocity and angular acceleration
+              vectors are orthogonal and thus can be written:
+
+              \[\begin{aligned}
+              \vec{\omega} &amp;= \omega\,\hat{k} \\
+              \vec{\alpha} &amp;= \alpha\,\hat{k}.
+              \end{aligned}\]
+
+              Evaluating <a href="#rkg-er">#rkg-er</a> and using the
+              cross-product expression <a
+              href="rvv.xhtml#rvv-e9">#rvv-e9</a> now gives the
+              velocity expression:
+
+              \[\begin{aligned}
+              \vec{v}_Q &amp;= \vec{v}_P
+              + \vec{\omega} \times \vec{r}_{PQ} \\
+              &amp;= \vec{v}_P
+              + \omega\,\hat{k} \times \vec{r}_{PQ} \\
+              &amp;= \vec{v}_P
+              + \omega \,\vec{r}_{PQ}^\perp,
+              \end{aligned}\]
+
+              and the acceleration equation:
+
+              \[\begin{aligned}
+              \vec{a}_Q &amp;= \vec{a}_P
+              + \vec{\alpha} \times \vec{r}_{PQ}
+              + \vec{\omega} \times (\vec{\omega} \times \vec{r}_{PQ}) \\
+              &amp;= \vec{a}_P
+              + \alpha\,\hat{k} \times \vec{r}_{PQ}
+              + \omega\,\hat{k} \times (\omega\,\hat{k} \times \vec{r}_{PQ}) \\
+              &amp;= \vec{a}_P
+              + \alpha\,\vec{r}_{PQ}^\perp
+              + \omega\,\hat{k} \times (\omega\,\vec{r}_{PQ}^\perp) \\
+              &amp;= \vec{a}_P
+              + \alpha\,\vec{r}_{PQ}^\perp
+              + \omega^2 (\vec{r}_{PQ}^\perp)^\perp \\
+              &amp;= \vec{a}_P
+              + \alpha\,\vec{r}_{PQ}^\perp
+              - \omega^2 \vec{r}_{PQ},
+              \end{aligned}\]
+
+              where we used the fact that $\vec{r}^{\perp\perp} =
+              -\vec{r}$ (two $90^\circ$ rotations make a $180^\circ$
+              rotation).
             </p>
           </div>
         </div>
@@ -501,7 +552,7 @@
           $\vec{\omega}$ of the body.
         </p>
         <div class="envContainer equation" id="rkg-ei">
-          <p class="envHeader">Instantaneous center of rotation $M$ in 2D</p>
+          <p class="envHeader">Instantaneous center of rotation $M$ in 2D.</p>
           <div class="envBody">
             <p>
               \[
@@ -520,9 +571,42 @@
         <div class="envContainer derivation">
           <div class="envBody">
             <p>
+              The instantaneous center $M$ has the property that the
+              point on the rigid body at $M$ has zero velocity. We
+              thus want:
+
+              \[
+              0 = \vec{v}_M =
+              \vec{v}_P + \vec{\omega} \times \vec{r}_{PM}.
+              \]
+
+              Taking another cross product by $\vec{\omega}$ gives:
+
+              \[\begin{aligned}
+              0 &amp;=
+              \vec{\omega} \times \Big(
+              \vec{v}_P + \vec{\omega} \times \vec{r}_{PM} \Big) \\
+              &amp;= \vec{\omega} \times \vec{v}_P
+              + \vec{\omega} \times (\vec{\omega} \times \vec{r}_{PM}) \\
+              &amp;= \vec{\omega} \times \vec{v}_P
+              + - \omega^2 \, \vec{r}_{PM} \\
+              \vec{r}_{PM} &amp;= - \frac{1}{\omega^2}
+              \vec{\omega} \times \vec{v}_P.
+              \end{aligned}\]
+              
+              Here we used the fact that if $\vec{r}_{PM}$ lies in the
+              $\hat\imath,\hat\jmath$ plane and $\vec{\omega}$ is in
+              the $\hat{k}$ direction, then from <a
+              href="rvv.xhtml#rvv-e9">#rvv-e9</a> we have
+              $\vec{\omega} \times (\vec{\omega} \times \vec{r}_{PM})
+              = \omega^2 \,\vec{r}_{PM}^{\perp\perp} =
+              -\omega^2\,\vec{r}_{PM}$, as in the derivation of <a
+              href="#rkg-e2">#rkg-e2</a>.
             </p>
           </div>
         </div>
+        <p>
+        </p>
         <div class="figureContainer width600" id="rkg-fd">
           <canvas id="rkg-fd-c" width="600" height="600" class="figureImage" >
           </canvas>
@@ -553,49 +637,51 @@
           </p>
           <table id="rkg-tf">
             <tr>
-              <th>Body</th>
               <th>Point $P$</th>
+              <th>Body</th>
               <th>$Q$ Velocity</th>
               <th>$Q$ Acceleration</th>
             </tr>
             <tr>
-              <td><button class="option-toggle:rkg-fd-c:showAngVel">ang. vel.</button></td>
               <td><button class="option-toggle:rkg-fd-c:showPVel">$P$ velocity</button></td>
+              <td></td>
               <td><input type="radio" name="rkg-fd-c-velField" value="none" class="data-input:rkg-fd-c:velField" /> none</td>
               <td><input type="radio" name="rkg-fd-c-accField" value="none" class="data-input:rkg-fd-c:accField" /> none</td>
             </tr>
             <tr>
-              <td><button class="option-toggle:rkg-fd-c:showAngAcc">ang. acc.</button></td>
               <td><button class="option-toggle:rkg-fd-c:showPAcc">$P$ acceleration</button></td>
+              <td></td>
               <td><input type="radio" name="rkg-fd-c-velField" value="base" class="data-input:rkg-fd-c:velField" /> $\vec{v}_P$ (trans.)</td>
               <td><input type="radio" name="rkg-fd-c-accField" value="base" class="data-input:rkg-fd-c:accField" /> $\vec{a}_P$ (trans.)</td>
             </tr>
             <tr>
-              <td><button class="option-toggle:rkg-fd-c:showInstRot">inst. cent. $M$</button></td>
-              <td><button class="option-toggle:rkg-fd-c:showPAngVel">ang. vel. about $P$</button></td>
+              <td><button class="option-toggle:rkg-fd-c:showPPath">$P$ path</button></td>
+              <td><button class="option-toggle:rkg-fd-c:showQPath">$Q$ path</button></td>
               <td><input type="radio" name="rkg-fd-c-velField" value="omega" class="data-input:rkg-fd-c:velField" /> $\vec{\omega} \times \vec{r}_{PQ}$ (rot.)</td>
               <td><input type="radio" name="rkg-fd-c-accField" value="alpha" class="data-input:rkg-fd-c:accField" /> $\vec{\alpha} \times \vec{r}_{PQ}$ (ang.)</td>
             </tr>
             <tr>
-              <td></td>
-              <td><button class="option-toggle:rkg-fd-c:showPAngAcc">ang. acc. about $P$</button></td>
+              <td><button class="option-toggle:rkg-fd-c:showPAngVel">ang. vel. about $P$</button></td>
+              <td><button class="option-toggle:rkg-fd-c:showAngVel">ang. vel.</button></td>
               <td></td>
               <td><input type="radio" name="rkg-fd-c-accField" value="cent" class="data-input:rkg-fd-c:accField" /> $\vec{\omega} \times (\vec{\omega} \times \vec{r}_{PQ})$ (cent.)</td>
             </tr>
             <tr>
-              <td></td>
-              <td><button class="option-toggle:rkg-fd-c:PAtCorner">$P$ at corner</button></td>
+              <td><button class="option-toggle:rkg-fd-c:showPAngAcc">ang. acc. about $P$</button></td>
+              <td><button class="option-toggle:rkg-fd-c:showAngAcc">ang. acc.</button></td>
               <td><input type="radio" name="rkg-fd-c-velField" value="total" class="data-input:rkg-fd-c:velField" /> $\vec{v}_Q$ (total)</td>
               <td><input type="radio" name="rkg-fd-c-accField" value="total" class="data-input:rkg-fd-c:accField" /> $\vec{a}_Q$ (total)</td>
             </tr>
             <tr>
-              <td><button class="option-toggle:rkg-fd-c:showQPath">$Q$ path</button></td>
-              <td><button class="option-toggle:rkg-fd-c:showPPath">$P$ path</button></td>
+              <td><button class="option-toggle:rkg-fd-c:PAtCorner">$P$ at corner</button></td>
+              <td><button class="option-toggle:rkg-fd-c:showInstRot">inst. cent. $M$</button></td>
               <td><button class="option-toggle:rkg-fd-c:showVelField">all points</button></td>
               <td><button class="option-toggle:rkg-fd-c:showAccField">all points</button></td>
             </tr>
           </table>
           <p class="figureCaption">
+            Velocity and acceleration of points on a rigid body
+            undergoing different motions.
           </p>
         </div>
       </div>
