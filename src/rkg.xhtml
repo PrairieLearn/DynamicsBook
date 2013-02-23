@@ -549,7 +549,9 @@
           called the <em>instantaneous center of rotation</em>,
           because the velocity of all points on the body will be given
           by simple rotation about $M$ with the angular velocity
-          $\vec{\omega}$ of the body.
+          $\vec{\omega}$ of the body. In 2D we can always find the
+          instantaneous center with the following equation, although
+          it might be outside of the physical body.
         </p>
         <div class="envContainer equation" id="rkg-ei">
           <p class="envHeader">Instantaneous center of rotation $M$ in 2D.</p>
@@ -602,6 +604,46 @@
               = \omega^2 \,\vec{r}_{PM}^{\perp\perp} =
               -\omega^2\,\vec{r}_{PM}$, as in the derivation of <a
               href="#rkg-e2">#rkg-e2</a>.
+            </p>
+          </div>
+        </div>
+        <p>
+          In 3D there will only be an instantaneous center if
+          $\vec{v}_P$ is orthogonal to $\vec{\omega}$, in which case
+          there will many choices for the instantaneous center, all
+          lying on a line in the $\vec{\omega}$ direction.
+        </p>
+        <p>
+          If $M$ is an instantaneous center, so it has zero velocity,
+          then the velocity of any other point on the rigid body is
+          given by the following equation.
+        </p>
+        <div class="envContainer equation" id="rkg-ev">
+          <p class="envHeader">Velocity from the instantaneous center $M$.</p>
+          <div class="envBody">
+            <p>
+              \[
+              \vec{r}_{Q} = \vec{\omega} \times \vec{r}_{MQ}
+              \]
+            </p>
+            <p>
+              Point $M$ is the instantaneous center of rotation for a
+              rigid body rotating with angular velocity
+              $\vec{\omega}$, and $Q$ is any point on the body.
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
+              By definition the instantaneous center has $\vec{v}_M =
+              0$, so the velocity formula <a
+              href="#rkg-er">#rkg-er</a> gives:
+
+              \[\begin{aligned}
+              \vec{v}_Q &amp;= \vec{v}_M + \vec{\omega} \times \vec{r}_{MQ} \\
+              &amp;= \vec{\omega} \times \vec{r}_{MQ}.
+              \end{aligned}\]
             </p>
           </div>
         </div>
