@@ -48,17 +48,6 @@
         </h1>
         <p>
         </p>
-      </div>
-      <div class="infoCol">
-      </div>
-    </div>
-    <div class="contentBlock">
-      <div id="rko-sa" class="contentCol">
-        <h2>
-          Rolling on a fixed ground
-        </h2>
-        <p>
-        </p>
         <div class="figureContainer width600" id="rko-fr">
           <canvas id="rko-fr-c" width="600" height="600" class="figureImage" >
           </canvas>
@@ -70,19 +59,12 @@
           <table class="controls">
             <tr>
               <td>Movement:</td>
-              <td><input type="radio" name="rko-fr-c-movement" value="translate" class="data-input:rko-fr-c:movement" /> translation</td>
-              <td><input type="radio" name="rko-fr-c-movement" value="varTranslate" class="data-input:rko-fr-c:movement" /> var. translation</td>
-              <td><input type="radio" name="rko-fr-c-movement" value="rotate" class="data-input:rko-fr-c:movement" /> rotation</td>
-              <td><input type="radio" name="rko-fr-c-movement" value="varRotate" class="data-input:rko-fr-c:movement" /> var. rotation</td>
-              <td><input type="radio" name="rko-fr-c-movement" value="slide" class="data-input:rko-fr-c:movement" /> slide</td>
+              <td><input type="radio" name="rko-fr-c-movement" value="smallGround" class="data-input:rko-fr-c:movement" /> ground</td>
+              <td><input type="radio" name="rko-fr-c-movement" value="bigGround" class="data-input:rko-fr-c:movement" /> big ground</td>
+              <td><input type="radio" name="rko-fr-c-movement" value="rocking" class="data-input:rko-fr-c:movement" /> rocking</td>
             </tr>
             <tr>
               <td></td>
-              <td><input type="radio" name="rko-fr-c-movement" value="hinge" class="data-input:rko-fr-c:movement" /> hinge</td>
-              <td><input type="radio" name="rko-fr-c-movement" value="circle" class="data-input:rko-fr-c:movement" /> circle</td>
-              <td><input type="radio" name="rko-fr-c-movement" value="spin" class="data-input:rko-fr-c:movement" /> spin</td>
-              <td><input type="radio" name="rko-fr-c-movement" value="reverse" class="data-input:rko-fr-c:movement" /> reverse spin</td>
-              <td><input type="radio" name="rko-fr-c-movement" value="osc" class="data-input:rko-fr-c:movement" /> oscillation</td>
             </tr>
           </table>
           <p class="controls">
@@ -125,7 +107,7 @@
               <td><input type="radio" name="rko-fr-c-accField" value="total" class="data-input:rko-fr-c:accField" /> $\vec{a}_Q$ (total)</td>
             </tr>
             <tr>
-              <td><button class="option-toggle:rko-fr-c:PAtCorner">$P$ at corner</button></td>
+              <td><button class="option-toggle:rko-fr-c:PAtEdge">$P$ at edge</button></td>
               <td><button class="option-toggle:rko-fr-c:showInstRot">inst. cent. $M$</button></td>
               <td><button class="option-toggle:rko-fr-c:showVelField">all points</button></td>
               <td><button class="option-toggle:rko-fr-c:showAccField">all points</button></td>
@@ -136,6 +118,28 @@
             undergoing different motions.
           </p>
         </div>
+      </div>
+      <div class="infoCol">
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="rko-sf" class="contentCol">
+        <h2>
+          Rolling on flat ground
+        </h2>
+        <p>
+        </p>
+      </div>
+      <div class="infoCol">
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="rko-sc" class="contentCol">
+        <h2>
+          Rolling on curved ground
+        </h2>
+        <p>
+        </p>
       </div>
       <div class="infoCol">
       </div>
