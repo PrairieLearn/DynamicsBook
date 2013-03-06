@@ -74,43 +74,43 @@
           </p>
           <table id="rko-tf">
             <tr>
-              <th>Point $P$</th>
+              <th>Center $C$</th>
               <th>Body</th>
               <th>$Q$ Velocity</th>
               <th>$Q$ Acceleration</th>
             </tr>
             <tr>
-              <td><button class="option-toggle:rko-fr-c:showPVel">$P$ velocity</button></td>
+              <td><button class="option-toggle:rko-fr-c:showCVel">$C$ velocity</button></td>
               <td></td>
               <td><input type="radio" name="rko-fr-c-velField" value="none" class="data-input:rko-fr-c:velField" /> none</td>
               <td><input type="radio" name="rko-fr-c-accField" value="none" class="data-input:rko-fr-c:accField" /> none</td>
             </tr>
             <tr>
-              <td><button class="option-toggle:rko-fr-c:showPAcc">$P$ acceleration</button></td>
+              <td><button class="option-toggle:rko-fr-c:showCAcc">$C$ acceleration</button></td>
               <td></td>
-              <td><input type="radio" name="rko-fr-c-velField" value="base" class="data-input:rko-fr-c:velField" /> $\vec{v}_P$ (trans.)</td>
-              <td><input type="radio" name="rko-fr-c-accField" value="base" class="data-input:rko-fr-c:accField" /> $\vec{a}_P$ (trans.)</td>
+              <td><input type="radio" name="rko-fr-c-velField" value="base" class="data-input:rko-fr-c:velField" /> $\vec{v}_C$ (trans.)</td>
+              <td><input type="radio" name="rko-fr-c-accField" value="base" class="data-input:rko-fr-c:accField" /> $\vec{a}_C$ (trans.)</td>
             </tr>
             <tr>
-              <td><button class="option-toggle:rko-fr-c:showPPath">$P$ path</button></td>
+              <td><button class="option-toggle:rko-fr-c:showCPath">$C$ path</button></td>
               <td><button class="option-toggle:rko-fr-c:showQPath">$Q$ path</button></td>
-              <td><input type="radio" name="rko-fr-c-velField" value="omega" class="data-input:rko-fr-c:velField" /> $\vec{\omega} \times \vec{r}_{PQ}$ (rot.)</td>
-              <td><input type="radio" name="rko-fr-c-accField" value="alpha" class="data-input:rko-fr-c:accField" /> $\vec{\alpha} \times \vec{r}_{PQ}$ (ang.)</td>
+              <td><input type="radio" name="rko-fr-c-velField" value="omega" class="data-input:rko-fr-c:velField" /> $\vec{\omega} \times \vec{r}_{CQ}$ (rot.)</td>
+              <td><input type="radio" name="rko-fr-c-accField" value="alpha" class="data-input:rko-fr-c:accField" /> $\vec{\alpha} \times \vec{r}_{CQ}$ (ang.)</td>
             </tr>
             <tr>
-              <td><button class="option-toggle:rko-fr-c:showPAngVel">ang. vel. about $P$</button></td>
+              <td></td>
               <td><button class="option-toggle:rko-fr-c:showAngVel">ang. vel.</button></td>
               <td></td>
-              <td><input type="radio" name="rko-fr-c-accField" value="cent" class="data-input:rko-fr-c:accField" /> $\vec{\omega} \times (\vec{\omega} \times \vec{r}_{PQ})$ (cent.)</td>
+              <td><input type="radio" name="rko-fr-c-accField" value="cent" class="data-input:rko-fr-c:accField" /> $\vec{\omega} \times (\vec{\omega} \times \vec{r}_{CQ})$ (cent.)</td>
             </tr>
             <tr>
-              <td><button class="option-toggle:rko-fr-c:showPAngAcc">ang. acc. about $P$</button></td>
+              <td></td>
               <td><button class="option-toggle:rko-fr-c:showAngAcc">ang. acc.</button></td>
               <td><input type="radio" name="rko-fr-c-velField" value="total" class="data-input:rko-fr-c:velField" /> $\vec{v}_Q$ (total)</td>
               <td><input type="radio" name="rko-fr-c-accField" value="total" class="data-input:rko-fr-c:accField" /> $\vec{a}_Q$ (total)</td>
             </tr>
             <tr>
-              <td><button class="option-toggle:rko-fr-c:PAtEdge">$P$ at edge</button></td>
+              <td></td>
               <td><button class="option-toggle:rko-fr-c:showInstRot">inst. cent. $M$</button></td>
               <td><button class="option-toggle:rko-fr-c:showVelField">all points</button></td>
               <td><button class="option-toggle:rko-fr-c:showAccField">all points</button></td>
@@ -128,7 +128,7 @@
     <div class="contentBlock">
       <div id="rko-sf" class="contentCol">
         <h2>
-          Rolling on flat ground
+          Rolling on flat surface
         </h2>
         <p>
         </p>
@@ -139,7 +139,7 @@
     <div class="contentBlock">
       <div id="rko-sc" class="contentCol">
         <h2>
-          Rolling on curved ground
+          Rolling on curved surface
         </h2>
         <p>
         </p>

@@ -9,17 +9,14 @@ $(document).ready(function() {
 
         this.addOption("showLabels", true);
         this.addOption("movement", "smallGround");
-        this.addOption("PAtEdge", false);
-        this.addOption("showPVel", false);
-        this.addOption("showPAcc", false);
-        this.addOption("showPAngVel", false);
-        this.addOption("showPAngAcc", false);
+        this.addOption("showCVel", false);
+        this.addOption("showCAcc", false);
         this.addOption("showAngVel", false);
         this.addOption("showAngAcc", false);
         this.addOption("velField", "none");
         this.addOption("accField", "none");
         this.addOption("showInstRot", false);
-        this.addOption("showPPath", false);
+        this.addOption("showCPath", false);
         this.addOption("showQPath", false);
         this.addOption("showVelField", false);
         this.addOption("showAccField", false);
@@ -207,44 +204,33 @@ $(document).ready(function() {
         var rCM = this.cross2D(omega, vC).x(1 / (omega * omega));
         var rM = rC.add(rCM);
 
-        var rPLoc;
-        if (this.getOption("PAtEdge")) {
-            rPLoc = $V([radius, 0]);
-        } else {
-            rPLoc = $V([0, 0]);
-        }
-
-        var fPQ = function(t) {
+        var fCQ = function(t) {
             var val = f(t);
             var theta = val.theta;
             var rC = val.rC;
             var e1 = $V([1, 0]).rotate(theta, O);
             var e2 = $V([0, 1]).rotate(theta, O);
-            var rP = rC.add(e1.x(rPLoc.e(1))).add(e2.x(rPLoc.e(2)));
             var rQ = rC.add(e2.x(radius));
-            return [rP, rQ];
+            return [rC, rQ];
         };
 
         var nPath = 150;
 
-        var QPath = [], PPath = [];
+        var QPath = [], CPath = [];
         for (var i = 0; i < nPath; i++) {
             var tau = i / nPath * pathPeriod + pathStart;
-            var rPrQ = fPQ(tau);
-            PPath.push(rPrQ[0]);
-            QPath.push(rPrQ[1]);
+            var rCrQ = fCQ(tau);
+            CPath.push(rCrQ[0]);
+            QPath.push(rCrQ[1]);
         }
 
-        var rPrQ = this.numDiff(fPQ, t);
-        var rP = rPrQ[0];
-        var rCP = rP.subtract(rC);
-        var vP = vC.add(this.cross2D(omega, rCP));
-        var aP = aC.add(this.cross2D(alpha, rCP)).add(this.cross2D(omega, this.cross2D(omega, rCP)));
+        var rCrQ = this.numDiff(fCQ, t);
+        var rC = rCrQ[0];
 
-        if (this.getOption("showPPath")) {
+        if (this.getOption("showCPath")) {
             this.save();
             this.setProp("shapeOutlineColor", "rgb(150, 150, 150)");
-            this.polyLine(PPath, closePath, false);
+            this.polyLine(CPath, closePath, false);
             this.restore();
         }
 
@@ -266,9 +252,9 @@ $(document).ready(function() {
             if (this.getOption("velField") === "total") {
                 Qs.forEach(function(Q, i) {
                     if (this.getOption("showVelField") || i === iQShow) {
-                        var PQ = Q.subtract(rP);
+                        var PQ = Q.subtract(rC);
                         var QVR = this.cross2D(omega, PQ);
-                        var QV = vP.add(QVR);
+                        var QV = vC.add(QVR);
                         this.rightAngleImproved(Q, rM, Q.add(QV.x(timeScale)));
                     }
                 }, this);
@@ -282,30 +268,22 @@ $(document).ready(function() {
 
         this.save();
         this.setProp("pointRadiusPx", 4);
-        this.point(rP);
+        this.point(rC);
         this.restore();
-        this.labelIntersection(rP, [rP.add(e1), rP.add(e2)], label && "TEX:$P$");
-        if (this.getOption("showPVel")) {
-            this.arrow(rP, rP.add(vP.x(timeScale)), "velocity");
-            this.labelLine(rP, rP.add(vP.x(timeScale)), $V([1, 0]), label && "TEX:$\\vec{v}_P$");
+        this.labelIntersection(rC, [rC.add(e1), rC.add(e2)], label && "TEX:$C$");
+        if (this.getOption("showCVel")) {
+            this.arrow(rC, rC.add(vC.x(timeScale)), "velocity");
+            this.labelLine(rC, rC.add(vC.x(timeScale)), $V([1, 0]), label && "TEX:$\\vec{v}_C$");
         }
-        if (this.getOption("showPAcc")) {
-            this.arrow(rP, rP.add(aP.x(timeScale * timeScale)), "acceleration");
-            this.labelLine(rP, rP.add(aP.x(timeScale * timeScale)), $V([1, 0]), label && "TEX:$\\vec{a}_P$");
+        if (this.getOption("showCAcc")) {
+            this.arrow(rC, rC.add(aC.x(timeScale * timeScale)), "acceleration");
+            this.labelLine(rC, rC.add(aC.x(timeScale * timeScale)), $V([1, 0]), label && "TEX:$\\vec{a}_C$");
         }
         var omegaLabel = (omega >= 0) ? "TEX:$\\omega$" : "TEX:$-\\omega$";
         var alphaLabel = (alpha >= 0) ? "TEX:$\\alpha$" : "TEX:$-\\alpha$";
-        if (this.getOption("showPAngVel")) {
-            this.circleArrow(rP, 0.2, theta - 3 * omega, theta + 3 * omega, "angVel");
-            this.labelCircleLine(rP, 0.2, theta - 3 * omega, theta + 3 * omega, $V([0, 1]), label && omegaLabel);
-        }
         if (this.getOption("showAngVel")) {
             this.circleArrow(rC, 0.75, -Math.PI / 2 + theta - 3 * omega / 3.75, -Math.PI / 2 + theta + 3 * omega / 3.75, "angVel");
             this.labelCircleLine(rC, 0.75, -Math.PI / 2 + theta - 3 * omega / 3.75, -Math.PI / 2 + theta + 3 * omega / 3.75, $V([0, 1]), label && omegaLabel);
-        }
-        if (this.getOption("showPAngAcc")) {
-            this.circleArrow(rP, 0.2, Math.PI + theta - 3 * alpha, Math.PI + theta + 3 * alpha, "angAcc");
-            this.labelCircleLine(rP, 0.2, Math.PI + theta - 3 * alpha, Math.PI + theta + 3 * alpha, $V([0, 1]), label && alphaLabel);
         }
         if (this.getOption("showAngAcc")) {
             this.circleArrow(rC, 0.75, Math.PI / 2 + theta - 3 * alpha / 3.75, Math.PI / 2 + theta + 3 * alpha / 3.75, "angAcc");
@@ -315,21 +293,21 @@ $(document).ready(function() {
         this.labelIntersection(Qs[iQShow], [rC], label && "TEX:$Q$");
 
         Qs.forEach(function(Q, i) {
-            var rPQ = Q.subtract(rP);
-            var vQR = this.cross2D(omega, rPQ);
-            var vQ = vP.add(vQR);
-            var aQR = this.cross2D(alpha, rPQ);
+            var rCQ = Q.subtract(rC);
+            var vQR = this.cross2D(omega, rCQ);
+            var vQ = vC.add(vQR);
+            var aQR = this.cross2D(alpha, rCQ);
             var aQC = this.cross2D(omega, vQR);
-            var aQ = aP.add(aQR).add(aQC);
+            var aQ = aC.add(aQR).add(aQC);
             this.point(Q);
             qLabel = (i == iQShow) ? label : undefined;
             if (this.getOption("showVelField") || i === iQShow) {
                 if (this.getOption("velField") === "base") {
-                    this.arrow(Q, Q.add(vP.x(timeScale)), "velocity");
-                    this.labelLine(Q, Q.add(vP.x(timeScale)), $V([1, 0]), qLabel && "TEX:$\\vec{v}_P$");
+                    this.arrow(Q, Q.add(vC.x(timeScale)), "velocity");
+                    this.labelLine(Q, Q.add(vC.x(timeScale)), $V([1, 0]), qLabel && "TEX:$\\vec{v}_C$");
                 } else if (this.getOption("velField") === "omega") {
                     this.arrow(Q, Q.add(vQR.x(timeScale)), "velocity");
-                    this.labelLine(Q, Q.add(vQR.x(timeScale)), $V([1, 0]), qLabel && "TEX:$\\vec{\\omega} \\times \\vec{r}_{PQ}$");
+                    this.labelLine(Q, Q.add(vQR.x(timeScale)), $V([1, 0]), qLabel && "TEX:$\\vec{\\omega} \\times \\vec{r}_{CQ}$");
                 } else if (this.getOption("velField") === "total") {
                     this.arrow(Q, Q.add(vQ.x(timeScale)), "velocity");
                     this.labelLine(Q, Q.add(vQ.x(timeScale)), $V([1, 0]), qLabel && "TEX:$\\vec{v}_Q$");
@@ -337,14 +315,14 @@ $(document).ready(function() {
             }
             if (this.getOption("showAccField") || i === iQShow) {
                 if (this.getOption("accField") === "base") {
-                    this.arrow(Q, Q.add(aP.x(timeScale * timeScale)), "acceleration");
-                    this.labelLine(Q, Q.add(aP.x(timeScale * timeScale)), $V([1, 0]), qLabel && "TEX:$\\vec{a}_P$");
+                    this.arrow(Q, Q.add(aC.x(timeScale * timeScale)), "acceleration");
+                    this.labelLine(Q, Q.add(aC.x(timeScale * timeScale)), $V([1, 0]), qLabel && "TEX:$\\vec{a}_C$");
                 } else if (this.getOption("accField") === "alpha") {
                     this.arrow(Q, Q.add(aQR.x(timeScale * timeScale)), "acceleration");
-                    this.labelLine(Q, Q.add(aQR.x(timeScale * timeScale)), $V([1, 0]), qLabel && "TEX:$\\vec{\\alpha} \\times \\vec{r}_{PQ}$");
+                    this.labelLine(Q, Q.add(aQR.x(timeScale * timeScale)), $V([1, 0]), qLabel && "TEX:$\\vec{\\alpha} \\times \\vec{r}_{CQ}$");
                 } else if (this.getOption("accField") === "cent") {
                     this.arrow(Q, Q.add(aQC.x(timeScale * timeScale)), "acceleration");
-                    this.labelLine(Q, Q.add(aQC.x(timeScale * timeScale)), $V([1, 0]), qLabel && "TEX:$\\vec{\\omega} \\times (\\vec{\\omega} \\times \\vec{r}_{PQ})$");
+                    this.labelLine(Q, Q.add(aQC.x(timeScale * timeScale)), $V([1, 0]), qLabel && "TEX:$\\vec{\\omega} \\times (\\vec{\\omega} \\times \\vec{r}_{CQ})$");
                 } else if (this.getOption("accField") === "total") {
                     this.arrow(Q, Q.add(aQ.x(timeScale * timeScale)), "acceleration");
                     this.labelLine(Q, Q.add(aQ.x(timeScale * timeScale)), $V([1, 0]), qLabel && "TEX:$\\vec{a}_Q$");
