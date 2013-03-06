@@ -30,4 +30,12 @@
     border-right: none;
 }
 
+#rko-tm tr td {
+    width: 7em;
+}
+
+#rko-tm tr td:first-chile {
+    width: auto; /* FIXME: not working? */
+}
+
 /*****************************************************************************/
