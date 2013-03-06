@@ -8,7 +8,7 @@ $(document).ready(function() {
         this.setUnits(figureWidth, 4);
 
         this.addOption("showLabels", true);
-        this.addOption("movement", "smallGround");
+        this.addOption("movement", "smallFlat");
         this.addOption("showCVel", false);
         this.addOption("showCAcc", false);
         this.addOption("showAngVel", false);
@@ -27,7 +27,7 @@ $(document).ready(function() {
         var label = this.getOption("showLabels") ? true : undefined;
 
         var f;
-        if (this.getOption("movement") === "smallGround") {
+        if (this.getOption("movement") === "smallFlat") {
 
             this.ground($V([0, -0.6]), $V([0, 1]), figureWidth * 1.2);
 
@@ -52,7 +52,7 @@ $(document).ready(function() {
                     timeScale: 1,
                 };
             };
-        } else if (this.getOption("movement") === "bigGround") {
+        } else if (this.getOption("movement") === "bigFlat") {
 
             this.ground($V([0, -1.5]), $V([0, 1]), figureWidth * 1.2);
 
@@ -90,7 +90,7 @@ $(document).ready(function() {
                     theta: theta,
                     rC: $V([-radius * theta, 0]),
                     pathStart: 0,
-                    pathPeriod: 2 * Math.PI,
+                    pathPeriod: 4 * Math.PI,
                     closePath: true,
                     timeScale: 0.5,
                 };
@@ -282,12 +282,12 @@ $(document).ready(function() {
         var omegaLabel = (omega >= 0) ? "TEX:$\\omega$" : "TEX:$-\\omega$";
         var alphaLabel = (alpha >= 0) ? "TEX:$\\alpha$" : "TEX:$-\\alpha$";
         if (this.getOption("showAngVel")) {
-            this.circleArrow(rC, 0.75, -Math.PI / 2 + theta - 3 * omega / 3.75, -Math.PI / 2 + theta + 3 * omega / 3.75, "angVel");
-            this.labelCircleLine(rC, 0.75, -Math.PI / 2 + theta - 3 * omega / 3.75, -Math.PI / 2 + theta + 3 * omega / 3.75, $V([0, 1]), label && omegaLabel);
+            this.circleArrow(rC, radius + 0.15, theta - 3 * omega / 3.75, theta + 3 * omega / 3.75, "angVel", 0.1);
+            this.labelCircleLine(rC, radius + 0.15, theta - 3 * omega / 3.75, theta + 3 * omega / 3.75, $V([0, 1]), label && omegaLabel);
         }
         if (this.getOption("showAngAcc")) {
-            this.circleArrow(rC, 0.75, Math.PI / 2 + theta - 3 * alpha / 3.75, Math.PI / 2 + theta + 3 * alpha / 3.75, "angAcc");
-            this.labelCircleLine(rC, 0.75, Math.PI / 2 + theta - 3 * alpha / 3.75, Math.PI / 2 + theta + 3 * alpha / 3.75, $V([0, 1]), label && alphaLabel);
+            this.circleArrow(rC, radius + 0.15, Math.PI + theta - 3 * alpha / 3.75, Math.PI + theta + 3 * alpha / 3.75, "angAcc", 0.1);
+            this.labelCircleLine(rC, radius + 0.15, Math.PI + theta - 3 * alpha / 3.75, Math.PI + theta + 3 * alpha / 3.75, $V([0, 1]), label && alphaLabel);
         }
 
         this.labelIntersection(Ps[iPShow], [rC], label && "TEX:$P$");

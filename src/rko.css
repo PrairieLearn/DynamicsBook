@@ -5,28 +5,28 @@
     height: 200px;
 }
 
-#rko-tf {
+#rko-tr {
     border-collapse: collapse;
     border-spacing: 0px;
 }
 
-#rko-tf td {
+#rko-tr td {
     padding: 3px 7px 3px 7px;
     border-right: 1px solid #666;
 }
 
-#rko-tf th {
+#rko-tr th {
     padding: 3px 7px 3px 7px;
     font-family: 'NoticiaTextBold',Arial,Sans-serif;
     border-bottom: 1px solid #666;
     border-right: 1px solid #666;
 }
 
-#rko-tf tr td:last-child {
+#rko-tr tr td:last-child {
     border-right: none;
 }
 
-#rko-tf tr th:last-child {
+#rko-tr tr th:last-child {
     border-right: none;
 }
 
