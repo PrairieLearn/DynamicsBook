@@ -2564,6 +2564,38 @@ PrairieDraw.prototype.groundHashed = function(posDw, normDw, lengthDw, offsetDw)
     this._ctx.restore();
 }
 
+/** Draw an arc ground element.
+
+    @param {Vector} centerDw The center of the circle.
+    @param {Vector} radiusDw The radius of the circle.
+    @param {number} startAngle (Optional) The start angle of the arc (radians, default: 0).
+    @param {number} endAngle (Optional) The end angle of the arc (radians, default: 2 pi).
+*/
+PrairieDraw.prototype.arcGround = function(centerDw, radiusDw, startAngle, endAngle) {
+    startAngle = (startAngle === undefined) ? 0 : startAngle;
+    endAngle = (endAngle === undefined) ? 2 * Math.PI : endAngle;
+    var centerPx = this.pos2Px(centerDw);
+    var offsetDw = $V([radiusDw, 0]);
+    var offsetPx = this.vec2Px(offsetDw);
+    var radiusPx = offsetPx.modulus();
+    var groundDepthPx = Math.min(radiusPx, this._props.groundDepthPx);
+    this._ctx.save();
+    // fill the shaded area
+    this._ctx.beginPath();
+    this._ctx.arc(centerPx.e(1), centerPx.e(2), radiusPx, -endAngle, -startAngle, false);
+    this._ctx.arc(centerPx.e(1), centerPx.e(2), radiusPx + groundDepthPx, -startAngle, -endAngle, true);
+    this._ctx.fillStyle = this._props.groundInsideColor;
+    this._ctx.fill();
+    // draw the ground surface
+    this._ctx.beginPath();
+    this._ctx.arc(centerPx.e(1), centerPx.e(2), radiusPx, -endAngle, -startAngle);
+    this._ctx.lineWidth = this._props.shapeStrokeWidthPx;
+    this._ctx.setLineDash(this._dashPattern(this._props.shapeStrokePattern));
+    this._ctx.strokeStyle = this._props.groundOutlineColor;
+    this._ctx.stroke();
+    this._ctx.restore();
+}
+
 /** Draw a center-of-mass object.
 
     @param {Vector} posDw The position of the center of mass.
@@ -2672,6 +2704,39 @@ PrairieDraw.prototype.rightAngle = function(posDw, dirDw, normDw) {
     this._ctx.moveTo(dirPx.e(1), dirPx.e(2));
     this._ctx.lineTo(dirPx.e(1) + normPx.e(1), dirPx.e(2) + normPx.e(2));
     this._ctx.lineTo(normPx.e(1), normPx.e(2));
+    this._ctx.stroke();
+    this._ctx.restore();
+};
+
+/** Draw a right angle (improved version).
+
+    @param {Vector} p0Dw The base point.
+    @param {Vector} p1Dw The first other point.
+    @param {Vector} p2Dw The second other point.
+*/
+PrairieDraw.prototype.rightAngleImproved = function(p0Dw, p1Dw, p2Dw) {
+    var p0Px = this.pos2Px(this.pos3To2(p0Dw));
+    var p1Px = this.pos2Px(this.pos3To2(p1Dw));
+    var p2Px = this.pos2Px(this.pos3To2(p2Dw));
+    var d1Px = p1Px.subtract(p0Px);
+    var d2Px = p2Px.subtract(p0Px);
+    var minDLen = Math.min(d1Px.modulus(), d2Px.modulus());
+    if (minDLen < 1e-10) {
+        return;
+    }
+    var rightAngleSizePx = Math.min(minDLen / 2, this._props.rightAngleSizePx);
+    d1Px = d1Px.toUnitVector().x(rightAngleSizePx);
+    d2Px = d2Px.toUnitVector().x(rightAngleSizePx);
+    p1Px = p0Px.add(d1Px);
+    p2Px = p0Px.add(d2Px);
+    p12Px = p1Px.add(d2Px);
+    this._ctx.save();
+    this._ctx.lineWidth = this._props.rightAngleStrokeWidthPx;
+    this._ctx.strokeStyle = this._props.rightAngleColor;
+    this._ctx.beginPath();
+    this._ctx.moveTo(p1Px.e(1), p1Px.e(2));
+    this._ctx.lineTo(p12Px.e(1), p12Px.e(2));
+    this._ctx.lineTo(p2Px.e(1), p2Px.e(2));
     this._ctx.stroke();
     this._ctx.restore();
 };
