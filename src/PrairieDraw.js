@@ -2708,6 +2708,39 @@ PrairieDraw.prototype.rightAngle = function(posDw, dirDw, normDw) {
     this._ctx.restore();
 };
 
+/** Draw a right angle (improved version).
+
+    @param {Vector} p0Dw The base point.
+    @param {Vector} p1Dw The first other point.
+    @param {Vector} p2Dw The second other point.
+*/
+PrairieDraw.prototype.rightAngleImproved = function(p0Dw, p1Dw, p2Dw) {
+    var p0Px = this.pos2Px(this.pos3To2(p0Dw));
+    var p1Px = this.pos2Px(this.pos3To2(p1Dw));
+    var p2Px = this.pos2Px(this.pos3To2(p2Dw));
+    var d1Px = p1Px.subtract(p0Px);
+    var d2Px = p2Px.subtract(p0Px);
+    var minDLen = Math.min(d1Px.modulus(), d2Px.modulus());
+    if (minDLen < 1e-10) {
+        return;
+    }
+    var rightAngleSizePx = Math.min(minDLen / 2, this._props.rightAngleSizePx);
+    d1Px = d1Px.toUnitVector().x(rightAngleSizePx);
+    d2Px = d2Px.toUnitVector().x(rightAngleSizePx);
+    p1Px = p0Px.add(d1Px);
+    p2Px = p0Px.add(d2Px);
+    p12Px = p1Px.add(d2Px);
+    this._ctx.save();
+    this._ctx.lineWidth = this._props.rightAngleStrokeWidthPx;
+    this._ctx.strokeStyle = this._props.rightAngleColor;
+    this._ctx.beginPath();
+    this._ctx.moveTo(p1Px.e(1), p1Px.e(2));
+    this._ctx.lineTo(p12Px.e(1), p12Px.e(2));
+    this._ctx.lineTo(p2Px.e(1), p2Px.e(2));
+    this._ctx.stroke();
+    this._ctx.restore();
+};
+
 /*****************************************************************************/
 
 /** Draw text.
