@@ -79,7 +79,7 @@ $(document).ready(function() {
                     timeScale: 1,
                 };
             };
-        } else if (this.getOption("movement") === "rocking") {
+        } else if (this.getOption("movement") === "rock") {
 
             this.ground($V([0, -1]), $V([0, 1]), figureWidth * 1.2);
 
@@ -97,18 +97,56 @@ $(document).ready(function() {
                     timeScale: 0.5,
                 };
             };
-        } else if (this.getOption("movement") === "circle") {
+        } else if (this.getOption("movement") === "3-circle") {
             f = function(t) {
                 var radius = 0.6;
-                var pathRadius = 2;
-                var theta = -2 * Math.sin(t / 2);
+                var pathRadius = 1.8;
+                var theta = -t / 2;
+                var centerRadius = pathRadius - radius;
+                var pathTheta = -radius / centerRadius * theta;
                 return {
                     radius: radius,
                     nr: 3,
                     theta: theta,
-                    rC: $V([-radius * theta, 0]),
+                    rC: $V([0, -1]).rotate(pathTheta, O).x(centerRadius),
                     pathStart: 0,
-                    pathPeriod: 2 * Math.PI,
+                    pathPeriod: 8 * Math.PI,
+                    closePath: true,
+                    timeScale: 1,
+                };
+            };
+        } else if (this.getOption("movement") === "2-circle") {
+            f = function(t) {
+                var radius = 0.6;
+                var pathRadius = 1.2;
+                var theta = -t / 2;
+                var centerRadius = pathRadius - radius;
+                var pathTheta = -radius / centerRadius * theta;
+                return {
+                    radius: radius,
+                    nr: 3,
+                    theta: theta,
+                    rC: $V([0, -1]).rotate(pathTheta, O).x(centerRadius),
+                    pathStart: 0,
+                    pathPeriod: 8 * Math.PI,
+                    closePath: true,
+                    timeScale: 1,
+                };
+            };
+        } else if (this.getOption("movement") === "circle rock") {
+            f = function(t) {
+                var radius = 1;
+                var pathRadius = 3;
+                var theta = -2 * Math.sin(t / 2);
+                var centerRadius = pathRadius - radius;
+                var pathTheta = -radius / centerRadius * theta;
+                return {
+                    radius: radius,
+                    nr: 3,
+                    theta: theta,
+                    rC: $V([0, -1]).rotate(pathTheta, O).x(centerRadius).add($V([0, 1.5])),
+                    pathStart: 0,
+                    pathPeriod: 4 * Math.PI,
                     closePath: true,
                     timeScale: 0.5,
                 };
