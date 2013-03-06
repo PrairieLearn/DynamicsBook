@@ -2564,6 +2564,38 @@ PrairieDraw.prototype.groundHashed = function(posDw, normDw, lengthDw, offsetDw)
     this._ctx.restore();
 }
 
+/** Draw an arc ground element.
+
+    @param {Vector} centerDw The center of the circle.
+    @param {Vector} radiusDw The radius of the circle.
+    @param {number} startAngle (Optional) The start angle of the arc (radians, default: 0).
+    @param {number} endAngle (Optional) The end angle of the arc (radians, default: 2 pi).
+*/
+PrairieDraw.prototype.arcGround = function(centerDw, radiusDw, startAngle, endAngle) {
+    startAngle = (startAngle === undefined) ? 0 : startAngle;
+    endAngle = (endAngle === undefined) ? 2 * Math.PI : endAngle;
+    var centerPx = this.pos2Px(centerDw);
+    var offsetDw = $V([radiusDw, 0]);
+    var offsetPx = this.vec2Px(offsetDw);
+    var radiusPx = offsetPx.modulus();
+    var groundDepthPx = Math.min(radiusPx, this._props.groundDepthPx);
+    this._ctx.save();
+    // fill the shaded area
+    this._ctx.beginPath();
+    this._ctx.arc(centerPx.e(1), centerPx.e(2), radiusPx, -endAngle, -startAngle, false);
+    this._ctx.arc(centerPx.e(1), centerPx.e(2), radiusPx + groundDepthPx, -startAngle, -endAngle, true);
+    this._ctx.fillStyle = this._props.groundInsideColor;
+    this._ctx.fill();
+    // draw the ground surface
+    this._ctx.beginPath();
+    this._ctx.arc(centerPx.e(1), centerPx.e(2), radiusPx, -endAngle, -startAngle);
+    this._ctx.lineWidth = this._props.shapeStrokeWidthPx;
+    this._ctx.setLineDash(this._dashPattern(this._props.shapeStrokePattern));
+    this._ctx.strokeStyle = this._props.groundOutlineColor;
+    this._ctx.stroke();
+    this._ctx.restore();
+}
+
 /** Draw a center-of-mass object.
 
     @param {Vector} posDw The position of the center of mass.
