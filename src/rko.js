@@ -25,6 +25,7 @@ $(document).ready(function() {
         this.addOption("showAccField", false);
 
         var O = $V([0, 0]);
+        var i;
 
         var label = this.getOption("showLabels") ? true : undefined;
 
@@ -97,12 +98,16 @@ $(document).ready(function() {
                     timeScale: 0.5,
                 };
             };
-        } else if (this.getOption("movement") === "3-circle") {
+        } else if (this.getOption("movement") === "2-circle") {
+
+            var radius = 0.9;
+            var pathRadius = 1.8;
+            var centerRadius = pathRadius - radius;
+
+            this.arcGround(O, pathRadius);
+
             f = function(t) {
-                var radius = 0.6;
-                var pathRadius = 1.8;
                 var theta = -t / 2;
-                var centerRadius = pathRadius - radius;
                 var pathTheta = -radius / centerRadius * theta;
                 return {
                     radius: radius,
@@ -115,12 +120,16 @@ $(document).ready(function() {
                     timeScale: 1,
                 };
             };
-        } else if (this.getOption("movement") === "2-circle") {
+        } else if (this.getOption("movement") === "3-circle") {
+
+            var radius = 0.6;
+            var pathRadius = 1.8;
+            var centerRadius = pathRadius - radius;
+
+            this.arcGround(O, pathRadius);
+
             f = function(t) {
-                var radius = 0.6;
-                var pathRadius = 1.2;
                 var theta = -t / 2;
-                var centerRadius = pathRadius - radius;
                 var pathTheta = -radius / centerRadius * theta;
                 return {
                     radius: radius,
@@ -134,17 +143,22 @@ $(document).ready(function() {
                 };
             };
         } else if (this.getOption("movement") === "circle rock") {
+
+            var pathCenter = $V([0, 1.5]);
+            var radius = 1;
+            var pathRadius = 3;
+            var centerRadius = pathRadius - radius;
+
+            this.arcGround(pathCenter, pathRadius, -Math.PI / 2 - 1.2, -Math.PI / 2 + 1.2);
+
             f = function(t) {
-                var radius = 1;
-                var pathRadius = 3;
                 var theta = -2 * Math.sin(t / 2);
-                var centerRadius = pathRadius - radius;
                 var pathTheta = -radius / centerRadius * theta;
                 return {
                     radius: radius,
                     nr: 3,
                     theta: theta,
-                    rC: $V([0, -1]).rotate(pathTheta, O).x(centerRadius).add($V([0, 1.5])),
+                    rC: $V([0, -1]).rotate(pathTheta, O).x(centerRadius).add(pathCenter),
                     pathStart: 0,
                     pathPeriod: 4 * Math.PI,
                     closePath: true,
@@ -250,11 +264,13 @@ $(document).ready(function() {
             }, this);
 
             if (this.getOption("velField") === "total") {
-                Qs.forEach(function(Q) {
-                    var PQ = Q.subtract(rP);
-                    var QVR = this.cross2D(omega, PQ);
-                    var QV = vP.add(QVR);
-                    this.rightAngle(Q, QV, rM.subtract(Q));
+                Qs.forEach(function(Q, i) {
+                    if (this.getOption("showVelField") || i === iQShow) {
+                        var PQ = Q.subtract(rP);
+                        var QVR = this.cross2D(omega, PQ);
+                        var QV = vP.add(QVR);
+                        this.rightAngleImproved(Q, rM, Q.add(QV.x(timeScale)));
+                    }
                 }, this);
             }
 
@@ -298,7 +314,6 @@ $(document).ready(function() {
 
         this.labelIntersection(Qs[iQShow], [rC], label && "TEX:$Q$");
 
-        var i;
         Qs.forEach(function(Q, i) {
             var rPQ = Q.subtract(rP);
             var vQR = this.cross2D(omega, rPQ);
