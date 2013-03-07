@@ -83,19 +83,19 @@ $(document).ready(function() {
 
             f = function(t) {
                 var radius = 1;
-                var theta = -2 * Math.sin(t / 2);
+                var theta = -Math.sin(t);
                 return {
                     radius: radius,
                     nr: 3,
                     theta: theta,
                     rC: $V([-radius * theta, 0]),
                     pathStart: 0,
-                    pathPeriod: 4 * Math.PI,
+                    pathPeriod: 2 * Math.PI,
                     closePath: true,
                     timeScale: 0.5,
                 };
             };
-        } else if (this.getOption("movement") === "2-circle") {
+        } else if (this.getOption("movement") === "in-2-circle") {
 
             var radius = 0.9;
             var pathRadius = 1.8;
@@ -117,7 +117,7 @@ $(document).ready(function() {
                     timeScale: 1,
                 };
             };
-        } else if (this.getOption("movement") === "3-circle") {
+        } else if (this.getOption("movement") === "in-3-circle") {
 
             var radius = 0.6;
             var pathRadius = 1.8;
@@ -139,7 +139,7 @@ $(document).ready(function() {
                     timeScale: 1,
                 };
             };
-        } else if (this.getOption("movement") === "circle rock") {
+        } else if (this.getOption("movement") === "in-rock") {
 
             var pathCenter = $V([0, 1.5]);
             var radius = 1;
@@ -149,7 +149,7 @@ $(document).ready(function() {
             this.arcGround(pathCenter, pathRadius, -Math.PI / 2 - 1.2, -Math.PI / 2 + 1.2);
 
             f = function(t) {
-                var theta = -2 * Math.sin(t / 2);
+                var theta = -Math.sin(t);
                 var pathTheta = -radius / centerRadius * theta;
                 return {
                     radius: radius,
@@ -157,7 +157,74 @@ $(document).ready(function() {
                     theta: theta,
                     rC: $V([0, -1]).rotate(pathTheta, O).x(centerRadius).add(pathCenter),
                     pathStart: 0,
-                    pathPeriod: 4 * Math.PI,
+                    pathPeriod: 2 * Math.PI,
+                    closePath: true,
+                    timeScale: 0.5,
+                };
+            };
+        } else if (this.getOption("movement") === "out-1-circle") {
+
+            var radius = 0.6;
+            var pathRadius = 0.6;
+            var centerRadius = pathRadius + radius;
+
+            this.arcGround(O, pathRadius, undefined, undefined, false);
+
+            f = function(t) {
+                var theta = t / 2;
+                var pathTheta = radius / centerRadius * theta + Math.PI;
+                return {
+                    radius: radius,
+                    nr: 3,
+                    theta: theta,
+                    rC: $V([0, -1]).rotate(pathTheta, O).x(centerRadius),
+                    pathStart: 0,
+                    pathPeriod: 8 * Math.PI,
+                    closePath: true,
+                    timeScale: 1,
+                };
+            };
+        } else if (this.getOption("movement") === "out-2-circle") {
+
+            var radius = 0.45;
+            var pathRadius = 0.9;
+            var centerRadius = pathRadius + radius;
+
+            this.arcGround(O, pathRadius, undefined, undefined, false);
+
+            f = function(t) {
+                var theta = t / 2;
+                var pathTheta = radius / centerRadius * theta + Math.PI;
+                return {
+                    radius: radius,
+                    nr: 3,
+                    theta: theta,
+                    rC: $V([0, -1]).rotate(pathTheta, O).x(centerRadius),
+                    pathStart: 0,
+                    pathPeriod: 12 * Math.PI,
+                    closePath: true,
+                    timeScale: 1,
+                };
+            };
+        } else if (this.getOption("movement") === "out-rock") {
+
+            var pathCenter = $V([0, -4]);
+            var radius = 1;
+            var pathRadius = 3;
+            var centerRadius = pathRadius + radius;
+
+            this.arcGround(pathCenter, pathRadius, Math.PI / 2 - 1.2, Math.PI / 2 + 1.2, false);
+
+            f = function(t) {
+                var theta = Math.sin(t);
+                var pathTheta = radius / centerRadius * theta + Math.PI;
+                return {
+                    radius: radius,
+                    nr: 3,
+                    theta: theta,
+                    rC: $V([0, -1]).rotate(pathTheta, O).x(centerRadius).add(pathCenter),
+                    pathStart: 0,
+                    pathPeriod: 2 * Math.PI,
                     closePath: true,
                     timeScale: 0.5,
                 };

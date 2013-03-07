@@ -31,11 +31,11 @@
 }
 
 #rko-tm tr td {
-    width: 7em;
+    width: 10em;
 }
 
-#rko-tm tr td:first-chile {
-    width: auto; /* FIXME: not working? */
+#rko-tm tr td:first-child {
+    width: auto;
 }
 
 /*****************************************************************************/
