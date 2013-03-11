@@ -83,19 +83,19 @@ $(document).ready(function() {
 
             f = function(t) {
                 var radius = 1;
-                var theta = -2 * Math.sin(t / 2);
+                var theta = -Math.sin(t);
                 return {
                     radius: radius,
                     nr: 3,
                     theta: theta,
                     rC: $V([-radius * theta, 0]),
                     pathStart: 0,
-                    pathPeriod: 4 * Math.PI,
+                    pathPeriod: 2 * Math.PI,
                     closePath: true,
                     timeScale: 0.5,
                 };
             };
-        } else if (this.getOption("movement") === "2-circle") {
+        } else if (this.getOption("movement") === "in-2-circle") {
 
             var radius = 0.9;
             var pathRadius = 1.8;
@@ -117,7 +117,7 @@ $(document).ready(function() {
                     timeScale: 1,
                 };
             };
-        } else if (this.getOption("movement") === "3-circle") {
+        } else if (this.getOption("movement") === "in-3-circle") {
 
             var radius = 0.6;
             var pathRadius = 1.8;
@@ -139,7 +139,7 @@ $(document).ready(function() {
                     timeScale: 1,
                 };
             };
-        } else if (this.getOption("movement") === "circle rock") {
+        } else if (this.getOption("movement") === "in-rock") {
 
             var pathCenter = $V([0, 1.5]);
             var radius = 1;
@@ -149,7 +149,7 @@ $(document).ready(function() {
             this.arcGround(pathCenter, pathRadius, -Math.PI / 2 - 1.2, -Math.PI / 2 + 1.2);
 
             f = function(t) {
-                var theta = -2 * Math.sin(t / 2);
+                var theta = -Math.sin(t);
                 var pathTheta = -radius / centerRadius * theta;
                 return {
                     radius: radius,
@@ -157,7 +157,74 @@ $(document).ready(function() {
                     theta: theta,
                     rC: $V([0, -1]).rotate(pathTheta, O).x(centerRadius).add(pathCenter),
                     pathStart: 0,
-                    pathPeriod: 4 * Math.PI,
+                    pathPeriod: 2 * Math.PI,
+                    closePath: true,
+                    timeScale: 0.5,
+                };
+            };
+        } else if (this.getOption("movement") === "out-1-circle") {
+
+            var radius = 0.6;
+            var pathRadius = 0.6;
+            var centerRadius = pathRadius + radius;
+
+            this.arcGround(O, pathRadius, undefined, undefined, false);
+
+            f = function(t) {
+                var theta = t / 2;
+                var pathTheta = radius / centerRadius * theta + Math.PI;
+                return {
+                    radius: radius,
+                    nr: 3,
+                    theta: theta,
+                    rC: $V([0, -1]).rotate(pathTheta, O).x(centerRadius),
+                    pathStart: 0,
+                    pathPeriod: 8 * Math.PI,
+                    closePath: true,
+                    timeScale: 1,
+                };
+            };
+        } else if (this.getOption("movement") === "out-2-circle") {
+
+            var radius = 0.45;
+            var pathRadius = 0.9;
+            var centerRadius = pathRadius + radius;
+
+            this.arcGround(O, pathRadius, undefined, undefined, false);
+
+            f = function(t) {
+                var theta = t / 2;
+                var pathTheta = radius / centerRadius * theta + Math.PI;
+                return {
+                    radius: radius,
+                    nr: 3,
+                    theta: theta,
+                    rC: $V([0, -1]).rotate(pathTheta, O).x(centerRadius),
+                    pathStart: 0,
+                    pathPeriod: 12 * Math.PI,
+                    closePath: true,
+                    timeScale: 1,
+                };
+            };
+        } else if (this.getOption("movement") === "out-rock") {
+
+            var pathCenter = $V([0, -4]);
+            var radius = 1;
+            var pathRadius = 3;
+            var centerRadius = pathRadius + radius;
+
+            this.arcGround(pathCenter, pathRadius, Math.PI / 2 - 1.2, Math.PI / 2 + 1.2, false);
+
+            f = function(t) {
+                var theta = Math.sin(t);
+                var pathTheta = radius / centerRadius * theta + Math.PI;
+                return {
+                    radius: radius,
+                    nr: 3,
+                    theta: theta,
+                    rC: $V([0, -1]).rotate(pathTheta, O).x(centerRadius).add(pathCenter),
+                    pathStart: 0,
+                    pathPeriod: 2 * Math.PI,
                     closePath: true,
                     timeScale: 0.5,
                 };
@@ -329,6 +396,116 @@ $(document).ready(function() {
                 }
             }
         }, this);
+    });
+
+    var rko_fc_c = new PrairieDraw("rko-fc-c", function() {
+
+        this.setUnits(12, 8);
+
+        this.addOption("reversed", false);
+
+        var O = $V([0, 0]);
+        var r = 1.7;
+        var rho = 4;
+
+        this.save();
+        this.translate($V([-2.5, 0.6]));
+        var C = $V([0, -rho + r]);
+        var M = $V([0, -rho]);
+        var rhoEnd = M.rotate(-Math.PI / 3.2, O);
+        var rEnd = $V([r, 0]).rotate(Math.PI / 2 - Math.PI / 3.2, O).add(C);
+        var et = this.getOption("reversed") ? $V([-1, 0]) : $V([1, 0]);
+        var en = $V([0, 1]);
+        var vC = this.getOption("reversed") ? $V([-1, 0]) : $V([1, 0]);
+        this.line(O, rhoEnd, "grid");
+        this.labelLine(O, rhoEnd, $V([0, -1]), "TEX:$\\rho$");
+        this.line(C, rEnd, "grid");
+        this.labelLine(C, rEnd, $V([0, 1]), "TEX:$r$");
+        this.line(O, C, "grid");
+        this.labelLine(O, C, $V([0, 1]), "TEX:$R$");
+        this.arrow(C, C.add(vC), "velocity");
+        this.labelLine(C, C.add(vC), $V([1,-1]), "TEX:$\\vec{v}_C$")
+        this.arcGround(O, rho, -Math.PI / 2 - 1.2, -Math.PI / 2 + 0.6);
+        this.arc(C, r);
+        this.point(C);
+        var CLabelPos = this.getOption("reversed") ? $V([-1, 1]) : $V([1, 0]);
+        this.text(C, CLabelPos, "TEX:$C$");
+        this.point(O);
+        this.text(O, $V([0,-1]), "TEX:$O$");
+        this.point(M);
+        var MLabelPos = this.getOption("reversed") ? $V([1, 1]) : $V([-1, 1]);
+        this.text(M, MLabelPos, "TEX:$M$");
+        var PLabelPos = this.getOption("reversed") ? $V([-1, -1]) : $V([1, -1]);
+        this.text(M, PLabelPos, "TEX:$P$");
+        this.arrow(M, M.add(et));
+        this.arrow(M, M.add(en));
+        var etLabelPos = this.getOption("reversed") ? $V([1, 1]) : $V([1, -1]);
+        this.labelLine(M, M.add(et), etLabelPos, "TEX:$\\hat{e}_t$");
+        this.labelLine(M, M.add(en), $V([1, 1]), "TEX:$\\hat{e}_n$");
+        if (this.getOption("reversed")) {
+            this.circleArrow(C, r + 0.2, 0.3, 1.1, "angVel", true);
+            this.labelCircleLine(C, r + 0.2, 0.3, 1.1, $V([0, 1]), "TEX:$\\omega$");
+        } else {
+            this.circleArrow(C, r + 0.2, 1.1, 0.3, "angVel", true);
+            this.labelCircleLine(C, r + 0.2, 1.1, 0.3, $V([0, 1]), "TEX:$\\omega$");
+        }
+        if (this.getOption("reversed")) {
+            this.circleArrow(O, rho + 0.3, -Math.PI / 2 + 0.5, -Math.PI / 2, "position", true, 0.1);
+            this.labelCircleLine(O, rho + 0.3, -Math.PI / 2 + 0.5, -Math.PI / 2, $V([0, 1]), "TEX:$s$");
+        } else {
+            this.circleArrow(O, rho + 0.3, -Math.PI / 2 - 0.7, -Math.PI / 2, "position", true, 0.1);
+            this.labelCircleLine(O, rho + 0.3, -Math.PI / 2 - 0.7, -Math.PI / 2, $V([0, 1]), "TEX:$s$");
+        }
+        this.restore();
+
+        this.save();
+        this.translate($V([3, -3.7]));
+        var C = $V([0, rho + r]);
+        var M = $V([0, rho]);
+        var rhoEnd = M.rotate(-Math.PI / 6, O);
+        var rEnd = $V([r, 0]).rotate(Math.PI / 2 - Math.PI / 3.2, O).add(C);
+        var et = this.getOption("reversed") ? $V([-1, 0]) : $V([1, 0]);
+        var en = $V([0, -1]);
+        var vC = this.getOption("reversed") ? $V([-1, 0]) : $V([1, 0]);
+        this.line(O, rhoEnd, "grid");
+        this.labelLine(O, rhoEnd, $V([0, 1]), "TEX:$\\rho$");
+        this.line(C, rEnd, "grid");
+        this.labelLine(C, rEnd, $V([0, 1]), "TEX:$r$");
+        this.line(O, C, "grid");
+        this.labelLine(O, C, $V([-0.3, 1.1]), "TEX:$R$");
+        this.arrow(C, C.add(vC), "velocity");
+        this.labelLine(C, C.add(vC), $V([1,-1]), "TEX:$\\vec{v}_C$")
+        this.arcGround(O, rho, Math.PI / 2 - 1.2, Math.PI / 2 + 0.6, false);
+        this.arc(C, r);
+        this.point(C);
+        var CLabelPos = this.getOption("reversed") ? $V([-1, 1]) : $V([1, -1]);
+        this.text(C, CLabelPos, "TEX:$C$");
+        this.point(O);
+        this.text(O, $V([1,0]), "TEX:$O$");
+        this.point(M);
+        var PLabelPos = this.getOption("reversed") ? $V([-1, -1]) : $V([1, -1]);
+        this.text(M, PLabelPos, "TEX:$P$");
+        var MLabelPos = this.getOption("reversed") ? $V([1, 1]) : $V([-1, 1]);
+        this.text(M, MLabelPos, "TEX:$M$");
+        this.arrow(M, M.add(et));
+        this.arrow(M, M.add(en));
+        this.labelLine(M, M.add(et), $V([1, 0]), "TEX:$\\hat{e}_t$");
+        this.labelLine(M, M.add(en), $V([0.7, -1.3]), "TEX:$\\hat{e}_n$");
+        if (this.getOption("reversed")) {
+            this.circleArrow(C, r + 0.2, 0.3, 1.1, "angVel", true);
+            this.labelCircleLine(C, r + 0.2, 0.3, 1.1, $V([0, 1]), "TEX:$\\omega$");
+        } else {
+            this.circleArrow(C, r + 0.2, 1.1, 0.3, "angVel", true);
+            this.labelCircleLine(C, r + 0.2, 1.1, 0.3, $V([0, 1]), "TEX:$\\omega$");
+        }
+        if (this.getOption("reversed")) {
+            this.circleArrow(O, rho - 0.3, Math.PI / 2 - 0.7, Math.PI / 2, "position", true, 0.1);
+            this.labelCircleLine(O, rho - 0.3, Math.PI / 2 - 0.7, Math.PI / 2, $V([0, -1]), "TEX:$s$");
+        } else {
+            this.circleArrow(O, rho - 0.3, Math.PI / 2 + 0.5, Math.PI / 2, "position", true, 0.1);
+            this.labelCircleLine(O, rho - 0.3, Math.PI / 2 + 0.5, Math.PI / 2, $V([0, -1]), "TEX:$s$");
+        }
+        this.restore();
     });
 
 }); // end of document.ready()
