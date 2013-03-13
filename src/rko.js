@@ -406,12 +406,14 @@ $(document).ready(function() {
         this.addOption("showPaths", false);
 
         var O = $V([0, 0]);
-        var ei = $V([1, 0]);
-        var ej = $V([0, 1]);
 
         var r = 1;
         var offsetTheta = 7 * Math.PI / 8;
         var offset = r * offsetTheta;
+
+        var et = this.getOption("reversed") ? $V([-0.5, 0]) : $V([0.5, 0]);
+        var en = $V([0, 0.5]);
+        var basisO = this.getOption("reversed") ? $V([offset, 0]) : $V([0, 0]);
 
         var C1 = $V([0, r]);
         var C2 = $V([offset, r]);
@@ -421,6 +423,8 @@ $(document).ready(function() {
         var A2 = $V([0, -r]).rotate(-offsetTheta, O).add(C2);
         var B1 = $V([0, -r]).rotate(offsetTheta, O).add(C1);
         var B2 = $V([0, -r]).rotate(offsetTheta, O).rotate(-offsetTheta, O).add(C2);
+
+        var vC = this.getOption("reversed") ? $V([-2 * r / 3, 0]) : $V([2 * r / 3, 0]);
 
         var nPaths = 9;
         var paths = [];
@@ -438,66 +442,13 @@ $(document).ready(function() {
 
         var states = [{theta: 0}, {theta: offsetTheta}, {theta: 0}];
         var transTimes = [3, 0, 0];
-        var holdTimes = [0, 1, 0];
+        var holdTimes = [0, 0.2, 0];
         var interps = [];
         var names = ["left", "right"];
         var state = this.newSequence("roll", states, transTimes, holdTimes, interps, names, t);
         var rollTheta = state.theta;
 
         this.translate($V([-offset / 2, -r]));
-
-        this.ground(O, $V([0, 1]), 12);
-
-        this.line(C1, A1, "grid");
-        this.line(C1, B1, "grid");
-        this.circle(C1, r, false);
-        this.circleArrow(C1, r / 3, -Math.PI / 2 + offsetTheta, -Math.PI / 2, "angle", true);
-        this.labelCircleLine(C1, r / 3, -Math.PI / 2 + offsetTheta, -Math.PI / 2, $V([0.3, 1]), "TEX:$\\theta$", true);
-        this.arrow(C1, C1.add($V([2 * r / 3, 0])), "velocity");
-        this.labelLine(C1, C1.add($V([2 * r / 3, 0])), $V([1, -1]), "TEX:$\\vec{v}_C$");
-        this.point(C1);
-        this.text(C1, $V([1, -1]), "TEX:$C$");
-        this.save();
-        this.setProp("shapeStrokeWidthPx", 3);
-        this.setProp("shapeOutlineColor", "red");
-        this.arc(C1, r, -Math.PI / 2, -Math.PI / 2 + offsetTheta, false);
-        this.restore();
-        this.circleArrow(C1, r + 0.1, 2.8, 1.8, "angVel", true, 0.1);
-        this.labelCircleLine(C1, r + 0.1, 2.8, 1.8, $V([0, 1]), "TEX:$\\omega$", true);
-        for (iPath = 0; iPath < nPaths; iPath++) {
-            pointPos = $V([0, -r]).rotate(iPath / (nPaths - 1) * offsetTheta, O).add($V([0, r]));
-            this.point(pointPos);
-        }
-
-        this.line(C2, A2, "grid");
-        this.line(C2, B2, "grid");
-        this.circle(C2, r, false);
-        this.circleArrow(C2, r / 3, -Math.PI / 2, -Math.PI / 2 - offsetTheta, "angle", true);
-        this.labelCircleLine(C2, r / 3, -Math.PI / 2, -Math.PI / 2 - offsetTheta, $V([0, 1]), "TEX:$\\theta$", true);
-        this.arrow(C2, C2.add($V([2 * r / 3, 0])), "velocity");
-        this.labelLine(C2, C2.add($V([2 * r / 3, 0])), $V([1, -1]), "TEX:$\\vec{v}_C$");
-        this.point(C2);
-        this.text(C2, $V([-1, -1]), "TEX:$C$");
-        this.save();
-        this.setProp("shapeStrokeWidthPx", 3);
-        this.setProp("shapeOutlineColor", "red");
-        this.arc(C2, r, -Math.PI / 2 - offsetTheta, -Math.PI / 2, false);
-        this.restore();
-        this.circleArrow(C2, r + 0.1, Math.PI - 1.8, Math.PI - 2.8, "angVel", true, 0.1);
-        this.labelCircleLine(C2, r + 0.1, Math.PI - 1.8, Math.PI - 2.8, $V([0, 1]), "TEX:$\\omega$", true);
-        for (iPath = 0; iPath < nPaths; iPath++) {
-            pointPos = $V([0, -r]).rotate(iPath / (nPaths - 1) * offsetTheta, O).rotate(-offsetTheta, O).add($V([offsetTheta, r]));
-            this.point(pointPos);
-        }
-
-        this.arrow($V([0, -0.3]), $V([offset, -0.3]), "position");
-        this.labelLine($V([0, -0.3]), $V([offset, -0.3]), $V([0, -1]), "TEX:$s$");
-
-        this.save();
-        this.setProp("shapeStrokeWidthPx", 3);
-        this.setProp("shapeOutlineColor", "red");
-        this.line(contact1, contact2);
-        this.restore();
 
         if (this.getOption("showPaths")) {
             this.save();
@@ -512,6 +463,81 @@ $(document).ready(function() {
             }
         }
 
+        this.ground(O, $V([0, 1]), 12);
+
+        this.line(C1, A1, "grid");
+        this.line(C1, B1, "grid");
+        this.circle(C1, r, false);
+        if (this.getOption("reversed")) {
+            this.circleArrow(C1, r / 3, -Math.PI / 2, -Math.PI / 2 + offsetTheta, "angle", true);
+            this.labelCircleLine(C1, r / 3, -Math.PI / 2, -Math.PI / 2 + offsetTheta, $V([0, 1]), "TEX:$\\theta$", true);
+        } else {
+            this.circleArrow(C1, r / 3, -Math.PI / 2 + offsetTheta, -Math.PI / 2, "angle", true);
+            this.labelCircleLine(C1, r / 3, -Math.PI / 2 + offsetTheta, -Math.PI / 2, $V([0.3, 1]), "TEX:$\\theta$", true);
+        }
+        this.arrow(C1, C1.add(vC), "velocity");
+        this.labelLine(C1, C1.add(vC), $V([1, -1]), "TEX:$\\vec{v}_C$");
+        this.point(C1);
+        this.text(C1, $V([1, -1]), "TEX:$C$");
+        this.save();
+        this.setProp("shapeStrokeWidthPx", 3);
+        this.setProp("shapeOutlineColor", "red");
+        this.arc(C1, r, -Math.PI / 2, -Math.PI / 2 + offsetTheta, false);
+        this.restore();
+        if (this.getOption("reversed")) {
+            this.circleArrow(C1, r + 0.1, 1.8, 2.8, "angVel", true, 0.1);
+        } else {
+            this.circleArrow(C1, r + 0.1, 2.8, 1.8, "angVel", true, 0.1);
+        }
+        this.labelCircleLine(C1, r + 0.1, 2.8, 1.8, $V([0, 1]), "TEX:$\\omega$", true);
+        for (iPath = 0; iPath < nPaths; iPath++) {
+            pointPos = $V([0, -r]).rotate(iPath / (nPaths - 1) * offsetTheta, O).add($V([0, r]));
+            this.point(pointPos);
+        }
+
+        this.line(C2, A2, "grid");
+        this.line(C2, B2, "grid");
+        this.circle(C2, r, false);
+        if (this.getOption("reversed")) {
+            this.circleArrow(C2, r / 3, -Math.PI / 2 - offsetTheta, -Math.PI / 2, "angle", true);
+            this.labelCircleLine(C2, r / 3, -Math.PI / 2 - offsetTheta, -Math.PI / 2, $V([0.3, 1]), "TEX:$\\theta$", true);
+        } else {
+            this.circleArrow(C2, r / 3, -Math.PI / 2, -Math.PI / 2 - offsetTheta, "angle", true);
+            this.labelCircleLine(C2, r / 3, -Math.PI / 2, -Math.PI / 2 - offsetTheta, $V([0, 1]), "TEX:$\\theta$", true);
+        }
+        this.arrow(C2, C2.add(vC), "velocity");
+        this.labelLine(C2, C2.add(vC), $V([1, -1]), "TEX:$\\vec{v}_C$");
+        this.point(C2);
+        this.text(C2, $V([-1, -1]), "TEX:$C$");
+        this.save();
+        this.setProp("shapeStrokeWidthPx", 3);
+        this.setProp("shapeOutlineColor", "red");
+        this.arc(C2, r, -Math.PI / 2 - offsetTheta, -Math.PI / 2, false);
+        this.restore();
+        if (this.getOption("reversed")) {
+            this.circleArrow(C2, r + 0.1, Math.PI - 2.8, Math.PI - 1.8, "angVel", true, 0.1);
+        } else {
+            this.circleArrow(C2, r + 0.1, Math.PI - 1.8, Math.PI - 2.8, "angVel", true, 0.1);
+        }
+        this.labelCircleLine(C2, r + 0.1, Math.PI - 1.8, Math.PI - 2.8, $V([0, 1]), "TEX:$\\omega$", true);
+        for (iPath = 0; iPath < nPaths; iPath++) {
+            pointPos = $V([0, -r]).rotate(iPath / (nPaths - 1) * offsetTheta, O).rotate(-offsetTheta, O).add($V([offsetTheta, r]));
+            this.point(pointPos);
+        }
+
+        if (this.getOption("reversed")) {
+            this.arrow($V([offset, -0.3]), $V([0, -0.3]), "position");
+        } else {
+            this.arrow($V([0, -0.3]), $V([offset, -0.3]), "position");
+        }
+        this.labelLine($V([0, -0.3]), $V([offset, -0.3]), $V([0, -1]), "TEX:$s$");
+
+        this.save();
+        this.setProp("shapeStrokeWidthPx", 3);
+        this.setProp("shapeOutlineColor", "red");
+        this.line(contact1, contact2);
+        this.restore();
+
         this.point(A1);
         this.labelIntersection(A1, [C1], "TEX:$A$");
         this.point(A2);
@@ -522,6 +548,9 @@ $(document).ready(function() {
         this.point(B2);
         this.labelIntersection(B2, [C2], "TEX:$B$");
 
+        if (this.getOption("reversed")) {
+            rollTheta = offsetTheta - rollTheta;
+        }
         var rollOffset = rollTheta * r;
         var rollC = C1.add($V([rollOffset, 0]));
         var rollA = A1.subtract(C1).rotate(-rollTheta, O).add(rollC);
@@ -539,6 +568,16 @@ $(document).ready(function() {
                 pointPos = $V([0, -r]).rotate(iPath / (nPaths - 1) * offsetTheta, O).rotate(-rollTheta, O).add($V([rollOffset, r]));
                 this.point(pointPos);
             }
+        }
+
+        this.arrow(basisO, basisO.add(et));
+        this.arrow(basisO, basisO.add(en));
+        if (this.getOption("reversed")) {
+            this.labelLine(basisO, basisO.add(et), $V([0.6, 1.3]), "TEX:$\\hat{e}_t$");
+            this.labelLine(basisO, basisO.add(en), $V([0.6, -1.3]), "TEX:$\\hat{e}_n$");
+        } else {
+            this.labelLine(basisO, basisO.add(et), $V([0.6, -1.3]), "TEX:$\\hat{e}_t$");
+            this.labelLine(basisO, basisO.add(en), $V([0.6, 1.3]), "TEX:$\\hat{e}_n$");
         }
     });
 
