@@ -205,11 +205,19 @@
         <div class="envContainer derivation">
           <div class="envBody">
             <p>
+              The contact point $P$ and center $C$ are offset by the
+              constant vector $r\,\hat{e}_n$, so $\dot{s} = v_P = v_C
+              = r\omega$, from <a href="#rko-ef">#rko-ef</a>. Because
+              $r$ is constant, differentiating the velocity expression
+              gives $\ddot{s} = r \dot\omega = r \alpha$, while
+              integrating with zero initial displacement gives $s = r
+              \theta$.
             </p>
           </div>
         </div>
         <div class="envContainer equation" id="rko-eo">
-          <p class="envHeader">Contact point $P$ velocity and acceleration while rolling on a flat surface.</p>
+          <p class="envHeader">Contact point $P$ velocity and
+          acceleration while rolling on a flat surface.</p>
           <div class="envBody">
             <p>
               \[\begin{aligned}
@@ -222,6 +230,20 @@
         <div class="envContainer derivation">
           <div class="envBody">
             <p>
+              By definition of non-slip rolling contact, the point of
+              contact $P$ has zero velocity. The acceleration can be
+              computed from the center $C$ with <a
+              href="#rkg-e2">#rkg-e2</a>:
+
+              \[\begin{aligned}
+              \vec{a}_P &amp;= \vec{a}_C + \vec{\alpha} \times \vec{r}_{CP}
+              + \vec{\omega} \times (\vec{\omega} \times \vec{r}_{CP}) \\
+              &amp;= \alpha r \,\hat{e}_t + (-\alpha\,\hat{e}_b) \times (-r\,\hat{e}_n)
+              + (-\omega\,\hat{e}_b) \times \Big((-\omega\,\hat{e}_b) \times (-r\,\hat{e}_n)\Big) \\
+              &amp;= \alpha r \,\hat{e}_t - \alpha r \,\hat{e}_t
+              + \omega^2 r \,\hat{e}_n \\
+              &amp;= \omega^2 \,\vec{r}_{PC}.
+              \end{aligned}\]
             </p>
           </div>
         </div>
@@ -267,6 +289,24 @@
         <div class="envContainer derivation">
           <div class="envBody">
             <p>
+              These formulas are all choices of sign conventions for
+              $\omega$ and $\alpha$, and definitions of $R$. Figure <a
+              href="#rko-fc">#rko-fc</a> shows the appropriate
+              geometry. Note that $\omega$ and $\alpha$ are defined
+              with positive values corresponding to motion in the
+              tangential direction.
+            </p>
+          </div>
+        </div>
+        <div class="envContainer warning" id="rko-wr">
+          <p class="envHeader">Warning: Radii of curvature $\rho$ and $R$ may not be constant.</p>
+          <div class="envBody">
+            <p>
+              The radius of curvature $\rho$ of the surface may be
+              varying with position as the body rolls. If $\rho$
+              changes then this will also cause $R$ to change. These
+              two variables will only be constant if the surface is in
+              fact perfectly circular.
             </p>
           </div>
         </div>
@@ -285,6 +325,86 @@
         <div class="envContainer derivation">
           <div class="envBody">
             <p>
+              The two configurations shown in Figure <a
+              href="#rko-eg">#rko-eg</a> must be considered
+              individually. We will do the derivation for the case of
+              rolling inside (the left diagram), as the
+              rolling-outside case is very similar, but with different
+              signs.
+            </p>
+            <p>
+              We begin with the point of contact $P$, which has zero
+              velocity and so it is the instantaneous center of the
+              body. Using <a href="rkg.xhtml#rkg-er">#rkg-er</a> with
+              the expressions <a href="#rko-eg">#rko-eg</a> thus gives
+              the velocity expression:
+
+              \[\begin{aligned}
+              \vec{v}_C &amp;= \vec{v}_P + \vec{\omega} \times \vec{r}_{PC} \\
+              &amp;= (-\omega\,\hat{e}_b) \times r\,\hat{e}_n \\
+              &amp;= r \omega \,\hat{e}_t.
+              \end{aligned}\]
+
+              Differentiating this velocity and using <a
+              href="rkt.xhtml#rkt-ed">#rkt-ed</a> gives the
+              acceleration:
+
+              \[\begin{aligned}
+              \vec{a}_C &amp;= r \dot{\omega} \,\hat{e}_t
+              + r \omega \,\dot{\hat{e}}_t \\
+              &amp;= r \alpha \,\hat{e}_t
+              + r \omega \frac{\dot{s}}{\rho} \,\hat{e}_n.
+              \end{aligned}\]
+
+              To replace $\dot{s}$ in this acceleration expression, we
+              first consider the instantaneous center $M$, which moves
+              along the surface with speed $\dot{s}$ and tangential
+              acceleration $\ddot{s}$. Thus from <a
+              href="rkt.xhtml#rkt-ev">#rkt-ev</a>:
+
+              \[\begin{aligned}
+              \vec{v}_M &amp;= \dot{s} \,\hat{e}_t.
+              \end{aligned}\]
+
+              We can now compute the velocity of $C$ from $M$, as
+              follows. Note that we cannot use equation <a
+              href="rkg.xhtml#rkg-er">#rkg-er</a> because $M$ and $C$
+              are not fixed to the same body ($M$ is not fixed to the
+              body). Thus:
+
+              \[\begin{aligned}
+              \vec{r}_C &amp;= \vec{r}_M + r\,\hat{e}_n \\
+              \vec{v}_C &amp;= \vec{v}_M + r\,\dot{\hat{e}}_n \\
+              &amp;= \dot{s}\,\hat{e}_t - r \frac{\dot{s}}{\rho} \,\dot{\hat{e}}_t \\
+              &amp;= \frac{(\rho - r)}{\rho} \dot{s} \,\hat{e}_t \\
+              &amp;= \frac{R}{\rho} \dot{s} \,\hat{e}_t.
+              \end{aligned}\]
+
+              Comparing this expression for $\vec{v}_C$ to the one
+              above, we see that:
+
+              \[\begin{aligned}
+              r \omega &amp;= \frac{R}{\rho} \dot{s} \\
+              \dot{s} &amp;= \frac{\rho r}{R} \omega.
+              \end{aligned}\]
+
+              This expression for $\dot{s}$ can be substituted back
+              into our earlier equation for $\vec{a}_C$, giving:
+
+              \[\begin{aligned}
+              \vec{a}_C &amp;= r \alpha \,\hat{e}_t
+              + r \omega \frac{1}{\rho} \left( \frac{\rho r}{R} \omega \right) \,\hat{e}_n \\
+              &amp;= r \alpha \,\hat{e}_t
+              + \frac{(r \omega)^2}{R} \,\hat{e}_n.
+              \end{aligned}\]
+
+              The case of rolling on the outside of the curved surface
+              (the right diagram in Figure <a
+              href="#rko-fc">#rko-fc</a>) is similar to the above but
+              with the different sign conventions from <a
+              href="#rko-eg">#rko-eg</a>. The final expressions in <a
+              href="#rko-ec">#rko-ec</a> apply to rolling on both the
+              inside and outside.
             </p>
           </div>
         </div>
@@ -302,6 +422,12 @@
         <div class="envContainer derivation">
           <div class="envBody">
             <p>
+              See the derivation for <a href="#rko-ec">#rko-ec</a>,
+              where the relationship between $\omega$ and $\dot{s}$ is
+              obtained. If the surface is exactly circular then by
+              definition $\rho$ and $R$ are constant, so
+              differentiating the angular velocity expression
+              immediately gives the angular acceleration equation.
             </p>
           </div>
         </div>
@@ -319,6 +445,30 @@
         <div class="envContainer derivation">
           <div class="envBody">
             <p>
+              The derivations for rolling on the inside or outside of
+              a surface are different. Here we show the rolling inside
+              case, as the outside case is very similar.
+            </p>
+            <p>
+              By definition the contact point $P$ has zero
+              velocity. The acceleration can be computed from the
+              center $C$:
+
+              \[\begin{aligned}
+              \vec{a}_P &amp;= \vec{a}_C + \vec{\alpha} \times \vec{v}_{CP}
+              + \vec{\omega} \times (\vec{\omega} \times \vec{r}_{CP}) \\
+              &amp;= r \alpha \,\hat{e}_t
+              + \frac{(r\omega)^2}{R} \,\hat{e}_n
+              + (-\alpha \,\hat{e}_b) \times (-r\,\hat{e}_n)
+              + (-\omega \,\hat{e}_b) \times \Big(
+              (-\omega \,\hat{e}_b) \times (-r\,\hat{e}_n) \Big) \\
+              &amp;= r \alpha \,\hat{e}_t
+              + \frac{(r\omega)^2}{R} \,\hat{e}_n
+              - r \alpha \,\hat{e}_t
+              + r \omega^2 \,\hat{e}_n \\
+              &amp;= \frac{(r + R)}{R} r \omega^2 \,\hat{e}_n \\
+              &amp;= \frac{\rho}{R} \omega^2 \,\vec{r}_{PC}.
+              \end{aligned}\]
             </p>
           </div>
         </div>
