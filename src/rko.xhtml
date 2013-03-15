@@ -47,6 +47,34 @@
           Rolling motion
         </h1>
         <p>
+          A special case of rigid body motion is <em>rolling without
+          slipping</em> on a stationary ground surface. This is
+          defined by motion where the point of contact with the ground
+          has zero velocity, so it matches the ground velocity and is
+          not slipping.
+        </p>
+        <div class="envContainer equation" id="rko-er">
+          <p class="envHeader">Rolling without slipping on stationary
+          ground surfaces.</p>
+          <div class="envBody">
+            <p>
+              \[
+              \text{Contact point $P$ has zero velocity:} \quad \vec{v}_P = 0
+              \]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
+              Rolling without slipping means by definition that the
+              contacting points have the same velocity. For a
+              stationary ground the velocity is zero, so the contact
+              point on the body must also have zero velocity.
+            </p>
+          </div>
+        </div>
+        <p>
         </p>
         <div class="figureContainer width600" id="rko-fr">
           <canvas id="rko-fr-c" width="600" height="600" class="figureImage" >
@@ -136,6 +164,10 @@
         <h2>
           Rolling on a 2D flat surface
         </h2>
+        <p>
+          The most common and also the simplest form of rolling occurs
+          on a flat surface.
+        </p>
         <div class="figureContainer width600" id="rko-ff">
           <canvas id="rko-ff-c" width="600" height="600" class="figureImage" >
           </canvas>
@@ -148,10 +180,18 @@
             <button class="option-toggle:rko-ff-c:reversed">reverse direction</button>
           </p>
           <p class="figureCaption">
+            Geometry and variables for rolling without slipping on a
+            flat surface.
           </p>
         </div>
+        <p>
+          While rolling, the velocity and acceleration are directly
+          connected to the angular velocity and angular acceleration,
+          as shown by the next equations.
+        </p>
         <div class="envContainer equation" id="rko-ef">
-          <p class="envHeader">Center velocity and acceleration while rolling on a flat surface.</p>
+          <p class="envHeader">Center velocity and acceleration while
+          rolling on a flat surface.</p>
           <div class="envBody">
             <p>
               \[\begin{aligned}
@@ -190,6 +230,11 @@
             </p>
           </div>
         </div>
+        <p>
+          Another way to express the connection between angular and
+          linear velocity and acceleration is via the distance $s$
+          traveled by the rolling body:
+        </p>
         <div class="envContainer equation" id="rko-eh">
           <p class="envHeader">Distance-angular relationships for rolling on a flat surface.</p>
           <div class="envBody">
@@ -215,6 +260,11 @@
             </p>
           </div>
         </div>
+        <p>
+          While rolling, the contact point will have zero velocity but
+          will have a centripetal acceleration towards the rolling
+          center:
+        </p>
         <div class="envContainer equation" id="rko-eo">
           <p class="envHeader">Contact point $P$ velocity and
           acceleration while rolling on a flat surface.</p>
@@ -256,6 +306,12 @@
         <h2>
           Rolling on a 2D curved surface
         </h2>
+        <p>
+          When a circular rigid body rolls without slipping on a
+          surface which is itself curved, the radius of curvature of
+          the surface affects the acceleration (but not velocity) of
+          points on the rolling body.
+        </p>
         <div class="figureContainer width600" id="rko-fc">
           <canvas id="rko-fc-c" width="600" height="600" class="figureImage" >
           </canvas>
@@ -263,10 +319,21 @@
             <button class="option-toggle:rko-fc-c:reversed">reverse direction</button>
           </p>
           <p class="figureCaption">
+            Geometry and variables for rolling without slipping on a
+            curved surface. The left diagram shows rolling on the
+            inside of the curve, while the right diagram is rolling on
+            the outside of the curve.
           </p>
         </div>
+        <p>
+          Because there are two different geometries for rolling on a
+          curved surface (inside and outside), there are different
+          sign conventions and variable definitions in the two cases,
+          as listed below.
+        </p>
         <div class="envContainer equation" id="rko-eg">
-          <p class="envHeader">Geometric quantities for rolling on a curved surface.</p>
+          <p class="envHeader">Geometric quantities for rolling on a
+          curved surface.</p>
           <div class="envBody">
             <p>
               \[\begin{aligned}
@@ -299,7 +366,8 @@
           </div>
         </div>
         <div class="envContainer warning" id="rko-wr">
-          <p class="envHeader">Warning: Radii of curvature $\rho$ and $R$ may not be constant.</p>
+          <p class="envHeader">Warning: Radii of curvature $\rho$ and
+          $R$ may not be constant.</p>
           <div class="envBody">
             <p>
               The radius of curvature $\rho$ of the surface may be
@@ -310,8 +378,14 @@
             </p>
           </div>
         </div>
+        <p>
+          The center velocity for rolling on a curved surface is the
+          same as for a flat surface, while the acceleration also
+          depends on the radius of curvature of the surface:
+        </p>
         <div class="envContainer equation" id="rko-ec">
-          <p class="envHeader">Center velocity and acceleration while rolling on a curved surface.</p>
+          <p class="envHeader">Center velocity and acceleration while
+          rolling on a curved surface.</p>
           <div class="envBody">
             <p>
               \[\begin{aligned}
@@ -408,6 +482,13 @@
             </p>
           </div>
         </div>
+        <p>
+          The angular velocity of the rolling rigid body can be
+          related to the derivative $\dot{s}$ of the distance traveled
+          on the surface as follows. In the special case of a
+          perfectly circular surface, the angular acceleration also
+          has a simple relationship with $\ddot{s}$.
+        </p>
         <div class="envContainer equation" id="rko-ew">
           <p class="envHeader">Distance-angular relationships for rolling on a curved surface.</p>
           <div class="envBody">
@@ -431,8 +512,14 @@
             </p>
           </div>
         </div>
+        <p>
+          Just as with rolling on a flat surface, when a rigid body
+          rolls on a curved surface the contact point has zero
+          velocity but nonzero acceleration, as shown below.
+        </p>
         <div class="envContainer equation" id="rko-ep">
-          <p class="envHeader">Contact point $P$ velocity and acceleration while rolling on a curved surface.</p>
+          <p class="envHeader">Contact point $P$ velocity and
+          acceleration while rolling on a curved surface.</p>
           <div class="envBody">
             <p>
               \[\begin{aligned}
