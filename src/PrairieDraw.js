@@ -219,6 +219,21 @@ PrairieDraw.prototype.intervalMod = function(x, a, b) {
     return this.fixedMod(x - a, b - a) + a;
 };
 
+/** Vector interval modulus function.
+
+    @param {Vector} x The vector to convert.
+    @param {Vector} a Lower interval ends.
+    @param {Vector} b Upper interval ends.
+    @return {Vector} The vector modded to within [a,b].
+*/
+PrairieDraw.prototype.vectorIntervalMod = function(x, a, b) {
+    var r = [];
+    for (var i = 1; i <= x.elements.length; i++) {
+        r.push(this.intervalMod(x.e(i), a.e(i), b.e(i)));
+    }
+    return $V(r);
+};
+
 /** Clip a value x to the given interval [a, b].
 
     @param {number} x Value to clip.
