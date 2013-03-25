@@ -4,7 +4,7 @@
   <head profile="http://www.w3.org/2005/10/profile">
     <link rel="icon" type="image/png" href="favicon.png" />
     <title>
-      Newton's equations
+      Newton's equations for point masses
     </title>
     <link href="style.css" type="text/css" rel="stylesheet" />
     <link href="ren.css" type="text/css" rel="stylesheet" />
@@ -12,10 +12,11 @@
 
     <script src="mathjax/MathJax.js?config=default" type="text/javascript"></script>
     <script src="jquery-1.7.2.min.js" type="text/javascript"></script>
-    <script src="pageControl.js" type="text/javascript"></script>
     <script src="sylvester.js" type="text/javascript"></script>
     <script src="sha1.js" type="text/javascript"></script>
     <script src="PrairieDraw.js" type="text/javascript"></script>
+    <script src="ren.js" type="text/javascript"></script>
+    <script src="pageControl.js" type="text/javascript"></script>
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
@@ -44,7 +45,7 @@
     <div class="contentBlock">
       <div id="ren" class="contentCol">
         <h1>
-          Newton's equations
+          Newton's equations for point masses
         </h1>
         <p>
           Newton's equations relate the acceleration $\vec{a}$ of a
@@ -66,40 +67,6 @@
           Newtonian dynamics for non-relativistic and non-quantum
           systems.
         </p>
-        <p>
-          Another way to write Newton's equations relies on the linear
-          momentum:
-        </p>
-        <div class="envContainer equation" id="ren-em">
-          <p class="envHeader">Linear momentum of a point mass.</p>
-          <div class="envBody">
-            <p>
-              \[\vec{p} = m\dot{\vec{v}}\]
-            </p>
-          </div>
-        </div>
-        <p>
-          Using the linear momentum, Newton's equations are:
-        </p>
-        <div class="envContainer equation" id="ren-ep">
-          <p class="envHeader">Newton's equations in momentum form.</p>
-          <div class="envBody">
-            <p>
-              \[\vec{F} = \dot{\vec{p}}\]
-            </p>
-          </div>
-        </div>
-        <div class="envContainer derivation">
-          <div class="envBody">
-            <p>
-              If we differentiate the linear momentum with respect to
-              time then we obtain
-
-              \[\frac{d}{dt} \vec{p} = \frac{d}{dt} (m \vec{v})
-              = m \dot{\vec{v}} = m \vec{a} = \vec{F}. \]
-            </p>
-          </div>
-        </div>
         <div class="envContainer warning" id="ren-wv">
           <p class="envHeader">Warning: Variable mass</p>
           <div class="envBody">
@@ -119,10 +86,10 @@
               the lost mass is ejected.
             </p>
             <p>
-              The right way to calculate the acceleration of rockets is
-              to consider the center of mass of the total system (rocket
-              plus ejected mass) and to use the <a href="">equation for
-              the center of mass of a many-body system</a>. This results
+              The right way to calculate the acceleration of rockets
+              is to consider the center of mass of the total system
+              (rocket plus ejected mass) and to use the equation for
+              the center of mass of a many-body system. This results
               in the <a
               href="http://en.wikipedia.org/wiki/Tsiolkovsky_rocket_equation">Tsiolkovsky
               rocket equation</a>:
@@ -135,6 +102,21 @@
               the rocket.
             </p>
           </div>
+        </div>
+        <div class="figureContainer width600" id="ren-ff">
+          <canvas id="ren-ff-c" width="600" height="600" class="figureImage" >
+          </canvas>
+          <p class="controls">
+            <button class="anim-toggle:ren-ff-c">animation</button>
+            <button class="reset:ren-ff-c">reset</button>
+          </p>
+          <p class="controls">
+            Show:
+            <button class="option-toggle:ren-ff-c:showLabels">labels</button>
+            <button class="option-toggle:ren-ff-c:showPath">path</button>
+          </p>
+          <p class="figureCaption">
+          </p>
         </div>
       </div>
       <div class="infoCol">
@@ -310,6 +292,54 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="ren-sl" class="contentCol">
+        <h2>
+          Linear momentum
+        </h2>
+        <p>
+          Another way to write Newton's equations relies on the linear
+          momentum:
+        </p>
+        <div class="envContainer equation" id="ren-em">
+          <p class="envHeader">Linear momentum of a point mass.</p>
+          <div class="envBody">
+            <p>
+              \[\vec{p} = m\dot{\vec{v}}\]
+            </p>
+          </div>
+        </div>
+        <p>
+          Using the linear momentum, Newton's equations are:
+        </p>
+        <div class="envContainer equation" id="ren-ep">
+          <p class="envHeader">Newton's equations in momentum form.</p>
+          <div class="envBody">
+            <p>
+              \[\vec{F} = \dot{\vec{p}}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
+              If we differentiate the linear momentum with respect to
+              time then we obtain
+
+              \[\frac{d}{dt} \vec{p} = \frac{d}{dt} (m \vec{v})
+              = m \dot{\vec{v}} = m \vec{a} = \vec{F}. \]
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="ren-sg" class="contentCol">
+        <h2>
+          Angular momentum
+        </h2>
       </div>
     </div>
     </div>
