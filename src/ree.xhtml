@@ -4,10 +4,10 @@
   <head profile="http://www.w3.org/2005/10/profile">
     <link rel="icon" type="image/png" href="favicon.png" />
     <title>
-      Newton's equations
+      Euler's equations for rigid bodies
     </title>
     <link href="style.css" type="text/css" rel="stylesheet" />
-    <link href="ren.css" type="text/css" rel="stylesheet" />
+    <link href="ree.css" type="text/css" rel="stylesheet" />
     <link href="icomoon.css" type="text/css" rel="stylesheet" />
 
     <script src="mathjax/MathJax.js?config=default" type="text/javascript"></script>
@@ -42,274 +42,47 @@
       </div>
       <div class="mainBlock">
     <div class="contentBlock">
-      <div id="ren" class="contentCol">
+      <div id="ree" class="contentCol">
         <h1>
-          Newton's equations
+          Euler's equations for rigid bodies
         </h1>
-        <p>
-          Newton's equations relate the acceleration $\vec{a}$ of a
-          point mass with mass $m$ to the total applied force
-          $\vec{F}$ on the mass (sum of all applied forces). They are:
-        </p>
-        <div class="envContainer equation" id="ren-en">
-          <p class="envHeader">Newton's equations.</p>
-          <div class="envBody">
-            <p>
-              \[\vec{F} = m \vec{a}\]
-            </p>
-          </div>
-        </div>
-        <p>
-          There is no derivation for Newton's equations, because they
-          are an assumed model for dynamics. We can only verify them
-          by comparing with experimental evidence, which confirms
-          Newtonian dynamics for non-relativistic and non-quantum
-          systems.
-        </p>
-        <p>
-          Another way to write Newton's equations relies on the linear
-          momentum:
-        </p>
-        <div class="envContainer equation" id="ren-em">
-          <p class="envHeader">Linear momentum of a point mass.</p>
-          <div class="envBody">
-            <p>
-              \[\vec{p} = m\dot{\vec{v}}\]
-            </p>
-          </div>
-        </div>
-        <p>
-          Using the linear momentum, Newton's equations are:
-        </p>
-        <div class="envContainer equation" id="ren-ep">
-          <p class="envHeader">Newton's equations in momentum form.</p>
-          <div class="envBody">
-            <p>
-              \[\vec{F} = \dot{\vec{p}}\]
-            </p>
-          </div>
-        </div>
-        <div class="envContainer derivation">
-          <div class="envBody">
-            <p>
-              If we differentiate the linear momentum with respect to
-              time then we obtain
-
-              \[\frac{d}{dt} \vec{p} = \frac{d}{dt} (m \vec{v})
-              = m \dot{\vec{v}} = m \vec{a} = \vec{F}. \]
-            </p>
-          </div>
-        </div>
-        <div class="envContainer warning" id="ren-wv">
-          <p class="envHeader">Warning: Variable mass</p>
-          <div class="envBody">
-            <p>
-              For a system with variable mass, such as a rocket burning
-              up its fuel, it is tempting to write
-              
-              \[\vec{F} = \frac{d}{dt} (m \vec{v})
-              = \dot{m} \vec{v} + m \dot{\vec{v}}\]
-              
-              and to then rearrange to find the acceleration:
-              
-              \[m \vec{a} = F - \dot{m} \vec{v}.\]
-              
-              But this is wrong! The acceleration must depend not only
-              on the rate of mass loss, but also the speed with which
-              the lost mass is ejected.
-            </p>
-            <p>
-              The right way to calculate the acceleration of rockets is
-              to consider the center of mass of the total system (rocket
-              plus ejected mass) and to use the <a href="">equation for
-              the center of mass of a many-body system</a>. This results
-              in the <a
-              href="http://en.wikipedia.org/wiki/Tsiolkovsky_rocket_equation">Tsiolkovsky
-              rocket equation</a>:
-              
-              \[m \vec{a} = \vec{v}_{\rm e} \dot{m},\]
-              
-              where the acceleration $\vec{a}$ of the rocket is
-              determined by the rate of mass loss $\dot{m}$ and the
-              velocity $\vec{v}_{\rm e}$ of the ejected mass relative to
-              the rocket.
-            </p>
-          </div>
-        </div>
       </div>
       <div class="infoCol">
-        <div id="ren-ir" class="infoBox factBox">
-          <p>
-            If we have objects which are either very massive, very
-            small, or moving very fast, then Newton's equations do not
-            provide a good model of their motion. Instead we must use
-            Einstein's equations of <a
-            href="http://en.wikipedia.org/wiki/General_relativity">general
-            relativity</a> (for massive and fast objects) or the
-            equations of <a
-            href="http://en.wikipedia.org/wiki/Quantum_mechanics">quantum
-            mechanics</a> (for very small objects). Unfortunately,
-            these two theories cannot be used together, so we
-            currently have no good models for objects which are
-            simultaneously very small and very massive, such as <a
-            href="http://en.wikipedia.org/wiki/Micro_black_hole">micro
-            black holes</a> or the universe shortly after the <a
-            href="http://en.wikipedia.org/wiki/Big_Bang">big
-            bang</a>. Physicists are currently trying to reconcile
-            general relativity with quantum mechanics by devising a
-            new set of equations (sometimes called <a
-            href="http://en.wikipedia.org/wiki/Quantum_gravity">quantum
-            gravity</a> or a <a
-            href="http://en.wikipedia.org/wiki/Theory_of_everything">theory
-            of everything</a>). Current possibilities for new
-            equations include <a
-            href="http://en.wikipedia.org/wiki/String_theory">string
-            theory</a> and <a
-            href="http://en.wikipedia.org/wiki/Loop_quantum_gravity">loop
-            quantum gravity</a>, but none of these are generally
-            accepted yet.
-          </p>
-          <p>
-            It is important to remember that all of these different
-            equations are only models of reality and are not actually
-            real:
-          </p>
-          <blockquote>
-            “All models are wrong. Some models are useful.”
-            <br />
-            — <a href="http://en.wikipedia.org/wiki/George_E._P._Box">George Box</a>
-          </blockquote>
-        </div>
       </div>
     </div>
     <div class="contentBlock">
-      <div id="ren-sa" class="contentCol">
+      <div id="ree-sc" class="contentCol">
         <h2>
-          Method of assumed forces and method of assumed motion
+          Center of mass
         </h2>
-        <p>
-          Newton's equations can be used in two main ways. Either we
-          know the forces and we use this to compute the acceleration
-          of a mass, or we know the acceleration and use this to
-          compute the forces.
-        </p>
-        <table class="basic">
-          <tr>
-            <th>Method of assumed forces:</th>
-            <td>Know $\vec{F}$</td>
-            <td>$\Longrightarrow$</td>
-            <td>Compute $\vec{a}$</td>
-          </tr>
-          <tr>
-            <th>Method of assumed motion:</th>
-            <td>Know $\vec{a}$</td>
-            <td>$\Longrightarrow$</td>
-            <td>Compute $\vec{F}$</td>
-          </tr>
-        </table>
-        <p>
-          Of course there are other possibilities from these two, such
-          as knowing the vertical component of the force and the
-          horizontal component of acceleration, and then computing the
-          missing components of each.
-        </p>
-        <div class="envContainer exampleProblem" id="ren-ef">
-          <p class="envHeader">Example Problem: Method of assumed forces</p>
-          <div class="envBody">
-            <div class="question">
-              <p>
-                A cannonball of mass $m$ is fired from the origin with
-                initial velocity $\vec{v}_0$ and then experiences a
-                force $\vec{F}_{\rm g} = -m g \hat{\jmath}$ due to
-                gravity and a wind force $F_{\rm w} = -C_{\rm w}
-                \hat{\imath}$. What is the motion of the cannonball as
-                a function of time?
-              </p>
-            </div>
-            <div class="envContainer solution">
-              <div class="envBody">
-                <p>
-                  We can use Newton's equations to find the
-                  acceleration of the cannonball, using the method of
-                  assumed forces:
-                
-                  \[\begin{aligned}
-                  m \vec{a} &amp;= \vec{F}_{\rm w} + \vec{F}_{\rm g} \\
-                  \vec{a} &amp;= \frac{1}{m} \left(
-                  - C_{\rm w} \hat{\imath} - m g \hat{\jmath} \right)
-                  \end{aligned}\]
-                </p>
-                <p>
-                  If $\vec{r}$ is the position vector of the
-                  cannonball then we have the differential equation:
-                
-                  \[\begin{aligned}
-                  \ddot{\vec{r}}(t) &amp;= - C_{\rm w} \hat{\imath} - m g \hat{\jmath} 
-                  &amp; \vec{r}(0) &amp;= \vec{0}
-                  &amp; \dot{\vec{r}}(0) &amp;= \vec{v}_0.
-                  \end{aligned}\]
-                
-                  Because the acceleration is constant we can use the
-                  <a href="">elementary motion</a> solution to find
-                  the trajectory of the cannonball:
-                
-                  \[
-                  \vec{r}(t) = \vec{v}_0 t
-                  - \frac{1}{2} t^2 (C_{\rm w} \hat{\imath}
-                  + m g \hat{\jmath}).
-                  \]
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="envContainer exampleProblem" id="ren-em">
-          <p class="envHeader">Example Problem: Method of assumed motion</p>
-          <div class="envBody">
-            <div class="question">
-              <p>
-                A car of mass $m$ is observed driving on a sinusoidal
-                road at a constant horizontal speed $v_0$. The road
-                surface has equation $y = A \sin(k x)$, where $A$ is
-                the <a href="">amplitude</a> and $k$ is the <a
-                href="">wavenumber</a>. What is the force of the road
-                on the car? Gravity $g$ acts vertically and assume no
-                air resistance.
-              </p>
-            </div>
-            <div class="envContainer solution">
-              <div class="envBody">
-                <p>
-                  We can determine the acceleration of the car, and
-                  then use Newton's equations and method of assumed
-                  motion to find the total force and thus the road
-                  force. First, we find the acceleration:
-
-                  \[\begin{aligned}
-                  x(t) &amp;= x_0 + v_0 t \\
-                  \vec{r}(t) &amp;= x(t)\,\hat{\imath} + y(x(t))\,\hat{\jmath} \\
-                  &amp;= (x_0 + v_0 t)\,\hat{\imath} + A \sin(k x_0 + k v_0 t)\,\hat{\jmath} \\
-                  \vec{a}(t) = \ddot{\vec{r}}(t)
-                  &amp;= - A (k v_0)^2 \sin(k x_0 + k v_0 t)\,\hat{\jmath} \\
-                  &amp;= - A (k v_0)^2 \sin(k x)\,\hat{\jmath}.
-                  \end{aligned}\]
-
-                  Given the force of gravity $\vec{F}_{\rm g} = - m g
-                  \,\hat{\jmath}$ and the road force $\vec{F}_{\rm
-                  r}$, Newton's equations give the forces as:
-
-                  \[\begin{aligned}
-                  \vec{F}_{\rm r} + \vec{F}_{\rm g} &amp;= m \vec{a} \\
-                  \vec{F}_{\rm r} &amp;= - m A (k v_0)^2 \sin(k x)\,\hat{\jmath} - m g \,\hat{\jmath} \\
-                  &amp;= - m \Big(g + A (k v_0)^2 \sin(k x)\Big) \,\hat{\jmath},
-                  \end{aligned}\]
-                  
-                  where we have solved for the road force on the car.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="ree-si" class="contentCol">
+        <h2>
+          Moment of inertia
+        </h2>
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="ree-se" class="contentCol">
+        <h2>
+          Euler's equations
+        </h2>
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="ree-sl" class="contentCol">
+        <h2>
+          Linear momentum
+        </h2>
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="ree-sa" class="contentCol">
+        <h2>
+          Angular momentum
+        </h2>
       </div>
     </div>
     </div>
