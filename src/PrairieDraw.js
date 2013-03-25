@@ -3157,6 +3157,49 @@ PrairieDraw.prototype.activate3DControl = function() {
 
 /*****************************************************************************/
 
+PrairieDraw.prototype.mouseDownTracking = function(event) {
+    event.preventDefault();
+    this._mouseDownTracking = true;
+    this._lastMouseXTracking = event.pageX;
+    this._lastMouseYTracking = event.pageY;
+};
+
+PrairieDraw.prototype.mouseUpTracking = function(event) {
+    this._mouseDownTracking = false;
+};
+
+PrairieDraw.prototype.mouseMoveTracking = function(event) {
+    if (!this._mouseDownTracking) {
+        return;
+    }
+    this._lastMouseXTracking = event.pageX;
+    this._lastMouseYTracking = event.pageY;
+};
+
+PrairieDraw.prototype.activateMouseTracking = function() {
+    this._canvas.addEventListener("mousedown", this.mouseDownTracking.bind(this), true);
+    window.addEventListener("mouseup", this.mouseUpTracking.bind(this), true);
+    window.addEventListener("mousemove", this.mouseMoveTracking.bind(this), true);
+};
+
+PrairieDraw.prototype.mouseDown = function() {
+    if (this._mouseDownTracking !== undefined) {
+        return this._mouseDownTracking;
+    } else {
+        return false;
+    }
+};
+
+PrairieDraw.prototype.mousePositionDw = function() {
+    var xPx = this._lastMouseXTracking - this._canvas.offsetLeft;
+    var yPx = this._lastMouseYTracking - this._canvas.offsetTop;
+    var posPx = $V([xPx, yPx]);
+    var posDw = this.pos2Dw(posPx);
+    return posDw;
+};
+
+/*****************************************************************************/
+
 /** Creates a PrairieDrawAnim object.
 
     @constructor
