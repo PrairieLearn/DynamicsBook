@@ -325,12 +325,16 @@ a:visited {
 
 /*****************************************************************************/
 
+.tocContainer {
+    text-align: left;
+}
+
 .tocColumn {
     vertical-align: top;
     text-align: left;
     margin: 10px 0px 0px 0px;
     display: inline-block;
-    width: 33%;
+    width: 35%;
 }
 
 .tocColumn ol {
