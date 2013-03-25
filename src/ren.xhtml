@@ -67,42 +67,6 @@
           Newtonian dynamics for non-relativistic and non-quantum
           systems.
         </p>
-        <div class="envContainer warning" id="ren-wv">
-          <p class="envHeader">Warning: Variable mass</p>
-          <div class="envBody">
-            <p>
-              For a system with variable mass, such as a rocket burning
-              up its fuel, it is tempting to write
-              
-              \[\vec{F} = \frac{d}{dt} (m \vec{v})
-              = \dot{m} \vec{v} + m \dot{\vec{v}}\]
-              
-              and to then rearrange to find the acceleration:
-              
-              \[m \vec{a} = F - \dot{m} \vec{v}.\]
-              
-              But this is wrong! The acceleration must depend not only
-              on the rate of mass loss, but also the speed with which
-              the lost mass is ejected.
-            </p>
-            <p>
-              The right way to calculate the acceleration of rockets
-              is to consider the center of mass of the total system
-              (rocket plus ejected mass) and to use the equation for
-              the center of mass of a many-body system. This results
-              in the <a
-              href="http://en.wikipedia.org/wiki/Tsiolkovsky_rocket_equation">Tsiolkovsky
-              rocket equation</a>:
-              
-              \[m \vec{a} = \vec{v}_{\rm e} \dot{m},\]
-              
-              where the acceleration $\vec{a}$ of the rocket is
-              determined by the rate of mass loss $\dot{m}$ and the
-              velocity $\vec{v}_{\rm e}$ of the ejected mass relative to
-              the rocket.
-            </p>
-          </div>
-        </div>
         <div class="figureContainer width600" id="ren-ff">
           <canvas id="ren-ff-c" width="600" height="600" class="figureImage" >
           </canvas>
@@ -330,6 +294,42 @@
 
               \[\frac{d}{dt} \vec{p} = \frac{d}{dt} (m \vec{v})
               = m \dot{\vec{v}} = m \vec{a} = \vec{F}. \]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer warning" id="ren-wv">
+          <p class="envHeader">Warning: Variable mass.</p>
+          <div class="envBody">
+            <p>
+              For a system with variable mass, such as a rocket burning
+              up its fuel, it is tempting to write
+              
+              \[\vec{F} = \dot{\vec{p}} = \frac{d}{dt} (m \vec{v})
+              = \dot{m} \vec{v} + m \dot{\vec{v}}\]
+              
+              and to then rearrange to find the acceleration:
+              
+              \[m \vec{a} = F - \dot{m} \vec{v}.\]
+              
+              But this is wrong! The acceleration must depend not only
+              on the rate of mass loss, but also the speed with which
+              the lost mass is ejected.
+            </p>
+            <p>
+              The right way to calculate the acceleration of a rocket
+              is to consider the center of mass of the total system
+              (rocket plus ejected mass) and to use the equation for
+              the center of mass of a many-body system. This results
+              in the <a
+              href="http://en.wikipedia.org/wiki/Tsiolkovsky_rocket_equation">Tsiolkovsky
+              rocket equation</a>:
+              
+              \[m \vec{a} = \vec{v}_{\rm e} \dot{m},\]
+              
+              where the acceleration $\vec{a}$ of the rocket is
+              determined by the rate of mass loss $\dot{m}$ and the
+              velocity $\vec{v}_{\rm e}$ of the ejected mass relative to
+              the rocket.
             </p>
           </div>
         </div>
