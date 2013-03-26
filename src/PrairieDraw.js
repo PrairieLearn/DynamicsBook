@@ -1456,6 +1456,21 @@ PrairieDraw.prototype.linearInterpVector = function(x0, x1, alpha) {
     return x0.x(1 - alpha).add(x1.x(alpha));
 }
 
+/** Linearly interpolate between two arrays.
+
+    @param {Array} a0 The first array.
+    @param {Array} a1 The second array.
+    @param {number} alpha The proportion of a1 versus a0 (between 0 and 1).
+    @return {Array} The state (1 - alpha) * a0 + alpha * a1.
+*/
+PrairieDraw.prototype.linearInterpArray = function(a0, a1, alpha) {
+    var newArray = [];
+    for (var i = 0; i < Math.min(a0.length, a1.length); i++) {
+        newArray.push(this.linearInterp(a0[i], a1[i], alpha));
+    }
+    return newArray;
+}
+
 /** Linearly interpolate between two states (objects with scalar members).
 
     @param {Object} s0 The first state.
@@ -1465,7 +1480,7 @@ PrairieDraw.prototype.linearInterpVector = function(x0, x1, alpha) {
 */
 PrairieDraw.prototype.linearInterpState = function(s0, s1, alpha) {
     var newState = {};
-    for (e in s0) {
+    for (var e in s0) {
         newState[e] = this.linearInterp(s0[e], s1[e], alpha);
     }
     return newState;
@@ -3114,6 +3129,30 @@ PrairieDraw.prototype.plotHistory = function(originDw, sizeDw, sizeData, timeOff
     this.restore();
     this.point(plotData[plotData.length - 1]);
     this.restore();
+};
+
+/** Draw a history of positions as a faded line.
+
+    @param {Array} history History data, array of [time, position] pairs, where position is a vector.
+    @param {number} t Current time.
+    @param {number} maxT Maximum history time.
+    @param {Array} currentRGB RGB triple for current time color.
+    @param {Array} oldRGB RGB triple for old time color.
+*/
+PrairieDraw.prototype.fadeHistoryLine = function(history, t, maxT, currentRGB, oldRGB) {
+    if (history.length < 2) {
+        return;
+    }
+    for (var i = history.length - 2; i >= 0; i--) {
+        // draw line backwards so newer segments are on top
+        var pT = history[i][0];
+        var pDw1 = history[i][1];
+        var pDw2 = history[i + 1][1];
+        var alpha = (t - pT) / maxT;
+        var rgb = this.linearInterpArray(currentRGB, oldRGB, alpha);
+        var color = "rgb(" + rgb[0].toFixed(0) + ", " + rgb[1].toFixed(0) + ", " + rgb[2].toFixed(0) + ")";
+        this.line(pDw1, pDw2, color);
+    }
 };
 
 /*****************************************************************************/
