@@ -26,8 +26,11 @@ $(document).ready(function() {
             f = fr.toUnitVector();
         }
 
-        r = r.add(v.x(0.01));
-        v = v.add(f.x(0.01));
+        var dt = this.deltaTime();
+        if (dt > 0 && dt < 0.1) {
+            r = r.add(v.x(dt / 2));
+            v = v.add(f.x(dt / 2));
+        }
         var rNew = this.vectorIntervalMod(r, $V([-xMax * 1.1, -yMax * 1.1]), $V([xMax * 1.1, yMax * 1.1]));
         if (rNew.subtract(r).modulus() > 1e-8) {
             this.clearHistory("r");
