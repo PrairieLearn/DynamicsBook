@@ -3432,6 +3432,17 @@ PrairieDrawAnim.prototype.lastDrawTime = function() {
 
 /*****************************************************************************/
 
+PrairieDrawAnim.prototype.mouseDownAnimOnClick = function(event) {
+    event.preventDefault();
+    this.startAnim();
+};
+
+PrairieDrawAnim.prototype.activateAnimOnClick = function() {
+    this._canvas.addEventListener("mousedown", this.mouseDownAnimOnClick.bind(this), true);
+};
+
+/*****************************************************************************/
+
 /** Interpolate between different states in a sequence.
 
     @param {Array} states An array of objects, each specifying scalar or vector state values.
