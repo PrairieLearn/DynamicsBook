@@ -167,7 +167,7 @@
                 A cannonball of mass $m$ is fired from the origin with
                 initial velocity $\vec{v}_0$ and then experiences a
                 force $\vec{F}_{\rm g} = -m g \hat{\jmath}$ due to
-                gravity and a wind force $F_{\rm w} = -C_{\rm w}
+                gravity and a wind force $\vec{F}_{\rm w} = -C_{\rm w}
                 \hat{\imath}$. What is the motion of the cannonball as
                 a function of time?
               </p>
@@ -190,7 +190,8 @@
                   cannonball then we have the differential equation:
                 
                   \[\begin{aligned}
-                  \ddot{\vec{r}}(t) &amp;= - C_{\rm w} \hat{\imath} - m g \hat{\jmath} 
+                  \ddot{\vec{r}}(t) &amp;= - \frac{C_{\rm w}}{m} \hat{\imath}
+                  - g \hat{\jmath}
                   &amp; \vec{r}(0) &amp;= \vec{0}
                   &amp; \dot{\vec{r}}(0) &amp;= \vec{v}_0.
                   \end{aligned}\]
@@ -201,8 +202,8 @@
                 
                   \[
                   \vec{r}(t) = \vec{v}_0 t
-                  - \frac{1}{2} t^2 (C_{\rm w} \hat{\imath}
-                  + m g \hat{\jmath}).
+                  - \frac{1}{2} t^2 \left(\frac{C_{\rm w}}{m} \hat{\imath}
+                  + g \hat{\jmath}\right).
                   \]
                 </p>
               </div>
