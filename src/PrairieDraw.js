@@ -3249,6 +3249,7 @@ PrairieDraw.prototype.mousePositionDw = function() {
 function PrairieDrawAnim(canvas, drawFcn) {
     PrairieDraw.call(this, canvas, null);
     this._drawTime = 0;
+    this._deltaTime = 0;
     this._running = false;
     this._sequences = {};
     this._animStateCallbacks = [];
@@ -3346,6 +3347,7 @@ PrairieDrawAnim.prototype._callback = function(t_ms) {
         this._timeOffset = t_ms - this._drawTime;
     }
     var animTime = t_ms - this._timeOffset;
+    this._deltaTime = (animTime - this._drawTime) / 1000;
     this._drawTime = animTime;
     var t = animTime / 1000;
     for (var i = 0; i < this._animStepCallbacks.length; i++) {
@@ -3353,11 +3355,20 @@ PrairieDrawAnim.prototype._callback = function(t_ms) {
     }
     this.save();
     this.draw(t);
+    this._deltaTime = 0;
     this.restoreAll();
     if (this._running) {
         this._requestAnimationFrame.call(window, this._callback.bind(this));
     }
 }
+
+/** Get the elapsed time since the last redraw.
+
+    return {number} Elapsed time in seconds.
+*/
+PrairieDrawAnim.prototype.deltaTime = function() {
+    return this._deltaTime;
+};
 
 /** Redraw the drawing at the current time.
 */
