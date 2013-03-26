@@ -86,5 +86,6 @@ $(document).ready(function() {
     });
 
     ren_ff_c.activateMouseTracking();
+    ren_ff_c.activateAnimOnClick();
 
 }); // end of document.ready()
