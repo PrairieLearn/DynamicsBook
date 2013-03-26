@@ -219,6 +219,17 @@ PrairieDraw.prototype.intervalMod = function(x, a, b) {
     return this.fixedMod(x - a, b - a) + a;
 };
 
+/** Interval divide function.
+
+    @param {number} x The number to convert.
+    @param {number} a Lower interval end.
+    @param {number} b Upper interval end.
+    @return {number} The value divided into the interval within [a,b].
+*/
+PrairieDraw.prototype.intervalDiv = function(x, a, b) {
+    return Math.floor((x - a) / (b - a));
+};
+
 /** Vector interval modulus function.
 
     @param {Vector} x The vector to convert.
