@@ -12,7 +12,7 @@ $(document).ready(function() {
         this.addOption("v", $V([1, 0]));
 
         this.addOption("showLabels", true);
-        this.addOption("showPath", false);
+        this.addOption("showPath", true);
 
         var label = this.getOption("showLabels") ? true : undefined;
 
@@ -34,9 +34,9 @@ $(document).ready(function() {
         }
         r = rNew;
 
+        var maxHistoryTime = 3;
         if (this.getOption("showPath")) {
-            var rHistory = this.history("r", 0.05, 3, t, r);
-            var rTrace = this.historyToTrace(rHistory);
+            var rHistory = this.history("r", 0.05, maxHistoryTime, t, r);
         } else {
             this.clearHistory("r");
         }
@@ -45,7 +45,7 @@ $(document).ready(function() {
         this.setOption("v", v, false);
 
         if (this.getOption("showPath")) {
-            this.polyLine(rTrace);
+            this.fadeHistoryLine(rHistory, t, maxHistoryTime, [0, 0, 0], [255, 255, 255]);
         }
         this.save();
         this.setProp("pointRadiusPx", 4);
