@@ -266,14 +266,14 @@
           Linear momentum
         </h2>
         <p>
-          Another way to write Newton's equations relies on the linear
-          momentum:
+          The linear momentum of a point mass is the product of its
+          mass and velocity:
         </p>
         <div class="envContainer equation" id="ren-em">
           <p class="envHeader">Linear momentum of a point mass.</p>
           <div class="envBody">
             <p>
-              \[\vec{p} = m\dot{\vec{v}}\]
+              \[\vec{p} = m\vec{v}\]
             </p>
           </div>
         </div>
@@ -300,7 +300,7 @@
           </div>
         </div>
         <div class="envContainer warning" id="ren-wv">
-          <p class="envHeader">Warning: Variable mass.</p>
+          <p class="envHeader">Warning: Variable mass problems can't simply use $\vec{F} = \dot{\vec{p}}$.</p>
           <div class="envBody">
             <p>
               For a system with variable mass, such as a rocket burning
@@ -336,12 +336,137 @@
           </div>
         </div>
       </div>
+      <div class="infoCol">
+        <div id="ren-in" class="infoBox factBox">
+          <p>
+            Newton's equations $\vec{F} = m\vec{a}$ are an algebraic
+            expression of <i>Newton's second law</i>:
+          </p>
+          <p>
+            <span class="transUnit">“Mutationem<span class="trans">‑mutation/change</span></span>
+            <span class="transUnit">motûs<span class="trans">‑motion</span></span>
+            <span class="transUnit">proportionalem<span class="trans">‑proportional</span></span>
+            <span class="transUnit">esse<span class="trans">‑is</span></span>
+            <span class="transUnit">vi<span class="trans">‑force</span></span>
+            <span class="transUnit">motrici<span class="trans">‑motive</span></span>
+            <span class="transUnit">impressæ<span class="trans">‑impressed/applied</span>,</span>
+            <span class="transUnit">et<span class="trans">‑and</span></span>
+            <span class="transUnit">fieri<span class="trans">‑is</span></span>
+            <span class="transUnit">secundum<span class="trans">‑along</span></span>
+            <span class="transUnit">lineam<span class="trans">‑line</span></span>
+            <span class="transUnit">rectam<span class="trans">‑right/straight</span></span>
+            <span class="transUnit">quâ<span class="trans">‑which</span></span>
+            <span class="transUnit">vis<span class="trans">‑force</span></span>
+            <span class="transUnit">illa<span class="trans">‑that</span></span>
+            <span class="transUnit">imprimitur<span class="trans">‑imprints/acts</span>.”</span>
+            <br />
+            —
+            <a href="http://en.wikipedia.org/wiki/Sir_Isaac_Newton">Isaac Newton</a>,
+            <a href="http://en.wikipedia.org/wiki/Philosophi%C3%A6_Naturalis_Principia_Mathematica">Principia</a>, 1687.
+          </p>
+          <blockquote class="transBlock">
+            “The change of motion is proportional to the applied
+            force, and takes place in the direction of the straight
+            line in which the force acts.”
+          </blockquote>
+          <button class="showHideTrans">Show English translation</button>
+          <p>
+            Although Newton was English and lived in England, he wrote
+            the <a
+            href="http://en.wikipedia.org/wiki/Philosophi%C3%A6_Naturalis_Principia_Mathematica">Principia</a>
+            in Latin because that was the <a
+            href="http://en.wikipedia.org/wiki/New_Latin">standard
+            language</a> for scientific communication at the
+            time. Even in the late 1600s the use of Latin was in
+            decline, however, and Newton's later works, such as <a
+            href="http://en.wikipedia.org/wiki/Opticks">Opticks</a> in
+            1704, were written in English.
+          </p>
+        </div>
+      </div>
     </div>
     <div class="contentBlock">
       <div id="ren-sg" class="contentCol">
         <h2>
           Angular momentum
         </h2>
+        <p>
+          Angular momentum is defined with respect to a given point
+          $O$. For a point mass, the angular momentum is the cross
+          product between the position vector and the linear momentum:
+        </p>
+        <div class="envContainer equation" id="ren-eg">
+          <p class="envHeader">Angular momentum about fixed point $O$ of a point mass at $P$.</p>
+          <div class="envBody">
+            <p>
+              \[\vec{H}_O = \vec{r}_{OP} \times \vec{p}_P = \vec{r}_{OP} \times m\vec{v}_P\]
+            </p>
+          </div>
+        </div>
+        <p>
+          When a force is applied to a body it produces a
+          <i>moment</i> about any given fixed point $O$:
+        </p>
+        <div class="envContainer equation" id="ren-eo">
+          <p class="envHeader">Moment about fixed point $O$ of a force acting at $P$.</p>
+          <div class="envBody">
+            <p>
+              \[\vec{M}_O = \vec{r}_{OP} \times \vec{F}_P\]
+            </p>
+          </div>
+        </div>
+        <p>
+          The angular momentum and applied moment are related by:
+        </p>
+        <div class="envContainer equation" id="ren-et">
+          <p class="envHeader">Moment equation.</p>
+          <div class="envBody">
+            <p>
+              \[\vec{M}_O = \dot{\vec{H}}_O\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer derivation">
+          <div class="envBody">
+            <p>
+              If we compute the derivative of $\vec{H}_O$ and use
+              Newton's equations <a href="#ren-en">#ren-en</a>, then
+              we obtain:
+
+              \[\begin{aligned}
+              \dot{\vec{H}}_O &amp;= \frac{d}{dt} \Big(
+              \vec{r}_{OP} \times m \vec{v}_P \Big) \\
+              &amp;= \dot{\vec{r}}_{OP} \times m \vec{v}_P
+              + \vec{r}_{OP} \times m \dot{\vec{v}}_P \\
+              &amp;= m \vec{v}_P \times \vec{v}_P
+              + \vec{r}_{OP} \times m \vec{a}_P \\
+              &amp;= 0 + \vec{r}_{OP} \times \vec{F} \\
+              &amp;= \vec{M}_O.
+              \end{aligned}\]
+
+              Here we used the fact that, for a fixed point $O$, the
+              derivative $\dot{\vec{r}}_{OP}$ is simply the velocity
+              $\vec{v}_P$ of point $P$, and the cross product of the
+              velocity with itself is zero.
+            </p>
+          </div>
+        </div>
+        <div class="envContainer warning" id="ren-wp">
+          <p class="envHeader">Warning: Always indicate the base point for angular momentum and moments.</p>
+          <div class="envBody">
+            <p>
+              In the moment equation <a href="#ren-et">#ren-et</a> it
+              is crucial that $\vec{M}_O$ and $\vec{H}_O$ are both
+              computed about the same point $O$. If we have
+              $\vec{M}_O$ about $O$ and $\vec{H}_C$ about $C$, then it
+              is <i>not true</i> that $\vec{M}_O =
+              \dot{\vec{H}}_C$. For this reason we always write the
+              base point $O$ as a subscript on $M$ and $H$, otherwise
+              it's easy to forget which point we've used as the base
+              point.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
     </div>

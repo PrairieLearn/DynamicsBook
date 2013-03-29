@@ -1,6 +1,25 @@
 
 $(document).ready(function() {
 
+    var showHideTrans = function(jButton) {
+        if (jButton.hasClass("active")) {
+            jButton.removeClass("active");
+            jButton.text("Show English translation");
+            $(".trans").hide(1000);
+            $(".transBlock").slideUp(1000);
+        } else {
+            jButton.addClass("active");
+            jButton.text("Hide English translation");
+            $(".trans").show(1000);
+            $(".transBlock").slideDown(1000);
+        }
+    }
+
+    $(".trans").hide(0); // the zero is necessary to make the later t=1000 show() work properly?
+    $(".transBlock").hide();
+
+    $("button.showHideTrans").click(function() {showHideTrans($(this));});
+
     var ren_ff_c = new PrairieDrawAnim("ren-ff-c", function(t) {
 
         var xViewMax = 3;
