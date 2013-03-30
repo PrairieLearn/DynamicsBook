@@ -219,6 +219,32 @@ PrairieDraw.prototype.intervalMod = function(x, a, b) {
     return this.fixedMod(x - a, b - a) + a;
 };
 
+/** Interval divide function.
+
+    @param {number} x The number to convert.
+    @param {number} a Lower interval end.
+    @param {number} b Upper interval end.
+    @return {number} The value divided into the interval within [a,b].
+*/
+PrairieDraw.prototype.intervalDiv = function(x, a, b) {
+    return Math.floor((x - a) / (b - a));
+};
+
+/** Vector interval modulus function.
+
+    @param {Vector} x The vector to convert.
+    @param {Vector} a Lower interval ends.
+    @param {Vector} b Upper interval ends.
+    @return {Vector} The vector modded to within [a,b].
+*/
+PrairieDraw.prototype.vectorIntervalMod = function(x, a, b) {
+    var r = [];
+    for (var i = 1; i <= x.elements.length; i++) {
+        r.push(this.intervalMod(x.e(i), a.e(i), b.e(i)));
+    }
+    return $V(r);
+};
+
 /** Clip a value x to the given interval [a, b].
 
     @param {number} x Value to clip.
@@ -1068,23 +1094,25 @@ PrairieDraw.prototype.addOption = function(name, value, triggerRedraw) {
 
     @param {string} name The option name.
     @param {object} value The new value for the option.
-    @param {bool} redraw (Optional) Whether to trigger a redraw().
+    @param {bool} redraw (Optional) Whether to trigger a redraw() (default: true).
     @param {Object} trigger (Optional) The object that triggered the change.
-    @param {bool} setReset (Optional) Also set this value to be the new reset value.
+    @param {bool} setReset (Optional) Also set this value to be the new reset value (default: false).
 */
 PrairieDraw.prototype.setOption = function(name, value, redraw, trigger, setReset) {
+    redraw = (redraw === undefined) ? true : redraw;
+    setReset = (setReset === undefined) ? false : setReset;
     if (!(name in this._options)) {
         throw new Error("PrairieDraw: unknown option: " + name);
     }
     var option = this._options[name];
     option.value = value;
-    if (setReset !== undefined && setReset === true) {
+    if (setReset) {
         option.resetValue = value;
     }
     for (var p in option.callbacks) {
         option.callbacks[p](option.value, trigger);
     }
-    if ((redraw === undefined) || (redraw === true)) {
+    if (redraw) {
         this.redraw();
     }
 }
@@ -1439,6 +1467,21 @@ PrairieDraw.prototype.linearInterpVector = function(x0, x1, alpha) {
     return x0.x(1 - alpha).add(x1.x(alpha));
 }
 
+/** Linearly interpolate between two arrays.
+
+    @param {Array} a0 The first array.
+    @param {Array} a1 The second array.
+    @param {number} alpha The proportion of a1 versus a0 (between 0 and 1).
+    @return {Array} The state (1 - alpha) * a0 + alpha * a1.
+*/
+PrairieDraw.prototype.linearInterpArray = function(a0, a1, alpha) {
+    var newArray = [];
+    for (var i = 0; i < Math.min(a0.length, a1.length); i++) {
+        newArray.push(this.linearInterp(a0[i], a1[i], alpha));
+    }
+    return newArray;
+}
+
 /** Linearly interpolate between two states (objects with scalar members).
 
     @param {Object} s0 The first state.
@@ -1448,7 +1491,7 @@ PrairieDraw.prototype.linearInterpVector = function(x0, x1, alpha) {
 */
 PrairieDraw.prototype.linearInterpState = function(s0, s1, alpha) {
     var newState = {};
-    for (e in s0) {
+    for (var e in s0) {
         newState[e] = this.linearInterp(s0[e], s1[e], alpha);
     }
     return newState;
@@ -3099,6 +3142,30 @@ PrairieDraw.prototype.plotHistory = function(originDw, sizeDw, sizeData, timeOff
     this.restore();
 };
 
+/** Draw a history of positions as a faded line.
+
+    @param {Array} history History data, array of [time, position] pairs, where position is a vector.
+    @param {number} t Current time.
+    @param {number} maxT Maximum history time.
+    @param {Array} currentRGB RGB triple for current time color.
+    @param {Array} oldRGB RGB triple for old time color.
+*/
+PrairieDraw.prototype.fadeHistoryLine = function(history, t, maxT, currentRGB, oldRGB) {
+    if (history.length < 2) {
+        return;
+    }
+    for (var i = history.length - 2; i >= 0; i--) {
+        // draw line backwards so newer segments are on top
+        var pT = history[i][0];
+        var pDw1 = history[i][1];
+        var pDw2 = history[i + 1][1];
+        var alpha = (t - pT) / maxT;
+        var rgb = this.linearInterpArray(currentRGB, oldRGB, alpha);
+        var color = "rgb(" + rgb[0].toFixed(0) + ", " + rgb[1].toFixed(0) + ", " + rgb[2].toFixed(0) + ")";
+        this.line(pDw1, pDw2, color);
+    }
+};
+
 /*****************************************************************************/
 
 PrairieDraw.prototype.mouseDown3D = function(event) {
@@ -3140,6 +3207,49 @@ PrairieDraw.prototype.activate3DControl = function() {
 
 /*****************************************************************************/
 
+PrairieDraw.prototype.mouseDownTracking = function(event) {
+    event.preventDefault();
+    this._mouseDownTracking = true;
+    this._lastMouseXTracking = event.pageX;
+    this._lastMouseYTracking = event.pageY;
+};
+
+PrairieDraw.prototype.mouseUpTracking = function(event) {
+    this._mouseDownTracking = false;
+};
+
+PrairieDraw.prototype.mouseMoveTracking = function(event) {
+    if (!this._mouseDownTracking) {
+        return;
+    }
+    this._lastMouseXTracking = event.pageX;
+    this._lastMouseYTracking = event.pageY;
+};
+
+PrairieDraw.prototype.activateMouseTracking = function() {
+    this._canvas.addEventListener("mousedown", this.mouseDownTracking.bind(this), true);
+    window.addEventListener("mouseup", this.mouseUpTracking.bind(this), true);
+    window.addEventListener("mousemove", this.mouseMoveTracking.bind(this), true);
+};
+
+PrairieDraw.prototype.mouseDown = function() {
+    if (this._mouseDownTracking !== undefined) {
+        return this._mouseDownTracking;
+    } else {
+        return false;
+    }
+};
+
+PrairieDraw.prototype.mousePositionDw = function() {
+    var xPx = this._lastMouseXTracking - this._canvas.offsetLeft;
+    var yPx = this._lastMouseYTracking - this._canvas.offsetTop;
+    var posPx = $V([xPx, yPx]);
+    var posDw = this.pos2Dw(posPx);
+    return posDw;
+};
+
+/*****************************************************************************/
+
 /** Creates a PrairieDrawAnim object.
 
     @constructor
@@ -3150,6 +3260,7 @@ PrairieDraw.prototype.activate3DControl = function() {
 function PrairieDrawAnim(canvas, drawFcn) {
     PrairieDraw.call(this, canvas, null);
     this._drawTime = 0;
+    this._deltaTime = 0;
     this._running = false;
     this._sequences = {};
     this._animStateCallbacks = [];
@@ -3247,6 +3358,7 @@ PrairieDrawAnim.prototype._callback = function(t_ms) {
         this._timeOffset = t_ms - this._drawTime;
     }
     var animTime = t_ms - this._timeOffset;
+    this._deltaTime = (animTime - this._drawTime) / 1000;
     this._drawTime = animTime;
     var t = animTime / 1000;
     for (var i = 0; i < this._animStepCallbacks.length; i++) {
@@ -3254,11 +3366,20 @@ PrairieDrawAnim.prototype._callback = function(t_ms) {
     }
     this.save();
     this.draw(t);
+    this._deltaTime = 0;
     this.restoreAll();
     if (this._running) {
         this._requestAnimationFrame.call(window, this._callback.bind(this));
     }
 }
+
+/** Get the elapsed time since the last redraw.
+
+    return {number} Elapsed time in seconds.
+*/
+PrairieDrawAnim.prototype.deltaTime = function() {
+    return this._deltaTime;
+};
 
 /** Redraw the drawing at the current time.
 */
@@ -3307,6 +3428,17 @@ PrairieDrawAnim.prototype.stop = function() {
 
 PrairieDrawAnim.prototype.lastDrawTime = function() {
     return this._drawTime / 1000;
+};
+
+/*****************************************************************************/
+
+PrairieDrawAnim.prototype.mouseDownAnimOnClick = function(event) {
+    event.preventDefault();
+    this.startAnim();
+};
+
+PrairieDrawAnim.prototype.activateAnimOnClick = function() {
+    this._canvas.addEventListener("mousedown", this.mouseDownAnimOnClick.bind(this), true);
 };
 
 /*****************************************************************************/
