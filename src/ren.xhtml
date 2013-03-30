@@ -4,7 +4,7 @@
   <head profile="http://www.w3.org/2005/10/profile">
     <link rel="icon" type="image/png" href="favicon.png" />
     <title>
-      Newton's equations for point masses
+      Kinetics of point masses
     </title>
     <link href="style.css" type="text/css" rel="stylesheet" />
     <link href="ren.css" type="text/css" rel="stylesheet" />
@@ -45,8 +45,17 @@
     <div class="contentBlock">
       <div id="ren" class="contentCol">
         <h1>
-          Newton's equations for point masses
+          Kinetics of point masses
         </h1>
+        <p>
+        </p>
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="ren-sn" class="contentCol">
+        <h2>
+          Newton's equations
+        </h2>
         <p>
           Newton's equations relate the acceleration $\vec{a}$ of a
           point mass with mass $m$ to the total applied force
@@ -63,9 +72,9 @@
         <p>
           There is no derivation for Newton's equations, because they
           are an assumed model for dynamics. We can only verify them
-          by comparing with experimental evidence, which confirms
-          Newtonian dynamics for non-relativistic and non-quantum
-          systems.
+          by comparing with experimental evidence, which confirms that
+          Newtonian dynamics are accurate for non-relativistic and
+          non-quantum systems.
         </p>
         <div class="figureContainer width600" id="ren-ff">
           <canvas id="ren-ff-c" width="600" height="600" class="figureImage" >
@@ -73,14 +82,16 @@
           <p class="controls">
             <button class="anim-toggle:ren-ff-c">animation</button>
             <button class="reset:ren-ff-c">reset</button>
-            Click and hold on the figure to apply a constant magnitude force.
+            Click and hold on the figure to apply a constant-magnitude force.
           </p>
           <p class="figureCaption">
             A point mass moving in the plane with an applied
             force. You can try to made the mass move in a circle and
             then see what happens when the force is suddenly removed,
             which will demonstrate Newton's first law (no net force
-            implies motion at constant speed in a constant direction).
+            implies motion at constant speed in a constant
+            direction). Also observe which force directions cause the
+            speed to increase or decrease.
           </p>
         </div>
       </div>
@@ -160,7 +171,7 @@
           horizontal component of acceleration, and then computing the
           missing components of each.
         </p>
-        <div class="envContainer exampleProblem" id="ren-ef">
+        <div class="envContainer exampleProblem" id="ren-xf">
           <p class="envHeader">Example Problem: Method of assumed forces</p>
           <div class="envBody">
             <div class="question">
@@ -211,7 +222,7 @@
             </div>
           </div>
         </div>
-        <div class="envContainer exampleProblem" id="ren-em">
+        <div class="envContainer exampleProblem" id="ren-xm">
           <p class="envHeader">Example Problem: Method of assumed motion</p>
           <div class="envBody">
             <div class="question">
@@ -257,6 +268,161 @@
               </div>
             </div>
           </div>
+        </div>
+        <p>
+          The steps involved in analyzing a mechanical system with
+          Newton's equations are as follows.
+        </p>
+        <div class="envContainer equation" id="ren-ep">
+          <p class="envHeader">Solution procedure with Newton's equations.</p>
+          <div class="envBody">
+            <p>
+              \[\begin{aligned}
+              &amp;\text{1. FBD: draw a Free Body Diagram.} \\
+              &amp;\text{2. Kinematics: determine $\vec{a}$.} \\
+              &amp;\text{3. Newton: use $\vec{F} = m\vec{a}$.} \\
+              &amp;\text{4. Algebra: rearrange and solve as needed.}
+              \end{aligned}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer exampleProblem" id="ren-xl">
+          <p class="envHeader">Example Problem: Pendulum with Newton's equations</p>
+          <div class="envBody">
+            <div class="question">
+              <canvas id="ren-xl-c" width="300" height="200" class="floatRight">
+              </canvas>
+              <p>
+                Consider the 2D pendulum with a massless rigid rod of
+                length $\ell$ and a point mass $m$. What is the
+                equation of motion for $\ddot\theta$ and the tension
+                $T$ in the rod?
+              </p>
+            </div>
+            <div class="envContainer solution">
+              <div class="envBody">
+                <p>
+                  It is helpful in this problem to use both Cartesian and polar bases:
+                  <button class="option-toggle:ren-xl-c:showBases">show bases</button>
+                </p>
+                <p>
+                  <strong>1. FBD:</strong> The free body diagram for the point mass is:
+                </p>
+                <canvas id="ren-xl-f" width="300" height="200" class="standaloneImage">
+                </canvas>
+                <p>
+                  The forces on the free body diagram are:
+
+                  \[\begin{aligned}
+                  \vec{F}_g &amp;= - mg \,\hat\jmath \\
+                  \vec{F}_T &amp;= - T \,\hat{e}_r.
+                  \end{aligned}\]
+                </p>
+                <p>
+                  <strong>2. Kinematics:</strong> Using the polar
+                  basis acceleration equation <a
+                  href="rkv.xhtml#rkv-ep">#rkv-ep</a> gives:
+
+                  \[\begin{aligned}
+                  \vec{a} &amp;= (\ddot{r} - r\dot\theta^2) \,\hat{e}_r
+                  + (r\ddot\theta + 2\dot{r}\dot\theta) \,\hat{e}_\theta \\
+                  &amp;= -\ell \dot\theta^2 \,\hat{e}_r
+                  + \ell\ddot\theta \,\hat{e}_\theta.
+                  \end{aligned}\]
+                </p>
+                <p>
+                  <strong>3. Newton:</strong> Using <a
+                  href="#ren-en">#ren-en</a> gives:
+
+                  \[\begin{aligned}
+                  \vec{F} &amp;= m\vec{a} \\
+                  \vec{F}_T + \vec{F}_g
+                  &amp;= m(-\ell \dot\theta^2 \,\hat{e}_r
+                  + \ell\ddot\theta \,\hat{e}_\theta) \\
+                  -T\,\hat{e}_r - mg\,\hat\jmath
+                  &amp;= -m\ell \dot\theta^2 \,\hat{e}_r
+                  + m\ell\ddot\theta \,\hat{e}_\theta.
+                  \end{aligned}\]
+                </p>
+                <p>
+                  <strong>4. Algebra:</strong> To compare components
+                  in the above equation we need to switch to a single
+                  basis. We will convert to $\hat{e}_r,\hat{e}_\theta$
+                  using:
+
+                  \[
+                  \hat\jmath = -\cos\theta \,\hat{e}_r
+                  + \sin\theta \,\hat{e}_\theta,
+                  \]
+
+                  which gives:
+
+                  \[
+                  (-T + mg\cos\theta)\,\hat{e}_r
+                  - mg\sin\theta\,\hat{e}_\theta
+                  = -m\ell \dot\theta^2 \,\hat{e}_r
+                  + m\ell\ddot\theta \,\hat{e}_\theta.
+                  \]
+
+                  Equating the $\hat{e}_\theta$ and $\hat{e}_r$ terms
+                  gives $\ddot\theta$ and $T$ by:
+
+                  \[\begin{aligned}
+                  \ddot\theta &amp;= - \frac{g}{\ell} \sin\theta \\
+                  T &amp;= mg\cos\theta + m\ell\dot\theta^2.
+                  \end{aligned}\]
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="infoCol">
+        <div id="ren-in" class="infoBox factBox">
+          <p>
+            Newton's equations $\vec{F} = m\vec{a}$ are an algebraic
+            expression of <i>Newton's second law</i>:
+          </p>
+          <p>
+            <span class="transUnit">“Mutationem<span class="trans">‑mutation/change</span></span>
+            <span class="transUnit">motûs<span class="trans">‑motion</span></span>
+            <span class="transUnit">proportionalem<span class="trans">‑proportional</span></span>
+            <span class="transUnit">esse<span class="trans">‑is</span></span>
+            <span class="transUnit">vi<span class="trans">‑force</span></span>
+            <span class="transUnit">motrici<span class="trans">‑motive</span></span>
+            <span class="transUnit">impressæ<span class="trans">‑impressed/applied</span>,</span>
+            <span class="transUnit">et<span class="trans">‑and</span></span>
+            <span class="transUnit">fieri<span class="trans">‑is</span></span>
+            <span class="transUnit">secundum<span class="trans">‑along</span></span>
+            <span class="transUnit">lineam<span class="trans">‑line</span></span>
+            <span class="transUnit">rectam<span class="trans">‑right/straight</span></span>
+            <span class="transUnit">quâ<span class="trans">‑which</span></span>
+            <span class="transUnit">vis<span class="trans">‑force</span></span>
+            <span class="transUnit">illa<span class="trans">‑that</span></span>
+            <span class="transUnit">imprimitur<span class="trans">‑imprints/acts</span>.”</span>
+            <br />
+            —
+            <a href="http://en.wikipedia.org/wiki/Sir_Isaac_Newton">Isaac Newton</a>,
+            <a href="http://en.wikipedia.org/wiki/Philosophi%C3%A6_Naturalis_Principia_Mathematica">Principia</a>, 1687.
+          </p>
+          <blockquote class="transBlock">
+            “The change of motion is proportional to the applied
+            force, and takes place in the direction of the straight
+            line in which the force acts.”
+          </blockquote>
+          <button class="showHideTrans">Show English translation</button>
+          <p>
+            Although Newton was English and lived in England, he wrote
+            the <a
+            href="http://en.wikipedia.org/wiki/Philosophi%C3%A6_Naturalis_Principia_Mathematica">Principia</a>
+            in Latin because that was the <a
+            href="http://en.wikipedia.org/wiki/New_Latin">standard
+            language</a> for scientific communication at the
+            time. Even in the late 1600s the use of Latin was in
+            decline, however, and Newton's later works, such as <a
+            href="http://en.wikipedia.org/wiki/Opticks">Opticks</a> in
+            1704, were written in English.
+          </p>
         </div>
       </div>
     </div>
@@ -336,54 +502,6 @@
           </div>
         </div>
       </div>
-      <div class="infoCol">
-        <div id="ren-in" class="infoBox factBox">
-          <p>
-            Newton's equations $\vec{F} = m\vec{a}$ are an algebraic
-            expression of <i>Newton's second law</i>:
-          </p>
-          <p>
-            <span class="transUnit">“Mutationem<span class="trans">‑mutation/change</span></span>
-            <span class="transUnit">motûs<span class="trans">‑motion</span></span>
-            <span class="transUnit">proportionalem<span class="trans">‑proportional</span></span>
-            <span class="transUnit">esse<span class="trans">‑is</span></span>
-            <span class="transUnit">vi<span class="trans">‑force</span></span>
-            <span class="transUnit">motrici<span class="trans">‑motive</span></span>
-            <span class="transUnit">impressæ<span class="trans">‑impressed/applied</span>,</span>
-            <span class="transUnit">et<span class="trans">‑and</span></span>
-            <span class="transUnit">fieri<span class="trans">‑is</span></span>
-            <span class="transUnit">secundum<span class="trans">‑along</span></span>
-            <span class="transUnit">lineam<span class="trans">‑line</span></span>
-            <span class="transUnit">rectam<span class="trans">‑right/straight</span></span>
-            <span class="transUnit">quâ<span class="trans">‑which</span></span>
-            <span class="transUnit">vis<span class="trans">‑force</span></span>
-            <span class="transUnit">illa<span class="trans">‑that</span></span>
-            <span class="transUnit">imprimitur<span class="trans">‑imprints/acts</span>.”</span>
-            <br />
-            —
-            <a href="http://en.wikipedia.org/wiki/Sir_Isaac_Newton">Isaac Newton</a>,
-            <a href="http://en.wikipedia.org/wiki/Philosophi%C3%A6_Naturalis_Principia_Mathematica">Principia</a>, 1687.
-          </p>
-          <blockquote class="transBlock">
-            “The change of motion is proportional to the applied
-            force, and takes place in the direction of the straight
-            line in which the force acts.”
-          </blockquote>
-          <button class="showHideTrans">Show English translation</button>
-          <p>
-            Although Newton was English and lived in England, he wrote
-            the <a
-            href="http://en.wikipedia.org/wiki/Philosophi%C3%A6_Naturalis_Principia_Mathematica">Principia</a>
-            in Latin because that was the <a
-            href="http://en.wikipedia.org/wiki/New_Latin">standard
-            language</a> for scientific communication at the
-            time. Even in the late 1600s the use of Latin was in
-            decline, however, and Newton's later works, such as <a
-            href="http://en.wikipedia.org/wiki/Opticks">Opticks</a> in
-            1704, were written in English.
-          </p>
-        </div>
-      </div>
     </div>
     <div class="contentBlock">
       <div id="ren-sg" class="contentCol">
@@ -391,24 +509,28 @@
           Angular momentum
         </h2>
         <p>
-          Angular momentum is defined with respect to a given point
-          $O$. For a point mass, the angular momentum is the cross
-          product between the position vector and the linear momentum:
+          Angular momentum is defined with respect to a given base
+          point $O$. For a point mass, the angular momentum is the
+          cross product between the position vector and the linear
+          momentum:
         </p>
         <div class="envContainer equation" id="ren-eg">
-          <p class="envHeader">Angular momentum about fixed point $O$ of a point mass at $P$.</p>
+          <p class="envHeader">Angular momentum about fixed base point
+          $O$ of a point mass at $P$.</p>
           <div class="envBody">
             <p>
-              \[\vec{H}_O = \vec{r}_{OP} \times \vec{p}_P = \vec{r}_{OP} \times m\vec{v}_P\]
+              \[\vec{H}_O = \vec{r}_{OP} \times \vec{p}_P
+              = \vec{r}_{OP} \times m\vec{v}_P\]
             </p>
           </div>
         </div>
         <p>
           When a force is applied to a body it produces a
-          <i>moment</i> about any given fixed point $O$:
+          <i>moment</i> about any given fixed base point $O$:
         </p>
         <div class="envContainer equation" id="ren-eo">
-          <p class="envHeader">Moment about fixed point $O$ of a force acting at $P$.</p>
+          <p class="envHeader">Moment about fixed point $O$ of a force
+          acting at $P$.</p>
           <div class="envBody">
             <p>
               \[\vec{M}_O = \vec{r}_{OP} \times \vec{F}_P\]
@@ -419,7 +541,8 @@
           The angular momentum and applied moment are related by:
         </p>
         <div class="envContainer equation" id="ren-et">
-          <p class="envHeader">Moment equation.</p>
+          <p class="envHeader">Moment equation about fixed base point
+          $O$.</p>
           <div class="envBody">
             <p>
               \[\vec{M}_O = \dot{\vec{H}}_O\]
@@ -452,12 +575,13 @@
           </div>
         </div>
         <div class="envContainer warning" id="ren-wp">
-          <p class="envHeader">Warning: Always indicate the base point for angular momentum and moments.</p>
+          <p class="envHeader">Warning: Always indicate the base point
+          for angular momentum and moments.</p>
           <div class="envBody">
             <p>
               In the moment equation <a href="#ren-et">#ren-et</a> it
               is crucial that $\vec{M}_O$ and $\vec{H}_O$ are both
-              computed about the same point $O$. If we have
+              computed about the same base point $O$. If we have
               $\vec{M}_O$ about $O$ and $\vec{H}_C$ about $C$, then it
               is <i>not true</i> that $\vec{M}_O =
               \dot{\vec{H}}_C$. For this reason we always write the

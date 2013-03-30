@@ -94,6 +94,10 @@ body {
     margin: 0 auto;
 }
 
+strong {
+    font-family: 'NoticiaTextBold',Arial,Sans-serif;
+}
+
 /*****************************************************************************/
 
 .header {
