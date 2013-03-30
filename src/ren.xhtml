@@ -230,10 +230,9 @@
                 A car of mass $m$ is observed driving on a sinusoidal
                 road at a constant horizontal speed $v_0$. The road
                 surface has equation $y = A \sin(k x)$, where $A$ is
-                the <a href="">amplitude</a> and $k$ is the <a
-                href="">wavenumber</a>. What is the force of the road
-                on the car? Gravity $g$ acts vertically and assume no
-                air resistance.
+                the amplitude and $k$ is the wavenumber. What is the
+                force of the road on the car? Gravity $g$ acts
+                vertically and assume no air resistance.
               </p>
             </div>
             <div class="envContainer solution">
@@ -259,8 +258,8 @@
 
                   \[\begin{aligned}
                   \vec{F}_{\rm r} + \vec{F}_{\rm g} &amp;= m \vec{a} \\
-                  \vec{F}_{\rm r} &amp;= - m A (k v_0)^2 \sin(k x)\,\hat{\jmath} - m g \,\hat{\jmath} \\
-                  &amp;= - m \Big(g + A (k v_0)^2 \sin(k x)\Big) \,\hat{\jmath},
+                  \vec{F}_{\rm r} &amp;= - m A (k v_0)^2 \sin(k x)\,\hat{\jmath} + m g \,\hat{\jmath} \\
+                  &amp;= m \Big(g - A (k v_0)^2 \sin(k x)\Big) \,\hat{\jmath},
                   \end{aligned}\]
                   
                   where we have solved for the road force on the car.
@@ -477,11 +476,11 @@
               
               and to then rearrange to find the acceleration:
               
-              \[m \vec{a} = F - \dot{m} \vec{v}.\]
+              \[m \vec{a} = \vec{F} - \dot{m} \vec{v}.\]
               
               But this is wrong! The acceleration must depend not only
-              on the rate of mass loss, but also the speed with which
-              the lost mass is ejected.
+              on the rate of mass loss, but also on the speed with
+              which the lost mass is ejected.
             </p>
             <p>
               The right way to calculate the acceleration of a rocket
