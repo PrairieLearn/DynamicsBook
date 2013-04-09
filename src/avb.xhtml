@@ -56,7 +56,7 @@
         <p>
           Turning in a circle requires a vehicle to have a <a
           href="rvt.xhtml#rvt.sc">centripetal acceleration</a> inwards
-          on the turn, and so there must by some centripetal force
+          on the turn, and so there must be some centripetal force
           that produces this acceleration. For a vehicle driving on
           flat ground, this force must be produced by a sideways
           friction force on the tires. This introduces two problems:
@@ -84,14 +84,13 @@
           and minimizing the risk of slip or roll.
         </p>
         <p>
-          The <a href="#avb-fc">figure below</a> shows a bus
-          driving around a sharp corner at high speed on a heavily
-          banked road. To understand the dynamics of this vehicle and
-          the design tradeoffs for cornering on banked turns, we <a
-          href="">need a model</a>. We will start below with a simple
-          point mass model, which will be enough to understand
-          friction and sliding, and then move on to a 2D rigid-body
-          body to understand roll behavior.
+          The figure below shows a bus driving around a sharp corner
+          at high speed on a heavily banked road. To understand the
+          dynamics of this vehicle and the design tradeoffs for
+          cornering on banked turns, we need a model. We will start
+          below with a simple point mass model, which will be enough
+          to understand friction and sliding, and then move on to a 2D
+          rigid-body body to understand roll behavior.
         </p>
         <div class="figureContainer" id="avb-fc">
           <img class="figureImage" alt="Setra coach on the Mercedes-Benz Untertürkheim test track" src="avb_09A186_small.jpg" />
@@ -113,9 +112,10 @@
       </div>
       <div class="infoCol">
         <div class="infoBox requirementsBox">
-          <p>
-            Method of assumed motion
-          </p>
+          <ul>
+            <li><a href="ren.xhtml">Kinetics of point masses</a></li>
+            <li><a href="ree.xhtml">Euler's equations for rigid bodies</a></li>
+          </ul>
         </div>
       </div>
     </div>
@@ -126,7 +126,7 @@
           To understand the dynamics of <a href="#avb-fc">the bus
           above</a>, we first need a simple model of the geometry of
           the road. A satellite photo of the track is shown below. The
-          bus was photographed while on the left-hand curve, which we
+          bus was photographed while on the far-left-hand curve, which we
           can see is approximately a half-circle with radius about 50
           m.
         </p>
@@ -139,7 +139,7 @@
             River</a> just outside of <a
             href="http://en.wikipedia.org/wiki/Stuttgart">Stuttgart</a>,
             Germany. The <a href="#avb-fc">picture of the bus</a>
-            above was taken on the left-hand-corner, which has a
+            above was taken on the far-left-hand corner, which has a
             radius of curvature of about 50 m. Integrated with the
             test track is the excellent <a
             href="http://en.wikipedia.org/wiki/Mercedes-Benz_Museum">Mercedes-Benz
@@ -162,6 +162,10 @@
         <p>
           <canvas id="avb-fg-c" width="600" height="600">
           </canvas>
+        </p>
+        <p>
+          <button class="anim-toggle:avb-fg-c">animate</button>
+          <button class="option-toggle:avb-fg-c:vectors">show vectors</button>
         </p>
         <p>
           The centripetal acceleration must be caused by an inwards
@@ -233,7 +237,6 @@
           </canvas>
         </p>
         <p>
-          <button class="anim-toggle:avb-fp-c">animation</button>
           <button class="seq-toggle:avb-fp-c:fbd">free body diagram</button>
           <button class="option-toggle:avb-fp-c:components">components</button>
         </p>
@@ -310,7 +313,6 @@
           </canvas>
         </p>
         <p>
-          <button class="anim-toggle:avb-fr-c">animation</button>
           <button class="seq-toggle:avb-fr-c:fbd">free body diagram</button>
           <button class="option-toggle:avb-fr-c:components">components</button>
         </p>
@@ -433,15 +435,17 @@
       <div class="infoCol">
         <div id="avb-iv" class="infoBox factBox">
           <p>
-            The Blaine velodrome was designed by the famous <a
+            The <a href="http://velodrome.nscsports.org/">Blaine
+            velodrome</a> in Minnesota was designed by the famous <a
             href="http://en.wikipedia.org/wiki/Schuermann">Schuermann</a>
             velodrome architects and built from the extremely durable
             African <a
             href="http://en.wikipedia.org/wiki/Afzelia">Afzelia</a>
             hardwood.  Velodrome races are always counter-clockwise
-            and use special bikes with fixed chains (no freewheeling,
-            no gears) and <em>no brakes</em>. The corners are scarily
-            steep:
+            and use <a
+            href="http://en.wikipedia.org/wiki/Velodrome#Bicycles_and_track_design">special
+            bikes</a> with fixed chains (no freewheeling, no gears)
+            and <em>no brakes</em>. The corners are scarily steep:
           </p>
           <div class="imageBox">
             <img src="avb_velodrome_track_small.jpg" alt="woman leaning against a velodrome track"></img>
@@ -493,37 +497,6 @@
             all.
           </p>
         </div>
-      </div>
-    </div>
-    <div class="contentBlock">
-      <div id="avb-sq" class="section level3 contentCol">
-        <h2>Questions</h2>
-        <p>
-          rail track cant — explain \(V_{\rm max} =
-          \sqrt{\frac{E_{\rm a} + E_{\rm u}}{0.0007 d}}\) formula
-          from <a href=
-          "https://en.wikipedia.org/wiki/Cant_%28road/rail%29">Cant
-          on Wikipedia</a>
-        </p>
-        <p>
-          See <a
-          href="http://www.interfacejournal.com/features/09-05/cant/1.html">Operating
-          at High Cant Deficiency by Peter Klauser, October 2005,
-          Interface Journal</a>
-        </p>
-        <p>
-          Velodrome images from <a href="http://www.flickr.com/photos/juniorvelo/tags/velodrome/page5/">Velo Steve</a>, <a href="http://www.flickr.com/photos/flyinswede/sets/72157622109069907/with/5829169366/">flyinfoto</a>, <a href="http://www.flickr.com/photos/timwilson/sets/72157626855258157/with/5840879287/">TimWilson</a>
-        </p>
-        <p>
-          Why is it more important to have correct track transition
-          curves for trains that for roads? Because for roads the car
-          can correct by not driving on the centerline.
-        </p>
-        <p>
-          What happens to a bicycle if you try and turn around a curve
-          without leaning over? Is it possible to turn without
-          leaning?
-        </p>
       </div>
     </div>
     <div class="contentBlock">

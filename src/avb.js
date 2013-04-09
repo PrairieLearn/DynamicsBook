@@ -172,8 +172,13 @@ $(document).ready(function() {
 
         if (this.getOption("vectors")) {
             this.arrowFrom(data.P, data.diff.P.x(0.4), "velocity");
-            this.arrowFrom(data.P, data.ddiff.P.x(0.4), "acceleration");
-            this.arrowTo(data.P, data.ddiff.P.x(0.6), "force");
+            this.labelLine(data.P, data.P.add(data.diff.P.x(0.4)), $V([1, 0]), "TEX:$\\vec{v}$");
+            if (data.ddiff.P.modulus() > 1e-5) {
+                this.arrowFrom(data.P, data.ddiff.P.x(0.4), "acceleration");
+                this.labelLine(data.P, data.P.add(data.ddiff.P.x(0.4)), $V([1, 0]), "TEX:$\\vec{a}$");
+                this.arrowTo(data.P, data.ddiff.P.x(0.6), "force");
+                this.labelLine(data.P, data.P.add(data.ddiff.P.x(-0.6)), $V([1, 0]), "TEX:$\\vec{F}$");
+            }
         }
     });
 
@@ -223,7 +228,10 @@ $(document).ready(function() {
         this.restore();
         if (drawForces) {
             this.centerOfMass(C);
-            this.arrowFrom(C, $V([-acceleration, 0]).x(bus.motionScale), "acceleration");
+            if (Math.abs(acceleration) > 1e-5) {
+                this.arrowFrom(C, $V([-acceleration, 0]).x(bus.motionScale), "acceleration");
+                this.labelLine(C, C.add($V([-acceleration, 0]).x(bus.motionScale)), $V([1,0]), "TEX:$\\vec{a}$");
+            }
             bus.drawForce(this, C, $V([0, -bus.mass * bus.gravity]));
             bus.drawForce(this, $V([0, 0]), u.x(friction), v.x(normal));
         }
@@ -289,7 +297,10 @@ $(document).ready(function() {
         this.restore();
         if (drawForces) {
             this.centerOfMass(C);
-            this.arrowFrom(C, $V([-acceleration, 0]).x(bus.motionScale), "acceleration");
+            if (Math.abs(acceleration) > 1e-5) {
+                this.arrowFrom(C, $V([-acceleration, 0]).x(bus.motionScale), "acceleration");
+                this.labelLine(C, C.add($V([-acceleration, 0]).x(bus.motionScale)), $V([1,0]), "TEX:$\\vec{a}$");
+            }
             bus.drawForce(this, C, $V([0, -bus.mass * bus.gravity]));
             bus.drawForce(this, PL, u.x(frictionLeft), v.x(normalLeft));
             bus.drawForce(this, PR, u.x(frictionRight), v.x(normalRight));
