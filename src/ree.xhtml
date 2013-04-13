@@ -55,6 +55,22 @@
         <h2>
           Center of mass
         </h2>
+        <div class="envContainer equation" id="ree-em">
+          <p class="envHeader">Total mass of a body.</p>
+          <div class="envBody">
+            <p>
+              \[m = \int_V \rho \,dV\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer equation" id="ree-ec">
+          <p class="envHeader">Center of mass $C$.</p>
+          <div class="envBody">
+            <p>
+              \[\vec{r}_C = \frac{1}{m} \int_V \rho \vec{r} \,dV\]
+            </p>
+          </div>
+        </div>
       </div>
     </div>
     <div class="contentBlock">
@@ -62,6 +78,17 @@
         <h2>
           Moment of inertia
         </h2>
+        <div class="envContainer equation" id="ree-ei">
+          <p class="envHeader">Moment of inertia about axis $\hat{a}$ through point $P$.</p>
+          <div class="envBody">
+            <p>
+              \[I_{P,\hat{a}} = \int_V \rho r^2 \,dV\]
+            </p>
+            <p>
+              Here $r$ is the distance from the axis through $P$ in direction $\hat{a}$.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
     <div class="contentBlock">
@@ -69,6 +96,18 @@
         <h2>
           Euler's equations
         </h2>
+        <div class="envContainer equation" id="ree-ee">
+          <p class="envHeader">Rigid body equations for rotation about axis $\hat{a}$.</p>
+          <div class="envBody">
+            <p>
+              \[\begin{aligned}
+              \sum_i \vec{F}_i &amp;= m \vec{a}_C \\
+              \sum_i \vec{M}_{C,i} &amp;= I_{C,\hat{a}} \vec\alpha \\
+              \text{or } \sum_i \vec{M}_{O,i} &amp;= I_{O,\hat{a}} \vec\alpha \qquad \text{if $O$ is a fixed point}
+              \end{aligned}\]
+            </p>
+          </div>
+        </div>
       </div>
     </div>
     <div class="contentBlock">
@@ -76,6 +115,22 @@
         <h2>
           Linear momentum
         </h2>
+        <div class="envContainer equation" id="ree-el">
+          <p class="envHeader">Linear momentum of a rigid body.</p>
+          <div class="envBody">
+            <p>
+              \[\vec{p} = m \vec{v}_C\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer equation" id="ree-el">
+          <p class="envHeader">Kinetics equation using linear momentum.</p>
+          <div class="envBody">
+            <p>
+              \[\sum_i \vec{F}_i = \dot{\vec{p}}\]
+            </p>
+          </div>
+        </div>
       </div>
     </div>
     <div class="contentBlock">
@@ -83,6 +138,25 @@
         <h2>
           Angular momentum
         </h2>
+        <div class="envContainer equation" id="ree-ea">
+          <p class="envHeader">Angular momentum of a rigid body rotating about axis $\hat{a}$ through point $P$.</p>
+          <div class="envBody">
+            <p>
+              \[\vec{H}_P = I_{P,\hat{a}} \vec\omega \]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer equation" id="ree-er">
+          <p class="envHeader">Rotation equation using angular momentum.</p>
+          <div class="envBody">
+            <p>
+              \[\begin{aligned}
+              \sum_i \vec{M}_{C,i} &amp;= \dot{\vec{H}}_C \\
+              \text{or } \sum_i \vec{M}_{O,i} &amp;= \dot{\vec{H}}_O \qquad \text{if $O$ is a fixed point}
+              \end{aligned}\]
+            </p>
+          </div>
+        </div>
       </div>
     </div>
     <div class="contentBlock">
