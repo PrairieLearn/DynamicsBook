@@ -7,7 +7,7 @@
       Kinetics of point masses
     </title>
     <link href="style.css" type="text/css" rel="stylesheet" />
-    <link href="ren.css" type="text/css" rel="stylesheet" />
+    <link href="rep.css" type="text/css" rel="stylesheet" />
     <link href="icomoon.css" type="text/css" rel="stylesheet" />
 
     <script src="mathjax/MathJax.js?config=default" type="text/javascript"></script>
@@ -15,7 +15,7 @@
     <script src="sylvester.js" type="text/javascript"></script>
     <script src="sha1.js" type="text/javascript"></script>
     <script src="PrairieDraw.js" type="text/javascript"></script>
-    <script src="ren.js" type="text/javascript"></script>
+    <script src="rep.js" type="text/javascript"></script>
     <script src="pageControl.js" type="text/javascript"></script>
 <script type="text/javascript">
 
@@ -43,7 +43,7 @@
       </div>
       <div class="mainBlock">
     <div class="contentBlock">
-      <div id="ren" class="contentCol">
+      <div id="rep" class="contentCol">
         <h1>
           Kinetics of point masses
         </h1>
@@ -52,7 +52,7 @@
       </div>
     </div>
     <div class="contentBlock">
-      <div id="ren-sn" class="contentCol">
+      <div id="rep-sn" class="contentCol">
         <h2>
           Newton's equations
         </h2>
@@ -61,7 +61,7 @@
           point mass with mass $m$ to the total applied force
           $\vec{F}$ on the mass (sum of all applied forces). They are:
         </p>
-        <div class="envContainer equation" id="ren-en">
+        <div class="envContainer equation" id="rep-en">
           <p class="envHeader">Newton's equations.</p>
           <div class="envBody">
             <p>
@@ -76,12 +76,12 @@
           Newtonian dynamics are accurate for non-relativistic and
           non-quantum systems.
         </p>
-        <div class="figureContainer width600" id="ren-ff">
-          <canvas id="ren-ff-c" width="600" height="600" class="figureImage" >
+        <div class="figureContainer width600" id="rep-ff">
+          <canvas id="rep-ff-c" width="600" height="600" class="figureImage" >
           </canvas>
           <p class="controls">
-            <button class="anim-toggle:ren-ff-c">animation</button>
-            <button class="reset:ren-ff-c">reset</button>
+            <button class="anim-toggle:rep-ff-c">animation</button>
+            <button class="reset:rep-ff-c">reset</button>
             Click and hold on the figure to apply a constant-magnitude force.
           </p>
           <p class="figureCaption">
@@ -96,7 +96,7 @@
         </div>
       </div>
       <div class="infoCol">
-        <div id="ren-ir" class="infoBox factBox">
+        <div id="rep-ir" class="infoBox factBox">
           <p>
             If we have objects which are either very massive, very
             small, or moving very fast, then Newton's equations do not
@@ -141,7 +141,7 @@
       </div>
     </div>
     <div class="contentBlock">
-      <div id="ren-sa" class="contentCol">
+      <div id="rep-sa" class="contentCol">
         <h2>
           Method of assumed forces and method of assumed motion
         </h2>
@@ -171,7 +171,7 @@
           horizontal component of acceleration, and then computing the
           missing components of each.
         </p>
-        <div class="envContainer exampleProblem" id="ren-xf">
+        <div class="envContainer exampleProblem" id="rep-xf">
           <p class="envHeader">Example Problem: Method of assumed forces</p>
           <div class="envBody">
             <div class="question">
@@ -222,7 +222,7 @@
             </div>
           </div>
         </div>
-        <div class="envContainer exampleProblem" id="ren-xm">
+        <div class="envContainer exampleProblem" id="rep-xm">
           <p class="envHeader">Example Problem: Method of assumed motion</p>
           <div class="envBody">
             <div class="question">
@@ -272,7 +272,7 @@
           The steps involved in analyzing a mechanical system with
           Newton's equations are as follows.
         </p>
-        <div class="envContainer equation" id="ren-ep">
+        <div class="envContainer equation" id="rep-ep">
           <p class="envHeader">Solution procedure with Newton's equations.</p>
           <div class="envBody">
             <p>
@@ -285,11 +285,11 @@
             </p>
           </div>
         </div>
-        <div class="envContainer exampleProblem" id="ren-xl">
+        <div class="envContainer exampleProblem" id="rep-xl">
           <p class="envHeader">Example Problem: Pendulum with Newton's equations</p>
           <div class="envBody">
             <div class="question">
-              <canvas id="ren-xl-c" width="300" height="200" class="floatRight">
+              <canvas id="rep-xl-c" width="300" height="200" class="floatRight">
               </canvas>
               <p>
                 Consider the 2D pendulum with a massless rigid rod of
@@ -302,12 +302,12 @@
               <div class="envBody">
                 <p>
                   It is helpful in this problem to use both Cartesian and polar bases:
-                  <button class="option-toggle:ren-xl-c:showBases">show bases</button>
+                  <button class="option-toggle:rep-xl-c:showBases">show bases</button>
                 </p>
                 <p>
                   <strong>1. FBD:</strong> The free body diagram for the point mass is:
                 </p>
-                <canvas id="ren-xl-f" width="300" height="200" class="standaloneImage">
+                <canvas id="rep-xl-f" width="300" height="200" class="standaloneImage">
                 </canvas>
                 <p>
                   The forces on the free body diagram are:
@@ -331,7 +331,7 @@
                 </p>
                 <p>
                   <strong>3. Newton:</strong> Using <a
-                  href="#ren-en">#ren-en</a> gives:
+                  href="#rep-en">#rep-en</a> gives:
 
                   \[\begin{aligned}
                   \vec{F} &amp;= m\vec{a} \\
@@ -377,7 +377,7 @@
         </div>
       </div>
       <div class="infoCol">
-        <div id="ren-in" class="infoBox factBox">
+        <div id="rep-in" class="infoBox factBox">
           <p>
             Newton's equations $\vec{F} = m\vec{a}$ are an algebraic
             expression of <i>Newton's second law</i>:
@@ -426,7 +426,7 @@
       </div>
     </div>
     <div class="contentBlock">
-      <div id="ren-sl" class="contentCol">
+      <div id="rep-sl" class="contentCol">
         <h2>
           Linear momentum
         </h2>
@@ -434,7 +434,7 @@
           The linear momentum of a point mass is the product of its
           mass and velocity:
         </p>
-        <div class="envContainer equation" id="ren-em">
+        <div class="envContainer equation" id="rep-em">
           <p class="envHeader">Linear momentum of a point mass.</p>
           <div class="envBody">
             <p>
@@ -445,7 +445,7 @@
         <p>
           Using the linear momentum, Newton's equations are:
         </p>
-        <div class="envContainer equation" id="ren-ep">
+        <div class="envContainer equation" id="rep-ep">
           <p class="envHeader">Newton's equations in momentum form.</p>
           <div class="envBody">
             <p>
@@ -464,7 +464,7 @@
             </p>
           </div>
         </div>
-        <div class="envContainer warning" id="ren-wv">
+        <div class="envContainer warning" id="rep-wv">
           <p class="envHeader">Warning: Variable mass problems can't simply use $\vec{F} = \dot{\vec{p}}$.</p>
           <div class="envBody">
             <p>
@@ -503,7 +503,7 @@
       </div>
     </div>
     <div class="contentBlock">
-      <div id="ren-sg" class="contentCol">
+      <div id="rep-sg" class="contentCol">
         <h2>
           Angular momentum
         </h2>
@@ -513,7 +513,7 @@
           cross product between the position vector and the linear
           momentum:
         </p>
-        <div class="envContainer equation" id="ren-eg">
+        <div class="envContainer equation" id="rep-eg">
           <p class="envHeader">Angular momentum about fixed base point
           $O$ of a point mass at $P$.</p>
           <div class="envBody">
@@ -527,7 +527,7 @@
           When a force is applied to a body it produces a
           <i>moment</i> about any given fixed base point $O$:
         </p>
-        <div class="envContainer equation" id="ren-eo">
+        <div class="envContainer equation" id="rep-eo">
           <p class="envHeader">Moment about fixed point $O$ of a force
           acting at $P$.</p>
           <div class="envBody">
@@ -539,7 +539,7 @@
         <p>
           The angular momentum and applied moment are related by:
         </p>
-        <div class="envContainer equation" id="ren-et">
+        <div class="envContainer equation" id="rep-et">
           <p class="envHeader">Moment equation about fixed base point
           $O$.</p>
           <div class="envBody">
@@ -552,7 +552,7 @@
           <div class="envBody">
             <p>
               If we compute the derivative of $\vec{H}_O$ and use
-              Newton's equations <a href="#ren-en">#ren-en</a>, then
+              Newton's equations <a href="#rep-en">#rep-en</a>, then
               we obtain:
 
               \[\begin{aligned}
@@ -573,12 +573,12 @@
             </p>
           </div>
         </div>
-        <div class="envContainer warning" id="ren-wp">
+        <div class="envContainer warning" id="rep-wp">
           <p class="envHeader">Warning: Always indicate the base point
           for angular momentum and moments.</p>
           <div class="envBody">
             <p>
-              In the moment equation <a href="#ren-et">#ren-et</a> it
+              In the moment equation <a href="#rep-et">#rep-et</a> it
               is crucial that $\vec{M}_O$ and $\vec{H}_O$ are both
               computed about the same base point $O$. If we have
               $\vec{M}_O$ about $O$ and $\vec{H}_C$ about $C$, then it

@@ -20,7 +20,7 @@ $(document).ready(function() {
 
     $("button.showHideTrans").click(function() {showHideTrans($(this));});
 
-    var ren_ff_c = new PrairieDrawAnim("ren-ff-c", function(t) {
+    var rep_ff_c = new PrairieDrawAnim("rep-ff-c", function(t) {
 
         var xViewMax = 3;
         var yViewMax = 2;
@@ -104,10 +104,10 @@ $(document).ready(function() {
         }
     });
 
-    ren_ff_c.activateMouseTracking();
-    ren_ff_c.activateAnimOnClick();
+    rep_ff_c.activateMouseTracking();
+    rep_ff_c.activateAnimOnClick();
 
-    var ren_xl_c = new PrairieDraw("ren-xl-c", function() {
+    var rep_xl_c = new PrairieDraw("rep-xl-c", function() {
 
         this.setUnits(6, 4);
 
@@ -154,7 +154,7 @@ $(document).ready(function() {
         }
     });
 
-    var ren_xl_f = new PrairieDraw("ren-xl-f", function() {
+    var rep_xl_f = new PrairieDraw("rep-xl-f", function() {
 
         this.setUnits(6, 4);
 

@@ -9,19 +9,19 @@ table.basic th {
     text-align: left;
 }
 
-#ren-in .transUnit {
+#rep-in .transUnit {
     white-space: nowrap;
 }
 
-#ren-in .trans {
+#rep-in .trans {
     color: #f00;
 }
 
-#ren-in .transBlock {
+#rep-in .transBlock {
     color: #f00;
 }
 
-#ren-xl .question {
+#rep-xl .question {
     height: 210px;
 }
 
