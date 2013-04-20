@@ -650,6 +650,12 @@ table.basic .lineBelow th {
 
 /*****************************************************************************/
 
+table.alternating tr:nth-child(2n + 1) td {
+    background: #eef;
+}
+
+/*****************************************************************************/
+
 tr.bottomBorder td {
     border-bottom: 1px solid #000;
 }
