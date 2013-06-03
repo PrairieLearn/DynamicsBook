@@ -1254,6 +1254,9 @@ PrairieDraw.prototype.restoreAll = function() {
     while (this._propStack.length > 0) {
         this.restore();
     }
+    if (this._saveTrans !== undefined) {
+        this._trans = this._saveTrans;
+    }
 };
 
 /*****************************************************************************/
@@ -1290,6 +1293,7 @@ PrairieDraw.prototype.stop = function() {
 */
 PrairieDraw.prototype.setUnits = function(xSize, ySize, canvasWidth, preserveCanvasSize) {
     this.clearDrawing();
+    this._trans = Matrix.I(3);
     if (canvasWidth !== undefined) {
         var canvasHeight = Math.floor(ySize / xSize * canvasWidth);
         if ((this._width != canvasWidth) || (this._height != canvasHeight)) {
@@ -1323,6 +1327,7 @@ PrairieDraw.prototype.setUnits = function(xSize, ySize, canvasWidth, preserveCan
         this.scale($V([1, -1]));
         this.scale($V([yScale, yScale]));
     }
+    this._saveTrans = this._trans;
 }
 
 /*****************************************************************************/
@@ -3834,10 +3839,9 @@ PrairieDraw.prototype.activateMouseLineDraw = function() {
         if (this._mouseDrawCallbacks === undefined) {
             this._mouseDrawCallbacks = [];
         }
-        this._canvas.addEventListener('mousedown', this.mouseLineDrawMousedown.bind(this));
-        this._canvas.addEventListener('mousemove', this.mouseLineDrawMousemove.bind(this));
-        this._canvas.addEventListener('mouseup', this.mouseLineDrawMouseup.bind(this));
-        this._canvas.addEventListener('mouseout', this.mouseLineDrawMouseup.bind(this));
+        this._canvas.addEventListener("mousedown", this.mouseLineDrawMousedown.bind(this), true);
+        window.addEventListener("mouseup", this.mouseLineDrawMouseup.bind(this), true);
+        window.addEventListener("mousemove", this.mouseLineDrawMousemove.bind(this), true);
     }
     for (var i = 0; i < this._mouseDrawCallbacks.length; i++) {
         this._mouseDrawCallbacks[i]();
@@ -3856,6 +3860,7 @@ PrairieDraw.prototype.mouseLineDrawMousedown = function(event) {
     if (!this._mouseLineDrawActive) {
         return;
     }
+    event.preventDefault();
 
     var posDw = this.mouseEventDw(event);
     this.mouseLineDrawStart = posDw;
