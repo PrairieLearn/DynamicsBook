@@ -1,0 +1,477 @@
+<?xml version="1.0"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+  <head profile="http://www.w3.org/2005/10/profile">
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <title>
+      Moments of inertia
+    </title>
+    <link href="style.css" type="text/css" rel="stylesheet" />
+    <link href="rem.css" type="text/css" rel="stylesheet" />
+    <link href="icomoon.css" type="text/css" rel="stylesheet" />
+
+    <script src="mathjax/MathJax.js?config=default" type="text/javascript"></script>
+    <script src="jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script src="sylvester.js" type="text/javascript"></script>
+    <script src="sha1.js" type="text/javascript"></script>
+    <script src="PrairieDraw.js" type="text/javascript"></script>
+    <script src="rem.js" type="text/javascript"></script>
+    <script src="pageControl.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-37625161-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header"><h1>Dynamics</h1></div>
+      <div class="navbar">
+        <ul><li><a href="index.xhtml" id="navHome">Home</a></li><li><a href="ref.xhtml" id="navRef">Reference</a></li><li><a href="apps.xhtml" id="navApps">Applications</a></li></ul>
+      </div>
+      <div class="browserWarning">
+        <strong>Warning:</strong>
+        This website has only been tested on Chrome version 24 and higher. Your browser may not be fully supported.
+      </div>
+      <div class="mainBlock">
+    <div class="contentBlock">
+      <div id="rem" class="contentCol">
+        <h1>
+          Moments of inertia
+        </h1>
+        <div class="envContainer equation" id="rem-ei">
+          <p class="envHeader">Moment of inertia about axis $\hat{a}$ through point $P$.</p>
+          <div class="envBody">
+            <p>
+              \[I_{P,\hat{a}} = \int_\mathcal{B} \rho r^2 \,dV\]
+            </p>
+            <p>
+              Here $r$ is the perpendicular distance from the axis
+              through $P$ in direction $\hat{a}$.
+            </p>
+          </div>
+        </div>
+        <div class="envContainer equation" id="rem-ec">
+          <p class="envHeader">Moments of inertia about coordinate axes through point $P$.</p>
+          <div class="envBody">
+            <p>
+              \[\begin{aligned}
+              I_{P,\hat\imath} &amp;= \iiint_\mathcal{B} \rho (y^2 + z^2) \,dx\,dy\,dz \\
+              I_{P,\hat\jmath} &amp;= \iiint_\mathcal{B} \rho (z^2 + x^2) \,dx\,dy\,dz \\
+              I_{P,\hat{k}} &amp;= \iiint_\mathcal{B} \rho (x^2 + y^2) \,dx\,dy\,dz
+              \end{aligned}\]
+            </p>
+            <p>
+              Here $(x,y,z)$ are the coordinates in the body measured from point $P$.
+            </p>
+          </div>
+        </div>
+        <div class="envContainer exampleProblem" id="rem-xs">
+          <p class="envHeader">Example Problem: Moment of inertia of a square plate.</p>
+          <div class="envBody">
+            <div class="question">
+              <canvas id="rem-xs-c" width="300" height="200" class="floatRight">
+              </canvas>
+              <p>
+                A solid square uniform plate has mass $m$, side-length
+                $\ell$, and thickness $h$. What is the moment of
+                inertia about the axis through the center of mass $C$
+                in the perpendicular direction $\hat{k}$?
+              </p>
+            </div>
+            <div class="envContainer solution">
+              <div class="envBody">
+                <canvas id="rem-xs-c3" width="300" height="200" class="floatRight">
+                </canvas>
+                <p>
+                  We will use the coordinate formula <a
+                  href="#rem-ec">#rem-ec</a>. To do this, we measure
+                  the position from the point $C$ about which we are
+                  computing the moment of inertia, so the coordinate
+                  origin is at $C$. The figure to the right shows the
+                  3D configuration of the body, where we see that the
+                  $x$-coordinate range of the body is $-\ell/2$ to
+                  $\ell/2$, and the same for the $y$-coordinate, while
+                  the $z$-coordinate ranges from $-h/2$ to $h/2$.
+                </p>
+                <p>
+                  Taking the density of the plate to be $\rho$, we
+                  thus have:
+
+                  \[\begin{aligned}
+                  I_{C,\hat{k}} &amp;= \iiint_\mathcal{B} \rho (x^2 + y^2) \,dx\,dy\,dz \\
+                  &amp;= \int_{-h/2}^{h/2} \int_{-\ell/2}^{\ell/2} \int_{-\ell/2}^{\ell/2}
+                  \rho (x^2 + y^2) \,dx\,dy\,dz \\
+                  &amp;= \int_{-h/2}^{h/2} \int_{-\ell/2}^{\ell/2} \left[
+                  \rho \left(\frac{1}{3}x^3 + y^2 x\right)\right]_{-\ell/2}^{\ell/2} \,dy\,dz \\
+                  &amp;= \int_{-h/2}^{h/2} \int_{-\ell/2}^{\ell/2}
+                  \rho \left(\frac{1}{12}\ell^3 + y^2 \ell \right) \,dy\,dz \\
+                  &amp;= \int_{-h/2}^{h/2} \left[
+                  \rho \left(\frac{1}{12}\ell^3 y + \frac{1}{3} y^3 \ell \right) \right]_{-\ell/2}^{\ell/2} \,dz \\
+                  &amp;= \int_{-h/2}^{h/2}
+                  \rho \left(\frac{1}{12}\ell^4 + \frac{1}{12} \ell^4 \right) \,dz \\
+                  &amp;= \int_{-h/2}^{h/2} \rho \frac{1}{6}\ell^4 \,dz \\
+                  &amp;= \left[ \rho \frac{1}{6}\ell^4 z \right]_{-h/2}^{h/2} \\
+                  &amp;= \rho \frac{1}{6}\ell^4 h.
+                  \end{aligned}\]
+
+                  The total mass of the plate is $m = \rho \ell^2 h$,
+                  so we can write the moment of inertia as
+
+                  \[I_{C,\hat{k}} = \frac{1}{6} m \ell^2.\]
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="infoCol">
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="rem-si" class="contentCol">
+        <h2>
+          Transforming and combining moments of inertia
+        </h2>
+        <div class="envContainer equation" id="rem-el">
+          <p class="envHeader">Parallel axis theorem.</p>
+          <div class="envBody">
+            <p>
+              \[I_{P,\hat{a}} = I_{C,\hat{a}} + m \, {r_{CP}}^2\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer warning" id="rem-wl">
+          <p class="envHeader">Warning: Parallel axis theorem must start from center of mass $C$.</p>
+          <div class="envBody">
+            <p>
+            </p>
+          </div>
+        </div>
+        <div class="envContainer exampleProblem" id="rem-xc">
+          <p class="envHeader">Example Problem: Moment of inertia of a square plate about a corner.</p>
+          <div class="envBody">
+            <div class="question">
+              <canvas id="rem-xc-c" width="300" height="200" class="floatRight">
+              </canvas>
+              <p>
+                A solid uniform square plate has mass $m$, side-length
+                $\ell$, and thickness $h$. What is the moment of
+                inertia about the axis through the corner $P$ in the
+                perpendicular direction $\hat{k}$?
+              </p>
+            </div>
+            <div class="envContainer solution">
+              <div class="envBody">
+                <p>
+                  We can re-use our solution to Example Problem <a
+                  href="#rem-xs">#rem-xs</a>, where we computed the
+                  moment of inertia of a square place about the center
+                  to be $I_{C,\hat{k}} = \frac{1}{6} m \ell^2$. The
+                  parallel axis theorem <a href="#rem-el">#rem-el</a>
+                  now gives:
+
+                  \[\begin{aligned}
+                  I_{P,\hat{k}} &amp;= I_{C,\hat{k}} + m \, {r_{CP}}^2 \\
+                  &amp;= \frac{1}{6} m \ell^2
+                  + m \left( \left(\frac{\ell}{2}\right)^2 + \left(\frac{\ell}{2}\right)^2 \right) \\
+                  &amp;= \frac{2}{3} m \ell^2.
+                  \end{aligned}\]
+                </p>
+                <canvas id="rem-xc-c3" width="300" height="200" class="floatRight">
+                </canvas>
+                <p>
+                  Alternatively, we can compute the corner moment of
+                  inertia directly by integrating with formula <a
+                  href="#rem-ec">#rem-ec</a>. To do this, we put the
+                  coordinate origin at the point $P$ about which we
+                  wish to find the moment of inertia, as shown in 3D
+                  to the right. From this we see that the $x$ range is
+                  $0$ to $\ell$, the same for the $y$ range, and the
+                  $z$ range is $-h/2$ to $h/2$.
+                </p>
+                <p>
+                  The integral formula now gives:
+
+                  \[\begin{aligned}
+                  I_{P,\hat{k}} &amp;= \iiint_\mathcal{B} \rho (x^2 + y^2) \,dx\,dy\,dz \\
+                  &amp;= \int_{-h/2}^{h/2} \int_0^{\ell} \int_{0}^{\ell}
+                  \rho (x^2 + y^2) \,dx\,dy\,dz \\
+                  &amp;= \int_{-h/2}^{h/2} \int_{0}^{\ell} \left[
+                  \rho \left(\frac{1}{3}x^3 + y^2 x\right)\right]_{0}^{\ell} \,dy\,dz \\
+                  &amp;= \int_{-h/2}^{h/2} \int_{0}^{\ell}
+                  \rho \left(\frac{1}{3}\ell^3 + y^2 \ell \right) \,dy\,dz \\
+                  &amp;= \int_{-h/2}^{h/2} \left[
+                  \rho \left(\frac{1}{3}\ell^3 y + \frac{1}{3} y^3 \ell \right) \right]_{0}^{\ell} \,dz \\
+                  &amp;= \int_{-h/2}^{h/2}
+                  \rho \left(\frac{1}{3}\ell^4 + \frac{1}{3} \ell^4 \right) \,dz \\
+                  &amp;= \int_{-h/2}^{h/2} \rho \frac{2}{3}\ell^4 \,dz \\
+                  &amp;= \left[ \rho \frac{2}{3}\ell^4 z \right]_{-h/2}^{h/2} \\
+                  &amp;= \rho \frac{2}{3}\ell^4 h.
+                  \end{aligned}\]
+
+                  The total mass of the plate is $m = \rho \ell^2 h$,
+                  so we can write the final expression for the moment of inertia is
+
+                  \[I_{P,\hat{k}} = \frac{2}{3} m \ell^2.\]
+
+                  This is the same as the expression we obtained above
+                  using the parallel axis theorem, but clearly the
+                  parallel axis theorem version is much easier.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="envContainer equation" id="rem-ea">
+          <p class="envHeader">Adding moments of inertia.</p>
+          <div class="envBody">
+            <p>
+              \[I_{P,\hat{a}} = I^{\mathcal{B}_1}_{P,\hat{a}} + I^{\mathcal{B}_2}_{P,\hat{a}}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer exampleProblem" id="rem-xl">
+          <p class="envHeader">Example Problem: Moment of inertia of an L-shaped plate.</p>
+          <div class="envBody">
+            <div class="question">
+              <canvas id="rem-xl-c" width="300" height="200" class="floatRight">
+              </canvas>
+              <p>
+                A solid uniform L-shaped plate has mass $m$ and
+                dimensions as shown. What is the moment of inertia
+                about the axis through the corner $P$ in the
+                perpendicular direction $\hat{k}$?
+              </p>
+            </div>
+            <div class="envContainer solution">
+              <div class="envBody">
+                <canvas id="rem-xl-cd" width="300" height="200" class="floatRight">
+                </canvas>
+                <p>
+                  We can re-use our solution to Example Problem <a
+                  href="#rem-xs">#rem-xs</a>, where we computed the
+                  moment of inertia of a square place about the center
+                  to be $I_{C,\hat{k}} = \frac{1}{6} m \ell^2$,
+                  together with parallel axis theorem <a
+                  href="#rem-el">#rem-el</a> and the additive theorem
+                  <a href="#rem-ea">#rem-ea</a>.
+                </p>
+                <p>
+                  To do this, we must first realize that the L-shape
+                  can be decomposed into four square plates, as
+                  shown. Each small square body has the same mass and
+                  the same moment of inertia about its center, so:
+
+                  \[\begin{aligned}
+                  m_1 &amp;= \frac{1}{4} m \\
+                  I^{\mathcal{B}_1}_{C_1,\hat{k}} &amp;=
+                  \frac{1}{6} m_1 (2d)^2
+                  = \frac{1}{6} \left(\frac{1}{4} m\right) 4d^2
+                  = \frac{1}{6} m d^2,
+                  \end{aligned}\]
+
+                  and similarly for each other small square body.
+                </p>
+                <p>
+                  Now individual moments of inertia about the corner
+                  $P$ can be found using the parallel axis
+                  theorem:
+
+                  \[\begin{aligned}
+                  I^{\mathcal{B}_1}_{P,\hat{k}} &amp;= I^{\mathcal{B}_1}_{P,\hat{k}}
+                  + m_1 \, {r_{C_1P}}^2
+                  = \frac{1}{6} m d^2
+                  + \left(\frac{1}{4} m\right) \left(d^2 + (3d)^2\right)
+                  = \frac{8}{3} m d^2 \\
+                  I^{\mathcal{B}_2}_{P,\hat{k}} &amp;= I^{\mathcal{B}_2}_{P,\hat{k}}
+                  + m_2 \, {r_{C_2P}}^2
+                  = \frac{1}{6} m d^2
+                  + \left(\frac{1}{4} m\right) \left(d^2 + d^2\right)
+                  = \frac{2}{3} m d^2 \\
+                  I^{\mathcal{B}_3}_{P,\hat{k}} &amp;= I^{\mathcal{B}_1}_{P,\hat{k}}
+                  = \frac{8}{3} m d^2 \\
+                  I^{\mathcal{B}_4}_{P,\hat{k}} &amp;= I^{\mathcal{B}_4}_{P,\hat{k}}
+                  + m_4 \, {r_{C_4P}}^2
+                  = \frac{1}{6} m d^2
+                  + \left(\frac{1}{4} m\right) \left((5d)^2 + d^2\right)
+                  = \frac{20}{3} m d^2.
+                  \end{aligned}\]
+
+                  Here we observed that body $\mathcal{B}_3$ will have
+                  the same moment of inertia as $\mathcal{B}_1$,
+                  saving some computation.
+                </p>
+                <p>
+                  Combining the individual moments of inertia now
+                  gives us the total:
+
+                  \[\begin{aligned}
+                  I_{P,\hat{k}} &amp;= I^{\mathcal{B}_1}_{P,\hat{k}}
+                  + I^{\mathcal{B}_2}_{P,\hat{k}} + I^{\mathcal{B}_3}_{P,\hat{k}}
+                  + I^{\mathcal{B}_4}_{P,\hat{k}} \\
+                  &amp;= \frac{8}{3} m d^2 + \frac{2}{3} m d^2 + \frac{8}{3} m d^2 + \frac{20}{3} m d^2\\
+                  &amp;= \frac{38}{3} m d^2.
+                  \end{aligned}\]
+
+                  We could also directly compute the total moment of
+                  inertia using the integral formula <a
+                  href="#rem-ec">#rem-ec</a>, which would be quite
+                  complex.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="rem-sb" class="contentCol">
+        <h2>
+          Basic shapes
+        </h2>
+        <div class="envContainer equation" id="rem-ep">
+          <p class="envHeader">Point mass: moments of inertia</p>
+          <div class="envBody">
+            <table class="momentInertia">
+              <tr>
+                <td>
+                  <canvas id="rem-ep-c" width="300" height="200">
+                  </canvas>
+                </td>
+                <td>
+                  <p>
+                    \[\begin{aligned}
+                    I_{P,\hat{k}} &amp;= m r^2
+                    \end{aligned}\]
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="envContainer equation" id="rem-er">
+          <p class="envHeader">Rectangular prism: moments of inertia</p>
+          <div class="envBody">
+            <table class="momentInertia">
+              <tr>
+                <td>
+                  <canvas id="rem-er-c" width="300" height="200">
+                  </canvas>
+                </td>
+                <td>
+                  <p>
+                    \[\begin{aligned}
+                    I_{C,\hat\imath} &amp;= \frac{1}{12} m ({\ell_y}^2 + {\ell_z}^2) \\
+                    I_{C,\hat\jmath} &amp;= \frac{1}{12} m ({\ell_z}^2 + {\ell_x}^2) \\
+                    I_{C,\hat{k}} &amp;= \frac{1}{12} m ({\ell_x}^2 + {\ell_y}^2)
+                    \end{aligned}\]
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="envContainer equation" id="rem-ec">
+          <p class="envHeader">Cylindrical thick shell: moments of inertia</p>
+          <div class="envBody">
+            <table class="momentInertia">
+              <tr>
+                <td>
+                  <canvas id="rem-ec-c" width="300" height="300">
+                  </canvas>
+                </td>
+                <td>
+                  <p>
+                    \[\begin{aligned}
+                    I_{C,\hat\imath} &amp;= I_{C,\hat\jmath} = \frac{1}{12} m (3({r_1}^2 + {r_2}^2) + {\ell_z}^2) \\
+                    I_{C,\hat{k}} &amp;= \frac{1}{2} m ({r_1}^2 + {r_2}^2)
+                    \end{aligned}\]
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="envContainer equation" id="rem-es">
+          <p class="envHeader">Spherical thick shell: moments of inertia</p>
+          <div class="envBody">
+            <p>
+              \[\begin{aligned}
+              I_C &amp;= \frac{2}{5} m \left(\frac{{r_2}^5 - {r_1}^5}{{r_2}^3 - {r_1}^3}\right)
+              \end{aligned}\]
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="rem-ss" class="contentCol">
+        <h2>
+          Simplified shapes
+        </h2>
+        <div class="envContainer equation" id="rem-ei">
+          <p class="envHeader">Rod: moments of inertia</p>
+          <div class="envBody">
+            <p>
+              \[\begin{aligned}
+              I_{C,\hat{k}} &amp;= \frac{1}{12} m \ell^2 \\
+              I_{P,\hat{k}} &amp;= \frac{1}{3} m \ell^2
+              \end{aligned}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer equation" id="rem-ei">
+          <p class="envHeader">Solid cylinder or disk: moments of inertia</p>
+          <div class="envBody">
+            <p>
+              \[\begin{aligned}
+              I_{C,\hat{k}} &amp;= \frac{1}{2} m r^2
+              \end{aligned}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer equation" id="rem-ei">
+          <p class="envHeader">Hollow cylinder or hoop: moments of inertia</p>
+          <div class="envBody">
+            <p>
+              \[\begin{aligned}
+              I_{C,\hat{k}} &amp;= m r^2
+              \end{aligned}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer equation" id="rem-ei">
+          <p class="envHeader">Solid ball: moments of inertia</p>
+          <div class="envBody">
+            <p>
+              \[\begin{aligned}
+              I_C &amp;= \frac{2}{5} m r^2
+              \end{aligned}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer equation" id="rem-ei">
+          <p class="envHeader">Hollow sphere: moments of inertia</p>
+          <div class="envBody">
+            <p>
+              \[\begin{aligned}
+              I_C &amp;= \frac{2}{3} m r^2
+              \end{aligned}\]
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+      </div>
+    </div>
+  </body>
+</html>
