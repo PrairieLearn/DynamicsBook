@@ -1899,6 +1899,9 @@ PrairieDraw.prototype.arc3D = function(posDw, radDw, normDw, refDw, startAngleDw
     var fullCircle = (startAngleDw === undefined && endAngleDw === undefined);
     startAngleDw = (startAngleDw === undefined) ? 0 : startAngleDw;
     endAngleDw = (endAngleDw === undefined) ? (2 * Math.PI) : endAngleDw;
+    var useOptions = (options === undefined) ? {} : options;
+    var filled = (useOptions.filled === undefined) ? false : useOptions.filled;
+    var stroked = (useOptions.stroked === undefined) ? true : useOptions.stroked;
 
     options = (options === undefined) ? {} : options;
     var idealSegmentSize = (options.idealSegmentSize === undefined) ? (2 * Math.PI / 40) : options.idealSegmentSize;
@@ -1913,12 +1916,11 @@ PrairieDraw.prototype.arc3D = function(posDw, radDw, normDw, refDw, startAngleDw
         p = posDw.add(uDw.x(radDw * Math.cos(theta))).add(vDw.x(radDw * Math.sin(theta)));
         points.push(this.pos3To2(p));
     }
+    var closed = fullCircle;
     if (fullCircle) {
         points.pop();
-        this.polyLine(points, true, false);
-    } else {
-        this.polyLine(points);
     }
+    this.polyLine(points, closed, filled, stroked);
 };
 
 /*****************************************************************************/
