@@ -2186,8 +2186,10 @@ PrairieDraw.prototype.arc = function(centerDw, radiusDw, startAngle, endAngle, f
     @param {Array} pointsDw A list of drawing coordinates that form the polyLine.
     @param {bool} closed (Optional) Whether the shape should be closed (default: false).
     @param {bool} filled (Optional) Whether the shape should be filled (default: true).
+    @param {bool} stroked (Optional) Whether the shape should be stroked (default: true).
+    @param (Array) subPaths (Options) A list of additional subpaths to draw (default: []).
 */
-PrairieDraw.prototype.polyLine = function(pointsDw, closed, filled) {
+PrairieDraw.prototype.polyLine = function(pointsDw, closed, filled, stroked, subPaths) {
     if (pointsDw.length < 2) {
         return;
     }
@@ -2198,21 +2200,31 @@ PrairieDraw.prototype.polyLine = function(pointsDw, closed, filled) {
     this._ctx.fillStyle = this._props.shapeInsideColor;
 
     this._ctx.beginPath();
-    var pDw = this.pos3To2(pointsDw[0]);
-    var pPx = this.pos2Px(pDw);
-    this._ctx.moveTo(pPx.e(1), pPx.e(2));
-    for (var i = 1; i < pointsDw.length; i++) {
-        pDw = this.pos3To2(pointsDw[i]);
-        pPx = this.pos2Px(pDw);
-        this._ctx.lineTo(pPx.e(1), pPx.e(2));
-    }
-    if (closed !== undefined && closed === true) {
-        this._ctx.closePath();
-        if (filled === undefined || filled === true) {
-            this._ctx.fill();
+    var allSubPaths = (subPaths === undefined) ? [] : subPaths;
+    allSubPaths.unshift(pointsDw);
+    for (var iSubPath = 0; iSubPath < allSubPaths.length; iSubPath++) {
+        var subPathPointsDw = allSubPaths[iSubPath];
+        var pDw = this.pos3To2(subPathPointsDw[0]);
+        var pPx = this.pos2Px(pDw);
+        this._ctx.moveTo(pPx.e(1), pPx.e(2));
+        for (var i = 1; i < subPathPointsDw.length; i++) {
+            pDw = this.pos3To2(subPathPointsDw[i]);
+            pPx = this.pos2Px(pDw);
+            this._ctx.lineTo(pPx.e(1), pPx.e(2));
+        }
+        if (closed !== undefined && closed === true) {
+            this._ctx.closePath();
         }
     }
-    this._ctx.stroke();
+
+    if (closed !== undefined && closed === true) {
+        if (filled === undefined || filled === true) {
+            this._ctx.fill(fillRule="evenodd");
+        }
+    }
+    if (stroked === undefined || stroked === true) {
+        this._ctx.stroke();
+    }
     this._ctx.restore();
 }
 
