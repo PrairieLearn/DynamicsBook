@@ -1517,6 +1517,28 @@ PrairieDraw.prototype.dupState = function(state) {
 
 /*****************************************************************************/
 
+/** Set options with defaults.
+
+    @param (Object) options The given options.
+    @param (Object) defaults The default properties.
+*/
+PrairieDraw.prototype.defaultedOptions = function(options, defaults) {
+    var newOptions = {};
+    if (defaults !== undefined) {
+        for (e in defaults) {
+            newOptions[e] = defaults[e];
+        }
+    }
+    if (options !== undefined) {
+        for (e in options) {
+            newOptions[e] = options[e];
+        }
+    }
+    return newOptions;
+};
+
+/*****************************************************************************/
+
 /** Draw a point.
 
     @param {Vector} posDw Position of the point (drawing coords).
