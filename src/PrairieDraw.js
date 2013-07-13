@@ -2129,6 +2129,98 @@ PrairieDraw.prototype.sphereSlice = function(posDw, radDw, normDw, distDw, drawB
 
 /*****************************************************************************/
 
+/** Draw a cylinder.
+
+    @param {Vector} baseDw Position of the cylinder base.
+    @param {Vector} centerDw Center vector of the cylinder.
+    @param {number} radDw Radius of the cylinder.
+    @param {Object} options (Optional) Options controlling what to draw and fill (boolean properties: strokeBottomBack, strokeBottomFront, strokeSides, strokeTop, fillFront, fillTop; numeric properties: numSegments, topInnerRadius).
+    @return (Vector) The offsetDw radial vector orthogonal to the view direction;
+*/
+PrairieDraw.prototype.cylinder = function(baseDw, centerDw, radDw, options) {
+    options = this.defaultedOptions(options, {strokeBottomBack: true, strokeBottomFront: true, strokeSides: true,
+                                              strokeTop: true, fillFront: true, fillTop: true, numSegments: 20, topInnerRadius: 0});
+    var centerVw = this.vecDwToVw(centerDw);
+    if (centerVw.dot(Vector.k) < 0) {
+        // backwards, flip the cylinder
+        baseDw = baseDw.add(centerDw);
+        centerDw = centerDw.x(-1);
+        centerVw = centerVw.x(-1);
+    }
+    var baseVw = this.posDwToVw(baseDw);
+    var topDw = baseDw.add(centerDw);
+    var topVw = this.posDwToVw(topDw);
+    var edgeDw = baseDw.add(this.chooseNormVec(centerDw).x(radDw));
+    var edgeVw = this.posDwToVw(edgeDw);
+    var radVw = edgeVw.subtract(baseVw).modulus();
+    var offsetVw = centerVw.cross(Vector.k);
+    if (offsetVw.modulus() < 1e-10) {
+        // top view, looks like a circle
+        return;
+    }
+    offsetVw = offsetVw.toUnitVector().x(radVw);
+    var offsetDw = this.vecVwToDw(offsetVw);
+    if (Math.abs(centerVw.dot(Vector.k)) < 1e-10) {
+        // side view, looks like a rectangle
+        return offsetDw;
+    }
+
+    var that = this;
+    var arcPoints = function(posDw, normDw, refDw, radDw, startAngleDw, endAngleDw) {
+        var uDw = that.orthComp(refDw, normDw).toUnitVector();
+        var vDw = normDw.toUnitVector().cross(uDw);
+        var points = [];
+        var theta, p;
+        var numSegments = Math.ceil(options.numSegments * Math.abs(endAngleDw - startAngleDw) / Math.PI);
+        for (var i = 0; i <= numSegments; i++) {
+            theta = that.linearInterp(startAngleDw, endAngleDw, i / numSegments);
+            p = posDw.add(uDw.x(radDw * Math.cos(theta))).add(vDw.x(radDw * Math.sin(theta)));
+            points.push(that.pos3To2(p));
+        }
+        return points;
+    };
+    var bottomBackPoints = arcPoints(baseDw, centerDw, offsetDw, radDw, 0, Math.PI);
+    var bottomFrontPoints = arcPoints(baseDw, centerDw, offsetDw, radDw, Math.PI, 2 * Math.PI);
+    var topBackPoints = arcPoints(topDw, centerDw, offsetDw, radDw, 0, Math.PI);
+    var topFrontPoints = arcPoints(topDw, centerDw, offsetDw, radDw, Math.PI, 2 * Math.PI);
+    var topPoints = arcPoints(topDw, centerDw, offsetDw, radDw, 0, 2 * Math.PI);
+    topPoints.pop();
+    var outlinePoints = topBackPoints.concat(bottomFrontPoints);
+    var frontOutlinePoints = topFrontPoints.concat(bottomFrontPoints);
+    var topSubPaths = [];
+    if (options.topInnerRadius > 0) {
+        var topInnerPoints = arcPoints(topDw, centerDw, offsetDw, options.topInnerRadius, 0, 2 * Math.PI);
+        topSubPaths = [topInnerPoints];
+    }
+
+    if (options.strokeBottomBack) {
+        this.polyLine(bottomBackPoints);
+    }
+    if (options.fillFront && options.fillTop) {
+        this.polyLine(outlinePoints, true, true, false, topSubPaths);
+    }
+    if (options.fillFront && !options.fillTop) {
+        this.polyLine(frontOutlinePoints, true, true, false);
+    }
+    if (!options.fillFront && options.fillTop) {
+        this.polyLine(topPoints, true, true, false, topSubPaths);
+    }
+    if (options.strokeBottomFront) {
+        this.polyLine(bottomFrontPoints, false, false, true);
+    }
+    if (options.strokeTop) {
+        this.polyLine(topPoints, true, false, true);
+    }
+    if (options.strokeSides) {
+        this.line(topBackPoints[0], bottomBackPoints[0]);
+        this.line(topFrontPoints[0], bottomFrontPoints[0]);
+    }
+
+    return offsetDw;
+};
+
+/*****************************************************************************/
+
 /** Label an angle with an inset label.
 
     @param {Vector} pos The corner position.
