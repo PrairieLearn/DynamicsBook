@@ -59,6 +59,13 @@
             </p>
           </div>
         </div>
+        <div class="envContainer warning" id="rem-wm">
+          <p class="envHeader">Warning: Mass moments of inertia are different to area moments of inertia.</p>
+          <div class="envBody">
+            <p>
+            </p>
+          </div>
+        </div>
         <div class="envContainer equation" id="rem-ec">
           <p class="envHeader">Moments of inertia about coordinate axes through point $P$.</p>
           <div class="envBody">
@@ -134,6 +141,41 @@
         </div>
       </div>
       <div class="infoCol">
+        <div id="rem-i3" class="infoBox factBox">
+          <p>
+            We are always considering the moment of inertia to be a
+            scalar value $I$, which is valid for rotation about a
+            fixed axis. For more complicated dynamics with tumbling
+            motion about multiple axes simultaneously, it turns out
+            that it is necessary to consider the full $3 \times 3$
+            <i>moment of inertia matrix</i>:
+
+            \[
+            I = \begin{bmatrix}
+            I_{xx} &amp; I_{xy} &amp; I_{xz} \\
+            I_{yx} &amp; I_{yy} &amp; I_{yz} \\
+            I_{zx} &amp; I_{zy} &amp; I_{zz}
+            \end{bmatrix}
+            \]
+
+            The three scalar moments of inertia from <a
+            href="#rem-ec">#rem-ec</a> appear on the diagonal as the
+            terms $I_{xx} = I_{\hat\imath}$, $I_{yy} =
+            I_{\hat\jmath}$, etc. The off-diagonal terms are called
+            the <i>products of inertia</i> and are given by
+
+            \[
+            I_{xy} = -\iiint \rho xy \,dx\,dy\,dz,
+            \]
+
+            and similarly for the other terms. The angular momentum of
+            a rigid body is given by $\vec{H} = I \vec\omega$, which
+            is the matrix product of the moment of inertia matrix with
+            the angular velocity vector. This is important in advanced
+            dynamics applications such as unbalanced rotating shafts
+            and the precession of gyroscopes.
+          </p>
+        </div>
       </div>
     </div>
     <div class="contentBlock">
@@ -344,7 +386,7 @@
             <table class="momentInertia">
               <tr>
                 <td>
-                  <canvas id="rem-ep-c" width="300" height="200">
+                  <canvas id="rem-ep-c" width="300" height="300">
                   </canvas>
                 </td>
                 <td>
@@ -364,7 +406,7 @@
             <table class="momentInertia">
               <tr>
                 <td>
-                  <canvas id="rem-er-c" width="300" height="200">
+                  <canvas id="rem-er-c" width="300" height="300">
                   </canvas>
                 </td>
                 <td>
@@ -404,11 +446,21 @@
         <div class="envContainer equation" id="rem-es">
           <p class="envHeader">Spherical thick shell: moments of inertia</p>
           <div class="envBody">
-            <p>
-              \[\begin{aligned}
-              I_C &amp;= \frac{2}{5} m \left(\frac{{r_2}^5 - {r_1}^5}{{r_2}^3 - {r_1}^3}\right)
-              \end{aligned}\]
-            </p>
+            <table class="momentInertia">
+              <tr>
+                <td>
+                  <canvas id="rem-es-c" width="300" height="300">
+                  </canvas>
+                </td>
+                <td>
+                  <p>
+                    \[\begin{aligned}
+                    I_C &amp;= \frac{2}{5} m \left(\frac{{r_2}^5 - {r_1}^5}{{r_2}^3 - {r_1}^3}\right)
+                    \end{aligned}\]
+                  </p>
+                </td>
+              </tr>
+            </table>
           </div>
         </div>
       </div>

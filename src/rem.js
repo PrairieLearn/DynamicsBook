@@ -63,8 +63,6 @@ $(document).ready(function() {
         this.line(O, a2);
         this.line(O, a3);
 
-        this.text(O, $V([1, -0.6]), "TEX:$C$");
-
         this.save();
         var alpha = 0.8;
         this.save();
@@ -95,6 +93,8 @@ $(document).ready(function() {
         this.labelLine(p100, p110, $V([0.3, -1.2]), "TEX:$\\ell$");
         this.labelLine(p101, p001, $V([0, 1.2]), "TEX:$\\ell$");
         this.labelLine(p100, p101, $V([0, 1.2]), "TEX:$h$");
+
+        this.text(O, $V([1, -0.6]), "TEX:$C$");
 
         this.restore();
     });
@@ -164,8 +164,6 @@ $(document).ready(function() {
         this.labelLine(O, ej, $V([0.9, -1.3]), "TEX:$\\hat\\jmath$");
         this.labelLine(O, ek, $V([0.8, -1.3]), "TEX:$\\hat{k}$");
 
-        this.text(O, $V([-1, 1]), "TEX:$P$");
-
         this.restore();
 
         this.line(p000, p001);
@@ -194,6 +192,8 @@ $(document).ready(function() {
         this.labelLine(p001, p011, $V([0, 1.2]), "TEX:$\\ell$");
         this.labelLine(p101, p001, $V([0, 1.2]), "TEX:$\\ell$");
         this.labelLine(p110, p111, $V([0, 1]), "TEX:$h$");
+
+        this.text(P, $V([-1, 1]), "TEX:$P$");
 
         this.restore();
     });
@@ -370,8 +370,6 @@ $(document).ready(function() {
         this.line(O, a2);
         this.line(O, a3);
 
-        this.text(O, $V([1, -0.4]), "TEX:$C$");
-
         this.save();
         var alpha = 0.8;
         this.save();
@@ -402,6 +400,8 @@ $(document).ready(function() {
         this.labelLine(p100, p110, $V([0.3, -1.2]), "TEX:$\\ell_y$");
         this.labelLine(p101, p001, $V([0, 1.3]), "TEX:$\\ell_x$");
         this.labelLine(p100, p101, $V([0, 1.2]), "TEX:$\\ell_z$");
+
+        this.text(O, $V([1, -0.4]), "TEX:$C$");
 
         this.restore();
     });
@@ -440,7 +440,6 @@ $(document).ready(function() {
         this.line(O, ai);
         this.line(O, aj);
         this.line(O, ak);
-        this.text(O, $V([1, -0.5]), "TEX:$C$");
         this.save();
         this.setProp("shapeInsideColor", "rgba(255, 255, 255, 0.8)");
         this.cylinder(A, B.subtract(A), r1, {strokeTop: false, fillFront: false, fillTop: false});
@@ -467,6 +466,65 @@ $(document).ready(function() {
         this.labelLine(B, T1, $V([0.4, 0.9]), "TEX:$r_1$");
         this.labelLine(B, T2, $V([0.5, -1.1]), "TEX:$r_2$");
         this.restore();
+
+        this.text(O, $V([1, -0.5]), "TEX:$C$");
+
+        this.restore();
+    });
+
+    var rem_es_c = new PrairieDraw("rem-es-c", function() {
+        this.setUnits(4, 3.25);
+
+        var r1 = 0.8;
+        var r2 = 1.3;
+        var b = 2.6;
+
+        var O = $V([0, 0, 0]);
+        var a1 = $V([r2, 0, 0]);
+        var a2 = $V([0, r2, 0]);
+        var a3 = $V([0, 0, r2]);
+        var b1 = $V([1.3 * b, 0, 0]);
+        var b2 = $V([0, 0.8 * b, 0]);
+        var b3 = $V([0, 0, 0.7 * b]);
+
+        this.save();
+        this.translate($V([-0.1, -0.25]));
+
+        this.line(O, a1);
+        this.line(O, a2);
+        this.line(O, a3);
+
+        this.sphere(O, r1, false);
+        this.sphereSlice(O, r1, Vector.k, 0, true, true);
+        this.sphereSlice(O, r2, Vector.k, 0, true, false);
+
+        this.save();
+        var alpha = 0.8;
+        this.save();
+        this.setProp("shapeInsideColor", "rgba(255, 255, 255, " + alpha + ")");
+        this.sphere(O, r2, true);
+        this.sphereSlice(O, r2, Vector.k, 0, false, true);
+        this.restore();
+
+        this.arrow(a1, b1);
+        this.arrow(a2, b2);
+        this.arrow(a3, b3);
+
+        this.labelLine(O, b1, $V([1, -1]), "TEX:$\\hat\\imath$");
+        this.labelLine(O, b2, $V([0.9, -1.3]), "TEX:$\\hat\\jmath$");
+        this.labelLine(O, b3, $V([0.9, -1.3]), "TEX:$\\hat{k}$");
+
+        this.save();
+        this.setProp("shapeOutlineColor", "rgb(150, 150, 150)");
+        var T1 = $V([0.5, 1, 0]).toUnitVector().x(r1);
+        var T2 = $V([-1.7, 1, 0]).toUnitVector().x(r2);
+        this.line(O, T1);
+        this.line(O, T2);
+        this.labelLine(O, T1, $V([-0.1, -0.9]), "TEX:$r_1$");
+        this.labelLine(O, T2, $V([0.6, -1.1]), "TEX:$r_2$");
+        this.restore();
+
+        this.text(O, $V([1, -0.4]), "TEX:$C$");
 
         this.restore();
     });
