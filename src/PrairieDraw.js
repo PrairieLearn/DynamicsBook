@@ -2183,10 +2183,11 @@ PrairieDraw.prototype.cylinder = function(baseDw, centerDw, radDw, options) {
     var bottomFrontPoints = arcPoints(baseDw, centerDw, offsetDw, radDw, Math.PI, 2 * Math.PI);
     var topBackPoints = arcPoints(topDw, centerDw, offsetDw, radDw, 0, Math.PI);
     var topFrontPoints = arcPoints(topDw, centerDw, offsetDw, radDw, Math.PI, 2 * Math.PI);
+    var topFrontPointsBackwards = arcPoints(topDw, centerDw, offsetDw, radDw, 2 * Math.PI, Math.PI);
     var topPoints = arcPoints(topDw, centerDw, offsetDw, radDw, 0, 2 * Math.PI);
     topPoints.pop();
     var outlinePoints = topBackPoints.concat(bottomFrontPoints);
-    var frontOutlinePoints = topFrontPoints.concat(bottomFrontPoints);
+    var frontOutlinePoints = topFrontPointsBackwards.concat(bottomFrontPoints);
     var topSubPaths = [];
     if (options.topInnerRadius > 0) {
         var topInnerPoints = arcPoints(topDw, centerDw, offsetDw, options.topInnerRadius, 0, 2 * Math.PI);
