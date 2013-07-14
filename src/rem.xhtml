@@ -273,6 +273,13 @@
             </div>
           </div>
         </div>
+        <p>
+          One consequence of the parallel axis theorem is that the
+          moment of inertia can only increase as we move the rotation
+          point $P$ away from the center of mass $C$. This means that
+          the point with the lowest moment of inertia is always the
+          center of mass itself.
+        </p>
         <div class="envContainer equation" id="rem-ea">
           <p class="envHeader">Adding moments of inertia.</p>
           <div class="envBody">
@@ -422,19 +429,19 @@
             </table>
           </div>
         </div>
-        <div class="envContainer equation" id="rem-ec">
+        <div class="envContainer equation" id="rem-ey">
           <p class="envHeader">Cylindrical thick shell: moments of inertia</p>
           <div class="envBody">
             <table class="momentInertia">
               <tr>
                 <td>
-                  <canvas id="rem-ec-c" width="300" height="300">
+                  <canvas id="rem-ey-c" width="300" height="300">
                   </canvas>
                 </td>
                 <td>
                   <p>
                     \[\begin{aligned}
-                    I_{C,\hat\imath} &amp;= I_{C,\hat\jmath} = \frac{1}{12} m (3({r_1}^2 + {r_2}^2) + {\ell_z}^2) \\
+                    I_{C,\hat\imath} &amp;= I_{C,\hat\jmath} = \frac{1}{12} m (3({r_1}^2 + {r_2}^2) + \ell^2) \\
                     I_{C,\hat{k}} &amp;= \frac{1}{2} m ({r_1}^2 + {r_2}^2)
                     \end{aligned}\]
                   </p>
@@ -461,7 +468,17 @@
                 </td>
               </tr>
             </table>
+            <p>
+              All axes through $C$ have the same moment of inertia.
+            </p>
           </div>
+        </div>
+      </div>
+      <div class="infoCol">
+        <div id="rem-ie" class="infoBox factBox">
+          <p>
+            Determining $I$ experimentally from oscillation.
+          </p>
         </div>
       </div>
     </div>
@@ -470,54 +487,113 @@
         <h2>
           Simplified shapes
         </h2>
-        <div class="envContainer equation" id="rem-ei">
+        <div class="envContainer equation" id="rem-eo">
           <p class="envHeader">Rod: moments of inertia</p>
           <div class="envBody">
-            <p>
-              \[\begin{aligned}
-              I_{C,\hat{k}} &amp;= \frac{1}{12} m \ell^2 \\
-              I_{P,\hat{k}} &amp;= \frac{1}{3} m \ell^2
-              \end{aligned}\]
-            </p>
+            <table class="momentInertia">
+              <tr>
+                <td>
+                  <canvas id="rem-eo-c" width="300" height="300">
+                  </canvas>
+                </td>
+                <td>
+                  <p>
+                    \[\begin{aligned}
+                    I_{C,\hat{k}} &amp;= \frac{1}{12} m \ell^2 \\
+                    I_{P,\hat{k}} &amp;= \frac{1}{3} m \ell^2 \\
+                    I_{C,\hat{e}_r} &amp;= I_{P,\hat{e}_r} = 0
+                    \end{aligned}\]
+                  </p>
+                </td>
+              </tr>
+            </table>
           </div>
         </div>
-        <div class="envContainer equation" id="rem-ei">
+        <div class="envContainer equation" id="rem-ek">
           <p class="envHeader">Solid cylinder or disk: moments of inertia</p>
           <div class="envBody">
-            <p>
-              \[\begin{aligned}
-              I_{C,\hat{k}} &amp;= \frac{1}{2} m r^2
-              \end{aligned}\]
-            </p>
+            <table class="momentInertia">
+              <tr>
+                <td>
+                  <canvas id="rem-ek-c" width="300" height="300">
+                  </canvas>
+                </td>
+                <td>
+                  <p>
+                    \[\begin{aligned}
+                    I_{C,\hat\imath} &amp;= I_{C,\hat\jmath} = \frac{1}{12} m (3r^2 + \ell^2) \\
+                    I_{C,\hat{k}} &amp;= \frac{1}{2} m r^2
+                    \end{aligned}\]
+                  </p>
+                </td>
+              </tr>
+            </table>
           </div>
         </div>
-        <div class="envContainer equation" id="rem-ei">
+        <div class="envContainer equation" id="rem-eh">
           <p class="envHeader">Hollow cylinder or hoop: moments of inertia</p>
           <div class="envBody">
-            <p>
-              \[\begin{aligned}
-              I_{C,\hat{k}} &amp;= m r^2
-              \end{aligned}\]
-            </p>
+            <table class="momentInertia">
+              <tr>
+                <td>
+                  <canvas id="rem-eh-c" width="300" height="300">
+                  </canvas>
+                </td>
+                <td>
+                  <p>
+                    \[\begin{aligned}
+                    I_{C,\hat\imath} &amp;= I_{C,\hat\jmath} = \frac{1}{12} m (6 r^2 + \ell^2) \\
+                    I_{C,\hat{k}} &amp;= m r^2
+                    \end{aligned}\]
+                  </p>
+                </td>
+              </tr>
+            </table>
           </div>
         </div>
-        <div class="envContainer equation" id="rem-ei">
+        <div class="envContainer equation" id="rem-eb">
           <p class="envHeader">Solid ball: moments of inertia</p>
           <div class="envBody">
+            <table class="momentInertia">
+              <tr>
+                <td>
+                  <canvas id="rem-eb-c" width="300" height="300">
+                  </canvas>
+                </td>
+                <td>
+                  <p>
+                    \[\begin{aligned}
+                    I_C &amp;= \frac{2}{5} m r^2
+                    \end{aligned}\]
+                  </p>
+                </td>
+              </tr>
+            </table>
             <p>
-              \[\begin{aligned}
-              I_C &amp;= \frac{2}{5} m r^2
-              \end{aligned}\]
+              All axes through $C$ have the same moment of inertia.
             </p>
           </div>
         </div>
-        <div class="envContainer equation" id="rem-ei">
+        <div class="envContainer equation" id="rem-ew">
           <p class="envHeader">Hollow sphere: moments of inertia</p>
           <div class="envBody">
+            <table class="momentInertia">
+              <tr>
+                <td>
+                  <canvas id="rem-ew-c" width="300" height="300">
+                  </canvas>
+                </td>
+                <td>
+                  <p>
+                    \[\begin{aligned}
+                    I_C &amp;= \frac{2}{3} m r^2
+                    \end{aligned}\]
+                  </p>
+                </td>
+              </tr>
+            </table>
             <p>
-              \[\begin{aligned}
-              I_C &amp;= \frac{2}{3} m r^2
-              \end{aligned}\]
+              All axes through $C$ have the same moment of inertia.
             </p>
           </div>
         </div>

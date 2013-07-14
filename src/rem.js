@@ -406,7 +406,7 @@ $(document).ready(function() {
         this.restore();
     });
 
-    var rem_ec_c = new PrairieDraw("rem-ec-c", function() {
+    var rem_ey_c = new PrairieDraw("rem-ey-c", function() {
         this.setUnits(4, 3);
 
         var r1 = 0.6;
@@ -455,7 +455,7 @@ $(document).ready(function() {
         this.labelLine(O, bj, $V([0.9, -1.3]), "TEX:$\\hat\\jmath$");
         this.labelLine(O, bk, $V([0.9, -1.3]), "TEX:$\\hat{k}$");
 
-        this.labelLine(B.subtract(offset), A.subtract(offset), $V([0, -1]), "TEX:$\\ell_z$");
+        this.labelLine(B.subtract(offset), A.subtract(offset), $V([0, -1]), "TEX:$\\ell$");
 
         this.save();
         this.setProp("shapeOutlineColor", "rgb(150, 150, 150)");
@@ -522,6 +522,265 @@ $(document).ready(function() {
         this.line(O, T2);
         this.labelLine(O, T1, $V([-0.1, -0.9]), "TEX:$r_1$");
         this.labelLine(O, T2, $V([0.6, -1.1]), "TEX:$r_2$");
+        this.restore();
+
+        this.text(O, $V([1, -0.4]), "TEX:$C$");
+
+        this.restore();
+    });
+
+    var rem_eo_c = new PrairieDraw("rem-eo-c", function() {
+        this.setUnits(4, 1.9);
+
+        var l = 2;
+        var r = 0.1;
+
+        var O = $V([0, 0, 0]);
+        var ei = $V([1, 0, 0]);
+        var ej = $V([0, 1, 0]);
+        var ek = $V([0, 0, 1]);
+
+        var A = O;
+        var B = ej.x(l);
+        var C = ej.x(l/2);
+
+        var bi = ei.x(2);
+        var bj = ej.x(2.8);
+        var bk = ek.x(1);
+
+        this.save();
+        this.translate($V([-1.1, -0.25]));
+
+        this.point(O);
+        this.arrow(O, bk);
+        this.labelLine(O, bk, $V([0.9, -1.3]), "TEX:$\\hat{k}$");
+
+        this.point(C);
+        this.arrow(C, C.add(bk));
+        this.labelLine(C, C.add(bk), $V([0.9, -1.3]), "TEX:$\\hat{k}$");
+
+        this.save();
+        this.setProp("shapeInsideColor", "rgba(255, 255, 255, 0.8)");
+        this.cylinder(A, B.subtract(A), r);
+        this.restore();
+
+        this.arrow(B, bj);
+        this.labelLine(O, bj, $V([0.9, -1.3]), "TEX:$\\hat{e}_r$");
+
+        this.text(O, $V([0, 1.8]), "TEX:$P$");
+        this.text(C, $V([0, 1.8]), "TEX:$C$");
+
+        this.restore();
+    });
+
+    var rem_ek_c = new PrairieDraw("rem-ek-c", function() {
+        this.setUnits(4, 3);
+
+        var r = 1.2;
+        var h = 1.5;
+
+        var O = $V([0, 0, 0]);
+        var ei = $V([1, 0, 0]);
+        var ej = $V([0, 1, 0]);
+        var ek = $V([0, 0, 1]);
+
+        var A = ek.x(-h/2);
+        var B = ek.x(h/2);
+
+        var ai = ei.x(r);
+        var aj = ej.x(r);
+        var ak = ek.x(h/2);
+
+        var bi = ei.x(3.4);
+        var bj = ej.x(2);
+        var bk = ek.x(1.6);
+
+        this.save();
+        this.translate($V([-0.2, -0.2]));
+
+        this.line(O, ai);
+        this.line(O, aj);
+        this.line(O, ak);
+        this.save();
+        this.setProp("shapeInsideColor", "rgba(255, 255, 255, 0.8)");
+        var offset = this.cylinder(A, B.subtract(A), r);
+        this.restore();
+
+        this.arrow(ai, bi);
+        this.arrow(aj, bj);
+        this.arrow(ak, bk);
+        this.labelLine(O, bi, $V([1, -1]), "TEX:$\\hat\\imath$");
+        this.labelLine(O, bj, $V([0.9, -1.3]), "TEX:$\\hat\\jmath$");
+        this.labelLine(O, bk, $V([0.9, -1.3]), "TEX:$\\hat{k}$");
+
+        this.labelLine(B.subtract(offset), A.subtract(offset), $V([0, -1]), "TEX:$\\ell$");
+
+        this.save();
+        this.setProp("shapeOutlineColor", "rgb(150, 150, 150)");
+        var T = B.add($V([-2, 1, 0]).toUnitVector().x(r));
+        this.line(B, T);
+        this.labelLine(B, T, $V([0, -1]), "TEX:$r$");
+        this.restore();
+
+        this.text(O, $V([1, -0.5]), "TEX:$C$");
+
+        this.restore();
+    });
+
+    var rem_eh_c = new PrairieDraw("rem-eh-c", function() {
+        this.setUnits(4, 3);
+
+        var r = 1.2;
+        var h = 1.5;
+
+        var O = $V([0, 0, 0]);
+        var ei = $V([1, 0, 0]);
+        var ej = $V([0, 1, 0]);
+        var ek = $V([0, 0, 1]);
+
+        var A = ek.x(-h/2);
+        var B = ek.x(h/2);
+
+        var ai = ei.x(r);
+        var aj = ej.x(r);
+        var ak = ek.x(h/2);
+
+        var bi = ei.x(3.4);
+        var bj = ej.x(2);
+        var bk = ek.x(1.6);
+
+        this.save();
+        this.translate($V([-0.2, -0.2]));
+
+        this.save();
+        this.setProp("shapeInsideColor", "rgb(240, 240, 240)");
+        this.cylinder(A, B.subtract(A), r, {strokeBottomBack: false, strokeBottomFront: false, strokeSides: false,
+                                            strokeTop: false, fillFront: false, fillTop: true});
+        this.restore();
+        this.line(O, ai);
+        this.line(O, aj);
+        this.line(O, ak);
+        this.save();
+        this.setProp("shapeInsideColor", "rgba(255, 255, 255, 0.8)");
+        var offset = this.cylinder(A, B.subtract(A), r, {fillTop: false});
+        this.restore();
+
+        this.arrow(ai, bi);
+        this.arrow(aj, bj);
+        this.arrow(ak, bk);
+        this.labelLine(O, bi, $V([1, -1]), "TEX:$\\hat\\imath$");
+        this.labelLine(O, bj, $V([0.9, -1.3]), "TEX:$\\hat\\jmath$");
+        this.labelLine(O, bk, $V([0.9, -1.3]), "TEX:$\\hat{k}$");
+
+        this.labelLine(B.subtract(offset), A.subtract(offset), $V([0, -1]), "TEX:$\\ell$");
+
+        this.save();
+        this.setProp("shapeOutlineColor", "rgb(150, 150, 150)");
+        var T = B.add($V([-2, 1, 0]).toUnitVector().x(r));
+        this.line(B, T);
+        this.labelLine(B, T, $V([0, -1]), "TEX:$r$");
+        this.restore();
+
+        this.text(O, $V([1, -0.5]), "TEX:$C$");
+
+        this.restore();
+    });
+
+    var rem_eb_c = new PrairieDraw("rem-eb-c", function() {
+        this.setUnits(4, 3.25);
+
+        var r = 1.3;
+        var b = 2.6;
+
+        var O = $V([0, 0, 0]);
+        var a1 = $V([r, 0, 0]);
+        var a2 = $V([0, r, 0]);
+        var a3 = $V([0, 0, r]);
+        var b1 = $V([1.3 * b, 0, 0]);
+        var b2 = $V([0, 0.8 * b, 0]);
+        var b3 = $V([0, 0, 0.7 * b]);
+
+        this.save();
+        this.translate($V([-0.1, -0.25]));
+
+        this.line(O, a1);
+        this.line(O, a2);
+        this.line(O, a3);
+
+        this.sphereSlice(O, r, Vector.k, 0, true, false);
+
+        this.save();
+        var alpha = 0.8;
+        this.save();
+        this.setProp("shapeInsideColor", "rgba(255, 255, 255, " + alpha + ")");
+        this.sphere(O, r, true);
+        this.sphereSlice(O, r, Vector.k, 0, false, true);
+        this.restore();
+
+        this.arrow(a1, b1);
+        this.arrow(a2, b2);
+        this.arrow(a3, b3);
+
+        this.labelLine(O, b1, $V([1, -1]), "TEX:$\\hat\\imath$");
+        this.labelLine(O, b2, $V([0.9, -1.3]), "TEX:$\\hat\\jmath$");
+        this.labelLine(O, b3, $V([0.9, -1.3]), "TEX:$\\hat{k}$");
+
+        this.save();
+        this.setProp("shapeOutlineColor", "rgb(150, 150, 150)");
+        var T = $V([-1.7, 1, 0]).toUnitVector().x(r);
+        this.line(O, T);
+        this.labelLine(O, T, $V([0.2, -1]), "TEX:$r$");
+        this.restore();
+
+        this.text(O, $V([1, -0.4]), "TEX:$C$");
+
+        this.restore();
+    });
+
+    var rem_ew_c = new PrairieDraw("rem-ew-c", function() {
+        this.setUnits(4, 3.25);
+
+        var r = 1.3;
+        var b = 2.6;
+
+        var O = $V([0, 0, 0]);
+        var a1 = $V([r, 0, 0]);
+        var a2 = $V([0, r, 0]);
+        var a3 = $V([0, 0, r]);
+        var b1 = $V([1.3 * b, 0, 0]);
+        var b2 = $V([0, 0.8 * b, 0]);
+        var b3 = $V([0, 0, 0.7 * b]);
+
+        this.save();
+        this.translate($V([-0.1, -0.25]));
+
+        this.line(O, a1);
+        this.line(O, a2);
+        this.line(O, a3);
+
+        this.sphereSlice(O, r, Vector.k, 0, true, false);
+
+        this.save();
+        var alpha = 0.8;
+        this.save();
+        this.setProp("shapeInsideColor", "rgba(240, 240, 240, " + alpha + ")");
+        this.sphere(O, r, true);
+        this.sphereSlice(O, r, Vector.k, 0, false, true);
+        this.restore();
+
+        this.arrow(a1, b1);
+        this.arrow(a2, b2);
+        this.arrow(a3, b3);
+
+        this.labelLine(O, b1, $V([1, -1]), "TEX:$\\hat\\imath$");
+        this.labelLine(O, b2, $V([0.9, -1.3]), "TEX:$\\hat\\jmath$");
+        this.labelLine(O, b3, $V([0.9, -1.3]), "TEX:$\\hat{k}$");
+
+        this.save();
+        this.setProp("shapeOutlineColor", "rgb(150, 150, 150)");
+        var T = $V([-1.7, 1, 0]).toUnitVector().x(r);
+        this.line(O, T);
+        this.labelLine(O, T, $V([0.2, -1]), "TEX:$r$");
         this.restore();
 
         this.text(O, $V([1, -0.4]), "TEX:$C$");
