@@ -2810,41 +2810,45 @@ PrairieDraw.prototype.centerOfMass = function(posDw) {
     @param {Vector} startDw The start position of the measurement.
     @param {Vector} endDw The end position of the measurement.
     @param {string} text The measurement label.
+    @param {Vector} normDw (Optional) The normal vector to offset along.
 */
-PrairieDraw.prototype.measurement = function(startDw, endDw, text) {
+PrairieDraw.prototype.measurement = function(startDw, endDw, text, normDw) {
+    if (normDw !== undefined) {
+        normDw = this.vec3To2(normDw, startDw);
+    }
+    startDw = this.pos3To2(startDw);
+    endDw = this.pos3To2(endDw);
     var startPx = this.pos2Px(startDw);
     var endPx = this.pos2Px(endDw);
     var offsetPx = endPx.subtract(startPx);
-    var d = offsetPx.modulus();
+    var normPx = (normDw === undefined) ? offsetPx.rotate(Math.PI/2, $V([0, 0])) : this.vec2Px(normDw);
     var h = this._props.measurementEndLengthPx;
     var o = this._props.measurementOffsetPx;
+    normPx = normPx.toUnitVector();
+    var lineStartPx = startPx.add(normPx.x(o + h/2));
+    var lineEndPx = endPx.add(normPx.x(o + h/2));
     this._ctx.save();
     this._ctx.lineWidth = this._props.measurementStrokeWidthPx;
     this._ctx.setLineDash(this._dashPattern(this._props.measurementStrokePattern));
     this._ctx.strokeStyle = this._props.measurementColor;
-    this._ctx.translate(startPx.e(1), startPx.e(2));
-    this._ctx.rotate(this.angleOf(offsetPx));
 
     this._ctx.beginPath();
-    this._ctx.moveTo(0, o);
-    this._ctx.lineTo(0, o + h);
+    this._ctx.moveTo(lineStartPx.e(1), lineStartPx.e(2));
+    this._ctx.lineTo(lineEndPx.e(1), lineEndPx.e(2));
     this._ctx.stroke();
 
     this._ctx.beginPath();
-    this._ctx.moveTo(d, o);
-    this._ctx.lineTo(d, o + h);
+    this._ctx.moveTo(lineStartPx.e(1) - normPx.e(1) * h/2, lineStartPx.e(2) - normPx.e(2) * h/2);
+    this._ctx.lineTo(lineStartPx.e(1) + normPx.e(1) * h/2, lineStartPx.e(2) + normPx.e(2) * h/2);
     this._ctx.stroke();
 
     this._ctx.beginPath();
-    this._ctx.moveTo(0, o + h / 2);
-    this._ctx.lineTo(d, o + h / 2);
+    this._ctx.moveTo(lineEndPx.e(1) - normPx.e(1) * h/2, lineEndPx.e(2) - normPx.e(2) * h/2);
+    this._ctx.lineTo(lineEndPx.e(1) + normPx.e(1) * h/2, lineEndPx.e(2) + normPx.e(2) * h/2);
     this._ctx.stroke();
 
     this._ctx.restore();
 
-    var orthPx = offsetPx.rotate(-Math.PI/2, $V([0, 0])).toUnitVector().x(-o - h/2);
-    var lineStartPx = startPx.add(orthPx);
-    var lineEndPx = endPx.add(orthPx);
     var lineStartDw = this.pos2Dw(lineStartPx);
     var lineEndDw = this.pos2Dw(lineEndPx);
     this.labelLine(lineStartDw, lineEndDw, $V([0, -1]), text);
