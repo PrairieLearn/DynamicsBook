@@ -530,10 +530,11 @@ $(document).ready(function() {
     });
 
     var rem_eo_c = new PrairieDraw("rem-eo-c", function() {
-        this.setUnits(4, 1.9);
+        this.setUnits(4, 2.15);
 
         var l = 2;
         var r = 0.1;
+        var d = 0.7;
 
         var O = $V([0, 0, 0]);
         var ei = $V([1, 0, 0]);
@@ -544,12 +545,15 @@ $(document).ready(function() {
         var B = ej.x(l);
         var C = ej.x(l/2);
 
+        var Ad = A.add($V([0, 0, -d]));
+        var Bd = B.add($V([0, 0, -d]));
+
         var bi = ei.x(2);
         var bj = ej.x(2.8);
         var bk = ek.x(1);
 
         this.save();
-        this.translate($V([-1.1, -0.25]));
+        this.translate($V([-1.1, -0.1]));
 
         this.point(O);
         this.arrow(O, bk);
@@ -569,6 +573,8 @@ $(document).ready(function() {
 
         this.text(O, $V([0, 1.8]), "TEX:$P$");
         this.text(C, $V([0, 1.8]), "TEX:$C$");
+
+        this.measurement(Ad, Bd, "TEX:$\\ell$", Vector.k);
 
         this.restore();
     });
