@@ -47,21 +47,43 @@
         <h1>
           Moments of inertia
         </h1>
+        <p>
+          The moment of inertia of a body, written $I_{P,\hat{a}}$, is
+          measured about a rotation axis through point $P$ in
+          direction $\hat{a}$. The moment of inertia expresses how
+          hard it is to produce an angular acceleration of the body
+          about this axis. That is, a body with high moment of inertia
+          resists angular acceleration, so if it is not rotating then
+          it is hard to start a rotation, while if it is already
+          rotating then it is hard to stop.
+        </p>
+        <p>
+          The moment of inertia plays the same role for rotational
+          motion as the mass does for translational motion (a high
+          mass body is hard to start moving and hard to stop again).
+        </p>
         <div class="envContainer equation" id="rem-ei">
           <p class="envHeader">Moment of inertia about axis $\hat{a}$ through point $P$.</p>
           <div class="envBody">
+            <table class="momentInertia">
+              <tr>
+                <td>
+                  <p>
+                    \[\begin{gathered}
+                    I_{P,\hat{a}} = \int_\mathcal{B} \rho r^2 \,dV \\
+                    \text{(units: $\rm kg\ m^2$)}
+                    \end{gathered}\]
+                  </p>
+                </td>
+                <td>
+                  <canvas id="rem-ei-c" width="300" height="300">
+                  </canvas>
+                </td>
+              </tr>
+            </table>
             <p>
-              \[I_{P,\hat{a}} = \int_\mathcal{B} \rho r^2 \,dV\]
-            </p>
-            <p>
-              Here $r$ is the perpendicular distance from the axis
-              through $P$ in direction $\hat{a}$.
-            </p>
-          </div>
-        </div>
-        <div class="envContainer derivation">
-          <div class="envBody">
-            <p>
+              Here $r$ is the perpendicular distance to $dV$ from the
+              axis through $P$ in direction $\hat{a}$.
             </p>
           </div>
         </div>
@@ -69,9 +91,32 @@
           <p class="envHeader">Warning: Mass moments of inertia are different to area moments of inertia.</p>
           <div class="envBody">
             <p>
+              In solid mechanics we use a quantity called the <em>area
+              moment of inertia</em> (units $\rm m^2$), which is very
+              similar to the moment of inertia expression above except
+              that there is no density $\rho$ in the integral.
+            </p>
+            <p>
+              When we need to distinguish between these different
+              moments of inertia, we can call <a
+              href="#rem-ei">#rem-ei</a> the <em>mass moment of
+              inertia</em>. In dynamics and in general usage the plain
+              phrase <em>moment of inertia</em> normally refers to the
+              mass variant, but it's always important to check that we
+              are using the correct mass or area variant (they have
+              different units, which sometimes helps to check).
             </p>
           </div>
         </div>
+        <p>
+          Observe that the moment of inertia is proportional to the
+          mass, so that doubling the mass of an object will also
+          double its moment of inertia. In addition, the moment of
+          inertia is proportional to the square of the size of the
+          object, so that doubling every dimension of an object
+          (height, width, etc) will cause it to have four times the
+          moment of inertia.
+        </p>
         <div class="envContainer equation" id="rem-ec">
           <p class="envHeader">Moments of inertia about coordinate axes through point $P$.</p>
           <div class="envBody">
@@ -89,7 +134,23 @@
         </div>
         <div class="envContainer derivation">
           <div class="envBody">
+            <canvas id="rem-ec-c" width="300" height="200" class="floatRight">
+            </canvas>
             <p>
+              The distance $r$ in the moment of inertia integral <a
+              href="#rem-ei">#rem-ei</a> is the <em>perpendicular</em>
+              distance from the axis of rotation to the infinitesimal
+              volume $dV$. If we are using rectangular coordinates
+              $(x,y,z)$ measured from point $P$, and the axis of
+              rotation is one of the coordinate axes, then the
+              perpendicular distance is very simple.
+            </p>
+            <p>
+              As an example, consider the case when the axis of
+              rotation is the $\hat{k}$ axis, as shown in the
+              figure. Then the perpendicular distance $r$ satisfies
+              $r^2 = x^2 + y^2$, giving the coordinate expression
+              above. The other two coordinate axes are similar.
             </p>
           </div>
         </div>
@@ -204,7 +265,12 @@
           <p class="envHeader">Parallel axis theorem.</p>
           <div class="envBody">
             <p>
-              \[I_{P,\hat{a}} = I_{C,\hat{a}} + m \, {r_{CP}}^2\]
+              \[I_{P,\hat{a}} = I_{C,\hat{a}} + m \, d^2\]
+            </p>
+            <p>
+              Here $d$ is the perpendicular distance between the axes
+              through $P$ and $C$ in direction $\hat{a}$, so $d = \|
+              \operatorname*{Comp}(\vec{r}_{CP}, \hat{a})\|$.
             </p>
           </div>
         </div>
@@ -254,14 +320,14 @@
                 <canvas id="rem-xc-c3" width="300" height="200" class="floatRight">
                 </canvas>
                 <p>
-                  Alternatively, we can compute the corner moment of
-                  inertia directly by integrating with formula <a
-                  href="#rem-ec">#rem-ec</a>. To do this, we put the
-                  coordinate origin at the point $P$ about which we
-                  wish to find the moment of inertia, as shown in 3D
-                  to the right. From this we see that the $x$ range is
-                  $0$ to $\ell$, the same for the $y$ range, and the
-                  $z$ range is $-h/2$ to $h/2$.
+                  To check our answer, we can compute the corner
+                  moment of inertia directly by integrating with
+                  formula <a href="#rem-ec">#rem-ec</a>. To do this,
+                  we put the coordinate origin at the point $P$ about
+                  which we wish to find the moment of inertia, as
+                  shown in 3D to the right. From this we see that the
+                  $x$ range is $0$ to $\ell$, the same for the $y$
+                  range, and the $z$ range is $-h/2$ to $h/2$.
                 </p>
                 <p>
                   The integral formula now gives:
@@ -302,6 +368,12 @@
           point $P$ away from the center of mass $C$. This means that
           the point with the lowest moment of inertia is always the
           center of mass itself.
+        </p>
+        <p>
+          A second consequence of the parallel axis theorem is that
+          moving the point $P$ along the direction $\hat{a}$ doesn't
+          change the moment of inertia, because the axis of rotation
+          is not changing as the point moves along the axis itself.
         </p>
         <div class="envContainer equation" id="rem-ea">
           <p class="envHeader">Adding moments of inertia.</p>
@@ -563,7 +635,7 @@
               &amp;= \int_{-\ell/2}^{\ell/2} \int_0^{2\pi} \frac{1}{4} \rho \left(
               {r_2}^4 - {r_1}^4 \right) \,d\theta\,dz \\
               &amp;= \int_{-\ell/2}^{\ell/2} \left[ \frac{1}{4} \rho \left(
-              {r_2}^4 - {r_1}^4 \right) \right]_{\theta = 0}^{\theta = 2\pi} \,dz \\
+              {r_2}^4 - {r_1}^4 \right) \theta \right]_{\theta = 0}^{\theta = 2\pi} \,dz \\
               &amp;= \int_{-\ell/2}^{\ell/2} \frac{\pi}{2} \rho \left(
               {r_2}^4 - {r_1}^4 \right) \,dz \\
               &amp;= \left[ \frac{\pi}{2} \rho \left(
@@ -706,7 +778,7 @@
               &amp;= \int_{-\pi/2}^{\pi/2} \int_{-\pi}^{\pi}
               \rho \frac{1}{5} ({r_2}^5 - {r_1}^5) \cos^3\phi \,d\theta\,d\phi \\
               &amp;= \int_{-\pi/2}^{\pi/2} \left[
-              \rho \frac{1}{5} ({r_2}^5 - {r_1}^5) \cos^3\phi \theta
+              \rho \frac{1}{5} ({r_2}^5 - {r_1}^5) \cos^3\phi \, \theta
               \right]_{\theta = -\pi}^{\theta = \pi} \,d\phi \\
               &amp;= \int_{-\pi/2}^{\pi/2}
               \rho \frac{2\pi}{5} ({r_2}^5 - {r_1}^5) \cos^3\phi \,d\phi \\
@@ -824,6 +896,10 @@
         <div class="envContainer derivation">
           <div class="envBody">
             <p>
+              The solid cylinder expressions are simply the
+              cylindrical thick shell formulas <a
+              href="#rem-ey">#rem-ey</a> with the inner radius set to
+              $r_1 = 0$ and the outer radius $r_2 = r$.
             </p>
           </div>
         </div>
@@ -851,6 +927,10 @@
         <div class="envContainer derivation">
           <div class="envBody">
             <p>
+              The hollow cylinder expressions can be found from
+              cylindrical thick shell formulas <a
+              href="#rem-ey">#rem-ey</a> by taking the same value for
+              both inner and outer radii, so that $r_1 = r_2 = r$.
             </p>
           </div>
         </div>
@@ -880,6 +960,10 @@
         <div class="envContainer derivation">
           <div class="envBody">
             <p>
+              The solid ball moment of inertia can be directly
+              obtained from the spherical thick shell expression <a
+              href="#rem-es">#rem-es</a> with inner radius $r_1 = 0$
+              and outer radius $r_2 = r$.
             </p>
           </div>
         </div>
@@ -909,6 +993,29 @@
         <div class="envContainer derivation">
           <div class="envBody">
             <p>
+              A hollow sphere moment of inertia is the same as that
+              for the spherical thick shell <a
+              href="#rem-es">#rem-es</a> with inner radius and outer
+              radius both set to $r_1 = r_2 = r$. Some care is needed
+              here, however, as a simple substitution into the
+              spherical thick shell expression would give the
+              undefined value $0 / 0$.
+            </p>
+            <p>
+              Instead we need to set $r_2 = r$ and then to take the
+              limit as $r_1 \to r$ using l'Hôpital's rule:
+
+              \[\begin{aligned}
+              I_C &amp;= \lim_{r_1 \to r} \frac{2}{5} m
+              \left(\frac{r^5 - {r_1}^5}{r^3 - {r_1}^3}\right) \\
+              &amp;= \lim_{r_1 \to r} \frac{2}{5} m
+              \left(\frac{\frac{d}{d r_1}\left(r^5 - {r_1}^5\right)}{
+              \frac{d}{d r_1}\left(r^3 - {r_1}^3\right)}\right) \\
+              &amp;= \lim_{r_1 \to r} \frac{2}{5} m
+              \left(\frac{5 {r_1}^4}{3 {r_1}^2}\right) \\
+              &amp;= \lim_{r_1 \to r} \frac{2}{3} m {r_1}^2 \\
+              &amp;= \frac{2}{3} m r^2.
+              \end{aligned}\]
             </p>
           </div>
         </div>

@@ -1,6 +1,185 @@
 
 $(document).ready(function() {
 
+    var rem_ei_c = new PrairieDraw("rem-ei-c", function() {
+        this.setUnits(4, 2.2);
+
+        var l = 2;
+        var h = 0.7;
+        var d = 0.15;
+
+        var p000 = $V([-l/2, -l/2, -h/2]);
+        var p001 = $V([-l/2, -l/2,  h/2]);
+        var p010 = $V([-l/2,  l/2, -h/2]);
+        var p011 = $V([-l/2,  l/2,  h/2]);
+        var p100 = $V([ l/2, -l/2, -h/2]);
+        var p101 = $V([ l/2, -l/2,  h/2]);
+        var p110 = $V([ l/2,  l/2, -h/2]);
+        var p111 = $V([ l/2,  l/2,  h/2]);
+
+        var P = $V([l/2, -l/2, -h/2]);
+        var a0 = P.add($V([0, 0, -0.5]));
+        var a1 = P.add($V([0, 0, h + 0.85]));
+
+        var B = $V([-l/2, l/4, h/2 - d]);
+        var v000 = B.add($V([0, 0, 0]));
+        var v001 = B.add($V([0, 0, d]));
+        var v010 = B.add($V([0, d, 0]));
+        var v011 = B.add($V([0, d, d]));
+        var v100 = B.add($V([d, 0, 0]));
+        var v101 = B.add($V([d, 0, d]));
+        var v110 = B.add($V([d, d, 0]));
+        var v111 = B.add($V([d, d, d]));
+
+        var D = v101;
+        var Ba = $V([P.e(1), P.e(2), D.e(3)]);
+
+        this.save();
+        this.translate($V([-0.1, -0.05]));
+
+        this.line(p000, p001);
+        this.line(p100, p000);
+        this.line(p010, p000);
+
+        this.line(v000, v001);
+        this.line(v010, v011);
+        this.line(v000, v100);
+        this.line(v010, v110);
+        this.line(v000, v010);
+        this.line(v100, v101);
+        this.line(v110, v111);
+        this.line(v100, v110);
+
+        this.arrow(a0, a1);
+        this.labelLine(a0, a1, $V([1, -1]), "TEX:$\\hat{a}$");
+
+        this.save();
+        this.setProp("rightAngleStrokeWidthPx", 2);
+        this.rightAngle(Ba, Vector.k.x(-1), D.subtract(Ba));
+        this.restore();
+
+        this.save();
+        var alpha = 0.8;
+        this.save();
+        this.setProp("shapeInsideColor", "rgba(255, 255, 255, " + alpha + ")");
+        this.polyLine([p100, p110, p111, p101], true, true, false);
+        this.polyLine([p010, p110, p111, p011], true, true, false);
+        this.polyLine([p101, p111, p011, p001], true, true, false);
+        this.restore();
+
+        this.line(p100, p101);
+        this.line(p110, p111);
+        this.line(p010, p011);
+        this.line(p100, p110);
+        this.line(p101, p111);
+        this.line(p110, p010);
+        this.line(p111, p011);
+        this.line(p101, p001);
+        this.line(p011, p001);
+
+        this.line(v001, v101);
+        this.line(v011, v111);
+        this.line(v001, v011);
+        this.line(v101, v111);
+
+        this.text(P, $V([1, 0]), "TEX:$P$");
+        this.text(v011, $V([0, -1.1]), "TEX:$dV$");
+
+        this.save();
+        this.setProp("shapeOutlineColor", "rgb(150, 150, 150)");
+        this.line(Ba, D);
+        this.labelLine(Ba, D, $V([0.2, 1]), "TEX:$r$");
+        this.restore();
+
+        this.restore();
+    });
+
+    var rem_ec_c = new PrairieDraw("rem-ec-c", function() {
+        this.setUnits(4, 4 / this.goldenRatio);
+
+        var d = 0.15;
+
+        var O = $V([0, 0, 0]);
+        var ei = $V([1, 0, 0]);
+        var ej = $V([0, 1, 0]);
+        var ek = $V([0, 0, 1]);
+        var P = $V([1.5, 1.5, 1]);
+        var Pi = $V([P.e(1), 0, 0]);
+        var Pj = $V([0, P.e(2), 0]);
+        var Pk = $V([0, 0, P.e(3)]);
+        var Pij = $V([P.e(1), P.e(2), 0]);
+
+        var bi = ei.x(2);
+        var bj = ej.x(2);
+        var bk = ek.x(1.4);
+
+        var v000 = P.add($V([0, 0, 0]));
+        var v001 = P.add($V([0, 0, d]));
+        var v010 = P.add($V([0, d, 0]));
+        var v011 = P.add($V([0, d, d]));
+        var v100 = P.add($V([d, 0, 0]));
+        var v101 = P.add($V([d, 0, d]));
+        var v110 = P.add($V([d, d, 0]));
+        var v111 = P.add($V([d, d, d]));
+
+        this.save();
+        this.translate($V([-0.5, -0.3]));
+
+        this.line(v000, v001);
+        this.line(v100, v000);
+        this.line(v010, v000);
+
+        this.arrow(O, bi);
+        this.arrow(O, bj);
+        this.arrow(O, bk);
+        this.labelLine(O, bi, $V([1, -1]), "TEX:$\\hat\\imath$");
+        this.labelLine(O, bj, $V([0.9, -1.3]), "TEX:$\\hat\\jmath$");
+        this.labelLine(O, bk, $V([0.9, -1.3]), "TEX:$\\hat{k}$");
+        this.text(O, $V([1.3, -0.5]), "TEX:$P$");
+
+        this.rightAngle(Pi, Vector.j, Vector.i.x(-1));
+        this.rightAngle(Pj, Vector.j.x(-1), Vector.i);
+        this.rightAngle(Pk, Vector.k.x(-1), Pij);
+        this.rightAngle(Pij, Vector.k, Vector.i.x(-1));
+
+        this.save();
+        this.setProp("shapeOutlineColor", "rgb(150, 150, 150)");
+        this.line(Pi, Pij);
+        this.line(Pj, Pij);
+        this.line(O, Pij);
+        this.line(Pij, P);
+        this.line(Pk, P);
+        this.labelLine(Pk, P, $V([0, 1]), "TEX:$r$");
+        this.labelLine(O, Pij, $V([-0.2, -1]), "TEX:$r$");
+        this.labelLine(Pi, Pij, $V([0, -1]), "TEX:$y$");
+        this.labelLine(Pj, Pij, $V([0, 1]), "TEX:$x$");
+        this.labelLine(Pij, P, $V([-0.2, 1]), "TEX:$z$");
+        this.restore();
+
+        this.save();
+        var alpha = 0.8;
+        this.save();
+        this.setProp("shapeInsideColor", "rgba(255, 255, 255, " + alpha + ")");
+        this.polyLine([v100, v110, v111, v101], true, true, false);
+        this.polyLine([v010, v110, v111, v011], true, true, false);
+        this.polyLine([v101, v111, v011, v001], true, true, false);
+        this.restore();
+
+        this.line(v100, v101);
+        this.line(v110, v111);
+        this.line(v010, v011);
+        this.line(v100, v110);
+        this.line(v101, v111);
+        this.line(v110, v010);
+        this.line(v111, v011);
+        this.line(v101, v001);
+        this.line(v011, v001);
+
+        this.text(v010, $V([-1, -1]), "TEX:$dV$");
+
+        this.restore();
+    });
+
     var rem_xs_c = new PrairieDraw("rem-xs-c", function() {
         this.setUnits(4, 4 / this.goldenRatio);
 
