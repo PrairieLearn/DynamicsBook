@@ -82,8 +82,8 @@
               </tr>
             </table>
             <p>
-              Here $r$ is the perpendicular distance to $dV$ from the
-              axis through $P$ in direction $\hat{a}$.
+              The distance $r$ is the perpendicular distance to $dV$
+              from the axis through $P$ in direction $\hat{a}$.
             </p>
           </div>
         </div>
@@ -128,7 +128,8 @@
               \end{aligned}\]
             </p>
             <p>
-              Here $(x,y,z)$ are the coordinates in the body measured from point $P$.
+              The coordinates $(x,y,z)$ in the body are measured from
+              point $P$.
             </p>
           </div>
         </div>
@@ -147,10 +148,11 @@
             </p>
             <p>
               As an example, consider the case when the axis of
-              rotation is the $\hat{k}$ axis, as shown in the
-              figure. Then the perpendicular distance $r$ satisfies
-              $r^2 = x^2 + y^2$, giving the coordinate expression
-              above. The other two coordinate axes are similar.
+              rotation $\hat{a}$ is the $\hat{k}$ axis, as shown in
+              the figure. Then the perpendicular distance $r$
+              satisfies $r^2 = x^2 + y^2$, giving the coordinate
+              expression above. The other two coordinate axes are
+              similar.
             </p>
           </div>
         </div>
@@ -224,9 +226,9 @@
             We are always considering the moment of inertia to be a
             scalar value $I$, which is valid for rotation about a
             fixed axis. For more complicated dynamics with tumbling
-            motion about multiple axes simultaneously, it turns out
-            that it is necessary to consider the full $3 \times 3$
-            <i>moment of inertia matrix</i>:
+            motion about multiple axes simultaneously, it is necessary
+            to consider the full 3 × 3 <i>moment of inertia
+            matrix</i>:
 
             \[
             I = \begin{bmatrix}
@@ -257,7 +259,7 @@
       </div>
     </div>
     <div class="contentBlock">
-      <div id="rem-si" class="contentCol">
+      <div id="rem-st" class="contentCol">
         <h2>
           Transforming and combining moments of inertia
         </h2>
@@ -276,7 +278,61 @@
         </div>
         <div class="envContainer derivation">
           <div class="envBody">
+            <canvas id="rem-el-c" width="300" height="300" class="floatRight">
+            </canvas>
             <p>
+              To easily compute the moments of inertia relative to
+              axes through $P$ and $C$ it is easiest to choose a
+              coordinate system aligned with the rotation axis
+              direction $\hat{a}$. We will choose coordinates
+              $(x,y,z)$ measured from the center of mass $C$ and with
+              the $z$-axis $\hat{k}$ in the direction of $\hat{a}$, as
+              shown in the figure.
+            </p>
+            <p>
+              As we integrate over the body with infinitesimal volume
+              $dV$ at position $(x,y,z)$ from $C$, we will write the
+              distance from the axis through $C$ as $r_c$ and the
+              distance from the axis through $P$ as $r_P$, as
+              illustrated. The distance between the two rotation axes
+              is $d$. In the chosen coordinate system this means that:
+
+              \[\begin{aligned}
+              {r_C}^2 &amp;= x^2 + y^2 \\
+              {r_P}^2 &amp;= (x - x_P)^2 + (y - y_P)^2 \\
+              d^2 &amp;= {x_P}^2 + {y_P}^2,
+              \end{aligned}\]
+
+              where $P$ has position $(x_P, y_P, z_P)$ in these
+              coordinates.
+            </p>
+            <p>
+              Computing the integral <a href="#rem-ec">#rem-ec</a> to
+              find the moment of inertia about the axis through $P$ in
+              direction $\hat{a}$ now gives:
+
+              \[\begin{aligned}
+              I_{P,\hat{a}}
+              &amp;= \int_{\mathcal{B}} \rho {r_P}^2 \,dV \\
+              &amp;= \iiint_{\mathcal{B}} \rho \left((x - x_P)^2
+              + (y - y_P)^2\right) \,dx\,dy\,dz \\
+              &amp;= \iiint_{\mathcal{B}} \rho \left(x^2 - 2 x x_P + {x_P}^2
+              + y^2 - 2 y y_P + {y_P}^2\right) \,dx\,dy\,dz \\
+              &amp;= \iiint_{\mathcal{B}} \rho (x^2 + y^2) \,dx\,dy\,dz
+              - 2 x_P \iiint_{\mathcal{B}} \rho x \,dx\,dy\,dz \\
+              &amp;\quad - 2 y_P \iiint_{\mathcal{B}} \rho y \,dx\,dy\,dz
+              + ({x_P}^2 + {y_P}^2) \iiint_{\mathcal{B}} \rho \,dx\,dy\,dz \\
+              &amp;= \int_{\mathcal{B}} \rho {r_C}^2 \,dV
+              + d^2 \int_{\mathcal{B}} \rho \,dV \\
+              &amp;= I_{C,\hat{a}} + m d^2.
+              \end{aligned}\]
+
+              Here we used the coordinate representation of the center
+              of mass to realize that the $x$ coordinate of $C$ is
+              $x_C = \frac{1}{m} \int_{\mathcal{B}} \rho x \,dV$, but
+              because our coordinates are measured from $C$ we must
+              have $x_C = 0$ and so $\int_{\mathcal{B}} \rho x \,dV =
+              0$. The integral of $\rho y$ is similarly zero.
             </p>
           </div>
         </div>
@@ -284,6 +340,28 @@
           <p class="envHeader">Warning: Parallel axis theorem must start from center of mass $C$.</p>
           <div class="envBody">
             <p>
+              The parallel axis theorem does not apply to any two
+              parallel rotation axes. The rotation axis on the
+              right-hand-side of the equation must be through the
+              center of mass $C$, although the other axis can be
+              through any point $P$.
+            </p>
+          </div>
+        </div>
+        <div class="envContainer warning" id="rem-wp">
+          <p class="envHeader">Warning: Parallel axis theorem $d$ is perpendicular distance, not $r_{CP}$.</p>
+          <div class="envBody">
+            <p>
+              The distance $d$ in the parallel axis theorem is the
+              <em>perpendicular distance</em> between the axes through
+              points $P$ and $C$. This will normally not be the same
+              as the distance $r_{CP}$ between $P$ and $C$, except in
+              2D problems or if it happens that $\vec{r}_{CP}$ is
+              already perpendicular to the rotation axis
+              $\hat{a}$. The distance $d$ can be computed by taking
+              the orthogonal complement of $\vec{r}_{CP}$ with respect
+              to $\hat{a}$, so $d =
+              \|\operatorname{Comp}(\vec{r}_{CP}, \hat{a})\|$.
             </p>
           </div>
         </div>
@@ -299,16 +377,20 @@
                 inertia about the axis through the corner $P$ in the
                 perpendicular direction $\hat{k}$?
               </p>
+              <p>
+                Use the answer to Example Problem <a
+                href="#rem-xs">#rem-xs</a> and the parallel axis
+                theorem <a href="#rem-el">#rem-el</a>.
+              </p>
             </div>
             <div class="envContainer solution">
               <div class="envBody">
                 <p>
-                  We can re-use our solution to Example Problem <a
-                  href="#rem-xs">#rem-xs</a>, where we computed the
-                  moment of inertia of a square place about the center
-                  to be $I_{C,\hat{k}} = \frac{1}{6} m \ell^2$. The
-                  parallel axis theorem <a href="#rem-el">#rem-el</a>
-                  now gives:
+                  In Example Problem <a href="#rem-xs">#rem-xs</a> we
+                  computed the moment of inertia of a square place
+                  about the center to be $I_{C,\hat{k}} = \frac{1}{6}
+                  m \ell^2$. The parallel axis theorem <a
+                  href="#rem-el">#rem-el</a> now gives:
 
                   \[\begin{aligned}
                   I_{P,\hat{k}} &amp;= I_{C,\hat{k}} + m \, {r_{CP}}^2 \\
@@ -378,14 +460,68 @@
         <div class="envContainer equation" id="rem-ea">
           <p class="envHeader">Adding moments of inertia.</p>
           <div class="envBody">
+            <table class="momentInertia">
+              <tr>
+                <td>
+                  <p>
+                    \[I^{\mathcal{B}}_{P,\hat{a}} = I^{\mathcal{B}_1}_{P,\hat{a}}
+                    + I^{\mathcal{B}_2}_{P,\hat{a}}\]
+                  </p>
+                </td>
+                <td>
+                  <canvas id="rem-ea-c" width="300" height="300">
+                  </canvas>
+                </td>
+              </tr>
+            </table>
             <p>
-              \[I_{P,\hat{a}} = I^{\mathcal{B}_1}_{P,\hat{a}} + I^{\mathcal{B}_2}_{P,\hat{a}}\]
+              The whole body $\mathcal{B}$ is composed of sub-bodies
+              $\mathcal{B}_1$ and $\mathcal{B}_2$.
             </p>
           </div>
         </div>
         <div class="envContainer derivation">
           <div class="envBody">
             <p>
+              The addition of moments of inertia for sub-bodies to
+              give the full moment of inertia follows directly from
+              the fact that the integral over the whole body is the
+              sum of the integrals over the sub-bodes. That is, for
+              $\mathcal{B} = \mathcal{B}_1 \cup \mathcal{B}_2$ (and
+              $\mathcal{B}_1$ not overlapping with $\mathcal{B}_2$),
+              we have:
+
+              \[\begin{aligned}
+              I^{\mathcal{B}}_{P,\hat{a}}
+              &amp;= \int_{\mathcal{B}} \rho r^2 \,dV \\
+              &amp;= \int_{\mathcal{B_1} \cup \mathcal{B}_2} \rho r^2 \,dV \\
+              &amp;= \int_{\mathcal{B_1}} \rho r^2 \,dV
+              + \int_{\mathcal{B}_2} \rho r^2 \,dV \\
+              &amp;= I^{\mathcal{B}_1}_{P,\hat{a}}
+              + I^{\mathcal{B}_2}_{P,\hat{a}}.
+              \end{aligned}\]
+            </p>
+          </div>
+        </div>
+        <div class="envContainer warning" id="rem-wa">
+          <p class="envHeader">Warning: To add moments of inertia they must be about the same axis.</p>
+          <div class="envBody">
+            <p>
+              It is only valid to add together moments of inertia for
+              different sub-bodies if each moment of inertia is
+              computed about the same axis of rotation. For example,
+              consider $I^{\mathcal{B}_1}_{C_1,\hat{k}}$ and
+              $I^{\mathcal{B}_2}_{C_2,\hat{k}}$, which are the moments
+              of inertia of bodies $\mathcal{B}_1$ and $\mathcal{B}_2$
+              about each of their individual centers of mass $C_1$ and
+              $C_2$ (with axis direction $\hat{k}$). Now it is
+              physically meaningless to form the sum
+              $I^{\mathcal{B}_1}_{C_1,\hat{k}} +
+              I^{\mathcal{B}_2}_{C_2,\hat{k}}$, because each moment of
+              inertia is about a different axis. We must first shift
+              both moments of inertia to a common axis point $P$
+              (perhaps by using the parallel axis theorem), and then
+              we can meaningfully add them together.
             </p>
           </div>
         </div>
@@ -401,25 +537,31 @@
                 about the axis through the corner $P$ in the
                 perpendicular direction $\hat{k}$?
               </p>
+              <p>
+                Use the answer to Example Problem <a
+                href="#rem-es">#rem-es</a> together with the addition
+                theorem <a href="#rem-ea">#rem-ea</a> and the parallel
+                axis theorem <a href="#rem-el">#rem-el</a>.
+              </p>
             </div>
             <div class="envContainer solution">
               <div class="envBody">
                 <canvas id="rem-xl-cd" width="300" height="200" class="floatRight">
                 </canvas>
                 <p>
-                  We can re-use our solution to Example Problem <a
-                  href="#rem-xs">#rem-xs</a>, where we computed the
+                  Recall that in Example Problem <a
+                  href="#rem-xs">#rem-xs</a> we computed the
                   moment of inertia of a square place about the center
-                  to be $I_{C,\hat{k}} = \frac{1}{6} m \ell^2$,
-                  together with parallel axis theorem <a
-                  href="#rem-el">#rem-el</a> and the additive theorem
-                  <a href="#rem-ea">#rem-ea</a>.
+                  to be $I_{C,\hat{k}} = \frac{1}{6} m \ell^2$.
                 </p>
                 <p>
-                  To do this, we must first realize that the L-shape
-                  can be decomposed into four square plates, as
-                  shown. Each small square body has the same mass and
-                  the same moment of inertia about its center, so:
+                  To use this together with the parallel axis theorem
+                  <a href="#rem-el">#rem-el</a> and the additive
+                  theorem <a href="#rem-ea">#rem-ea</a>, we must first
+                  realize that the L-shape can be decomposed into four
+                  square plates, as shown. Each small square body has
+                  the same mass and the same moment of inertia about
+                  its center, so:
 
                   \[\begin{aligned}
                   m_1 &amp;= \frac{1}{4} m \\
@@ -488,6 +630,10 @@
         <h2>
           Basic shapes
         </h2>
+        <p>
+          The moments of inertia listed below are all computed
+          directly from the integrals <a href="#rem-ec">#rem-ec</a>.
+        </p>
         <div class="envContainer equation" id="rem-ep">
           <p class="envHeader">Point mass: moments of inertia</p>
           <div class="envBody">
@@ -806,11 +952,6 @@
         </div>
       </div>
       <div class="infoCol">
-        <div id="rem-ie" class="infoBox factBox">
-          <p>
-            Determining $I$ experimentally from oscillation.
-          </p>
-        </div>
       </div>
     </div>
     <div class="contentBlock">
@@ -818,6 +959,12 @@
         <h2>
           Simplified shapes
         </h2>
+        <p>
+          The moments of inertia listed below are all special cases of
+          the basic shapes given in Section <a
+          href="#rem-sb">#rem-sb</a>. Other special cases can be
+          easily obtained by similar methods.
+        </p>
         <div class="envContainer equation" id="rem-eo">
           <p class="envHeader">Rod: moments of inertia</p>
           <div class="envBody">

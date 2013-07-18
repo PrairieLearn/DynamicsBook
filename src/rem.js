@@ -267,13 +267,129 @@ $(document).ready(function() {
 
         this.labelLine(a1, b1, $V([1, -1]), "TEX:$\\hat\\imath$");
         this.labelLine(a2, b2, $V([0.8, -1.3]), "TEX:$\\hat\\jmath$");
-        this.labelLine(a3, b3, $V([0.8, -1.3]), "TEX:$\\hat{k}$");
+        this.labelLine(a3, b3, $V([0.8, -1.3]), "TEX:$\\hat{k} = \\hat{a}$");
 
         this.labelLine(p100, p110, $V([0.3, -1.2]), "TEX:$\\ell$");
         this.labelLine(p101, p001, $V([0, 1.2]), "TEX:$\\ell$");
         this.labelLine(p100, p101, $V([0, 1.2]), "TEX:$h$");
 
         this.text(O, $V([1, -0.6]), "TEX:$C$");
+
+        this.restore();
+    });
+
+    var rem_el_c = new PrairieDraw("rem-el-c", function() {
+        this.setUnits(4, 3);
+
+        var l = 2.7;
+        var h = 0.5;
+        var b = 2;
+        var d = 0.15;
+
+        var p000 = $V([-l/2, -l/2, -h/2]);
+        var p001 = $V([-l/2, -l/2,  h/2]);
+        var p010 = $V([-l/2,  l/2, -h/2]);
+        var p011 = $V([-l/2,  l/2,  h/2]);
+        var p100 = $V([ l/2, -l/2, -h/2]);
+        var p101 = $V([ l/2, -l/2,  h/2]);
+        var p110 = $V([ l/2,  l/2, -h/2]);
+        var p111 = $V([ l/2,  l/2,  h/2]);
+
+        var O = $V([0, 0, 0]);
+        var a1 = $V([l/2, 0, 0]);
+        var a2 = $V([0, l/2, 0]);
+        var a3 = $V([0, 0, h/2]);
+        var b1 = $V([1.3 * b, 0, 0]);
+        var b2 = $V([0, b, 0]);
+        var b3 = $V([0, 0, 0.6 * b]);
+
+        var P = $V([-l/2, -l/2, -h/2]);
+
+        var Pk = P.add($V([0, 0, 0.6 * b]));
+
+        var B = $V([l/2 - d, -l/4, h/2 - d]);
+        var v000 = B.add($V([0, 0, 0]));
+        var v001 = B.add($V([0, 0, d]));
+        var v010 = B.add($V([0, d, 0]));
+        var v011 = B.add($V([0, d, d]));
+        var v100 = B.add($V([d, 0, 0]));
+        var v101 = B.add($V([d, 0, d]));
+        var v110 = B.add($V([d, d, 0]));
+        var v111 = B.add($V([d, d, d]));
+
+        var D = v011;
+        var Ba = $V([P.e(1), P.e(2), D.e(3)]);
+        var Ca = $V([O.e(1), O.e(2), D.e(3)]);
+
+        this.save();
+        this.translate($V([-0.05, -0.3]));
+
+        this.line(p000, p001);
+        this.line(p100, p000);
+        this.line(p010, p000);
+
+        this.line(v000, v001);
+        this.line(v010, v011);
+        this.line(v000, v100);
+        this.line(v010, v110);
+        this.line(v000, v010);
+
+        this.line(O, a1);
+        this.line(O, a2);
+        this.line(O, a3);
+
+        this.arrow(P, Pk);
+        this.labelLine(P, Pk, $V([0.9, -1.3]), "TEX:$\\hat{k} = \\hat{a}$");
+
+        this.save();
+        var alpha = 0.8;
+        this.save();
+        this.setProp("shapeInsideColor", "rgba(255, 255, 255, " + alpha + ")");
+        this.polyLine([p100, p110, p111, p101], true, true, false);
+        this.polyLine([p010, p110, p111, p011], true, true, false);
+        this.polyLine([p101, p111, p011, p001], true, true, false);
+        this.restore();
+
+        this.line(p100, p101);
+        this.line(p110, p111);
+        this.line(p010, p011);
+        this.line(p100, p110);
+        this.line(p101, p111);
+        this.line(p110, p010);
+        this.line(p111, p011);
+        this.line(p101, p001);
+        this.line(p011, p001);
+
+        this.arrow(a1, b1);
+        this.arrow(a2, b2);
+        this.arrow(a3, b3);
+
+        this.labelLine(O, b1, $V([1, -1]), "TEX:$\\hat\\imath$");
+        this.labelLine(O, b2, $V([0.9, -1.3]), "TEX:$\\hat\\jmath$");
+        this.labelLine(O, b3, $V([0.9, -1.3]), "TEX:$\\hat{k} = \\hat{a}$");
+
+        this.text(O, $V([-0.5, 1]), "TEX:$C$");
+
+        this.line(v001, v101);
+        this.line(v011, v111);
+        this.line(v001, v011);
+        this.line(v101, v111);
+        this.line(v100, v101);
+        this.line(v110, v111);
+        this.line(v100, v110);
+
+        this.text(P, $V([-0.5, 1]), "TEX:$P$");
+        this.text(v100, $V([0, 1.1]), "TEX:$dV$");
+
+        this.save();
+        this.setProp("shapeOutlineColor", "rgb(150, 150, 150)");
+        this.line(Ba, D);
+        this.line(Ca, D);
+        this.line(Ba, Ca);
+        this.labelLine(Ba, D, $V([0.1, -1]), "TEX:$r_P$");
+        this.labelLine(Ca, D, $V([0, 1]), "TEX:$r_C$");
+        this.labelLine(Ba, Ca, $V([0.2, 1]), "TEX:$d$");
+        this.restore();
 
         this.restore();
     });
@@ -373,6 +489,41 @@ $(document).ready(function() {
         this.labelLine(p110, p111, $V([0, 1]), "TEX:$h$");
 
         this.text(P, $V([-1, 1]), "TEX:$P$");
+
+        this.restore();
+    });
+
+    var rem_ea_c = new PrairieDraw("rem-ea-c", function() {
+        this.setUnits(5, 3.4);
+
+        var O = $V([0, 0]);
+        var ei = $V([1, 0]);
+        var ej = $V([0, 1]);
+
+        var P1 = O;
+        var P2 = P1.add(ei.x(1));
+        var P3 = P2.add(ej.x(1));
+        var P4 = P3.add(ei.x(2));
+        var P5 = P4.add(ej);
+        var P6 = P5.add(ei.x(-2));
+        var P7 = P6.add(ej);
+        var P8 = P7.add(ei.x(-1));
+
+        var C1 = P1.add(P2).add(P7).add(P8).x(1/4);
+        var C2 = P3.add(P4).add(P5).add(P6).x(1/4);
+
+        this.save();
+        this.translate(C1.x(-1).add($V([-1, 0.1])));
+
+        this.polyLine([P1, P2, P3, P4, P5, P6, P7, P8], true, true);
+        this.save();
+        this.setProp("shapeOutlineColor", "rgb(200, 200, 200)");
+        this.line(P3, P6);
+        this.restore();
+        this.text(P2, $V([-1, 1]), "TEX:$P$");
+        this.text(C1, $V([0, 0]), "TEX:$\\mathcal{B}_1$");
+        this.text(C2, $V([0, 0]), "TEX:$\\mathcal{B}_2$");
+        this.text(P6, $V([-3, -3]), "TEX:$\\mathcal{B}$");
 
         this.restore();
     });
