@@ -1010,6 +1010,10 @@
           <div class="envBody">
             <p>
               \[\begin{aligned}
+              \vec{a} &amp;=
+              a_i \, \hat\imath + a_j \, \hat\jmath + a_k \, \hat{k}
+              &amp; \vec{a} &amp;=
+              a_u \, \hat{u} + a_v \, \hat{v} + a_w \, \hat{w} \\[1em]
               a_i &amp;= a_u u_i + a_v v_i + a_w w_i
               &amp; a_u &amp;= a_i i_u + a_j j_u + a_k k_u \\
               a_j &amp;= a_u u_j + a_v v_j + a_w w_j
@@ -1073,10 +1077,14 @@
             </canvas>
             <p>
               \[\begin{aligned}
+              \vec{a} &amp;=
+              a_i \, \hat\imath + a_j \, \hat\jmath
+              &amp; \vec{a} &amp;=
+              a_u \, \hat{u} + a_v \, \hat{v} \\[1em]
               a_i &amp;= \cos\theta \, a_u - \sin\theta \, a_v
               &amp; a_u &amp;= \cos\theta \, a_i + \sin\theta \, a_j \\
               a_j &amp;= \sin\theta \, a_u + \cos\theta \, a_v
-              &amp; a_v &amp;= \cos\theta \, a_i - \sin\theta \, a_j
+              &amp; a_v &amp;= -\sin\theta \, a_i + \cos\theta \, a_j
               \end{aligned}\]
             </p>
           </div>
@@ -1099,8 +1107,8 @@
               \[\begin{aligned}
               i_u &amp;= \cos\theta &amp; i_v &amp;= -\sin\theta
               &amp; u_i &amp;= \cos\theta &amp; u_j &amp;= \sin\theta \\
-              j_u &amp;= \cos\theta &amp; j_v &amp;= \sin\theta
-              &amp; v_i &amp;= \cos\theta &amp; v_j &amp;= -\sin\theta.
+              j_u &amp;= \sin\theta &amp; j_v &amp;= \cos\theta
+              &amp; v_i &amp;= -\sin\theta &amp; v_j &amp;= \cos\theta.
               \end{aligned}\]
 
               Substituting these into <a href="#rvv-eg">#rvv-eg</a>
