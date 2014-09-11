@@ -694,7 +694,7 @@ $(document).ready(function() {
             this.arrow(O, cv);
             this.arrow(cv, c);
             this.labelLine(O, cv, $V([0, -1.2]), "TEX:$-3.5 \\hat{v}$");
-            this.labelLine(cv, c, $V([0, -1.2]), "TEX:$2.9 \\hat{u}$");
+            this.labelLine(cv, c, $V([0, -1.2]), "TEX:$4.9 \\hat{u}$");
         }
         if (this.getOption("showBasis") === "mixed") {
             this.arrow(O, ai);
