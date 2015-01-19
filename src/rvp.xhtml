@@ -210,7 +210,7 @@
           </tr>
         </table>
         <p>
-          The two standard extensions of polar coordinates to 3D are
+          The two common extensions of polar coordinates to 3D are
           <a href="rvy.xhtml">cylindrical coordinates</a> and <a
           href="rvs.xhtml">spherical coordinates</a>.
         </p>
@@ -270,7 +270,7 @@
         </div>
         <div class="infoBox notationBox" id="rvp-it">
           <p>
-            When solving for $\theta$ in terms of $x$ and $y$ we known
+            When solving for $\theta$ in terms of $x$ and $y$ we know
             that $\tan\theta = y / x$. However, this does not
             necessary mean that $\theta = \tan^{-1}(y / x)$, because
             $\tan$ is not a one-to-one function. For example,
@@ -279,11 +279,19 @@
             point is in quadrants II or III.
           </p>
           <p>
-            An alternative is to use the <a
-            href="http://en.wikipedia.org/wiki/Atan2">atan2</a>
+            An alternative is to use
+            the <a href="http://en.wikipedia.org/wiki/Atan2">atan2</a>
             function, which takes $x$ and $y$ as separate arguments
             and correctly handles the conversion to $\theta$ in any
-            quadrant.
+            quadrant. This function is available in all common
+            programming languages, including C, MATLAB, Python, and
+            others.
+          </p>
+          <p>
+            Scientific calculators typically have special commands to
+            convert to/from polar and Cartesian coordinates, which
+            also automatically correctly handle the different
+            quadrants.
           </p>
         </div>
       </div>
