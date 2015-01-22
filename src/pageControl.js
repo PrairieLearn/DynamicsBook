@@ -4,7 +4,7 @@ $(document).ready(function() {
     /*
     $("body").children().wrapAll('<div class="mainBlock"/>');
     $("div.mainBlock").wrap('<div class="container"/>');
-    $("div.container").prepend('<div class="navbar"><ul><li><a href="index.xhtml" id="navHome">Home</a></li><li><a href="info.xhtml" id="navInfo">Info</a></li><li><a href="people.xhtml" id="navPeople">People</a></li><li><a href="sched.xhtml" id="navSched">Schedule</a></li><li><a href="ref.xhtml" id="navRef">Reference</a></li><li><a href="apps.xhtml" id="navApps">Applications</a></li></ul></div>');
+    $("div.container").prepend('<div class="navbar"><ul><li><a href="index.html" id="navHome">Home</a></li><li><a href="info.html" id="navInfo">Info</a></li><li><a href="people.html" id="navPeople">People</a></li><li><a href="sched.html" id="navSched">Schedule</a></li><li><a href="ref.html" id="navRef">Reference</a></li><li><a href="apps.html" id="navApps">Applications</a></li></ul></div>');
     //$("div.container").prepend('<div class="header"><div class="login"><p>Log in</p></div><h1>TAM 212: Introductory Dynamics</h1></div>');
     $("div.container").prepend('<div class="header"><h1>TAM 212: Introductory Dynamics</h1></div>');
     $("div.container").append('<div class="footer"><p class="copyright">Copyright (C) 2012-2015 Matthew West</p></div>');
@@ -36,22 +36,14 @@ $(document).ready(function() {
 
     // active navigation link
     var activeNavId;
-    if (/index\.xhtml$/.test(window.location.pathname)) {
+    if (/index\.html$/.test(window.location.pathname)) {
         activeNavId = "navHome";
     } else if (/\/$/.test(window.location.pathname)) {
         activeNavId = "navHome";
-    } else if (/sched\.xhtml$/.test(window.location.pathname)) {
-        activeNavId = "navSched";
-    } else if (/r[a-z]+\.xhtml$/.test(window.location.pathname)) {
+    } else if (/r[a-z]+\.html$/.test(window.location.pathname)) {
         activeNavId = "navRef";
-    } else if (/a[a-z]+\.xhtml$/.test(window.location.pathname)) {
+    } else if (/a[a-z]+\.html$/.test(window.location.pathname)) {
         activeNavId = "navApps";
-    } else if (/h[a-z]+\.xhtml$/.test(window.location.pathname)) {
-        activeNavId = "navHW";
-    } else if (/i[a-z]+\.xhtml$/.test(window.location.pathname)) {
-        activeNavId = "navInfo";
-    } else if (/p[a-z]+\.xhtml$/.test(window.location.pathname)) {
-        activeNavId = "navPeople";
     } else {
         console.log("Warning: unable to determine active navigation");
     }
