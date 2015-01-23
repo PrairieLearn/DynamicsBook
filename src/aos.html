@@ -65,15 +65,18 @@
           </tr>
         </table>
         <p>
-          Geographic coordinates are typically given in <a
-          href="rvs.html">spherical coordinates</a>, but without the
-          radius and with the angles given in <a
-          href="http://en.wikipedia.org/wiki/Arcminute">degrees,
+          Geographic coordinates are typically given
+          in <a href="rvs.html">spherical coordinates</a>, but without
+          the radius and with the angles given
+          in <a href="http://en.wikipedia.org/wiki/Arcminute">degrees,
           minutes, and seconds</a>, with the latitude first, and the
           direction given as North/South or East/West rather than
-          positive/negative. Plotting the city locations on a map
-          of the Earth gives the figure below. Such a map can give a
-          very misleading idea of the shortest route, however.
+          positive/negative. Also note that latitude is the elevation
+          angle up from the equator, whereas spherical coordinates
+          often use the inclination angle down from the polar
+          axis. Plotting the city locations on a map of the Earth
+          gives the figure below. Such a map can give a very
+          misleading idea of the shortest route, however.
         </p>
         <div class="figureContainer width600" id="aos-fm">
           <canvas id="aos-fm-c" width="600" height="600">
@@ -259,8 +262,8 @@
           Given any two points $A$ and $B$ on the surface of the
           Earth, we choose coordinate axes and use <a
           href="rvs.html">spherical coordinates</a> so that $A$ is at
-          $(r = r_0$, $\theta = 0$, $\phi = -\phi_0)$ and $B$ is at
-          $(r = r_0$, $\theta = 0$, $\phi = \phi_0)$. Here $r_0$ is
+          $(r = r_0$, $\theta = 0$, $\phi = \pi - \phi_0)$ and $B$ is at
+          $(r = r_0$, $\theta = 0$, $\phi = \pi + \phi_0)$. Here $r_0$ is
           the radius of the Earth and $0 \le \phi_0 \le \pi/2$. The
           total angle between $\vec{OA}$ and $\vec{OB}$ is $\Delta\phi
           = 2\phi_0$, so the great-circle distance between $A$ and $B$
@@ -297,18 +300,19 @@
           \end{aligned}\]
         </p>
         <p>
-          Differentiating these expressions and substituting gives the
-          path length expression:
+          Differentiating these expressions and substituting (or using
+          the <a href="rvs.html#rvs-ep">spherical velocity
+          expression</a>) gives the path length expression:
         </p>
         <p>
           \[
-          L = \int_0^1 r_0 \sqrt{\dot{\phi}^2 + \dot{\theta}^2 \cos^2\phi} \, dt
+          L = \int_0^1 r_0 \sqrt{\dot{\phi}^2 + \dot{\theta}^2 \sin^2\phi} \, dt
           \ge \int_0^1 r_0 |\dot{\phi}| \, dt
           \ge r_0 \Delta \phi.
           \]
         </p>
         <p>
-          Here we have used the fact that $\dot{\theta}^2 \cos^2\phi
+          Here we have used the fact that $\dot{\theta}^2 \sin^2\phi
           \ge 0$ to see that $L$ must be at least as big as the
           great-circle distance $r_0 \Delta \phi$. Thus the
           great-circle distance is the minimum path length between $A$

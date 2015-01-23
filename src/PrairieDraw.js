@@ -374,9 +374,9 @@ PrairieDraw.prototype.vecPolarToRect = function(vP, pP) {
     @return {Vector} The position in rectangular coordinates (x, y, z).
 */
 PrairieDraw.prototype.sphericalToRect = function(pS) {
-    var pR = $V([pS.e(1) * Math.cos(pS.e(2)) * Math.cos(pS.e(3)),
-                 pS.e(1) * Math.sin(pS.e(2)) * Math.cos(pS.e(3)),
-                 pS.e(1) * Math.sin(pS.e(3))
+    var pR = $V([pS.e(1) * Math.cos(pS.e(2)) * Math.sin(pS.e(3)),
+                 pS.e(1) * Math.sin(pS.e(2)) * Math.sin(pS.e(3)),
+                 pS.e(1) * Math.cos(pS.e(3))
                 ]);
     return pR;
 };
@@ -407,9 +407,9 @@ PrairieDraw.prototype.sphericalBasis = function(pS) {
     var phi = pS.e(3);
     var eR = this.sphericalToRect($V([1, theta, phi]));
     var eTheta = $V([-Math.sin(theta), Math.cos(theta), 0]);
-    var ePhi = $V([-Math.cos(theta) * Math.sin(phi),
-                   -Math.sin(theta) * Math.sin(phi),
-                   Math.cos(phi)]);
+    var ePhi = $V([Math.cos(theta) * Math.cos(phi),
+                   Math.sin(theta) * Math.cos(phi),
+                   -Math.sin(phi)]);
     return [eR, eTheta, ePhi];
 };
 

@@ -69,9 +69,9 @@
           </tr>
           <tr>
             <td>$\phi$</td>
-            <td>elevation</td>
+            <td>inclination</td>
             <td>$-\pi/2 \lt \phi \le \pi/2$</td>
-            <td>angle up from the $x$–$y$ plane</td>
+            <td>angle from the positive $z$ axis</td>
           </tr>
         </table>
         <p>
@@ -128,8 +128,8 @@
                     <td>$\theta = $ <span class="data-option:rvs-fd-c:thetaDeg"></span>°</td>
                   </tr>
                   <tr>
-                    <td>Elevation:</td>
-                    <td><input type="range" min="-90" max="90" value="0" step="5" class="data-input:rvs-fd-c:phiDeg" /></td>
+                    <td>Inclination:</td>
+                    <td><input type="range" min="0" max="180" value="0" step="5" class="data-input:rvs-fd-c:phiDeg" /></td>
                     <td>$\phi = $ <span class="data-option:rvs-fd-c:phiDeg"></span>°</td>
                   </tr>
                 </table>
@@ -150,9 +150,9 @@
           <div class="envBody">
             <p>
               \[\begin{aligned}
-              x &amp;= r \cos\theta \cos\phi &amp; r &amp;= \sqrt{x^2 + y^2 + z^2} \\
-              y &amp;= r \sin\theta \cos\phi &amp; \theta &amp;= \operatorname{atan2}(y, x) \\
-              z &amp;= r \sin\phi &amp; \phi &amp;= \operatorname{arcsin}(z / r)
+              x &amp;= r \cos\theta \sin\phi &amp; r &amp;= \sqrt{x^2 + y^2 + z^2} \\
+              y &amp;= r \sin\theta \sin\phi &amp; \theta &amp;= \operatorname{atan2}(y, x) \\
+              z &amp;= r \cos\phi &amp; \phi &amp;= \operatorname{arcsin}(z / r)
               \end{aligned}\]
             </p>
           </div>
@@ -164,8 +164,8 @@
             <p>
               To find the conversion to Cartesian coordinates, we
               consider the projection of $\vec{r}$ down onto the
-              $x$–$y$ plane, as shown. Then $z = r \sin\phi$ and $\ell
-              = r \cos\phi$, from which we obtain $x = \ell
+              $x$–$y$ plane, as shown. Then $z = r \cos\phi$ and $\ell
+              = r \sin\phi$, from which we obtain $x = \ell
               \cos\theta$ and $y = \ell \sin\theta$.
             </p>
             <p>
@@ -179,9 +179,9 @@
         </div>
         <p>
           The basis vectors are tangent to the coordinate lines and
-          form a right-handed orthonormal basis $\hat{e}_r,
+          form an orthonormal basis $\hat{e}_r,
           \hat{e}_\theta, \hat{e}_\phi$ that depends on the current
-          position $\vec{P}$ as follows.
+          position $P$ as follows.
         </p>
         <div class="envContainer equation" id="rvs-eb">
           <p class="envHeader">
@@ -190,17 +190,17 @@
           <div class="envBody">
             <p>
               \[\begin{aligned}
-              \hat{e}_r &amp;= \cos\theta \cos\phi \,\hat{\imath}
-              + \sin\theta \cos\phi \,\hat{\jmath} + \sin\phi \,\hat{k} \\
+              \hat{e}_r &amp;= \cos\theta \sin\phi \,\hat{\imath}
+              + \sin\theta \sin\phi \,\hat{\jmath} + \cos\phi \,\hat{k} \\
               \hat{e}_{\theta} &amp;= - \sin\theta \,\hat{\imath}
               + \cos\theta \,\hat{\jmath} \\
-              \hat{e}_{\phi} &amp;= - \cos\theta \sin\phi \,\hat{\imath}
-              - \sin\theta \sin\phi \,\hat{\jmath} + \cos\phi \,\hat{k} \\[1em]
-              \hat{\imath} &amp;= \cos\theta \cos\phi \, \hat{e}_r
-              - \sin\theta \, \hat{e}_\theta - \cos\theta \sin\phi \, \hat{e}_\phi \\
-              \hat{\jmath} &amp;= \sin\theta \cos\phi \, \hat{e}_r
-              + \cos\theta \, \hat{e}_\theta - \sin\theta \sin\phi \, \hat{e}_\phi \\
-              \hat{k} &amp;= \sin\phi \, \hat{e}_r + \cos\phi \, \hat{e}_\phi
+              \hat{e}_{\phi} &amp;= \cos\theta \cos\phi \,\hat{\imath}
+              + \sin\theta \cos\phi \,\hat{\jmath} - \sin\phi \,\hat{k} \\[1em]
+              \hat{\imath} &amp;= \cos\theta \sin\phi \, \hat{e}_r
+              - \sin\theta \, \hat{e}_\theta + \cos\theta \cos\phi \, \hat{e}_\phi \\
+              \hat{\jmath} &amp;= \sin\theta \sin\phi \, \hat{e}_r
+              + \cos\theta \, \hat{e}_\theta + \sin\theta \cos\phi \, \hat{e}_\phi \\
+              \hat{k} &amp;= \cos\phi \, \hat{e}_r - \sin\phi \, \hat{e}_\phi
               \end{aligned}\]
             </p>
           </div>
@@ -209,42 +209,31 @@
           <div class="envBody">
             <p>
               We write the position vector $\vec{r} = r \cos\theta
-              \cos\phi \, \hat{\imath} + r \sin\theta \cos\phi \,
-              \hat{\jmath} + r \sin\phi \, \hat{k}$ and then use the
+              \sin\phi \, \hat{\imath} + r \sin\theta \sin\phi \,
+              \hat{\jmath} + r \cos\phi \, \hat{k}$ and then use the
               definition of coordinate basis vectors to find the
               non-normalized spherical basis vectors:
             </p>
             <p>
               \[\begin{aligned}
               \vec{e}_r &amp;= \frac{\partial\vec{r}}{\partial r}
-              = \cos\theta \cos\phi \, \hat{\imath}
-              + \sin\theta \cos\phi \, \hat{\jmath}
-              + \sin\phi \, \hat{k} \\
+              = \cos\theta \sin\phi \, \hat{\imath}
+              + \sin\theta \sin\phi \, \hat{\jmath}
+              + \cos\phi \, \hat{k} \\
               \vec{e}_\theta &amp;= \frac{\partial\vec{r}}{\partial\theta}
-              = -r \sin\theta \cos\phi \, \hat{\imath}
-              + r \cos\theta \cos\phi \, \hat{\jmath} \\
+              = -r \sin\theta \sin\phi \, \hat{\imath}
+              + r \cos\theta \sin\phi \, \hat{\jmath} \\
               \vec{e}_\phi &amp;= \frac{\partial\vec{r}}{\partial\phi}
-              = -r \cos\theta \sin\phi \, \hat{\imath}
-              - r \sin\theta \sin\phi \, \hat{\jmath}
-              + r \cos\phi \, \hat{k}
+              = r \cos\theta \cos\phi \, \hat{\imath}
+              + r \sin\theta \cos\phi \, \hat{\jmath}
+              - r \sin\phi \, \hat{k}
               \end{aligned}\]
             </p>
             <p>
-              To normalize these basis vectors we compute their lengths:
-            </p>
-            <p>
-              \[\begin{aligned}
-              \| \vec{e}_r \| &amp;= \sqrt{(\cos\theta \cos\phi)^2
-              + (\sin\theta \cos\phi)^2 + (\sin\phi)^2} = 1 \\
-              \| \vec{e}_\theta \| &amp;= \sqrt{(-r \sin\theta \cos\phi)^2
-              + (r \cos\theta \cos\phi)^2} = r \cos\phi \\
-              \| \vec{e}_\phi \| &amp;= \sqrt{(r \cos\theta \sin\phi)^2
-              + (r \sin\theta \sin\phi)^2 + (r \cos\phi)^2} = r
-              \end{aligned}\]
-            </p>
-            <p>
-              Dividing through by these lengths then gives the
-              normalized basis vectors.
+              To normalize these vectors we divide by their lengths,
+              which we can compute to be $\| \vec{e}_r \| = 1$, $\|
+              \vec{e}_\theta \| = r \sin\phi$, and $\| \vec{e}_\phi \|
+              = r$.
             </p>
             <p>
               To invert the basis change we first observe that we can
@@ -253,9 +242,9 @@
             </p>
             <p>
               \[\begin{aligned}
-              \sin\phi \, \hat{e}_r + \cos\phi \, \hat{e}_\phi
-              &amp;= \sin^2\phi \, \hat{k} + \cos^2\phi \, \hat{k} = \hat{k} \\
               \cos\phi \, \hat{e}_r - \sin\phi \, \hat{e}_\phi
+              &amp;= \hat{k} \\
+              \sin\phi \, \hat{e}_r + \cos\phi \, \hat{e}_\phi
               &amp;= \cos\theta \, \hat{\imath} + \sin\theta \, \hat{\jmath}
               \end{aligned}\]
             </p>
@@ -264,11 +253,11 @@
             </p>
             <p>
               \[\begin{aligned}
-              \cos\theta(\cos\phi \, \hat{e}_r - \sin\phi \, \hat{e}_\phi)
+              \cos\theta(\sin\phi \, \hat{e}_r + \cos\phi \, \hat{e}_\phi)
               - \sin\theta \, \hat{e}_\theta
               &amp;= \cos^2\theta \, \hat{\imath} + \sin^2\theta \, \hat{\imath}
               = \hat{\imath} \\
-              \sin\theta(\cos\phi \, \hat{e}_r - \sin\phi \, \hat{e}_\phi)
+              \sin\theta(\sin\phi \, \hat{e}_r + \cos\phi \, \hat{e}_\phi)
               + \cos\theta \, \hat{e}_\theta
               &amp;= \sin^2\theta \, \hat{\imath} + \cos^2\theta \, \hat{\jmath}
               = \hat{\jmath}
@@ -276,6 +265,22 @@
             </p>
             <p>
               Rearranging these gives the Cartesian basis vector expressions above.
+            </p>
+          </div>
+        </div>
+        <div class="envContainer warning" id="rvs-wr">
+          <p class="envHeader">Warning: $(\hat{e}_r,\hat{e}_\theta,\hat{e}_\phi)$ is not right-handed</p>
+          <div class="envBody">
+            <p>
+              Although it is common to write the spherical coordinates
+              in the order $(r,\theta,\phi)$, this order gives
+              a <i>left-handed</i> basis
+              $(\hat{e}_r,\hat{e}_\theta,\hat{e}_\phi)$, which we can
+              see graphically from the fact that $\hat{e}_r \times
+              \hat{e}_\theta = -\hat{e}_\phi$. We can either work with
+              this as a left-handed basis, or re-order the coordinates
+              to give the right-handed basis
+              $(\hat{e}_r,\hat{e}_\phi,\hat{e}_\theta)$.
             </p>
           </div>
         </div>
@@ -292,8 +297,8 @@
             <p>
               \[\begin{aligned}
               \vec{\omega} &amp;= \dot\phi \, \hat{e}_\theta + \dot\theta \, \hat{k} \\
-              &amp;= \dot\theta \sin\phi \,\hat{e}_r - \dot\phi \, \hat{e}_\theta
-              + \dot\theta \cos\phi \,\hat{e}_{\phi}
+              &amp;= \dot\theta \cos\phi \,\hat{e}_r + \dot\phi \, \hat{e}_\theta
+              - \dot\theta \sin\phi \,\hat{e}_{\phi}
               \end{aligned}\]
             </p>
           </div>
@@ -301,10 +306,10 @@
         <div class="envContainer derivation" id="rvs-ew-d">
           <div class="envBody">
             <p>
-              Changing $r$ does not cause a rotation of the basis
+              Changing $r$ does not cause a rotation of the basis,
               while changing $\theta$ rotates about the vertical axis
               $\hat{k}$ and changing $\phi$ rotates about
-              $-\hat{e}_\theta$. Combining these angular
+              $\hat{e}_\theta$. Combining these angular
               velocities gives the expression for $\vec{\omega}$.
             </p>
           </div>
@@ -321,12 +326,12 @@
           <div class="envBody">
             <p>
               \[\begin{aligned}
-              \dot{\hat{e}}_r &amp;= \dot\theta \cos\phi \,\hat{e}_{\theta}
+              \dot{\hat{e}}_r &amp;= \dot\theta \sin\phi \,\hat{e}_{\theta}
               + \dot\phi \,\hat{e}_{\phi} \\
-              \dot{\hat{e}}_{\theta} &amp;= - \dot\theta \cos\phi \,\hat{e}_r
-              + \dot\theta \sin\phi \,\hat{e}_{\phi} \\
+              \dot{\hat{e}}_{\theta} &amp;= - \dot\theta \sin\phi \,\hat{e}_r
+              - \dot\theta \cos\phi \,\hat{e}_{\phi} \\
               \dot{\hat{e}}_{\phi} &amp;= - \dot\phi \,\hat{e}_r
-              - \dot\theta \sin\phi \,\hat{e}_{\theta}
+              + \dot\theta \cos\phi \,\hat{e}_{\theta}
               \end{aligned}\]
             </p>
           </div>
@@ -343,23 +348,22 @@
             <p>
               \[\begin{aligned}
               \dot{\hat{e}}_r &amp;= \vec{\omega} \times \hat{e}_r
-              = \dot\theta \sin\phi \, \hat{e}_r \times \hat{e}_r
-              - \dot\phi \, \hat{e}_\theta \times \hat{e}_r
-              + \dot\theta \cos\phi \, \hat{e}_{\phi} \times \hat{e}_r \\
+              = \dot\theta \cos\phi \, \hat{e}_r \times \hat{e}_r
+              + \dot\phi \, \hat{e}_\theta \times \hat{e}_r
+              - \dot\theta \sin\phi \, \hat{e}_{\phi} \times \hat{e}_r \\
               \dot{\hat{e}}_{\theta} &amp;= \vec{\omega} \times \hat{e}_{\theta}
-              = \dot\theta \sin\phi \,\hat{e}_r \times \hat{e}_\theta
-              - \dot\phi \, \hat{e}_\theta \times \hat{e}_\theta
-              + \dot\theta \cos\phi \,\hat{e}_{\phi} \times \hat{e}_\theta \\
+              = \dot\theta \cos\phi \,\hat{e}_r \times \hat{e}_\theta
+              + \dot\phi \, \hat{e}_\theta \times \hat{e}_\theta
+              - \dot\theta \sin\phi \,\hat{e}_{\phi} \times \hat{e}_\theta \\
               \dot{\hat{e}}_{\phi} &amp;= \vec{\omega} \times \hat{e}_{\phi}
-              = \dot\theta \sin\phi \,\hat{e}_r \times \hat{e}_\phi
-              - \dot\phi \, \hat{e}_\theta \times \hat{e}_\phi
-              + \dot\theta \cos\phi \,\hat{e}_{\phi} \times \hat{e}_\phi
+              = \dot\theta \cos\phi \,\hat{e}_r \times \hat{e}_\phi
+              + \dot\phi \, \hat{e}_\theta \times \hat{e}_\phi
+              - \dot\theta \sin\phi \,\hat{e}_{\phi} \times \hat{e}_\phi
               \end{aligned}\]
             </p>
             <p>
-              Now we use the fact that $\hat{e}_r, \hat{e}_\theta,
-              \hat{e}_\phi$ form a right-handed orthonormal basis to <a
-              href="rvv.html#rvv-sc">evaluate the cross products</a>.
+              Now we evaluate the cross products graphically to obtain
+              the final expressions.
             </p>
           </div>
         </div>
@@ -378,15 +382,15 @@
               \[\begin{aligned}
               \vec{r} &amp;= r \,\hat{e}_r \\
               \vec{v} &amp;= \dot{r} \,\hat{e}_r
-              + r \dot\theta \cos\phi \,\hat{e}_{\theta}
+              + r \dot\theta \sin\phi \,\hat{e}_{\theta}
               + r \dot\phi \,\hat{e}_{\phi} \\
-              \vec{a} &amp;= (\ddot{r} - r \dot{\theta}^2 \cos^2\phi
+              \vec{a} &amp;= (\ddot{r} - r \dot{\theta}^2 \sin^2\phi
               - r \dot{\phi}^2) \,\hat{e}_r \\
-              &amp;\quad + (r \ddot\theta \cos\phi
-              + 2 \dot{r} \dot\theta \cos\phi
-              - 2 r \dot\theta \dot\phi \sin\phi) \,\hat{e}_{\theta} \\
+              &amp;\quad + (r \ddot\theta \sin\phi
+              + 2 \dot{r} \dot\theta \sin\phi
+              + 2 r \dot\theta \dot\phi \cos\phi) \,\hat{e}_{\theta} \\
               &amp;\quad + (r \ddot\phi + 2 \dot{r} \dot\phi
-              + r \dot{\theta}^2 \sin\phi \cos\phi) \,\hat{e}_{\phi}
+              - r \dot{\theta}^2 \sin\phi \cos\phi) \,\hat{e}_{\phi}
               \end{aligned}\]
             </p>
           </div>
@@ -414,12 +418,12 @@
               \[\begin{aligned}
               \vec{a} = \dot{\vec{v}} &amp;= \frac{d}{dt}\Big(
               \dot{r} \,\hat{e}_r
-              + r \dot\theta \cos\phi \,\hat{e}_{\theta}
+              + r \dot\theta \sin\phi \,\hat{e}_{\theta}
               + r \dot\phi \,\hat{e}_{\phi} \Big) \\
               &amp;= \ddot{r} \, \hat{e}_r + \dot{r} \, \dot{\hat{e}}_r
-              + (\dot{r} \dot\theta \cos\phi + r \ddot\theta \cos\phi
-              - r \dot\theta \sin\phi \, \dot\phi) \, \hat{e}_\theta \\
-              &amp;\quad + r \dot\theta \cos\phi \, \dot{\hat{e}}_\theta
+              + (\dot{r} \dot\theta \sin\phi + r \ddot\theta \sin\phi
+              + r \dot\theta \cos\phi \, \dot\phi) \, \hat{e}_\theta \\
+              &amp;\quad + r \dot\theta \sin\phi \, \dot{\hat{e}}_\theta
               + (\dot{r} \dot\phi + r \ddot\phi) \, \hat{e}_\phi
               + r \dot\phi \, \dot{\hat{e}}_\phi
               \end{aligned}\]
@@ -435,17 +439,17 @@
         <div id="rvs-ic" class="infoBox notationBox">
           <p>
             There are many different conventions for spherical
-            coordinates, so it's important to check which variant is
-            being used in any document. For example, in mathematics it
-            is common to use $r, \theta, \phi$ with radius $r$,
-            azimuth $\theta$, and <i>inclination</i> $\phi$, which
-            measures the angle down from the positive $z$-axis. In
-            physics it is also common to use the inclination angle,
-            but to reverse the symbol convention so that $\phi$ is the
-            azimuth and $\theta$ is the inclination. Many different
-            names for the coordinates are also used, with the
-            inclination also being called the <i>zenith angle</i>,
-            <i>polar angle</i>, or <i>normal angle</i>. In geographic
+            coordinates notation, so it's important to check which
+            variant is being used in any document. The convention used
+            here is common in mathematics. In physics it is also
+            common to use the same angles, but to reverse the symbol
+            convention so that $\phi$ is the azimuth and $\theta$ is
+            the inclination. Many different names for the coordinates
+            are also used, with the inclination also being called
+            the <i>zenith angle</i>,
+            <i>polar angle</i>, or <i>normal angle</i>. Alternatively,
+            the inclination may be replaced by the <i>elevation</i>
+            measured up from the $x$-$y$ plane.  In geographic
             coordinates the azimuth is the <i>longitude</i> $\lambda$
             and the elevation is the <i>latitude</i> $\phi$, while in
             celestial coordinates the azimuth is the <i>right

@@ -31,15 +31,18 @@ $(document).ready(function() {
 
         var r = this.getOption("r");
         var theta = this.degToRad(this.getOption("thetaDeg"));
-        var phi = this.degToRad(this.getOption("phiDeg"));
+        var phiDeg = this.getOption("phiDeg");
+        var phi = this.degToRad(phiDeg);
 
         var p = this.sphericalToRect($V([r, theta, phi]));
-        var pXY = this.sphericalToRect($V([r, theta, 0]));
-        var nXY = pXY.cross(Vector.k);
+        var rXY = $V([p.e(1), p.e(2), 0]);
+        var rXY_mod = rXY.modulus();
+        var nXY = rXY.cross(Vector.k);
+        var pZ = $V([0, 0, r]);
 
         if (this.getOption("showLabels")) {
-            this.labelIntersection(O, [rX, rY, rZ, p, pXY], "TEX:$O$");
-            this.labelIntersection(p, [O, pXY], "TEX:$P$");
+            this.labelIntersection(O, [rX, rY, rZ, p, rXY], "TEX:$O$");
+            this.labelIntersection(p, [O, rXY, pZ], "TEX:$P$");
         }
 
         if (this.getOption("showCoordLineR")) {
@@ -51,8 +54,8 @@ $(document).ready(function() {
         }
 
         if (this.getOption("showCoordLineTheta")) {
-            var pTheta = $V([0, 0, r * Math.sin(phi)]);
-            var rTheta = r * Math.cos(phi);
+            var pTheta = $V([0, 0, r * Math.cos(phi)]);
+            var rTheta = r * Math.sin(phi);
             this.save();
             this.setProp("shapeStrokePattern", "dashed");
             this.arc3D(pTheta, rTheta, Vector.k);
@@ -75,10 +78,16 @@ $(document).ready(function() {
             this.save();
             this.setProp("shapeStrokePattern", "dashed");
             this.setProp("arrowLinePattern", "dashed");
-            this.line(O, pXY);
+            if (phiDeg !== 90) {
+                this.line(O, rXY);
+            }
 
-            if (!(this.getOption("showCoordLineTheta") && phi === 0)) {
-                this.circleArrow3D(O, r, Vector.k, Vector.i, 0, theta);
+            if (!(this.getOption("showCoordLineTheta") && phiDeg === 90)) {
+                this.circleArrow3D(O, rXY_mod, Vector.k, Vector.i, 0, theta);
+                if (phiDeg !== 90) {
+                    this.line(rXY, p);
+                    this.rightAngle(rXY, $V([0, 0, p.e(3)]), rXY.x(-1));
+                }
             }
             if (this.getOption("showLabels")) {
                 var thetaText = undefined;
@@ -87,20 +96,14 @@ $(document).ready(function() {
                 } else if (theta < 0) {
                     thetaText = "TEX:$-\\theta$";
                 }
-                this.labelCircleLine3D(thetaText, $V([0, 1]), O, r, Vector.k, Vector.i, 0, theta);
+                this.labelCircleLine3D(thetaText, $V([0, 1]), O, rXY_mod, Vector.k, Vector.i, 0, theta);
             }
 
             if (!this.getOption("showCoordLinePhi")) {
-                this.circleArrow3D(O, r, nXY, pXY, 0, phi);
+                this.circleArrow3D(O, r, nXY, pZ, 0, -phi);
             }
             if (this.getOption("showLabels")) {
-                var phiText = undefined;
-                if (phi > 0) {
-                    phiText = "TEX:$\\phi$";
-                } else if (phi < 0) {
-                    phiText = "TEX:$-\\phi$";
-                }
-                this.labelCircleLine3D(phiText, $V([0, 1]), O, r, nXY, pXY, 0, phi);
+                this.labelCircleLine3D("TEX:$\\phi$", $V([0, 1]), O, r, nXY, pZ, 0, -phi);
             }
             this.restore();
         }
@@ -137,11 +140,12 @@ $(document).ready(function() {
 
         var r = 7;
         var theta = Math.PI / 4;
-        var phi = Math.PI / 4;
+        var phi = 1.2 * Math.PI / 4;
 
         var p = this.sphericalToRect($V([r, theta, phi]));
         var pXY = $V([p.e(1), p.e(2), 0]);
         var pX = $V([p.e(1), 0, 0]);
+        var pZ = $V([0, 0, p.e(3)]);
 
         this.arrow(O, p, "position");
         this.labelLine(O, p, $V([0, 1]), "TEX:$r$");
@@ -160,7 +164,7 @@ $(document).ready(function() {
 
         this.labelLine(O, pX, $V([0, -1]), "TEX:$x$");
 
-        this.labelAngle(O, pXY, p, "TEX:$\\phi$");
+        this.labelAngle(O, p, pZ, "TEX:$\\phi$");
         this.labelAngle(O, pX, pXY, "TEX:$\\theta$");
 
         this.restore();
