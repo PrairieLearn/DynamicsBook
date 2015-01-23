@@ -146,8 +146,8 @@ $(document).ready(function() {
         var aP = $V([aLong, aLat]);
         var bP = $V([bLong, bLat]);
 
-        var aS = $V([1, this.degToRad(aLong), this.degToRad(aLat)]);
-        var bS = $V([1, this.degToRad(bLong), this.degToRad(bLat)]);
+        var aS = $V([1, this.degToRad(aLong), Math.PI/2 - this.degToRad(aLat)]);
+        var bS = $V([1, this.degToRad(bLong), Math.PI/2 - this.degToRad(bLat)]);
 
         var aR = this.sphericalToRect(aS);
         var bR = this.sphericalToRect(bS);
@@ -182,7 +182,7 @@ $(document).ready(function() {
             for (i = 0; i <= nSegments; i++) {
                 vR = this.linearInterpVector(aR, bR, i / nSegments);
                 vS = this.rectToSpherical(vR);
-                points.push($V([this.radToDeg(vS.e(2)), this.radToDeg(vS.e(3))]));
+                points.push($V([this.radToDeg(vS.e(2)), this.radToDeg(Math.PI/2 - vS.e(3))]));
             }
 
             var labelPoint = points[Math.floor(nSegments / 2)];
@@ -206,6 +206,12 @@ $(document).ready(function() {
 
         if (false) {
             // solutions to worksheet
+
+            // FIXME: the code in this block was when spherical coords
+            // used elevation as the third coordinate. Now needs to be
+            // updated for the new spherical coords code which uses
+            // inclination as the third coordinate.
+            
             aR = aR.x(earthRad);
             bR = bR.x(earthRad);
             aS = $V([earthRad, aS.e(2), aS.e(3)]);
@@ -263,10 +269,14 @@ $(document).ready(function() {
         var rY = $V([0, 1.2, 0]);
         var rZ = $V([0, 0, 1.2]);
 
-        var theta1 = this.degToRad(this.getOption("longitudeDeg1"));
-        var theta2 = this.degToRad(this.getOption("longitudeDeg2"));
-        var phi1 = this.degToRad(this.getOption("latitudeDeg1"));
-        var phi2 = this.degToRad(this.getOption("latitudeDeg2"));
+        var longDeg1 = this.getOption("longitudeDeg1");
+        var longDeg2 = this.getOption("longitudeDeg2");
+        var latDeg1 = this.getOption("latitudeDeg1")
+        var latDeg2 = this.getOption("latitudeDeg2")
+        var theta1 = this.degToRad(longDeg1);
+        var theta2 = this.degToRad(longDeg2);
+        var phi1 = Math.PI/2 - this.degToRad(latDeg1);
+        var phi2 = Math.PI/2 - this.degToRad(latDeg2);
 
         var p1 = this.sphericalToRect($V([1, theta1, phi1]));
         var p2 = this.sphericalToRect($V([1, theta2, phi2]));
@@ -338,20 +348,20 @@ $(document).ready(function() {
             this.save();
             this.setProp("hiddenLineWidthPx", greatCircleWidthPx);
             this.setProp("hiddenLineColor", cityColor1);
-            if (theta1 !== 0) {
+            if (longDeg1 !== 0) {
                 this.sphereSlice(O, 1, Vector.k, 0, true, false, Vector.i, 0, theta1);
             }
-            if (phi1 !== 0) {
-                var norm = $V([Math.sin(theta1), -Math.cos(theta1), 0]);
-                this.sphereSlice(O, 1, norm, 0, true, false, p1, -phi1, 0);
+            if (latDeg1 !== 0) {
+                var norm = $V([-Math.sin(theta1), Math.cos(theta1), 0]);
+                this.sphereSlice(O, 1, norm, 0, true, false, p1, Math.PI/2 - phi1, 0);
             }
             this.setProp("hiddenLineColor", cityColor2);
-            if (theta2 !== 0) {
+            if (longDeg2 !== 0) {
                 this.sphereSlice(O, 1, Vector.k, 0, true, false, Vector.i, 0, theta2);
             }
-            if (phi2 !== 0) {
-                var norm = $V([Math.sin(theta2), -Math.cos(theta2), 0]);
-                this.sphereSlice(O, 1, norm, 0, true, false, p2, -phi2, 0);
+            if (latDeg2 !== 0) {
+                var norm = $V([-Math.sin(theta2), Math.cos(theta2), 0]);
+                this.sphereSlice(O, 1, norm, 0, true, false, p2, Math.PI/2 - phi2, 0);
             }
             this.restore();
         }
@@ -436,20 +446,20 @@ $(document).ready(function() {
             this.save();
             this.setProp("shapeStrokeWidthPx", greatCircleWidthPx);
             this.setProp("shapeOutlineColor", cityColor1);
-            if (theta1 !== 0) {
+            if (longDeg1 !== 0) {
                 this.sphereSlice(O, 1, Vector.k, 0, false, true, Vector.i, 0, theta1);
             }
-            if (phi1 !== 0) {
-                var norm = $V([Math.sin(theta1), -Math.cos(theta1), 0]);
-                this.sphereSlice(O, 1, norm, 0, false, true, p1, -phi1, 0);
+            if (latDeg1 !== 0) {
+                var norm = $V([-Math.sin(theta1), Math.cos(theta1), 0]);
+                this.sphereSlice(O, 1, norm, 0, false, true, p1, Math.PI/2 - phi1, 0);
             }
             this.setProp("shapeOutlineColor", cityColor2);
-            if (theta2 !== 0) {
+            if (longDeg2 !== 0) {
                 this.sphereSlice(O, 1, Vector.k, 0, false, true, Vector.i, 0, theta2);
             }
-            if (phi2 !== 0) {
-                var norm = $V([Math.sin(theta2), -Math.cos(theta2), 0]);
-                this.sphereSlice(O, 1, norm, 0, false, true, p2, -phi2, 0);
+            if (latDeg2 !== 0) {
+                var norm = $V([-Math.sin(theta2), Math.cos(theta2), 0]);
+                this.sphereSlice(O, 1, norm, 0, false, true, p2, Math.PI/2 - phi2, 0);
             }
             this.restore();
         }

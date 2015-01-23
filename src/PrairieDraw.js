@@ -392,7 +392,7 @@ PrairieDraw.prototype.rectToSpherical = function(pR) {
     var z = pR.e(3);
     var r = Math.sqrt(x*x + y*y + z*z);
     var theta = Math.atan2(y, x);
-    var phi = Math.asin(z / r);
+    var phi = Math.acos(z / r);
     var pS = $V([r, theta, phi]);
     return pS;
 };
