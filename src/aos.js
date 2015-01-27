@@ -206,12 +206,6 @@ $(document).ready(function() {
 
         if (false) {
             // solutions to worksheet
-
-            // FIXME: the code in this block was when spherical coords
-            // used elevation as the third coordinate. Now needs to be
-            // updated for the new spherical coords code which uses
-            // inclination as the third coordinate.
-            
             aR = aR.x(earthRad);
             bR = bR.x(earthRad);
             aS = $V([earthRad, aS.e(2), aS.e(3)]);
@@ -228,7 +222,7 @@ $(document).ready(function() {
             console.log("max latitude (deg)", this.radToDeg(norm.angleFrom(Vector.k)));
             var abHat = bR.subtract(aR).toUnitVector();
             console.log("unit vector U->D", abHat.inspect());
-            var tang = this.orthComp(abHat, aR);
+            var tang = this.orthComp(abHat, aR).toUnitVector();
             console.log("tangent", tang.inspect());
             var sBasis = this.sphericalBasis(aS);
             var eR = sBasis[0];
@@ -237,11 +231,11 @@ $(document).ready(function() {
             console.log("eR", eR.inspect());
             console.log("eTheta", eTheta.inspect());
             console.log("ePhi", ePhi.inspect());
-            console.log("tang bearing deg", this.radToDeg(tang.angleFrom(ePhi)));
+            console.log("tang bearing (deg)", this.radToDeg(tang.angleFrom(ePhi.x(-1))));
             // Mercator projection
-            aM = $V([aS.e(2), Math.log(Math.tan(Math.PI / 4 + aS.e(3) / 2))]);
-            bM = $V([bS.e(2), Math.log(Math.tan(Math.PI / 4 + bS.e(3) / 2))]);
-            console.log("mercator bearing deg", this.radToDeg(bM.subtract(aM).angleFrom($V([0, 1]))));
+            aM = $V([aS.e(2), Math.log(Math.tan(Math.PI / 2 - aS.e(3) / 2))]);
+            bM = $V([bS.e(2), Math.log(Math.tan(Math.PI / 2 - bS.e(3) / 2))]);
+            console.log("mercator bearing (deg)", this.radToDeg(bM.subtract(aM).angleFrom($V([0, 1]))));
         }
     });
 
