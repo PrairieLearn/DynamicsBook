@@ -391,6 +391,7 @@ $(document).ready(function() {
         var M23 = this.linearInterpVector(P12, P, this.linearDeinterp(P12.e(3), P.e(3), 0));
         var below1 = (P1.e(3) < 0);
         var below12 = (P12.e(3) < 0);
+        /*
         console.log("**************************************");
         console.log("rc[0]", rc[0].inspect());
         console.log("rc[1]", rc[1].inspect());
@@ -403,6 +404,7 @@ $(document).ready(function() {
         console.log("M23", M23.inspect());
         console.log("below1", below1);
         console.log("below12", below12);
+        */
 
         if (this.getOption("showBasisAtOrigin")) {
             for (var i = 0; i < 3; i++) {
@@ -476,9 +478,9 @@ $(document).ready(function() {
             this.line(O, Px, "position");
             this.line(Px, Pxy, "position");
             this.line(Pxy, P, "position");
-            this.labelLine(O, Px, $V([0, -1]), "TEX:$x$");
-            this.labelLine(Px, Pxy, $V([0, -1]), "TEX:$y$");
-            this.labelLine(Pxy, P, $V([0, -1]), "TEX:$z$");
+            this.labelLine(O, Px, $V([0, -1]), label && "TEX:$x$");
+            this.labelLine(Px, Pxy, $V([0, -1]), label && "TEX:$y$");
+            this.labelLine(Pxy, P, $V([0, -1]), label && "TEX:$z$");
         } else if (this.getOption("coords") === "cylindrical") {
             var rC = this.rectToCylindrical(r);
             var radCyl = rC.e(1);
@@ -489,28 +491,30 @@ $(document).ready(function() {
             var PxyExt = O.add(rxyExt);
             this.line(O, PxyExt, "position");
             this.line(Pxy, P, "position");
-            this.labelLine(O, Pxy, $V([0, 1]), "TEX:$R$");
-            this.labelLine(Pxy, P, $V([0, -1]), "TEX:$z$");
+            this.labelLine(O, Pxy, $V([0, 1]), label && "TEX:$R$");
+            this.labelLine(Pxy, P, $V([0, -1]), label && "TEX:$z$");
             this.circleArrow3D(O, 0.8, Vector.k, Vector.i, 0, theta, "position", {fixedRad: true});
-            this.labelCircleLine3D("TEX:$\\theta$", $V([0, 1]), O, 0.8, Vector.k, Vector.i, 0, theta, {fixedRad: true});
+            this.labelCircleLine3D(label && "TEX:$\\theta$", $V([0, 1]), O, 0.8, Vector.k, Vector.i, 0, theta, {fixedRad: true});
         } else if (this.getOption("coords") === "spherical") {
             var rS = this.rectToSpherical(r);
             var rad = rS.e(1);
             var theta = this.fixedMod(rS.e(2), 2 * Math.PI);
             var phi = rS.e(3);
-            var rxy = this.sphericalToRect($V([1, theta, 0]));
+            var rC = this.rectToCylindrical(r);
+            var rxy = this.cylindricalToRect($V([rC.e(1), rC.e(2), 0]));
             var Pxy = O.add(rxy);
-            var nxy = rxy.cross(Vector.k);
+            var nxy = Vector.k.cross(rxy);
             if (!this.getOption("showPosition")) {
                 this.line(O, P, "position");
             }
             this.line(O, Pxy, "position");
-            this.labelLine(O, P, $V([0, -1]), "TEX:$r$");
-            this.circleArrow3D(O, 0.8, Vector.k, Vector.i, 0, theta, "position", {fixedRad: true});
-            this.circleArrow3D(O, 0.8, nxy, rxy, 0, phi, "position", {fixedRad: true});
-            this.labelCircleLine3D("TEX:$\\theta$", $V([0, 1]), O, 0.8, Vector.k, Vector.i, 0, theta, {fixedRad: true});
-            var phiLabel = (phi >= 0) ? "TEX:$\\phi$" : "TEX:$-\\phi$";
-            this.labelCircleLine3D(phiLabel, $V([0, 1]), O, 0.8, nxy, rxy, 0, phi, {fixedRad: true});
+            this.line(Pxy, P, "position");
+            this.labelLine(O, P, $V([0, -1]), label && "TEX:$r$");
+            var arcRad = 0.5;
+            this.circleArrow3D(O, arcRad, Vector.k, Vector.i, 0, theta, "position", {fixedRad: true});
+            this.circleArrow3D(O, arcRad, nxy, Vector.k, 0, phi, "position", {fixedRad: true});
+            this.labelCircleLine3D(label && "TEX:$\\theta$", $V([0, 1]), O, arcRad, Vector.k, Vector.i, 0, theta, {fixedRad: true});
+            this.labelCircleLine3D(label && "TEX:$\\phi$", $V([0, 1]), O, arcRad, nxy, Vector.k, 0, phi, {fixedRad: true});
         }
         this.point(P);
         if (this.getOption("basis") !== "none") {
