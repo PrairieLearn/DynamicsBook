@@ -75,7 +75,7 @@ $(document).ready(function() {
         this.addOption("showVelocity0", false);
         this.addOption("showVelocity", false);
         this.addOption("showFixedBase", false);
-        this.addOption("movement", "rotate");
+        this.addOption("movement", "bounce");
 
         var O = $V([0, 0]);
 
