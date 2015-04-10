@@ -486,10 +486,13 @@ $(document).ready(function() {
         this.restore();
         if (this.getOption("reversed")) {
             this.circleArrow(C1, r + 0.1, 1.8, 2.8, "angVel", true, 0.1);
+            this.circleArrow(C1, r + 0.4, 1.8, 2.8, "angAcc", true, 0.1);
         } else {
             this.circleArrow(C1, r + 0.1, 2.8, 1.8, "angVel", true, 0.1);
+            this.circleArrow(C1, r + 0.4, 2.8, 1.8, "angAcc", true, 0.1);
         }
         this.labelCircleLine(C1, r + 0.1, 2.8, 1.8, $V([0, 1]), "TEX:$\\omega$", true);
+        this.labelCircleLine(C1, r + 0.4, 2.8, 1.8, $V([0, 1]), "TEX:$\\alpha$", true);
         for (iPath = 0; iPath < nPaths; iPath++) {
             pointPos = $V([0, -r]).rotate(iPath / (nPaths - 1) * offsetTheta, O).add($V([0, r]));
             this.point(pointPos);
@@ -516,10 +519,13 @@ $(document).ready(function() {
         this.restore();
         if (this.getOption("reversed")) {
             this.circleArrow(C2, r + 0.1, Math.PI - 2.8, Math.PI - 1.8, "angVel", true, 0.1);
+            this.circleArrow(C2, r + 0.4, Math.PI - 2.8, Math.PI - 1.8, "angAcc", true, 0.1);
         } else {
             this.circleArrow(C2, r + 0.1, Math.PI - 1.8, Math.PI - 2.8, "angVel", true, 0.1);
+            this.circleArrow(C2, r + 0.4, Math.PI - 1.8, Math.PI - 2.8, "angAcc", true, 0.1);
         }
         this.labelCircleLine(C2, r + 0.1, Math.PI - 1.8, Math.PI - 2.8, $V([0, 1]), "TEX:$\\omega$", true);
+        this.labelCircleLine(C2, r + 0.4, Math.PI - 1.8, Math.PI - 2.8, $V([0, 1]), "TEX:$\\alpha$", true);
         for (iPath = 0; iPath < nPaths; iPath++) {
             pointPos = $V([0, -r]).rotate(iPath / (nPaths - 1) * offsetTheta, O).rotate(-offsetTheta, O).add($V([offsetTheta, r]));
             this.point(pointPos);
@@ -626,12 +632,14 @@ $(document).ready(function() {
         this.labelLine(M, M.add(et), etLabelPos, "TEX:$\\hat{e}_t$");
         this.labelLine(M, M.add(en), $V([1, 1]), "TEX:$\\hat{e}_n$");
         if (this.getOption("reversed")) {
-            this.circleArrow(C, r + 0.2, 0.3, 1.1, "angVel", true);
-            this.labelCircleLine(C, r + 0.2, 0.3, 1.1, $V([0, 1]), "TEX:$\\omega$");
+            this.circleArrow(C, r + 0.2, 0.1, 0.8, "angVel", true, 0.1);
+            this.circleArrow(C, r + 0.8, 0.1, 0.8, "angAcc", true, 0.1);
         } else {
-            this.circleArrow(C, r + 0.2, 1.1, 0.3, "angVel", true);
-            this.labelCircleLine(C, r + 0.2, 1.1, 0.3, $V([0, 1]), "TEX:$\\omega$");
+            this.circleArrow(C, r + 0.2, 0.8, 0.1, "angVel", true, 0.1);
+            this.circleArrow(C, r + 0.8, 0.8, 0.1, "angAcc", true, 0.1);
         }
+        this.labelCircleLine(C, r + 0.2, 0.1, 0.8, $V([0, 1]), "TEX:$\\omega$");
+        this.labelCircleLine(C, r + 0.8, 0.1, 0.8, $V([0, 1]), "TEX:$\\alpha$");
         if (this.getOption("reversed")) {
             this.circleArrow(O, rho + 0.3, -Math.PI / 2 + 0.5, -Math.PI / 2, "position", true, 0.1);
             this.labelCircleLine(O, rho + 0.3, -Math.PI / 2 + 0.5, -Math.PI / 2, $V([0, 1]), "TEX:$s$");
@@ -675,12 +683,14 @@ $(document).ready(function() {
         this.labelLine(M, M.add(et), $V([1, 0]), "TEX:$\\hat{e}_t$");
         this.labelLine(M, M.add(en), $V([0.7, -1.3]), "TEX:$\\hat{e}_n$");
         if (this.getOption("reversed")) {
-            this.circleArrow(C, r + 0.2, 0.3, 1.1, "angVel", true);
-            this.labelCircleLine(C, r + 0.2, 0.3, 1.1, $V([0, 1]), "TEX:$\\omega$");
+            this.circleArrow(C, r + 0.2, 0.1, 0.8, "angVel", true, 0.1);
+            this.circleArrow(C, r + 0.8, 0.1, 0.8, "angAcc", true, 0.1);
         } else {
-            this.circleArrow(C, r + 0.2, 1.1, 0.3, "angVel", true);
-            this.labelCircleLine(C, r + 0.2, 1.1, 0.3, $V([0, 1]), "TEX:$\\omega$");
+            this.circleArrow(C, r + 0.2, 0.8, 0.1, "angVel", true, 0.1);
+            this.circleArrow(C, r + 0.8, 0.8, 0.1, "angAcc", true, 0.1);
         }
+        this.labelCircleLine(C, r + 0.2, 0.1, 0.8, $V([0, 1]), "TEX:$\\omega$");
+        this.labelCircleLine(C, r + 0.8, 0.1, 0.8, $V([0, 1]), "TEX:$\\alpha$");
         if (this.getOption("reversed")) {
             this.circleArrow(O, rho - 0.3, Math.PI / 2 - 0.7, Math.PI / 2, "position", true, 0.1);
             this.labelCircleLine(O, rho - 0.3, Math.PI / 2 - 0.7, Math.PI / 2, $V([0, -1]), "TEX:$s$");
