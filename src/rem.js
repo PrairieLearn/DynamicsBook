@@ -82,8 +82,11 @@ $(document).ready(function() {
         this.line(v001, v011);
         this.line(v101, v111);
 
+        this.point(P);
         this.text(P, $V([1, 0]), "TEX:$P$");
         this.text(v011, $V([0, -1.1]), "TEX:$dV$");
+
+        this.labelLine(p010, p110, $V([0, 1]), "TEX:$\\mathcal{B}$");
 
         this.save();
         this.setProp("shapeOutlineColor", "rgb(150, 150, 150)");
@@ -202,8 +205,8 @@ $(document).ready(function() {
         this.translate($V([0.6, -0.5]));
         this.arrow(O, ei);
         this.arrow(O, ej);
-        this.labelLine(O, ei, $V([1, -1]), "TEX:$\\hat\\imath$");
-        this.labelLine(O, ej, $V([1, -1]), "TEX:$\\hat\\jmath$");
+        this.labelLine(O, ei, $V([1, -1]), "TEX:$x$");
+        this.labelLine(O, ej, $V([1, -1]), "TEX:$y$");
         this.restore();
     });
 
@@ -241,6 +244,7 @@ $(document).ready(function() {
         this.line(O, a1);
         this.line(O, a2);
         this.line(O, a3);
+        this.point(O);
 
         this.save();
         var alpha = 0.8;
@@ -265,9 +269,9 @@ $(document).ready(function() {
         this.arrow(a2, b2);
         this.arrow(a3, b3);
 
-        this.labelLine(a1, b1, $V([1, -1]), "TEX:$\\hat\\imath$");
-        this.labelLine(a2, b2, $V([0.8, -1.3]), "TEX:$\\hat\\jmath$");
-        this.labelLine(a3, b3, $V([0.8, -1.3]), "TEX:$\\hat{k} = \\hat{a}$");
+        this.labelLine(a1, b1, $V([1, -1]), "TEX:$x$");
+        this.labelLine(a2, b2, $V([0.8, -1.3]), "TEX:$y$");
+        this.labelLine(a3, b3, $V([0.8, -1.3]), "TEX:$z$");
 
         this.labelLine(p100, p110, $V([0.3, -1.2]), "TEX:$\\ell$");
         this.labelLine(p101, p001, $V([0, 1.2]), "TEX:$\\ell$");
@@ -337,8 +341,10 @@ $(document).ready(function() {
         this.line(O, a1);
         this.line(O, a2);
         this.line(O, a3);
+        this.point(O);
 
         this.arrow(P, Pk);
+        this.point(P);
         this.labelLine(P, Pk, $V([0.9, -1.3]), "TEX:$\\hat{k} = \\hat{a}$");
 
         this.save();
@@ -419,8 +425,8 @@ $(document).ready(function() {
         this.translate($V([0.6, -0.5]));
         this.arrow(O, ei);
         this.arrow(O, ej);
-        this.labelLine(O, ei, $V([1, -1]), "TEX:$\\hat\\imath$");
-        this.labelLine(O, ej, $V([1, -1]), "TEX:$\\hat\\jmath$");
+        this.labelLine(O, ei, $V([1, -1]), "TEX:$x$");
+        this.labelLine(O, ej, $V([1, -1]), "TEX:$y$");
         this.restore();
     });
 
@@ -455,12 +461,13 @@ $(document).ready(function() {
         this.arrow(O, ej);
         this.arrow(O, ek);
 
-        this.labelLine(O, ei, $V([1, -1]), "TEX:$\\hat\\imath$");
-        this.labelLine(O, ej, $V([0.9, -1.3]), "TEX:$\\hat\\jmath$");
-        this.labelLine(O, ek, $V([0.8, -1.3]), "TEX:$\\hat{k}$");
+        this.labelLine(O, ei, $V([1, -1]), "TEX:$x$");
+        this.labelLine(O, ej, $V([0.9, -1.3]), "TEX:$y$");
+        this.labelLine(O, ek, $V([0.8, -1.3]), "TEX:$z$");
 
         this.restore();
 
+        this.point(P);
         this.line(p000, p001);
         this.line(p100, p000);
         this.line(p010, p000);
@@ -520,6 +527,7 @@ $(document).ready(function() {
         this.setProp("shapeOutlineColor", "rgb(200, 200, 200)");
         this.line(P3, P6);
         this.restore();
+        this.point(P2);
         this.text(P2, $V([-1, 1]), "TEX:$P$");
         this.text(C1, $V([0, 0]), "TEX:$\\mathcal{B}_1$");
         this.text(C2, $V([0, 0]), "TEX:$\\mathcal{B}_2$");
@@ -545,6 +553,7 @@ $(document).ready(function() {
         this.save();
         this.translate($V([-2, -1]));
         this.polyLine([P1, P2, P3, P4, P5, P6], true, true);
+        this.point(P1);
         this.text(P1, $V([1, 1]), "TEX:$P$");
         this.labelLine(P1, P2, $V([0, -1]), "TEX:$6d$");
         this.labelLine(P2, P3, $V([0, -1]), "TEX:$2d$");
@@ -558,8 +567,8 @@ $(document).ready(function() {
         this.translate($V([1.2, 0.3]));
         this.arrow(O, ei);
         this.arrow(O, ej);
-        this.labelLine(O, ei, $V([0.7, -1.3]), "TEX:$\\hat\\imath$");
-        this.labelLine(O, ej, $V([0.7, 1.3]), "TEX:$\\hat\\jmath$");
+        this.labelLine(O, ei, $V([0.7, -1.3]), "TEX:$x$");
+        this.labelLine(O, ej, $V([0.7, 1.3]), "TEX:$y$");
         this.restore();
     });
 
@@ -592,6 +601,7 @@ $(document).ready(function() {
         this.line(P[1][0], P[1][1]);
         this.line(P[2][0], P[2][1]);
         this.line(P[3][0], P[3][1]);
+        this.point(P1);
         this.text(P1, $V([1, 1]), "TEX:$P$");
         this.labelLine(P[0][0], P[1][0], $V([0, -1]), "TEX:$2d$");
         this.labelLine(P[1][0], P[2][0], $V([0, -1]), "TEX:$2d$");
@@ -617,8 +627,8 @@ $(document).ready(function() {
         this.translate($V([1.2, 0.3]));
         this.arrow(O, ei);
         this.arrow(O, ej);
-        this.labelLine(O, ei, $V([0.7, -1.3]), "TEX:$\\hat\\imath$");
-        this.labelLine(O, ej, $V([0.7, 1.3]), "TEX:$\\hat\\jmath$");
+        this.labelLine(O, ei, $V([0.7, -1.3]), "TEX:$x$");
+        this.labelLine(O, ej, $V([0.7, 1.3]), "TEX:$y$");
         this.restore();
     });
 
@@ -643,9 +653,9 @@ $(document).ready(function() {
         this.arrow(O, bi);
         this.arrow(O, bj);
         this.arrow(O, bk);
-        this.labelLine(O, bi, $V([1, -1]), "TEX:$\\hat\\imath$");
-        this.labelLine(O, bj, $V([0.9, -1.3]), "TEX:$\\hat\\jmath$");
-        this.labelLine(O, bk, $V([0.9, -1.3]), "TEX:$\\hat{k}$");
+        this.labelLine(O, bi, $V([1, -1]), "TEX:$x$");
+        this.labelLine(O, bj, $V([0.9, -1.3]), "TEX:$y$");
+        this.labelLine(O, bk, $V([0.9, -1.3]), "TEX:$z$");
         this.text(O, $V([1.3, -0.5]), "TEX:$P$");
 
         this.save();
@@ -723,9 +733,9 @@ $(document).ready(function() {
         this.arrow(a2, b2);
         this.arrow(a3, b3);
 
-        this.labelLine(O, b1, $V([1, -1]), "TEX:$\\hat\\imath$");
-        this.labelLine(O, b2, $V([0.9, -1.3]), "TEX:$\\hat\\jmath$");
-        this.labelLine(O, b3, $V([0.9, -1.3]), "TEX:$\\hat{k}$");
+        this.labelLine(O, b1, $V([1, -1]), "TEX:$x$");
+        this.labelLine(O, b2, $V([0.9, -1.3]), "TEX:$y$");
+        this.labelLine(O, b3, $V([0.9, -1.3]), "TEX:$z$");
 
         this.labelLine(p100, p110, $V([0.3, -1.2]), "TEX:$\\ell_y$");
         this.labelLine(p101, p001, $V([0, 1.3]), "TEX:$\\ell_x$");
@@ -781,9 +791,9 @@ $(document).ready(function() {
         this.arrow(ai, bi);
         this.arrow(aj, bj);
         this.arrow(ak, bk);
-        this.labelLine(O, bi, $V([1, -1]), "TEX:$\\hat\\imath$");
-        this.labelLine(O, bj, $V([0.9, -1.3]), "TEX:$\\hat\\jmath$");
-        this.labelLine(O, bk, $V([0.9, -1.3]), "TEX:$\\hat{k}$");
+        this.labelLine(O, bi, $V([1, -1]), "TEX:$x$");
+        this.labelLine(O, bj, $V([0.9, -1.3]), "TEX:$y$");
+        this.labelLine(O, bk, $V([0.9, -1.3]), "TEX:$z$");
 
         this.labelLine(B.subtract(offset), A.subtract(offset), $V([0, -1]), "TEX:$\\ell$");
 
@@ -840,9 +850,9 @@ $(document).ready(function() {
         this.arrow(a2, b2);
         this.arrow(a3, b3);
 
-        this.labelLine(O, b1, $V([1, -1]), "TEX:$\\hat\\imath$");
-        this.labelLine(O, b2, $V([0.9, -1.3]), "TEX:$\\hat\\jmath$");
-        this.labelLine(O, b3, $V([0.9, -1.3]), "TEX:$\\hat{k}$");
+        this.labelLine(O, b1, $V([1, -1]), "TEX:$x$");
+        this.labelLine(O, b2, $V([0.9, -1.3]), "TEX:$y$");
+        this.labelLine(O, b3, $V([0.9, -1.3]), "TEX:$z$");
 
         this.save();
         this.setProp("shapeOutlineColor", "rgb(150, 150, 150)");
@@ -887,11 +897,11 @@ $(document).ready(function() {
 
         this.point(O);
         this.arrow(O, bk);
-        this.labelLine(O, bk, $V([0.9, -1.3]), "TEX:$\\hat{k}$");
+        this.labelLine(O, bk, $V([0.9, -1.3]), "TEX:$z$");
 
         this.point(C);
         this.arrow(C, C.add(bk));
-        this.labelLine(C, C.add(bk), $V([0.9, -1.3]), "TEX:$\\hat{k}$");
+        this.labelLine(C, C.add(bk), $V([0.9, -1.3]), "TEX:$z$");
 
         this.save();
         this.setProp("shapeInsideColor", "rgba(255, 255, 255, 0.8)");
@@ -899,7 +909,7 @@ $(document).ready(function() {
         this.restore();
 
         this.arrow(B, bj);
-        this.labelLine(O, bj, $V([0.9, -1.3]), "TEX:$\\hat{e}_r$");
+        this.labelLine(O, bj, $V([0.9, -1.3]), "TEX:$x$");
 
         this.text(O, $V([0, 1.8]), "TEX:$P$");
         this.text(C, $V([0, 1.8]), "TEX:$C$");
@@ -945,9 +955,9 @@ $(document).ready(function() {
         this.arrow(ai, bi);
         this.arrow(aj, bj);
         this.arrow(ak, bk);
-        this.labelLine(O, bi, $V([1, -1]), "TEX:$\\hat\\imath$");
-        this.labelLine(O, bj, $V([0.9, -1.3]), "TEX:$\\hat\\jmath$");
-        this.labelLine(O, bk, $V([0.9, -1.3]), "TEX:$\\hat{k}$");
+        this.labelLine(O, bi, $V([1, -1]), "TEX:$x$");
+        this.labelLine(O, bj, $V([0.9, -1.3]), "TEX:$y$");
+        this.labelLine(O, bk, $V([0.9, -1.3]), "TEX:$z$");
 
         this.labelLine(B.subtract(offset), A.subtract(offset), $V([0, -1]), "TEX:$\\ell$");
 
@@ -1004,9 +1014,9 @@ $(document).ready(function() {
         this.arrow(ai, bi);
         this.arrow(aj, bj);
         this.arrow(ak, bk);
-        this.labelLine(O, bi, $V([1, -1]), "TEX:$\\hat\\imath$");
-        this.labelLine(O, bj, $V([0.9, -1.3]), "TEX:$\\hat\\jmath$");
-        this.labelLine(O, bk, $V([0.9, -1.3]), "TEX:$\\hat{k}$");
+        this.labelLine(O, bi, $V([1, -1]), "TEX:$x$");
+        this.labelLine(O, bj, $V([0.9, -1.3]), "TEX:$y$");
+        this.labelLine(O, bk, $V([0.9, -1.3]), "TEX:$z$");
 
         this.labelLine(B.subtract(offset), A.subtract(offset), $V([0, -1]), "TEX:$\\ell$");
 
@@ -1057,9 +1067,9 @@ $(document).ready(function() {
         this.arrow(a2, b2);
         this.arrow(a3, b3);
 
-        this.labelLine(O, b1, $V([1, -1]), "TEX:$\\hat\\imath$");
-        this.labelLine(O, b2, $V([0.9, -1.3]), "TEX:$\\hat\\jmath$");
-        this.labelLine(O, b3, $V([0.9, -1.3]), "TEX:$\\hat{k}$");
+        this.labelLine(O, b1, $V([1, -1]), "TEX:$x$");
+        this.labelLine(O, b2, $V([0.9, -1.3]), "TEX:$y$");
+        this.labelLine(O, b3, $V([0.9, -1.3]), "TEX:$z$");
 
         this.save();
         this.setProp("shapeOutlineColor", "rgb(150, 150, 150)");
@@ -1108,9 +1118,9 @@ $(document).ready(function() {
         this.arrow(a2, b2);
         this.arrow(a3, b3);
 
-        this.labelLine(O, b1, $V([1, -1]), "TEX:$\\hat\\imath$");
-        this.labelLine(O, b2, $V([0.9, -1.3]), "TEX:$\\hat\\jmath$");
-        this.labelLine(O, b3, $V([0.9, -1.3]), "TEX:$\\hat{k}$");
+        this.labelLine(O, b1, $V([1, -1]), "TEX:$x$");
+        this.labelLine(O, b2, $V([0.9, -1.3]), "TEX:$y$");
+        this.labelLine(O, b3, $V([0.9, -1.3]), "TEX:$z$");
 
         this.save();
         this.setProp("shapeOutlineColor", "rgb(150, 150, 150)");

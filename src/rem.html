@@ -56,8 +56,9 @@
         </p>
         <p>
           The moment of inertia plays the same role for rotational
-          motion as the mass does for translational motion (a high
-          mass body is hard to start moving and hard to stop again).
+          motion as the mass does for translational motion (a
+          high-mass body resists is hard to start moving and hard to
+          stop again).
         </p>
         <div class="envContainer equation" id="rem-ei">
           <p class="envHeader">Moment of inertia about axis $\hat{a}$ through point $P$.</p>
@@ -67,7 +68,7 @@
                 <td>
                   <p>
                     \[\begin{gathered}
-                    I_{P,\hat{a}} = \int_\mathcal{B} \rho r^2 \,dV \\
+                    I_{P,\hat{a}} = \iiint_\mathcal{B} \rho r^2 \,dV \\
                     \text{(units: $\rm kg\ m^2$)}
                     \end{gathered}\]
                   </p>
@@ -119,9 +120,9 @@
           <div class="envBody">
             <p>
               \[\begin{aligned}
-              I_{P,\hat\imath} &amp;= \iiint_\mathcal{B} \rho (y^2 + z^2) \,dx\,dy\,dz \\
-              I_{P,\hat\jmath} &amp;= \iiint_\mathcal{B} \rho (z^2 + x^2) \,dx\,dy\,dz \\
-              I_{P,\hat{k}} &amp;= \iiint_\mathcal{B} \rho (x^2 + y^2) \,dx\,dy\,dz
+              I_{P,x} &amp;= I_{P,xx} = I_{P,\hat\imath} = \iiint_\mathcal{B} \rho (y^2 + z^2) \,dx\,dy\,dz \\
+              I_{P,y} &amp;= I_{P,yy} = I_{P,\hat\jmath} = \iiint_\mathcal{B} \rho (z^2 + x^2) \,dx\,dy\,dz \\
+              I_{P,z} &amp;= I_{P,zz} = I_{P,\hat{k}} = \iiint_\mathcal{B} \rho (x^2 + y^2) \,dx\,dy\,dz
               \end{aligned}\]
             </p>
             <p>
@@ -162,8 +163,8 @@
               <p>
                 A solid square uniform plate has mass $m$, side-length
                 $\ell$, and thickness $h$. What is the moment of
-                inertia about the axis through the center of mass $C$
-                in the perpendicular direction $\hat{k}$?
+                inertia about the $z$-axis through the center of mass
+                $C$?
               </p>
             </div>
             <div class="envContainer solution">
@@ -186,7 +187,7 @@
                   thus have:
 
                   \[\begin{aligned}
-                  I_{C,\hat{k}} &amp;= \iiint_\mathcal{B} \rho (x^2 + y^2) \,dx\,dy\,dz \\
+                  I_{C,z} &amp;= \iiint_\mathcal{B} \rho (x^2 + y^2) \,dx\,dy\,dz \\
                   &amp;= \int_{-h/2}^{h/2} \int_{-\ell/2}^{\ell/2} \int_{-\ell/2}^{\ell/2}
                   \rho (x^2 + y^2) \,dx\,dy\,dz \\
                   &amp;= \int_{-h/2}^{h/2} \int_{-\ell/2}^{\ell/2} \left[
@@ -205,7 +206,7 @@
                   The total mass of the plate is $m = \rho \ell^2 h$,
                   so we can write the moment of inertia as
 
-                  \[I_{C,\hat{k}} = \frac{1}{6} m \ell^2.\]
+                  \[I_{C,z} = \frac{1}{6} m \ell^2.\]
 
                   The square plate moment of inertia is actually a
                   special case of the rectangular prism formula <a
@@ -235,10 +236,9 @@
             \end{bmatrix}
             \]
 
-            The three scalar moments of inertia from <a
-            href="#rem-ec">#rem-ec</a> appear on the diagonal as the
-            terms $I_{xx} = I_{\hat\imath}$, $I_{yy} =
-            I_{\hat\jmath}$, etc. The off-diagonal terms are called
+            The three scalar moments of inertia
+            from <a href="#rem-ec">#rem-ec</a> appear on the
+            diagonal. The off-diagonal terms are called
             the <i>products of inertia</i> and are given by
 
             \[
@@ -371,8 +371,7 @@
               <p>
                 A solid uniform square plate has mass $m$, side-length
                 $\ell$, and thickness $h$. What is the moment of
-                inertia about the axis through the corner $P$ in the
-                perpendicular direction $\hat{k}$?
+                inertia about the $z$-axis through the corner $P$?
               </p>
               <p>
                 Use the answer to Example Problem <a
@@ -385,12 +384,12 @@
                 <p>
                   In Example Problem <a href="#rem-xs">#rem-xs</a> we
                   computed the moment of inertia of a square place
-                  about the center to be $I_{C,\hat{k}} = \frac{1}{6}
+                  about the center to be $I_{C,z} = \frac{1}{6}
                   m \ell^2$. The parallel axis theorem <a
                   href="#rem-el">#rem-el</a> now gives:
 
                   \[\begin{aligned}
-                  I_{P,\hat{k}} &amp;= I_{C,\hat{k}} + m \, {r_{CP}}^2 \\
+                  I_{P,z} &amp;= I_{C,z} + m \, {r_{CP}}^2 \\
                   &amp;= \frac{1}{6} m \ell^2
                   + m \left( \left(\frac{\ell}{2}\right)^2 + \left(\frac{\ell}{2}\right)^2 \right) \\
                   &amp;= \frac{2}{3} m \ell^2.
@@ -412,7 +411,7 @@
                   The integral formula now gives:
 
                   \[\begin{aligned}
-                  I_{P,\hat{k}} &amp;= \iiint_\mathcal{B} \rho (x^2 + y^2) \,dx\,dy\,dz \\
+                  I_{P,z} &amp;= \iiint_\mathcal{B} \rho (x^2 + y^2) \,dx\,dy\,dz \\
                   &amp;= \int_{-h/2}^{h/2} \int_0^{\ell} \int_{0}^{\ell}
                   \rho (x^2 + y^2) \,dx\,dy\,dz \\
                   &amp;= \int_{-h/2}^{h/2} \int_{0}^{\ell} \left[
@@ -431,7 +430,7 @@
                   The total mass of the plate is $m = \rho \ell^2 h$,
                   so we can write the final expression for the moment of inertia is
 
-                  \[I_{P,\hat{k}} = \frac{2}{3} m \ell^2.\]
+                  \[I_{P,z} = \frac{2}{3} m \ell^2.\]
 
                   This is the same as the expression we obtained above
                   using the parallel axis theorem, but clearly the
@@ -507,14 +506,14 @@
               It is only valid to add together moments of inertia for
               different sub-bodies if each moment of inertia is
               computed about the same axis of rotation. For example,
-              consider $I^{\mathcal{B}_1}_{C_1,\hat{k}}$ and
-              $I^{\mathcal{B}_2}_{C_2,\hat{k}}$, which are the moments
+              consider $I^{\mathcal{B}_1}_{C_1,z}$ and
+              $I^{\mathcal{B}_2}_{C_2,z}$, which are the moments
               of inertia of bodies $\mathcal{B}_1$ and $\mathcal{B}_2$
               about each of their individual centers of mass $C_1$ and
-              $C_2$ (with axis direction $\hat{k}$). Now it is
+              $C_2$ (with axis direction $z$). Now it is
               physically meaningless to form the sum
-              $I^{\mathcal{B}_1}_{C_1,\hat{k}} +
-              I^{\mathcal{B}_2}_{C_2,\hat{k}}$, because each moment of
+              $I^{\mathcal{B}_1}_{C_1,z} +
+              I^{\mathcal{B}_2}_{C_2,z}$, because each moment of
               inertia is about a different axis. We must first shift
               both moments of inertia to a common axis point $P$
               (perhaps by using the parallel axis theorem), and then
@@ -531,8 +530,7 @@
               <p>
                 A solid uniform L-shaped plate has mass $m$ and
                 dimensions as shown. What is the moment of inertia
-                about the axis through the corner $P$ in the
-                perpendicular direction $\hat{k}$?
+                about the $z$-axis through the corner $P$?
               </p>
               <p>
                 Use the answer to Example Problem <a
@@ -549,7 +547,7 @@
                   Recall that in Example Problem <a
                   href="#rem-xs">#rem-xs</a> we computed the
                   moment of inertia of a square place about the center
-                  to be $I_{C,\hat{k}} = \frac{1}{6} m \ell^2$.
+                  to be $I_{C,z} = \frac{1}{6} m \ell^2$.
                 </p>
                 <p>
                   To use this together with the parallel axis theorem
@@ -562,7 +560,7 @@
 
                   \[\begin{aligned}
                   m_1 &amp;= \frac{1}{4} m \\
-                  I^{\mathcal{B}_1}_{C_1,\hat{k}} &amp;=
+                  I^{\mathcal{B}_1}_{C_1,z} &amp;=
                   \frac{1}{6} m_1 (2d)^2
                   = \frac{1}{6} \left(\frac{1}{4} m\right) 4d^2
                   = \frac{1}{6} m d^2,
@@ -576,19 +574,19 @@
                   theorem:
 
                   \[\begin{aligned}
-                  I^{\mathcal{B}_1}_{P,\hat{k}} &amp;= I^{\mathcal{B}_1}_{C_1,\hat{k}}
+                  I^{\mathcal{B}_1}_{P,z} &amp;= I^{\mathcal{B}_1}_{C_1,z}
                   + m_1 \, {r_{C_1P}}^2
                   = \frac{1}{6} m d^2
                   + \left(\frac{1}{4} m\right) \left(d^2 + (3d)^2\right)
                   = \frac{8}{3} m d^2 \\
-                  I^{\mathcal{B}_2}_{P,\hat{k}} &amp;= I^{\mathcal{B}_2}_{C_2,\hat{k}}
+                  I^{\mathcal{B}_2}_{P,z} &amp;= I^{\mathcal{B}_2}_{C_2,z}
                   + m_2 \, {r_{C_2P}}^2
                   = \frac{1}{6} m d^2
                   + \left(\frac{1}{4} m\right) \left(d^2 + d^2\right)
                   = \frac{2}{3} m d^2 \\
-                  I^{\mathcal{B}_3}_{P,\hat{k}} &amp;= I^{\mathcal{B}_1}_{P,\hat{k}}
+                  I^{\mathcal{B}_3}_{P,z} &amp;= I^{\mathcal{B}_1}_{P,z}
                   = \frac{8}{3} m d^2 \\
-                  I^{\mathcal{B}_4}_{P,\hat{k}} &amp;= I^{\mathcal{B}_4}_{C_4,\hat{k}}
+                  I^{\mathcal{B}_4}_{P,z} &amp;= I^{\mathcal{B}_4}_{C_4,z}
                   + m_4 \, {r_{C_4P}}^2
                   = \frac{1}{6} m d^2
                   + \left(\frac{1}{4} m\right) \left((5d)^2 + d^2\right)
@@ -604,9 +602,9 @@
                   gives us the total:
 
                   \[\begin{aligned}
-                  I_{P,\hat{k}} &amp;= I^{\mathcal{B}_1}_{P,\hat{k}}
-                  + I^{\mathcal{B}_2}_{P,\hat{k}} + I^{\mathcal{B}_3}_{P,\hat{k}}
-                  + I^{\mathcal{B}_4}_{P,\hat{k}} \\
+                  I_{P,z} &amp;= I^{\mathcal{B}_1}_{P,z}
+                  + I^{\mathcal{B}_2}_{P,z} + I^{\mathcal{B}_3}_{P,z}
+                  + I^{\mathcal{B}_4}_{P,z} \\
                   &amp;= \frac{8}{3} m d^2 + \frac{2}{3} m d^2 + \frac{8}{3} m d^2 + \frac{20}{3} m d^2\\
                   &amp;= \frac{38}{3} m d^2.
                   \end{aligned}\]
@@ -643,7 +641,7 @@
                 <td>
                   <p>
                     \[\begin{aligned}
-                    I_{P,\hat{k}} &amp;= m r^2
+                    I_{P,z} &amp;= m r^2
                     \end{aligned}\]
                   </p>
                 </td>
@@ -669,9 +667,9 @@
                 <td>
                   <p>
                     \[\begin{aligned}
-                    I_{C,\hat\imath} &amp;= \frac{1}{12} m ({\ell_y}^2 + {\ell_z}^2) \\
-                    I_{C,\hat\jmath} &amp;= \frac{1}{12} m ({\ell_z}^2 + {\ell_x}^2) \\
-                    I_{C,\hat{k}} &amp;= \frac{1}{12} m ({\ell_x}^2 + {\ell_y}^2)
+                    I_{C,x} &amp;= \frac{1}{12} m ({\ell_y}^2 + {\ell_z}^2) \\
+                    I_{C,y} &amp;= \frac{1}{12} m ({\ell_z}^2 + {\ell_x}^2) \\
+                    I_{C,z} &amp;= \frac{1}{12} m ({\ell_x}^2 + {\ell_y}^2)
                     \end{aligned}\]
                   </p>
                 </td>
@@ -683,11 +681,11 @@
           <div class="envBody">
             <p>
               The calculation for any of the axes is the same, so we
-              will only write out the derivation of $I_{C,\hat{k}}$
+              will only write out the derivation of $I_{C,z}$
               here. We use <a href="#rem-ec">#rem-ec</a>, which gives:
 
               \[\begin{aligned}
-              I_{C,\hat{k}} &amp;= \iiint_\mathcal{B} \rho (x^2 + y^2) \,dx\,dy\,dz \\
+              I_{C,z} &amp;= \iiint_\mathcal{B} \rho (x^2 + y^2) \,dx\,dy\,dz \\
               &amp;= \int_{-\ell_z/2}^{\ell_z/2} \int_{-\ell_y/2}^{\ell_y/2} \int_{-\ell_x/2}^{\ell_x/2}
               \rho (x^2 + y^2) \,dx\,dy\,dz \\
               &amp;= \int_{-\ell_z/2}^{\ell_z/2} \int_{-\ell_y/2}^{\ell_y/2} \left[
@@ -709,7 +707,7 @@
               The total mass of the plate is $m = \rho \ell_x \ell_y
               \ell_z$, so we can write the moment of inertia as
 
-              \[I_{C,\hat{k}} = \frac{1}{12} m \left( {\ell_x}^2 + {\ell_y}^2\right).\]
+              \[I_{C,z} = \frac{1}{12} m \left( {\ell_x}^2 + {\ell_y}^2\right).\]
             </p>
           </div>
         </div>
@@ -725,8 +723,8 @@
                 <td>
                   <p>
                     \[\begin{aligned}
-                    I_{C,\hat\imath} &amp;= I_{C,\hat\jmath} = \frac{1}{12} m (3({r_1}^2 + {r_2}^2) + \ell^2) \\
-                    I_{C,\hat{k}} &amp;= \frac{1}{2} m ({r_1}^2 + {r_2}^2)
+                    I_{C,x} &amp;= I_{C,y} = \frac{1}{12} m (3({r_1}^2 + {r_2}^2) + \ell^2) \\
+                    I_{C,z} &amp;= \frac{1}{2} m ({r_1}^2 + {r_2}^2)
                     \end{aligned}\]
                   </p>
                 </td>
@@ -764,11 +762,11 @@
               = r.
               \end{aligned}\]
 
-              Starting with the $\hat{k}$ axis, the moment of inertia
+              Starting with the $z$ axis, the moment of inertia
               is thus:
 
               \[\begin{aligned}
-              I_{C,\hat{k}} &amp;= \iiint_\mathcal{B} \rho (x^2 + y^2) \,dx\,dy\,dz \\
+              I_{C,z} &amp;= \iiint_\mathcal{B} \rho (x^2 + y^2) \,dx\,dy\,dz \\
               &amp;= \int_{-\ell/2}^{\ell/2} \int_0^{2\pi} \int_{r_1}^{r_2}
               \rho \left( (r \cos\theta)^2 + (r \sin\theta)^2 \right) \,J \,dr\,d\theta\,dz \\
               &amp;= \int_{-\ell/2}^{\ell/2} \int_0^{2\pi} \int_{r_1}^{r_2}
@@ -792,7 +790,7 @@
               moment of inertia as
 
               \[\begin{aligned}
-              I_{C,\hat{k}}
+              I_{C,z}
               &amp;= \frac{1}{2} \frac{m}{{r_2}^2 - {r_1}^2}
               \left( {r_2}^4 - {r_1}^4 \right) \\
               &amp;= \frac{1}{2} \frac{m}{{r_2}^2 - {r_1}^2}
@@ -803,13 +801,13 @@
 
               Due to rotational symmetry of the cylinder, the moment
               of inertia will be the same about any axis orthogonal to
-              $\hat{k}$, so we will just write out the derivation for
-              $I_{C,\hat\imath}$ here. We again use <a
+              $z$, so we will just write out the derivation for
+              $I_{C,x}$ here. We again use <a
               href="#rem-ec">#rem-ec</a> in <a
               href="rvy.html">cylindrical coordinates</a>, giving:
 
               \[\begin{aligned}
-              I_{C,\hat\imath} &amp;= \iiint_\mathcal{B} \rho (y^2 + z^2) \,dx\,dy\,dz \\
+              I_{C,x} &amp;= \iiint_\mathcal{B} \rho (y^2 + z^2) \,dx\,dy\,dz \\
               &amp;= \int_{-\ell/2}^{\ell/2} \int_0^{2\pi} \int_{r_1}^{r_2}
               \rho \left( (r \sin\theta)^2 + z^2 \right) \,J \,dr\,d\theta\,dz \\
               &amp;= \int_{-\ell/2}^{\ell/2} \int_0^{2\pi} \int_{r_1}^{r_2}
@@ -844,7 +842,7 @@
               \rho \pi ({r_2}^2 - {r_1}^2) \ell$ to obtain:
 
               \[\begin{aligned}
-              I_{C,\hat\imath}
+              I_{C,x}
               &amp;= \frac{1}{12} m \left( 3 ({r_2}^2 + {r_1}^2)
               + \ell^2 \right).
               \end{aligned}\]
@@ -910,10 +908,10 @@
 
               Due to spherical symmetry, all axes through $C$ will have
               the same moment of inertia. We will compute
-              $I_{C,\hat{k}}$, which is:
+              $I_{C,z}$, which is:
 
               \[\begin{aligned}
-              I_{C,\hat{k}} &amp;= \iiint_\mathcal{B} \rho (x^2 + y^2) \,dx\,dy\,dz \\
+              I_{C,z} &amp;= \iiint_\mathcal{B} \rho (x^2 + y^2) \,dx\,dy\,dz \\
               &amp;= \int_0^{\pi} \int_{-\pi}^{\pi} \int_{r_1}^{r_2}
               \rho \left( (r \cos\theta \sin\phi)^2 + (r \sin\theta \sin\phi)^2 \right) \,J \,dr\,d\theta\,d\phi \\
               &amp;= \int_0^{\pi} \int_{-\pi}^{\pi} \int_{r_1}^{r_2}
@@ -942,7 +940,7 @@
               as
 
               \[\begin{aligned}
-              I_{C,\hat{k}}
+              I_{C,z}
               &amp;= \frac{8}{15} m \frac{3}{4} \frac{1}{{r_2}^3 - {r_1}^3} ({r_2}^5 - {r_1}^5) \\
               &amp;= \frac{2}{5} m \left(\frac{{r_2}^5 - {r_1}^5}{{r_2}^3 - {r_1}^3}\right).
               \end{aligned}\]
@@ -976,9 +974,9 @@
                 <td>
                   <p>
                     \[\begin{aligned}
-                    I_{C,\hat{k}} &amp;= \frac{1}{12} m \ell^2 \\
-                    I_{P,\hat{k}} &amp;= \frac{1}{3} m \ell^2 \\
-                    I_{C,\hat{e}_r} &amp;= I_{P,\hat{e}_r} = 0
+                    I_{C,z} &amp;= \frac{1}{12} m \ell^2 \\
+                    I_{P,z} &amp;= \frac{1}{3} m \ell^2 \\
+                    I_{C,x} &amp;= I_{P,x} = 0
                     \end{aligned}\]
                   </p>
                 </td>
@@ -993,14 +991,14 @@
               small cross-section. We can use the formula <a
               href="#rem-ey">#rem-ey</a> for a cylinder with zero
               radii $r_1 = r_2 = 0$. The coordinates here are set up
-              so that $\hat{k}$ is orthogonal to the rod axis and
-              $\hat{e}_r$ is along the axis, so <a
+              so that $z$ is orthogonal to the rod axis and
+              $x$ is along the axis, so <a
               href="#rem-ey">#rem-ey</a> gives:
 
               \[\begin{aligned}
-              I_{C,\hat{k}} &amp;= \frac{1}{12} m (3({r_1}^2 + {r_2}^2) + \ell^2)
+              I_{C,z} &amp;= \frac{1}{12} m (3({r_1}^2 + {r_2}^2) + \ell^2)
               = \frac{1}{12} m \ell^2 \\
-              I_{C,\hat{e}_r} &amp;= \frac{1}{2} m ({r_1}^2 + {r_2}^2) = 0.
+              I_{C,x} &amp;= \frac{1}{2} m ({r_1}^2 + {r_2}^2) = 0.
               \end{aligned}\]
 
               To find the moment of inertia about the end point $P$ we
@@ -1008,13 +1006,13 @@
               href="#rem-el">#rem-el</a>. This results is:
 
               \[\begin{aligned}
-              I_{P,\hat{k}} &amp;= I_{C,\hat{k}} + m {r_{CP}}^2 \\
+              I_{P,z} &amp;= I_{C,z} + m {r_{CP}}^2 \\
               &amp;= \frac{1}{12} m \ell^2 + m \left(\frac{\ell}{2}\right)^2 \\
               &amp;= \frac{1}{3} m \ell^2.
               \end{aligned}\]
 
-              The moment of inertia $I_{P,\hat{e}_r}$ is still zero,
-              because $\vec{r}_{CP}$ is parallel to $\hat{e}_r$.
+              The moment of inertia $I_{P,x}$ is still zero,
+              because $\vec{r}_{CP}$ is parallel to $x$.
             </p>
           </div>
         </div>
@@ -1030,8 +1028,8 @@
                 <td>
                   <p>
                     \[\begin{aligned}
-                    I_{C,\hat\imath} &amp;= I_{C,\hat\jmath} = \frac{1}{12} m (3r^2 + \ell^2) \\
-                    I_{C,\hat{k}} &amp;= \frac{1}{2} m r^2
+                    I_{C,x} &amp;= I_{C,y} = \frac{1}{12} m (3r^2 + \ell^2) \\
+                    I_{C,z} &amp;= \frac{1}{2} m r^2
                     \end{aligned}\]
                   </p>
                 </td>
@@ -1061,8 +1059,8 @@
                 <td>
                   <p>
                     \[\begin{aligned}
-                    I_{C,\hat\imath} &amp;= I_{C,\hat\jmath} = \frac{1}{12} m (6 r^2 + \ell^2) \\
-                    I_{C,\hat{k}} &amp;= m r^2
+                    I_{C,x} &amp;= I_{C,y} = \frac{1}{12} m (6 r^2 + \ell^2) \\
+                    I_{C,z} &amp;= m r^2
                     \end{aligned}\]
                   </p>
                 </td>
