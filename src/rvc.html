@@ -109,11 +109,92 @@
         </div>
         <p>
           We will use either the dot notation
-          \(\dot{\vec{a}}(t)\) or the full derivative notation
-          \(\frac{d\vec{a}(t)}{dt}\), depending on which is
+          \(\dot{\vec{a}}(t)\) (also known as Newton notation) or the full derivative notation
+          \(\frac{d\vec{a}(t)}{dt}\) (also known as Leibniz notation), depending on which is
           clearer and more convenient. We will often not write the
           time dependency explicitly, so we might write just
-          \(\dot{\vec{a}}\) or \(\frac{d\vec{a}}{dt}\).
+          \(\dot{\vec{a}}\) or \(\frac{d\vec{a}}{dt}\). See below for more details.
+        </p>
+      </div>
+    </div>
+    <div class="contentBlock">
+      <div id="rvc-notn" class="contentCol">
+        <h2>
+          Newton versus Leibniz Notation
+        </h2>
+        <p>
+          Most people know who Isaac Newton is, but perhaps fewer 
+          have heard of Gottfried Leibniz. Leibniz was a prolific 
+          mathematician and a contemporary of Newton.  Both of them 
+          claimed to have invented calculus independently of each 
+          other, and this became the source of a bitter rivalry 
+          between the two of them.  Each of them had different 
+          notation for derivatives, and both notations are commonly 
+          used today.
+        </p>
+        <p>
+          Leibniz notation is meant to be reminiscent of the 
+          definition of a derivative:
+        </p>
+        <p>
+          \[\frac{dy}{dt}=\lim_{\Delta t\rightarrow0}\frac{\Delta y}{\Delta t}\]
+        </p>
+        <p>
+          Newton notation is meant to be compact:
+        </p>
+        <p>
+          \[\dot{y}\equiv\frac{dy}{dt}\]
+        </p>
+        <p>
+          Note that a superscribed dot always denotes differentiation 
+          with respect to time $t$.  A superscribed dot is never used 
+          to denote differentiation with respect to any other variable, 
+          such as $x$.
+        </p>
+        <p>
+          But what about primes? A prime is used to denote differentiation 
+          with respect to a function's argument.  For example, suppose 
+          we have a function $f=f(x)$.  Then
+        </p>
+        <p>
+          \[f'(x)\equiv\frac{df}{dx}\]
+        </p>
+        <p>
+          Suppose we have another function $g=g(s)$. Then
+        </p>
+        <p>
+          \[g'(s)\equiv\frac{dg}{ds}\]
+        </p>
+        <p>
+          As you can see, while a superscribed dot always denotes 
+          differentiation with respect to time $t$, a prime can denote 
+          differentiation with respect to any variable; but that variable 
+          is always the function's argument.
+        </p>
+        <p>
+          Sometimes, for convenience, we drop the argument altogether.  So, 
+          if we know that $y=y(x)$, then $y'$ is understood to be the same 
+          as $y'(x)$.  This is sloppy, but it is very common in practice.
+        </p>
+        <p>
+          Each notation has advantages and disadvantages.  The main advantage 
+          of Newton notation is that it is compact: it does not take a lot of 
+          effort to write a dot or a prime over a variable.  However, the price 
+          you pay for convenience is clarity.  The main advantage of Leibniz 
+          notation is that it is absolutely clear exactly which variable you are 
+          differentiating with respect to.  
+        </p>
+        <p>
+          Leibniz notation is also very convenient for remembering the chain rule.  
+          Consider the following examples of the chain rule in the two notations:
+        </p>
+        <p>
+          \[\begin{aligned}&amp;\text{Newton:}&amp;\dot{y}=y'(x)\dot{x} \\
+            &amp;\text{Leibniz:}&amp;\frac{dy}{dt}=\frac{dy}{dx}\frac{dx}{dt}\end{aligned}\]
+        </p>
+        <p>
+          Notice how, with Leibniz notation, you can imagine the $dx$'s "cancelling 
+          out" on the right-hand side, leaving you with $dy/dt$.
         </p>
       </div>
     </div>
@@ -452,6 +533,61 @@
         </div>
       </div>
     </div>
+    <div class="contentBlock">
+      <div id="rvc-vs" class="contentCol">
+        <h2>
+          Derivative of magnitude versus magnitude of derivative
+        </h2>
+        <p>
+          Because we often denote the magnitude of a vector by dropping 
+          the superscribed arrow, i.e.,
+        </p>
+        <p>
+          \[a\equiv\left|\left|\vec{a}\right|\right|\]
+        </p>
+        <p>
+          you might be tempted to think that 
+          $\dot{a}=\left|\left|\dot{\vec{a}}\right|\right|$. However,
+          that is not the case. By definition,
+        </p>
+        <p>
+          \[\dot{a}=\frac{d}{dt}\left|\left|\vec{a}\right|\right|\]
+        </p>
+        <p>
+          whereas
+        </p>
+        <p>
+          \[\left|\left|\dot{\vec{a}}\right|\right|=\left|\left|\frac{d\vec{a}}{dt}\right|\right|\]
+        </p>
+        <p>
+          And these two quantities are not, in general, equal:
+        </p>
+        <p>
+          \[\left|\left|\frac{d\vec{a}}{dt}\right|\right|\neq\frac{d}{dt}\left|\left|\vec{a}\right|\right|\]
+        </p>
+        <p>
+          This result should be familiar to you. Consider the case of
+          uniform circular motion, in which a particle moves in a circle
+          of radius $R$ with constant speed $v$. We know that, even though the speed of the 
+          particle is constant, the acceleration of the particle
+          is not zero. In particular, the acceleration is centripetal
+          (i.e., it points toward the center of the circle) and has
+          magnitude $v^{2}/R$. Hence, even though 
+          $\frac{d}{dt}\left|\left|\vec{v}\right|\right|=0$,
+          we have that $\left|\left|\frac{d\vec{v}}{dt}\right|\right|=v^{2}/R\neq0$.
+          It follows that $\dot{v}\neq a$.
+        </p>
+        <p>
+          In general, given any vector $\vec{u}$ and any scalar $s$,
+        </p>
+        <p>
+          \[\left|\left|\frac{d\vec{u}}{ds}\right|\right|\neq\frac{d}{ds}\left|\left|\vec{u}\right|\right|\]
+        </p>
+        <p>
+          In words, "The magnitude of a derivative is not, in general, 
+          equal to the derivative of a magnitude."  Informally, you 
+          cannot "pull" a derivative out of a magnitude (or vice versa).
+        </p>
     <div class="contentBlock">
       <div id="rvc-sd" class="contentCol">
         <h2>
