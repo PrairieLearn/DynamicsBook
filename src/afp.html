@@ -146,7 +146,7 @@
           \]
 
           where $\rho$ is the density of the fluid (in this case,
-          air), $A$ is the cross-sectional area of the object, and $v$
+          air), $A=(1/4)\pi D^{2}$ is the cross-sectional area of the object, and $v$
           is the object's speed.
         </p>
       </div>
@@ -208,28 +208,33 @@
           Notice from <a href="#afp-fd">Figure #aft-fd</a> that there
           is a range of Reynolds numbers ($10^3 < {\rm Re} < 10^5$),
           characteristic of macroscopic projectiles, for which the
-          drag coefficient is approximately constant at about 0.5 (see
+          drag coefficient is approximately constant at about 1/2 (see
           the part of the curve labeled “4”
-          in <a href="#afp-fd">Figure #aft-fd</a>).  This means that,
+          in <a href="#afp-fd">Figure #aft-fd</a>).  That the drag 
+	  coefficient is constant means that,
           within this region, the magnitude of the drag force is
-          proportional to the square of the object’s speed, and we may
-          write
+          proportional to the square of the object’s speed.
+	  Substituting $C_{\rm D}=1/2$ into the definition of $C_{D}$ above,
+          we obtain
 
           \[
-          \vec{F}_{\rm D} = - c v^2 \hat{v},
+          F_{\rm D} = \frac{1}{4} \rho A v^2 = c v^2,
+          \]
+		
+	  where we have defined the <em>quadratic drag parameter</em> $c$ as
+
+          \[
+          c = \frac{1}{4} \rho A = \frac{\pi}{16} \rho D^2,
           \]
 
-          where $c$ is a constant (called the <em>drag parameter</em>)
-          for a given projectile. This is referred to as <em>quadratic
+          which is a constant for a given projectile. This is referred to as <em>quadratic
           drag</em>, because the drag force magnitude is proportional
-          to the <em>square</em> of the speed. Theoretically, this
-          drag parameter is given by
-
-          \[
-          c_{\rm theory} = \frac{\pi}{16} \rho D^2,
+          to the <em>square</em> of the speed.
+	  Using this result, we can write the drag force vector as
+		
+	  \[
+          \vec{F}_{\rm D} = - c v^2 \hat{v}.
           \]
-
-          where $D$ is the diameter.
         <p>
         <p>
           In the presence of gravity and quadratic drag alone, the net
