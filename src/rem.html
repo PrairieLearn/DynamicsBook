@@ -89,20 +89,43 @@
           <p class="envHeader">Warning: Mass moments of inertia are different to area moments of inertia.</p>
           <div class="envBody">
             <p>
-              In solid mechanics we use a quantity called the <em>area
-              moment of inertia</em> (units $\rm m^2$), which is very
-              similar to the moment of inertia expression above except
-              that there is no density $\rho$ in the integral.
+              Be advised that the "moment of inertia" encountered 
+              in Statics is not the same as the moment of inertia used 
+              in Dynamics.  Strictly speaking, the "moment of inertia" 
+              from Statics shouldn't even be called "moment of inertia."  
+              What it really is is the "second moment of area."  
+              Below are the definitions of two such second moments of area:
             </p>
             <p>
-              When we need to distinguish between these different
-              moments of inertia, we can call <a
-              href="#rem-ei">#rem-ei</a> the <em>mass moment of
-              inertia</em>. In dynamics and in general usage the plain
-              phrase <em>moment of inertia</em> normally refers to the
-              mass variant, but it's always important to check that we
-              are using the correct mass or area variant (they have
-              different units, which sometimes helps to check).
+              \[J_{xx}=\iint_{A}{y^{2}dA}\]
+            </p>
+            <p>
+              \[J_{yy}=\iint_{A}{x^{2}dA}\]
+            </p>
+            <p>
+              In contrast, the moment of inertia (about the $z$-axis) 
+              is defined as stated above.
+            </p>
+            <p>
+              For example, a rectangle of base $b$ and height $h$ 
+              has the following moments about its centroid $C$:
+            </p>
+            <p>
+              \[J^{C}_{xx}=\frac{1}{12}bh^{3}\]
+            </p>
+            <p>
+              \[J^{C}_{yy}=\frac{1}{12}b^{3}h\]
+            </p>
+            <p>
+              \[I^{C}_{zz}=\frac{1}{12}m(b^{2}+h^{2})\]
+            </p>
+            <p>
+              Notice that the dimensions of the two quantities are different.  
+              While the dimension of second moment of area is $(\text{length})^{4}$, 
+              the dimension of moment of inertia is $(\text{mass})(\text{length})^{2}$.
+              When doing dynamics problems with moments of inertia, you should 
+              not use the formulas you remember for second moment of area instead.  
+              You will get the wrong answer!
             </p>
           </div>
         </div>
