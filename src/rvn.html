@@ -264,11 +264,91 @@
       <div class="infoCol"></div>
     </div>
     <div class="contentBlock">
+      <div id="rvn-sd" class="section level3 contentCol">
+        <h2>
+          Diagram elements
+        </h2>
+        <table class="colors">
+          <tr>
+            <th>Element</th>
+            <th>Meaning</th>
+            <th>LaTeX</th>
+          </tr>
+          <!-- ######################################## -->
+          <tr>
+            <td>
+              $\mathcal{B}_1$
+            </td>
+            <td>
+              Body number 1. Use numbers 1,2,3 for bodies.
+            </td>
+            <td>
+              <tt>\$\mathcal{B}_1\$</tt>
+            </td>
+          </tr>
+          <!-- ######################################## -->
+          <tr>
+            <td>
+              $m_1, \omega_1, \alpha_1$
+            </td>
+            <td>
+              Mass, angular velocity, and angular acceleration of body $\mathcal{B}_1$. Use subscript numbers for quantities associated with bodies.
+            </td>
+            <td>
+              <tt>\$m_1, \omega_1, \alpha_1\$</tt>
+            </td>
+          </tr>
+          <!-- ######################################## -->
+          <tr>
+            <td>
+              $P, Q$
+            </td>
+            <td>
+              Points $P$ and $Q$. Use italic capital letters for points.
+            </td>
+            <td>
+              <tt>\$P, Q\$</tt>
+            </td>
+          </tr>
+          <!-- ######################################## -->
+          <tr>
+            <td>
+              $\boldsymbol{r}_P, \boldsymbol{v}_P, \boldsymbol{a}_P$
+            </td>
+            <td>
+              Position, velocity, and acceleration vectors of point $P$. Use subscript capital italic letters for quantities associated with points.
+            </td>
+            <td>
+              <tt>\$\boldsymbol{r}_P, \boldsymbol{v}_P, \boldsymbol{a}_P\$</tt>
+            </td>
+          </tr>
+          <!-- ######################################## -->
+          <tr>
+            <td>
+              $I_{1,P,z}$
+            </td>
+            <td>
+              Moment of inertia of body $\mathcal{B}_1$ about point $P$ around the $z$ axis. Any of the subscripts can be neglected if they are obvious from context, although at least the point should normally be included.
+            </td>
+            <td>
+              <tt>\$I_{1,P,z}\$</tt>
+            </td>
+          </tr>
+          <!-- ######################################## -->
+        </table>
+      </div>
+      <div class="infoCol"></div>
+    </div>
+    <div class="contentBlock">
       <div id="rvn-sc" class="section level3 contentCol">
         <h2>
-          Color scheme for drawings
+          Color scheme for diagrams
         </h2>
-
+        <p>
+          When possible, use a pale yellow (or tan) background with a
+          light gray (or light green) square grid, like traditional
+          engineering paper. A blank white background can also be used.
+        </p>
         <table class="colors">
           <tr>
             <th>Color</th>
@@ -279,6 +359,10 @@
             <td>Coordinate axes and objects.</td>
           </tr>
           <tr>
+            <td>Gray</td>
+            <td>Measurements, angles, other notes.</td>
+          </tr>
+          <tr>
             <td>Blue</td>
             <td>Position vectors.</td>
           </tr>
@@ -287,18 +371,27 @@
             <td>Velocities and angular velocities.</td>
           </tr>
           <tr>
-            <td>Red</td>
-            <td>Angular momenta (want to eliminate this).</td>
-          </tr>
-          <tr>
-            <td>Magenta</td>
+            <td>Cyan</td>
             <td>Accelerations and angular accelerations.</td>
           </tr>
           <tr>
-            <td>Orange/brown</td>
-            <td>Forces and moments.</td>
+            <td>Red</td>
+            <td>Forces.</td>
+          </tr>
+          <tr>
+            <td>Purple</td>
+            <td>Moments.</td>
           </tr>
         </table>
+        <p>
+        </p>
+        <div class="figureContainer" id="rvn-fd">
+          <img class="figureImage" alt="Example diagram showing colors"
+               src="rvn_diagram.png" width="600" />
+          <p class="figureCaption">
+            Example diagram showing colored elements.
+          </p>
+        </div>
       </div>
     </div>
     </div>
