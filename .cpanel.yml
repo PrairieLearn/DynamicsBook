@@ -1,0 +1,6 @@
+---
+deployement:
+ tasks:
+ - export DEPLOYPATH=/home/user/public_html/
+ - /bin/cp -R jquery-jvectormap-world-mill-en-data $DEPLOYPATH
+ - /bin/cp -R src $DEPLOYPATH
